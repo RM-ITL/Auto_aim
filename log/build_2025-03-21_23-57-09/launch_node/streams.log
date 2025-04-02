@@ -1,0 +1,67 @@
+[0.011s] Invoking command in '/home/shaobing/rm_ws/build/launch_node': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/shaobing/rm_ws/install/pkg02_helloworld_py:/opt/ros/humble /usr/bin/cmake /home/shaobing/rm_ws/src/launch -DCMAKE_INSTALL_PREFIX=/home/shaobing/rm_ws/install/launch_node
+[0.092s] -- The C compiler identification is GNU 11.4.0
+[0.154s] -- The CXX compiler identification is GNU 11.4.0
+[0.159s] -- Detecting C compiler ABI info
+[0.219s] -- Detecting C compiler ABI info - done
+[0.225s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.225s] -- Detecting C compile features
+[0.225s] -- Detecting C compile features - done
+[0.227s] -- Detecting CXX compiler ABI info
+[0.293s] -- Detecting CXX compiler ABI info - done
+[0.299s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.299s] -- Detecting CXX compile features
+[0.300s] -- Detecting CXX compile features - done
+[0.302s] -- Found ament_cmake_auto: 1.3.11 (/opt/ros/humble/share/ament_cmake_auto/cmake)
+[0.444s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.508s] -- Found rclcpp: 16.0.11 (/opt/ros/humble/share/rclcpp/cmake)
+[0.537s] -- Found rosidl_generator_c: 3.1.6 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.540s] -- Found rosidl_adapter: 3.1.6 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.545s] -- Found rosidl_generator_cpp: 3.1.6 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.553s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.564s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.599s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.602s] -- Found rmw_fastrtps_cpp: 6.2.7 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.674s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[0.692s] -- Found FastRTPS: /opt/ros/humble/include  
+[0.720s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.726s] -- Looking for pthread.h
+[0.786s] -- Looking for pthread.h - found
+[0.786s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[0.842s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[0.843s] -- Found Threads: TRUE  
+[0.881s] -- Found geometry_msgs: 4.2.4 (/opt/ros/humble/share/geometry_msgs/cmake)
+[0.934s] -- Found ament_lint_auto: 0.12.11 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[0.953s] -- Added test 'flake8' to check Python code syntax and style conventions
+[0.953s] -- Added test 'lint_cmake' to check CMake code style
+[0.954s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[0.955s] -- Added test 'xmllint' to check XML markup files
+[0.956s] -- Configuring done
+[0.958s] -- Generating done
+[0.960s] -- Build files have been written to: /home/shaobing/rm_ws/build/launch_node
+[0.967s] Invoked command in '/home/shaobing/rm_ws/build/launch_node' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/shaobing/rm_ws/install/pkg02_helloworld_py:/opt/ros/humble /usr/bin/cmake /home/shaobing/rm_ws/src/launch -DCMAKE_INSTALL_PREFIX=/home/shaobing/rm_ws/install/launch_node
+[0.968s] Invoking command in '/home/shaobing/rm_ws/build/launch_node': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/shaobing/rm_ws/install/pkg02_helloworld_py:/opt/ros/humble /usr/bin/cmake --build /home/shaobing/rm_ws/build/launch_node -- -j16 -l16
+[0.999s] Invoked command in '/home/shaobing/rm_ws/build/launch_node' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/shaobing/rm_ws/install/pkg02_helloworld_py:/opt/ros/humble /usr/bin/cmake --build /home/shaobing/rm_ws/build/launch_node -- -j16 -l16
+[1.008s] Invoking command in '/home/shaobing/rm_ws/build/launch_node': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/shaobing/rm_ws/install/pkg02_helloworld_py:/opt/ros/humble /usr/bin/cmake --install /home/shaobing/rm_ws/build/launch_node
+[1.014s] -- Install configuration: ""
+[1.014s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/launch_node/launch
+[1.014s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/launch_node/launch/launch_blue.launch.py
+[1.014s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/launch_node/launch/launch_red.launch.py
+[1.014s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/launch_node/config
+[1.014s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/launch_node/config/angle_solver_params.xml
+[1.014s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/ament_index/resource_index/package_run_dependencies/launch_node
+[1.014s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/ament_index/resource_index/parent_prefix_path/launch_node
+[1.015s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/launch_node/environment/ament_prefix_path.sh
+[1.015s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/launch_node/environment/ament_prefix_path.dsv
+[1.015s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/launch_node/environment/path.sh
+[1.015s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/launch_node/environment/path.dsv
+[1.015s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/launch_node/local_setup.bash
+[1.015s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/launch_node/local_setup.sh
+[1.015s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/launch_node/local_setup.zsh
+[1.015s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/launch_node/local_setup.dsv
+[1.015s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/launch_node/package.dsv
+[1.015s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/ament_index/resource_index/packages/launch_node
+[1.015s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/launch_node/cmake/ament_cmake_export_dependencies-extras.cmake
+[1.015s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/launch_node/cmake/launch_nodeConfig.cmake
+[1.016s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/launch_node/cmake/launch_nodeConfig-version.cmake
+[1.016s] -- Installing: /home/shaobing/rm_ws/install/launch_node/share/launch_node/package.xml
+[1.017s] Invoked command in '/home/shaobing/rm_ws/build/launch_node' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/shaobing/rm_ws/install/pkg02_helloworld_py:/opt/ros/humble /usr/bin/cmake --install /home/shaobing/rm_ws/build/launch_node

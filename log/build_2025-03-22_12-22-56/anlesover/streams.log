@@ -1,0 +1,25 @@
+[0.012s] Invoking command in '/home/shaobing/rm_ws/build/anlesover': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/shaobing/rm_ws/build/anlesover -- -j16 -l16
+[0.098s] [ 50%] [32mBuilding CXX object CMakeFiles/anglesolve.dir/src/anglesolve.cpp.o[0m
+[6.335s] [100%] [32m[1mLinking CXX executable anglesolve[0m
+[6.614s] [100%] Built target anglesolve
+[6.623s] Invoked command in '/home/shaobing/rm_ws/build/anlesover' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/shaobing/rm_ws/build/anlesover -- -j16 -l16
+[6.625s] Invoking command in '/home/shaobing/rm_ws/build/anlesover': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/shaobing/rm_ws/build/anlesover
+[6.631s] -- Install configuration: ""
+[6.631s] -- Execute custom install script
+[6.631s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/anlesover/lib/anlesover/anglesolve
+[6.632s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/anlesover/share/ament_index/resource_index/package_run_dependencies/anlesover
+[6.632s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/anlesover/share/ament_index/resource_index/parent_prefix_path/anlesover
+[6.632s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/anlesover/share/anlesover/environment/ament_prefix_path.sh
+[6.632s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/anlesover/share/anlesover/environment/ament_prefix_path.dsv
+[6.632s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/anlesover/share/anlesover/environment/path.sh
+[6.632s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/anlesover/share/anlesover/environment/path.dsv
+[6.632s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/anlesover/share/anlesover/local_setup.bash
+[6.632s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/anlesover/share/anlesover/local_setup.sh
+[6.632s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/anlesover/share/anlesover/local_setup.zsh
+[6.632s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/anlesover/share/anlesover/local_setup.dsv
+[6.632s] -- Symlinking: /home/shaobing/rm_ws/install/anlesover/share/anlesover/package.dsv
+[6.643s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/anlesover/share/ament_index/resource_index/packages/anlesover
+[6.643s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/anlesover/share/anlesover/cmake/anlesoverConfig.cmake
+[6.643s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/anlesover/share/anlesover/cmake/anlesoverConfig-version.cmake
+[6.643s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/anlesover/share/anlesover/package.xml
+[6.646s] Invoked command in '/home/shaobing/rm_ws/build/anlesover' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/shaobing/rm_ws/build/anlesover

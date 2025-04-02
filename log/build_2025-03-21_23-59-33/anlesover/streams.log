@@ -1,0 +1,52 @@
+[0.015s] Invoking command in '/home/shaobing/rm_ws/build/anlesover': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/shaobing/rm_ws/src/anlesover -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/shaobing/rm_ws/install/anlesover
+[0.027s] -- Found ament_cmake: 1.3.11 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.138s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[0.143s] -- Found rclcpp: 16.0.11 (/opt/ros/humble/share/rclcpp/cmake)
+[0.162s] -- Found rosidl_generator_c: 3.1.6 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.164s] -- Found rosidl_adapter: 3.1.6 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.168s] -- Found rosidl_generator_cpp: 3.1.6 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.174s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.183s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.205s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.206s] -- Found rmw_fastrtps_cpp: 6.2.7 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.285s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.347s] -- Found sensor_msgs: 4.2.4 (/opt/ros/humble/share/sensor_msgs/cmake)
+[0.382s] -- Found cv_bridge: 3.2.1 (/opt/ros/humble/share/cv_bridge/cmake)
+[0.384s] -- Found image_transport: 3.1.10 (/opt/ros/humble/share/image_transport/cmake)
+[0.410s] -- Found ament_lint_auto: 0.12.11 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[0.476s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[0.477s] -- Configured cppcheck include dirs: $<BUILD_INTERFACE:/home/shaobing/rm_ws/src/anlesover/include>
+[0.477s] -- Configured cppcheck exclude dirs and/or files: 
+[0.477s] -- Added test 'lint_cmake' to check CMake code style
+[0.478s] -- Added test 'uncrustify' to check C / C++ code style
+[0.478s] -- Configured uncrustify additional arguments: 
+[0.478s] -- Added test 'xmllint' to check XML markup files
+[0.479s] -- Configuring done
+[0.491s] -- Generating done
+[0.493s] -- Build files have been written to: /home/shaobing/rm_ws/build/anlesover
+[0.500s] Invoked command in '/home/shaobing/rm_ws/build/anlesover' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/shaobing/rm_ws/src/anlesover -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/shaobing/rm_ws/install/anlesover
+[0.502s] Invoking command in '/home/shaobing/rm_ws/build/anlesover': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/shaobing/rm_ws/build/anlesover -- -j16 -l16
+[0.539s] [35m[1mConsolidate compiler generated dependencies of target anglesolve[0m
+[0.551s] [ 50%] [32m[1mLinking CXX executable anglesolve[0m
+[0.865s] [100%] Built target anglesolve
+[0.873s] Invoked command in '/home/shaobing/rm_ws/build/anlesover' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/shaobing/rm_ws/build/anlesover -- -j16 -l16
+[0.874s] Invoking command in '/home/shaobing/rm_ws/build/anlesover': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/shaobing/rm_ws/build/anlesover
+[0.881s] -- Install configuration: ""
+[0.881s] -- Execute custom install script
+[0.881s] -- Symlinking: /home/shaobing/rm_ws/install/anlesover/lib/anlesover/anglesolve
+[0.888s] -- Symlinking: /home/shaobing/rm_ws/install/anlesover/share/ament_index/resource_index/package_run_dependencies/anlesover
+[0.893s] -- Symlinking: /home/shaobing/rm_ws/install/anlesover/share/ament_index/resource_index/parent_prefix_path/anlesover
+[0.900s] -- Symlinking: /home/shaobing/rm_ws/install/anlesover/share/anlesover/environment/ament_prefix_path.sh
+[0.905s] -- Symlinking: /home/shaobing/rm_ws/install/anlesover/share/anlesover/environment/ament_prefix_path.dsv
+[0.909s] -- Symlinking: /home/shaobing/rm_ws/install/anlesover/share/anlesover/environment/path.sh
+[0.915s] -- Symlinking: /home/shaobing/rm_ws/install/anlesover/share/anlesover/environment/path.dsv
+[0.923s] -- Symlinking: /home/shaobing/rm_ws/install/anlesover/share/anlesover/local_setup.bash
+[0.928s] -- Symlinking: /home/shaobing/rm_ws/install/anlesover/share/anlesover/local_setup.sh
+[0.935s] -- Symlinking: /home/shaobing/rm_ws/install/anlesover/share/anlesover/local_setup.zsh
+[0.940s] -- Symlinking: /home/shaobing/rm_ws/install/anlesover/share/anlesover/local_setup.dsv
+[0.946s] -- Symlinking: /home/shaobing/rm_ws/install/anlesover/share/anlesover/package.dsv
+[0.951s] -- Symlinking: /home/shaobing/rm_ws/install/anlesover/share/ament_index/resource_index/packages/anlesover
+[0.956s] -- Symlinking: /home/shaobing/rm_ws/install/anlesover/share/anlesover/cmake/anlesoverConfig.cmake
+[0.964s] -- Symlinking: /home/shaobing/rm_ws/install/anlesover/share/anlesover/cmake/anlesoverConfig-version.cmake
+[0.971s] -- Symlinking: /home/shaobing/rm_ws/install/anlesover/share/anlesover/package.xml
+[0.981s] Invoked command in '/home/shaobing/rm_ws/build/anlesover' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/shaobing/rm_ws/build/anlesover

@@ -1,0 +1,24 @@
+running develop
+running egg_info
+writing pkg02_helloworld_py.egg-info/PKG-INFO
+writing dependency_links to pkg02_helloworld_py.egg-info/dependency_links.txt
+writing entry points to pkg02_helloworld_py.egg-info/entry_points.txt
+writing requirements to pkg02_helloworld_py.egg-info/requires.txt
+writing top-level names to pkg02_helloworld_py.egg-info/top_level.txt
+reading manifest file 'pkg02_helloworld_py.egg-info/SOURCES.txt'
+writing manifest file 'pkg02_helloworld_py.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/shaobing/rm_ws/install/pkg02_helloworld_py/lib/python3.10/site-packages/pkg02-helloworld-py.egg-link (link to .)
+Installing Grabimage script to /home/shaobing/rm_ws/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+Installing camera script to /home/shaobing/rm_ws/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+Installing camera_node script to /home/shaobing/rm_ws/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+Installing serial_send script to /home/shaobing/rm_ws/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+Installing sub script to /home/shaobing/rm_ws/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+Installing sub_openvino_UKF script to /home/shaobing/rm_ws/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+Installing sub_openvino_blue script to /home/shaobing/rm_ws/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+Installing sub_openvino_red script to /home/shaobing/rm_ws/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+
+Installed /home/shaobing/rm_ws/build/pkg02_helloworld_py
+running symlink_data
+symbolically linking /home/shaobing/rm_ws/build/pkg02_helloworld_py/resource/pkg02_helloworld_py -> /home/shaobing/rm_ws/install/pkg02_helloworld_py/share/ament_index/resource_index/packages
+symbolically linking /home/shaobing/rm_ws/build/pkg02_helloworld_py/package.xml -> /home/shaobing/rm_ws/install/pkg02_helloworld_py/share/pkg02_helloworld_py

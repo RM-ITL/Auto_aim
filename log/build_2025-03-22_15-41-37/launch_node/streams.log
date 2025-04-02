@@ -1,0 +1,47 @@
+[0.012s] Invoking command in '/home/shaobing/rm_ws/build/launch_node': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/shaobing/rm_ws/src/launch -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/shaobing/rm_ws/install/launch_node
+[0.036s] -- Found ament_cmake_auto: 1.3.11 (/opt/ros/humble/share/ament_cmake_auto/cmake)
+[0.126s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[0.138s] -- Found rclcpp: 16.0.11 (/opt/ros/humble/share/rclcpp/cmake)
+[0.163s] -- Found rosidl_generator_c: 3.1.6 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.166s] -- Found rosidl_adapter: 3.1.6 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.171s] -- Found rosidl_generator_cpp: 3.1.6 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.178s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.186s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.211s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.213s] -- Found rmw_fastrtps_cpp: 6.2.7 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.290s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.331s] -- Found geometry_msgs: 4.2.4 (/opt/ros/humble/share/geometry_msgs/cmake)
+[0.390s] -- Found ament_lint_auto: 0.12.11 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[0.402s] -- Added test 'flake8' to check Python code syntax and style conventions
+[0.402s] -- Added test 'lint_cmake' to check CMake code style
+[0.403s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[0.403s] -- Added test 'xmllint' to check XML markup files
+[0.405s] -- Configuring done
+[0.410s] -- Generating done
+[0.411s] -- Build files have been written to: /home/shaobing/rm_ws/build/launch_node
+[0.418s] Invoked command in '/home/shaobing/rm_ws/build/launch_node' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/shaobing/rm_ws/src/launch -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/shaobing/rm_ws/install/launch_node
+[0.419s] Invoking command in '/home/shaobing/rm_ws/build/launch_node': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/shaobing/rm_ws/build/launch_node -- -j16 -l16
+[0.451s] Invoked command in '/home/shaobing/rm_ws/build/launch_node' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/shaobing/rm_ws/build/launch_node -- -j16 -l16
+[0.460s] Invoking command in '/home/shaobing/rm_ws/build/launch_node': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/shaobing/rm_ws/build/launch_node
+[0.465s] -- Install configuration: "Release"
+[0.465s] -- Execute custom install script
+[0.466s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/launch_node/share/launch_node/launch/launch_blue.launch.py
+[0.466s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/launch_node/share/launch_node/launch/launch_red.launch.py
+[0.466s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/launch_node/share/launch_node/config/angle_solver_params.xml
+[0.466s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/launch_node/share/ament_index/resource_index/package_run_dependencies/launch_node
+[0.466s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/launch_node/share/ament_index/resource_index/parent_prefix_path/launch_node
+[0.466s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/launch_node/share/launch_node/environment/ament_prefix_path.sh
+[0.467s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/launch_node/share/launch_node/environment/ament_prefix_path.dsv
+[0.467s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/launch_node/share/launch_node/environment/path.sh
+[0.467s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/launch_node/share/launch_node/environment/path.dsv
+[0.467s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/launch_node/share/launch_node/local_setup.bash
+[0.467s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/launch_node/share/launch_node/local_setup.sh
+[0.467s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/launch_node/share/launch_node/local_setup.zsh
+[0.468s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/launch_node/share/launch_node/local_setup.dsv
+[0.468s] -- Symlinking: /home/shaobing/rm_ws/install/launch_node/share/launch_node/package.dsv
+[0.474s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/launch_node/share/ament_index/resource_index/packages/launch_node
+[0.474s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/launch_node/share/launch_node/cmake/ament_cmake_export_dependencies-extras.cmake
+[0.474s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/launch_node/share/launch_node/cmake/launch_nodeConfig.cmake
+[0.474s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/launch_node/share/launch_node/cmake/launch_nodeConfig-version.cmake
+[0.474s] -- Up-to-date symlink: /home/shaobing/rm_ws/install/launch_node/share/launch_node/package.xml
+[0.475s] Invoked command in '/home/shaobing/rm_ws/build/launch_node' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/shaobing/rm_ws/build/launch_node

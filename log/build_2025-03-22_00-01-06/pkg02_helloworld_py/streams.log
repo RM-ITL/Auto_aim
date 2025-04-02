@@ -1,0 +1,24 @@
+[0.433s] Invoking command in '/home/shaobing/rm_ws/build/pkg02_helloworld_py': PYTHONPATH=/home/shaobing/rm_ws/build/pkg02_helloworld_py/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/shaobing/rm_ws/install/pkg02_helloworld_py/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/shaobing/rm_ws/build/pkg02_helloworld_py/build --no-deps symlink_data
+[0.588s] running develop
+[0.673s] running egg_info
+[0.673s] writing pkg02_helloworld_py.egg-info/PKG-INFO
+[0.673s] writing dependency_links to pkg02_helloworld_py.egg-info/dependency_links.txt
+[0.673s] writing entry points to pkg02_helloworld_py.egg-info/entry_points.txt
+[0.673s] writing requirements to pkg02_helloworld_py.egg-info/requires.txt
+[0.673s] writing top-level names to pkg02_helloworld_py.egg-info/top_level.txt
+[0.675s] reading manifest file 'pkg02_helloworld_py.egg-info/SOURCES.txt'
+[0.675s] writing manifest file 'pkg02_helloworld_py.egg-info/SOURCES.txt'
+[0.676s] running build_ext
+[0.676s] Creating /home/shaobing/rm_ws/install/pkg02_helloworld_py/lib/python3.10/site-packages/pkg02-helloworld-py.egg-link (link to .)
+[0.677s] Installing Grabimage script to /home/shaobing/rm_ws/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+[0.677s] Installing camera script to /home/shaobing/rm_ws/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+[0.677s] Installing camera_node script to /home/shaobing/rm_ws/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+[0.677s] Installing serial_send script to /home/shaobing/rm_ws/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+[0.677s] Installing sub script to /home/shaobing/rm_ws/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+[0.677s] Installing sub_openvino_UKF script to /home/shaobing/rm_ws/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+[0.677s] Installing sub_openvino_blue script to /home/shaobing/rm_ws/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+[0.677s] Installing sub_openvino_red script to /home/shaobing/rm_ws/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+[0.677s] 
+[0.677s] Installed /home/shaobing/rm_ws/build/pkg02_helloworld_py
+[0.677s] running symlink_data
+[0.696s] Invoked command in '/home/shaobing/rm_ws/build/pkg02_helloworld_py' returned '0': PYTHONPATH=/home/shaobing/rm_ws/build/pkg02_helloworld_py/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/shaobing/rm_ws/install/pkg02_helloworld_py/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/shaobing/rm_ws/build/pkg02_helloworld_py/build --no-deps symlink_data
