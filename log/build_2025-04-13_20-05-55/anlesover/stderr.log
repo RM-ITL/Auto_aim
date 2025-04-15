@@ -1,0 +1,7 @@
+[01m[K/home/guo/ITL_sentry_auto/src/anlesover/src/anglesolve.cpp:1:10:[m[K [01;31m[Kfatal error: [m[K/home/shaobing/rm_ws/src/anlesover/include/anlesover/AngleSolver_test.hpp: 没有那个文件或目录
+    1 | #include [01;31m[K"/home/shaobing/rm_ws/src/anlesover/include/anlesover/AngleSolver_test.hpp"[m[K
+      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+compilation terminated.
+gmake[2]: *** [CMakeFiles/anglesolve.dir/build.make:76：CMakeFiles/anglesolve.dir/src/anglesolve.cpp.o] 错误 1
+gmake[1]: *** [CMakeFiles/Makefile2:137：CMakeFiles/anglesolve.dir/all] 错误 2
+gmake: *** [Makefile:146：all] 错误 2

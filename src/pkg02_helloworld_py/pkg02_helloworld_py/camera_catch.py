@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 # -- coding: utf-8 --
 import numpy as np
@@ -14,28 +14,153 @@ import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
 from ctypes import *
+import concurrent.futures
+from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
 
-sys.path.append("/home/shaobing/rm_ws/src/pkg02_helloworld_py/MvImport")
+sys.path.append("/home/guo/ITL_sentry_auto/src/pkg02_helloworld_py/MvImport")
 from MvCameraControl_class import *
 
-
 g_bExit = False
+DEBUG = False  # 全局调试标志 - 设置为False以禁用调试输出
 
-# 定义一个结构体，用于表示转换参数
-class ConvertParam(ctypes.Structure):
-    _fields_ = [
-        ("pDstBuffer", ctypes.POINTER(ctypes.c_ubyte)),
-        ("nDstLen", ctypes.c_size_t)
-    ]
+# 定义一个用于封装相机状态和线程管理的类
+class CameraManager:
+    def __init__(self, cam, data_buf, nPayloadSize, node):
+        self.cam = cam
+        self.data_buf = data_buf
+        self.nPayloadSize = nPayloadSize
+        self.node = node
+        self.bridge = cv_bridge.CvBridge()
+        
+        # 创建一个优化的QoS配置，用于零拷贝通信
+        qos = QoSProfile(
+            reliability=QoSReliabilityPolicy.BEST_EFFORT,
+            history=QoSHistoryPolicy.KEEP_LAST,
+            depth=1
+        )
+        
+        # 创建发布者
+        self.publisher = node.create_publisher(Image, 'image_topic', qos)
+        
+        # 创建线程池用于异步处理
+        self.thread_pool = concurrent.futures.ThreadPoolExecutor(max_workers=2)
+        
+    def start(self):
+        """启动相机采集线程"""
+        self.capture_thread = threading.Thread(target=self.capture_thread_func)
+        self.capture_thread.daemon = True
+        self.capture_thread.start()
+        
+    def capture_thread_func(self):
+        """相机图像采集线程函数"""
+        stFrameInfo = MV_FRAME_OUT_INFO_EX()
+        memset(byref(stFrameInfo), 0, sizeof(stFrameInfo))
+        
+        # 加载动态链接库
+        libc = ctypes.CDLL('libc.so.6')
+        
+        img_buff = None
+        
+        while not g_bExit:
+            ret = self.cam.MV_CC_GetOneFrameTimeout(self.data_buf, self.nPayloadSize, stFrameInfo, 1000)
+            if ret == 0:
+                if DEBUG:
+                    self.node.get_logger().info(f"获取帧: 宽[{stFrameInfo.nWidth}], 高[{stFrameInfo.nHeight}], 帧号[{stFrameInfo.nFrameNum}]")
+                
+                # 获取一份数据副本，避免在异步处理时数据被覆盖
+                frame_data = (c_ubyte * stFrameInfo.nFrameLen)()
+                ctypes.memmove(frame_data, self.data_buf, stFrameInfo.nFrameLen)
+                
+                # 创建一个帧信息的副本
+                frame_info = MV_FRAME_OUT_INFO_EX()
+                ctypes.memmove(byref(frame_info), byref(stFrameInfo), sizeof(stFrameInfo))
+                
+                # 提交图像处理任务到线程池
+                self.thread_pool.submit(self.process_image, frame_data, frame_info)
+            else:
+                if DEBUG:
+                    self.node.get_logger().warn(f"无数据[0x{ret:x}]")
+                    
+            # 避免CPU占用过高
+            time.sleep(0.001)
+            
+    def process_image(self, pData, stFrameInfo):
+        """异步处理图像并发布"""
+        try:
+            time_start = time.time()
+            
+            # 设置转换参数
+            stConvertParam = MV_CC_PIXEL_CONVERT_PARAM()
+            memset(byref(stConvertParam), 0, sizeof(stConvertParam))
+            
+            is_color = IsImageColor(stFrameInfo.enPixelType)
+            
+            # 计算转换后的缓冲区大小，确保足够大
+            if is_color == 'mono':
+                stConvertParam.enDstPixelType = PixelType_Gvsp_Mono8
+                # 为缓冲区添加安全边界，确保空间充足
+                nConvertSize = stFrameInfo.nWidth * stFrameInfo.nHeight * 2
+                encoding = "mono8"
+            elif is_color == 'color':
+                stConvertParam.enDstPixelType = PixelType_Gvsp_BGR8_Packed
+                # BGR8需要3倍空间，添加安全边界
+                nConvertSize = stFrameInfo.nWidth * stFrameInfo.nHeight * 4
+                encoding = "bgr8"
+            else:
+                self.node.get_logger().error("不支持的图像格式!")
+                return
+                
+            # 设置转换参数
+            stConvertParam.nWidth = stFrameInfo.nWidth
+            stConvertParam.nHeight = stFrameInfo.nHeight
+            stConvertParam.pSrcData = cast(pData, POINTER(c_ubyte))
+            stConvertParam.nSrcDataLen = stFrameInfo.nFrameLen
+            stConvertParam.enSrcPixelType = stFrameInfo.enPixelType
+            
+            # 分配足够大的目标缓冲区
+            dst_buffer = (c_ubyte * nConvertSize)()
+            stConvertParam.pDstBuffer = cast(dst_buffer, POINTER(c_ubyte))
+            stConvertParam.nDstBufferSize = nConvertSize
+            
+            # 执行像素格式转换
+            ret = self.cam.MV_CC_ConvertPixelType(stConvertParam)
+            if ret != 0:
+                self.node.get_logger().error(f"转换像素格式失败! ret[0x{ret:x}]")
+                return
+                
+            # 检查转换后的数据大小是否在预期范围内
+            if stConvertParam.nDstLen > nConvertSize:
+                self.node.get_logger().error(f"转换后数据大小超出缓冲区容量: {stConvertParam.nDstLen} > {nConvertSize}")
+                return
+                
+            # 将数据转换为numpy数组并reshape
+            img_data = np.frombuffer(dst_buffer, count=int(stConvertParam.nDstLen), dtype=np.uint8)
+            
+            if is_color == 'mono':
+                img_data = img_data.reshape((stFrameInfo.nHeight, stFrameInfo.nWidth))
+            else:
+                img_data = img_data.reshape((stFrameInfo.nHeight, stFrameInfo.nWidth, 3))
+                
+            # 调整图像大小 - 保持与原代码相同的尺寸
+            if is_color == 'mono':
+                img_data = cv2.resize(img_data, (1200, 1024), interpolation=cv2.INTER_AREA)
+            else:
+                img_data = cv2.resize(img_data, (1280, 1024), interpolation=cv2.INTER_AREA)
+                
+            # 创建ROS图像消息并发布
+            msg = self.bridge.cv2_to_imgmsg(img_data, encoding=encoding)
+            msg.header.stamp = self.node.get_clock().now().to_msg()
+            self.publisher.publish(msg)
+            
+            if DEBUG:
+                time_end = time.time()
+                self.node.get_logger().info(f'图像处理耗时: {time_end - time_start:.4f}s')
+                
+        except Exception as e:
+            self.node.get_logger().error(f"图像处理错误: {str(e)}")
 
-# 显示图像
-def image_show(image):
-    image = cv2.resize(image, (1280, 1024), interpolation=cv2.INTER_AREA)
-    cv2.imshow('test', image)
-    k = cv2.waitKey(1) & 0xff
-    
-# 判读图像格式是彩色还是黑白
 def IsImageColor(enType):
+    """判断图像格式是彩色还是黑白"""
     dates = {
         PixelType_Gvsp_RGB8_Packed: 'color',
         PixelType_Gvsp_BGR8_Packed: 'color',
@@ -68,317 +193,146 @@ def IsImageColor(enType):
         PixelType_Gvsp_Mono12_Packed: 'mono'}
     return dates.get(enType, '未知')
 
-# 为线程定义一个函数
-def work_thread_simple(cam=0, pData=0, nDataSize=0):
-	stOutFrame = MV_FRAME_OUT()
-	memset(byref(stOutFrame), 0, sizeof(stOutFrame))
-	while True:
-		ret = cam.MV_CC_GetImageBuffer(stOutFrame, 1000)
-		if ret == 0:
-			print ("get one frame: Width[%d], Height[%d], PixelType[0x%x], nFrameNum[%d]"  % (stOutFrame.stFrameInfo.nWidth, stOutFrame.stFrameInfo.nHeight, stOutFrame.stFrameInfo.enPixelType, stOutFrame.stFrameInfo.nFrameNum))
-			cam.MV_CC_FreeImageBuffer(stOutFrame)
-		else:
-			print ("no data[0x%x]" % ret)
-		if g_bExit == True:
-				break
-
- #实现GetImagebuffer函数取流，HIK格式转换函数
-def work_thread(cam=0, pData=0, nDataSize=0):
-    node = Node('image_publisher')
-    stFrameInfo = MV_FRAME_OUT_INFO_EX()
-    memset(byref(stFrameInfo), 0, sizeof(stFrameInfo))
-    print("work_thread_1!\n")
-    img_buff = None
-    # 加载动态链接库
-    libc = ctypes.CDLL('libc.so.6')
-    bridge = cv_bridge.CvBridge()
-    publisher_ = node.create_publisher(Image, 'image_topic', 10)
-	
-    while True:
-        ret = cam.MV_CC_GetOneFrameTimeout(pData, nDataSize, stFrameInfo, 1000)
-        if ret == 0:
-            print ("MV_CC_GetOneFrameTimeout: Width[%d], Height[%d], nFrameNum[%d]"  % (stFrameInfo.nWidth, stFrameInfo.nHeight, stFrameInfo.nFrameNum))
-            time_start = time.time()
-            stConvertParam = MV_CC_PIXEL_CONVERT_PARAM()
-            memset(byref(stConvertParam), 0, sizeof(stConvertParam))
-            if IsImageColor(stFrameInfo.enPixelType) == 'mono':
-                print("mono!")
-                stConvertParam.enDstPixelType = PixelType_Gvsp_Mono8
-                nConvertSize = stFrameInfo.nWidth * stFrameInfo.nHeight
-            elif IsImageColor(stFrameInfo.enPixelType) == 'color':
-                print("color!")
-                stConvertParam.enDstPixelType = PixelType_Gvsp_BGR8_Packed  # opecv要用BGR，不能使用RGB
-                nConvertSize = stFrameInfo.nWidth * stFrameInfo.nHeight* 3
-            else:
-                print("not support!!!")
-            if img_buff is None:
-                img_buff = (c_ubyte * stFrameInfo.nFrameLen)()
-            # ---
-            stConvertParam.nWidth = stFrameInfo.nWidth
-            stConvertParam.nHeight = stFrameInfo.nHeight
-            stConvertParam.pSrcData = cast(pData, POINTER(c_ubyte))
-            stConvertParam.nSrcDataLen = stFrameInfo.nFrameLen
-            stConvertParam.enSrcPixelType = stFrameInfo.enPixelType
-            stConvertParam.pDstBuffer = (c_ubyte * nConvertSize)()
-            stConvertParam.nDstBufferSize = nConvertSize
-            ret = cam.MV_CC_ConvertPixelType(stConvertParam)
-            if ret != 0:
-                print("convert pixel fail! ret[0x%x]" % ret)
-                del stConvertParam.pSrcData
-                sys.exit()
-            else:
-                print("convert ok!!")
-                # 转OpenCV
-                # 黑白处理
-                if IsImageColor(stFrameInfo.enPixelType) == 'mono':
-                    img_buff = (c_ubyte * stConvertParam.nDstLen)()
-                    # cdll.msvcrt.memcpy(byref(img_buff), stConvertParam.pDstBuffer, stConvertParam.nDstLen)
-                    # 使用 memcpy 复制内存
-                    libc.memcpy(ctypes.byref(img_buff), stConvertParam.pDstBuffer, stConvertParam.nDstLen)
-                    img_buff = np.frombuffer(img_buff,count=int(stConvertParam.nDstLen), dtype=np.uint8)
-                    img_buff = img_buff.reshape((stFrameInfo.nHeight, stFrameInfo.nWidth))
-                    print("mono ok!!")
-                    image = cv2.resize(img_buff, (1200, 800), interpolation=cv2.INTER_AREA)
-                    cv2.imshow('mono', image)
-                    k = cv2.waitKey(1) & 0xff
-                    # image_show(image=img_buff)   显示图像函数
-                    msg = bridge.cv2_to_imgmsg(image, encoding="passthrough")
-                    publisher_.publish(msg)
-                # 彩色处理
-                if IsImageColor(stFrameInfo.enPixelType) == 'color':
-                    img_buff = (c_ubyte * stConvertParam.nDstLen)()
-                    # cdll.msvcrt.memcpy(byref(img_buff), stConvertParam.pDstBuffer, stConvertParam.nDstLen)
-                    libc.memcpy(ctypes.byref(img_buff), stConvertParam.pDstBuffer, stConvertParam.nDstLen)
-                    img_buff = np.frombuffer(img_buff, count=int(stConvertParam.nDstBufferSize), dtype=np.uint8)
-                    img_buff = img_buff.reshape(stFrameInfo.nHeight,stFrameInfo.nWidth,3)
-                    print("color ok!!")
-                    image = cv2.resize(img_buff, (1280, 1024), interpolation=cv2.INTER_AREA)
-                    cv2.imshow('color', image)
-                    k = cv2.waitKey(1) & 0xff
-                    # image_show(image=img_buff)   显示图像函数
-                    msg = bridge.cv2_to_imgmsg(image, encoding="bgr8")
-                    publisher_.publish(msg)
-
-                time_end = time.time()
-                print('time cos:', time_end - time_start, 's') 
-        else:
-            print ("no data[0x%x]" % ret)
-        if g_bExit == True:
-                break
-
 def press_any_key_exit():
-	fd = sys.stdin.fileno()
-	old_ttyinfo = termios.tcgetattr(fd)
-	new_ttyinfo = old_ttyinfo[:]
-	new_ttyinfo[3] &= ~termios.ICANON
-	new_ttyinfo[3] &= ~termios.ECHO
-	#sys.stdout.write(msg)
-	#sys.stdout.flush()
-	termios.tcsetattr(fd, termios.TCSANOW, new_ttyinfo)
-	try:
-		os.read(fd, 7)
-	except:
-		pass
-	finally:
-		termios.tcsetattr(fd, termios.TCSANOW, old_ttyinfo)
-	
+    """等待按键退出函数"""
+    fd = sys.stdin.fileno()
+    old_ttyinfo = termios.tcgetattr(fd)
+    new_ttyinfo = old_ttyinfo[:]
+    new_ttyinfo[3] &= ~termios.ICANON
+    new_ttyinfo[3] &= ~termios.ECHO
+    termios.tcsetattr(fd, termios.TCSANOW, new_ttyinfo)
+    try:
+        os.read(fd, 7)
+    except:
+        pass
+    finally:
+        termios.tcsetattr(fd, termios.TCSANOW, old_ttyinfo)
+
+class CameraNode(Node):
+    def __init__(self):
+        super().__init__('camera_node')
+        
+        # 初始化SDK
+        MvCamera.MV_CC_Initialize()
+        
+        # 记录SDK版本
+        SDKVersion = MvCamera.MV_CC_GetSDKVersion()
+        self.get_logger().info(f"SDK版本[0x{SDKVersion:x}]")
+        
+        # 枚举设备
+        deviceList = MV_CC_DEVICE_INFO_LIST()
+        tlayerType = (MV_GIGE_DEVICE | MV_USB_DEVICE | MV_GENTL_CAMERALINK_DEVICE | MV_GENTL_CXP_DEVICE | MV_GENTL_XOF_DEVICE)
+        
+        ret = MvCamera.MV_CC_EnumDevices(tlayerType, deviceList)
+        if ret != 0:
+            self.get_logger().error(f"枚举设备失败! ret[0x{ret:x}]")
+            return
+            
+        if deviceList.nDeviceNum == 0:
+            self.get_logger().error("未找到设备!")
+            return
+            
+        self.get_logger().info(f"找到 {deviceList.nDeviceNum} 个设备!")
+        
+        # 选择第一个设备
+        nConnectionNum = 0
+        
+        # 创建相机实例
+        self.cam = MvCamera()
+        
+        # 选择设备并创建句柄
+        stDeviceList = cast(deviceList.pDeviceInfo[int(nConnectionNum)], POINTER(MV_CC_DEVICE_INFO)).contents
+        
+        ret = self.cam.MV_CC_CreateHandle(stDeviceList)
+        if ret != 0:
+            self.get_logger().error(f"创建句柄失败! ret[0x{ret:x}]")
+            return
+            
+        # 打开设备
+        ret = self.cam.MV_CC_OpenDevice(MV_ACCESS_Exclusive, 0)
+        if ret != 0:
+            self.get_logger().error(f"打开设备失败! ret[0x{ret:x}]")
+            return
+            
+        # 探测网络最佳包大小(只对GigE相机有效)
+        if stDeviceList.nTLayerType == MV_GIGE_DEVICE or stDeviceList.nTLayerType == MV_GENTL_GIGE_DEVICE:
+            nPacketSize = self.cam.MV_CC_GetOptimalPacketSize()
+            if int(nPacketSize) > 0:
+                ret = self.cam.MV_CC_SetIntValue("GevSCPSPacketSize", nPacketSize)
+                if ret != 0:
+                    self.get_logger().warn(f"设置包大小失败! ret[0x{ret:x}]")
+            else:
+                self.get_logger().warn(f"获取包大小失败! ret[0x{nPacketSize:x}]")
+                
+        # 设置触发模式为off
+        ret = self.cam.MV_CC_SetEnumValue("TriggerMode", MV_TRIGGER_MODE_OFF)
+        if ret != 0:
+            self.get_logger().error(f"设置触发模式失败! ret[0x{ret:x}]")
+            return
+            
+        # 获取数据包大小
+        stParam = MVCC_INTVALUE()
+        memset(byref(stParam), 0, sizeof(MVCC_INTVALUE))
+        
+        ret = self.cam.MV_CC_GetIntValue("PayloadSize", stParam)
+        if ret != 0:
+            self.get_logger().error(f"获取有效负载大小失败! ret[0x{ret:x}]")
+            return
+            
+        nPayloadSize = stParam.nCurValue
+        
+        # 开始取流
+        ret = self.cam.MV_CC_StartGrabbing()
+        if ret != 0:
+            self.get_logger().error(f"开始采集失败! ret[0x{ret:x}]")
+            return
+            
+        # 创建数据缓冲区
+        self.data_buf = (c_ubyte * nPayloadSize)()
+        
+        # 创建并启动相机管理器
+        self.camera_manager = CameraManager(self.cam, byref(self.data_buf), nPayloadSize, self)
+        self.camera_manager.start()
+        
+        self.get_logger().info("相机已初始化并开始采集图像")
+        
+    def __del__(self):
+        """析构函数，确保资源释放"""
+        global g_bExit
+        g_bExit = True
+        
+        # 停止采集
+        if hasattr(self, 'cam'):
+            ret = self.cam.MV_CC_StopGrabbing()
+            if ret != 0:
+                self.get_logger().error(f"停止采集失败! ret[0x{ret:x}]")
+                
+            # 关闭设备
+            ret = self.cam.MV_CC_CloseDevice()
+            if ret != 0:
+                self.get_logger().error(f"关闭设备失败! ret[0x{ret:x}]")
+                
+            # 销毁句柄
+            ret = self.cam.MV_CC_DestroyHandle()
+            if ret != 0:
+                self.get_logger().error(f"销毁句柄失败! ret[0x{ret:x}]")
+                
+        # 反初始化SDK
+        MvCamera.MV_CC_Finalize()
+
 def main(args=None):
+    rclpy.init(args=args)
+    
+    camera_node = CameraNode()
+    
+    try:
+        rclpy.spin(camera_node)
+    except KeyboardInterrupt:
+        camera_node.get_logger().info("用户中断，正在关闭...")
+    finally:
+        # 清理资源
+        camera_node.destroy_node()
+        rclpy.shutdown()
 
-	rclpy.init(args=args)
-	
-	# ch:初始化SDK | en: initialize SDK
-	MvCamera.MV_CC_Initialize()
-
-	SDKVersion = MvCamera.MV_CC_GetSDKVersion()
-	print ("SDKVersion[0x%x]" % SDKVersion)
-
-	deviceList = MV_CC_DEVICE_INFO_LIST()
-	tlayerType = (MV_GIGE_DEVICE | MV_USB_DEVICE | MV_GENTL_CAMERALINK_DEVICE | MV_GENTL_CXP_DEVICE | MV_GENTL_XOF_DEVICE)
-	
-	# ch:枚举设备 | en:Enum device
-	ret = MvCamera.MV_CC_EnumDevices(tlayerType, deviceList)
-	if ret != 0:
-		print ("enum devices fail! ret[0x%x]" % ret)
-		sys.exit()
-
-	if deviceList.nDeviceNum == 0:
-		print ("find no device!")
-		sys.exit()
-
-	print ("Find %d devices!" % deviceList.nDeviceNum)
-
-	for i in range(0, deviceList.nDeviceNum):
-		mvcc_dev_info = cast(deviceList.pDeviceInfo[i], POINTER(MV_CC_DEVICE_INFO)).contents
-		if mvcc_dev_info.nTLayerType == MV_GIGE_DEVICE or mvcc_dev_info.nTLayerType == MV_GENTL_GIGE_DEVICE:
-			print ("\ngige device: [%d]" % i)
-			strModeName = ""
-			for per in mvcc_dev_info.SpecialInfo.stGigEInfo.chModelName:
-				strModeName = strModeName + chr(per)
-			print ("device model name: %s" % strModeName)
-
-			nip1 = ((mvcc_dev_info.SpecialInfo.stGigEInfo.nCurrentIp & 0xff000000) >> 24)
-			nip2 = ((mvcc_dev_info.SpecialInfo.stGigEInfo.nCurrentIp & 0x00ff0000) >> 16)
-			nip3 = ((mvcc_dev_info.SpecialInfo.stGigEInfo.nCurrentIp & 0x0000ff00) >> 8)
-			nip4 = (mvcc_dev_info.SpecialInfo.stGigEInfo.nCurrentIp & 0x000000ff)
-			print ("current ip: %d.%d.%d.%d\n" % (nip1, nip2, nip3, nip4))
-		elif mvcc_dev_info.nTLayerType == MV_USB_DEVICE:
-			print ("\nu3v device: [%d]" % i)
-			strModeName = ""
-			for per in mvcc_dev_info.SpecialInfo.stUsb3VInfo.chModelName:
-				if per == 0:
-					break
-				strModeName = strModeName + chr(per)
-			print ("device model name: %s" % strModeName)
-
-			strSerialNumber = ""
-			for per in mvcc_dev_info.SpecialInfo.stUsb3VInfo.chSerialNumber:
-				if per == 0:
-					break
-				strSerialNumber = strSerialNumber + chr(per)
-			print ("user serial number: %s" % strSerialNumber)
-		elif mvcc_dev_info.nTLayerType == MV_GENTL_CAMERALINK_DEVICE:
-			print ("\nCML device: [%d]" % i)
-			strModeName = ""
-			for per in mvcc_dev_info.SpecialInfo.stCMLInfo.chModelName:
-				if per == 0:
-					break
-				strModeName = strModeName + chr(per)
-			print ("device model name: %s" % strModeName)
-
-			strSerialNumber = ""
-			for per in mvcc_dev_info.SpecialInfo.stCMLInfo.chSerialNumber:
-				if per == 0:
-					break
-				strSerialNumber = strSerialNumber + chr(per)
-			print ("user serial number: %s" % strSerialNumber)
-		elif mvcc_dev_info.nTLayerType == MV_GENTL_XOF_DEVICE:
-			print ("\nXoF device: [%d]" % i)
-			strModeName = ""
-			for per in mvcc_dev_info.SpecialInfo.stXoFInfo.chModelName:
-				if per == 0:
-					break
-				strModeName = strModeName + chr(per)
-			print ("device model name: %s" % strModeName)
-
-			strSerialNumber = ""
-			for per in mvcc_dev_info.SpecialInfo.stXoFInfo.chSerialNumber:
-				if per == 0:
-					break
-				strSerialNumber = strSerialNumber + chr(per)
-			print ("user serial number: %s" % strSerialNumber)
-		elif mvcc_dev_info.nTLayerType == MV_GENTL_CXP_DEVICE:
-			print ("\nCXP device: [%d]" % i)
-			strModeName = ""
-			for per in mvcc_dev_info.SpecialInfo.stCXPInfo.chModelName:
-				if per == 0:
-					break
-				strModeName = strModeName + chr(per)
-			print ("device model name: %s" % strModeName)
-
-			strSerialNumber = ""
-			for per in mvcc_dev_info.SpecialInfo.stCXPInfo.chSerialNumber:
-				if per == 0:
-					break
-				strSerialNumber = strSerialNumber + chr(per)
-			print ("user serial number: %s" % strSerialNumber)
-
-	if sys.version >= '3':
-		nConnectionNum = input("please input the number of the device to connect:")
-	else:
-		nConnectionNum = raw_input("please input the number of the device to connect:")
-
-	if int(nConnectionNum) >= deviceList.nDeviceNum:
-		print ("intput error!")
-		sys.exit()
-
-	# ch:创建相机实例 | en:Creat Camera Object
-	cam = MvCamera()
-	
-	# ch:选择设备并创建句柄| en:Select device and create handle
-	stDeviceList = cast(deviceList.pDeviceInfo[int(nConnectionNum)], POINTER(MV_CC_DEVICE_INFO)).contents
-
-	ret = cam.MV_CC_CreateHandle(stDeviceList)
-	if ret != 0:
-		print ("create handle fail! ret[0x%x]" % ret)
-		sys.exit()
-
-	# ch:打开设备 | en:Open device
-	ret = cam.MV_CC_OpenDevice(MV_ACCESS_Exclusive, 0)
-	if ret != 0:
-		print ("open device fail! ret[0x%x]" % ret)
-		sys.exit()
-	
-	# ch:探测网络最佳包大小(只对GigE相机有效) | en:Detection network optimal package size(It only works for the GigE camera)
-	if stDeviceList.nTLayerType == MV_GIGE_DEVICE or stDeviceList.nTLayerType == MV_GENTL_GIGE_DEVICE:
-		nPacketSize = cam.MV_CC_GetOptimalPacketSize()
-		if int(nPacketSize) > 0:
-			ret = cam.MV_CC_SetIntValue("GevSCPSPacketSize",nPacketSize)
-			if ret != 0:
-				print ("Warning: Set Packet Size fail! ret[0x%x]" % ret)
-		else:
-			print ("Warning: Get Packet Size fail! ret[0x%x]" % nPacketSize)
-
-	# ch:设置触发模式为off | en:Set trigger mode as off
-	ret = cam.MV_CC_SetEnumValue("TriggerMode", MV_TRIGGER_MODE_OFF)
-	if ret != 0:
-		print ("set trigger mode fail! ret[0x%x]" % ret)
-		sys.exit()
-
-	# ch:获取数据包大小 | en:Get payload size
-	stParam =  MVCC_INTVALUE()
-	memset(byref(stParam), 0, sizeof(MVCC_INTVALUE))
-	
-	ret = cam.MV_CC_GetIntValue("PayloadSize", stParam)
-	if ret != 0:
-		print ("get payload size fail! ret[0x%x]" % ret)
-		sys.exit()
-	nPayloadSize = stParam.nCurValue
-
-	# ch:开始取流 | en:Start grab image
-	ret = cam.MV_CC_StartGrabbing()
-	if ret != 0:
-		print ("start grabbing fail! ret[0x%x]" % ret)
-		sys.exit()
-
-	data_buf = (c_ubyte * nPayloadSize)()
-
-	try:
-		hThreadHandle = threading.Thread(target=work_thread, args=(cam, byref(data_buf), nPayloadSize))
-		hThreadHandle.start()
-	except:
-		print ("error: unable to start thread")
-		
-	print ("press a key to stop grabbing.")
-	press_any_key_exit()
-
-	g_bExit = True
-	hThreadHandle.join()
-
-	# ch:停止取流 | en:Stop grab image
-	ret = cam.MV_CC_StopGrabbing()
-	if ret != 0:
-		print ("stop grabbing fail! ret[0x%x]" % ret)
-		del data_buf
-		sys.exit()
-
-	# ch:关闭设备 | Close device
-	ret = cam.MV_CC_CloseDevice()
-	if ret != 0:
-		print ("close deivce fail! ret[0x%x]" % ret)
-		del data_buf
-		sys.exit()
-
-	# ch:销毁句柄 | Destroy handle
-	ret = cam.MV_CC_DestroyHandle()
-	if ret != 0:
-		print ("destroy handle fail! ret[0x%x]" % ret)
-		del data_buf
-		sys.exit()
-
-	del data_buf
-
-	# ch:反初始化SDK | en: finalize SDK
-	MvCamera.MV_CC_Finalize()
-	
 if __name__ == '__main__':
-	main()
+    main()

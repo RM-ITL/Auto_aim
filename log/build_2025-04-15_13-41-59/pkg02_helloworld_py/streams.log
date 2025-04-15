@@ -1,0 +1,56 @@
+[0.464s] Invoking command in '/home/guo/ITL_sentry_auto/src/pkg02_helloworld_py': PYTHONPATH=/home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/pkg02_helloworld_py build --build-base /home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/build install --record /home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/install.log --single-version-externally-managed install_data
+[0.631s] running egg_info
+[0.631s] creating ../../build/pkg02_helloworld_py/pkg02_helloworld_py.egg-info
+[0.631s] writing ../../build/pkg02_helloworld_py/pkg02_helloworld_py.egg-info/PKG-INFO
+[0.631s] writing dependency_links to ../../build/pkg02_helloworld_py/pkg02_helloworld_py.egg-info/dependency_links.txt
+[0.631s] writing entry points to ../../build/pkg02_helloworld_py/pkg02_helloworld_py.egg-info/entry_points.txt
+[0.631s] writing requirements to ../../build/pkg02_helloworld_py/pkg02_helloworld_py.egg-info/requires.txt
+[0.631s] writing top-level names to ../../build/pkg02_helloworld_py/pkg02_helloworld_py.egg-info/top_level.txt
+[0.631s] writing manifest file '../../build/pkg02_helloworld_py/pkg02_helloworld_py.egg-info/SOURCES.txt'
+[0.632s] reading manifest file '../../build/pkg02_helloworld_py/pkg02_helloworld_py.egg-info/SOURCES.txt'
+[0.633s] writing manifest file '../../build/pkg02_helloworld_py/pkg02_helloworld_py.egg-info/SOURCES.txt'
+[0.633s] running build
+[0.633s] running build_py
+[0.633s] creating /home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/build
+[0.633s] creating /home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/build/lib
+[0.633s] creating /home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/build/lib/pkg02_helloworld_py
+[0.633s] copying pkg02_helloworld_py/camera_catch.py -> /home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/build/lib/pkg02_helloworld_py
+[0.633s] copying pkg02_helloworld_py/sub_openvino_UKF.py -> /home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/build/lib/pkg02_helloworld_py
+[0.633s] copying pkg02_helloworld_py/sub_openvino_blue.py -> /home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/build/lib/pkg02_helloworld_py
+[0.634s] copying pkg02_helloworld_py/serial_send.py -> /home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/build/lib/pkg02_helloworld_py
+[0.634s] copying pkg02_helloworld_py/sub_openvino_red.py -> /home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/build/lib/pkg02_helloworld_py
+[0.634s] copying pkg02_helloworld_py/__init__.py -> /home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/build/lib/pkg02_helloworld_py
+[0.634s] running install
+[0.634s] running install_lib
+[0.634s] creating /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/python3.10/site-packages/pkg02_helloworld_py
+[0.635s] copying /home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/build/lib/pkg02_helloworld_py/camera_catch.py -> /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/python3.10/site-packages/pkg02_helloworld_py
+[0.635s] copying /home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/build/lib/pkg02_helloworld_py/sub_openvino_UKF.py -> /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/python3.10/site-packages/pkg02_helloworld_py
+[0.635s] copying /home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/build/lib/pkg02_helloworld_py/sub_openvino_blue.py -> /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/python3.10/site-packages/pkg02_helloworld_py
+[0.635s] copying /home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/build/lib/pkg02_helloworld_py/serial_send.py -> /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/python3.10/site-packages/pkg02_helloworld_py
+[0.635s] copying /home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/build/lib/pkg02_helloworld_py/sub_openvino_red.py -> /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/python3.10/site-packages/pkg02_helloworld_py
+[0.635s] copying /home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/build/lib/pkg02_helloworld_py/__init__.py -> /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/python3.10/site-packages/pkg02_helloworld_py
+[0.635s] byte-compiling /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/python3.10/site-packages/pkg02_helloworld_py/camera_catch.py to camera_catch.cpython-310.pyc
+[0.637s] byte-compiling /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/python3.10/site-packages/pkg02_helloworld_py/sub_openvino_UKF.py to sub_openvino_UKF.cpython-310.pyc
+[0.640s] byte-compiling /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/python3.10/site-packages/pkg02_helloworld_py/sub_openvino_blue.py to sub_openvino_blue.cpython-310.pyc
+[0.641s] byte-compiling /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/python3.10/site-packages/pkg02_helloworld_py/serial_send.py to serial_send.cpython-310.pyc
+[0.642s] byte-compiling /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/python3.10/site-packages/pkg02_helloworld_py/sub_openvino_red.py to sub_openvino_red.cpython-310.pyc
+[0.644s] byte-compiling /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/python3.10/site-packages/pkg02_helloworld_py/__init__.py to __init__.cpython-310.pyc
+[0.644s] running install_data
+[0.644s] creating /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/share/ament_index
+[0.644s] creating /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/share/ament_index/resource_index
+[0.644s] creating /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/share/ament_index/resource_index/packages
+[0.644s] copying resource/pkg02_helloworld_py -> /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/share/ament_index/resource_index/packages
+[0.644s] copying package.xml -> /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/share/pkg02_helloworld_py
+[0.645s] running install_egg_info
+[0.646s] Copying ../../build/pkg02_helloworld_py/pkg02_helloworld_py.egg-info to /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/python3.10/site-packages/pkg02_helloworld_py-0.0.0-py3.10.egg-info
+[0.646s] running install_scripts
+[0.661s] Installing Grabimage script to /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+[0.661s] Installing camera script to /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+[0.661s] Installing camera_node script to /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+[0.662s] Installing serial_send script to /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+[0.662s] Installing sub script to /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+[0.662s] Installing sub_openvino_UKF script to /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+[0.662s] Installing sub_openvino_blue script to /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+[0.662s] Installing sub_openvino_red script to /home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/pkg02_helloworld_py
+[0.662s] writing list of installed files to '/home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/install.log'
+[0.678s] Invoked command in '/home/guo/ITL_sentry_auto/src/pkg02_helloworld_py' returned '0': PYTHONPATH=/home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/guo/ITL_sentry_auto/install/pkg02_helloworld_py/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/pkg02_helloworld_py build --build-base /home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/build install --record /home/guo/ITL_sentry_auto/build/pkg02_helloworld_py/install.log --single-version-externally-managed install_data

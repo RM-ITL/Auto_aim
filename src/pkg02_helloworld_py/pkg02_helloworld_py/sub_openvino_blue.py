@@ -11,8 +11,9 @@ import hashlib
 import onnxruntime as ort
 from openvino.runtime import Core
 import matplotlib.pyplot as plt
+from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
 
-sys.path.append("/home/xxd/onnxruntime")
+sys.path.append("/home/guo/onnxruntime")
 
 # 定义类别
 CLASSES = [
@@ -219,10 +220,17 @@ class YOLOROSSubscriber(Node):
         super().__init__('subscriber_py')
 
         # 初始化 YOLO 推理使用 OpenVINO
-        self.yolo = YOLOv8_OpenVINO('/home/shaobing/blue.onnx', 0.53, 0.5, self, device='GPU')  # 请替换为您的 OpenVINO 模型路径
+        self.yolo = YOLOv8_OpenVINO('/home/guo/best_blue.xml', 0.53, 0.5, self, device='CPU')  # 请替换为您的 OpenVINO 模型路径
+        
+        # 创建一个优化的QoS配置，用于零拷贝通信
+        qos = QoSProfile(
+            reliability=QoSReliabilityPolicy.BEST_EFFORT,
+            history=QoSHistoryPolicy.KEEP_LAST,
+            depth=1
+        )
 
         # 设置订阅者和发布者
-        self.image_sub = self.create_subscription(Image, 'image_topic', self.callback, 10)
+        self.image_sub = self.create_subscription(Image, 'image_topic', self.callback, qos)
         self.detections_pub = self.create_publisher(Float64MultiArray, 'yolo_detections', 10)
         self.annotated_image_pub = self.create_publisher(Image, 'yolo_detections_image', 10)  # 新增发布者
 

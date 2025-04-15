@@ -1,4 +1,4 @@
-#include "/home/shaobing/rm_ws/src/anlesover/include/anlesover/AngleSolver_test.hpp"
+#include "/home/guo/ITL_sentry_auto/src/anlesover/include/anlesover/AngleSolver_test.hpp"
 #include "opencv2/opencv.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
@@ -277,7 +277,7 @@ double AngleSolver::get_Distance()
 
 void AngleSolverParam::readFile(const int id)
 {
-	cv::FileStorage fsread("/home/shaobing/rm_ws/src/anlesover/Pose/angle_solver_params.xml", cv::FileStorage::READ);
+	cv::FileStorage fsread("/home/guo/ITL_sentry_auto/src/anlesover/Pose/angle_solver_params.xml", cv::FileStorage::READ);
 	if(!fsread.isOpened())
 	{
 		std::cerr << "failed to open xml" << std::endl;

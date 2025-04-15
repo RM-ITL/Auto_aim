@@ -19,24 +19,24 @@ from geometry_msgs.msg import Twist
 import threading
 from rclpy.time import Time
 
-# 云台角度消息状态
+# 云台角度消息状态(自瞄数据)
 class PanTiltAngle:
     def __init__(self, yaw_abs = 0.0, pitch_abs = 0.0):
         self.yaw_abs = yaw_abs
         self.pitch_abs = pitch_abs 
 
-# 3.定义节点类；
+# 3.
 class MinimalSubscriber(Node):
     def __init__(self):
         super().__init__('minimal_subscriber_py')
-        # 3-1.创建订阅方；
+        # 3-1.创建订阅方（自瞄数据）,数据来源自角度解算的发布者；
         self.subscription = self.create_subscription(
             Float64MultiArray,
             '/Vision/pitch_yaw',
             self.pitch_yaw_callback,
             10)
 
-               # 创建一个订阅者，订阅`cmd_vel`主题，消息类型为Twist，回调函数为self.twist_callback
+               # 创建一个订阅者，订阅`cmd_vel`主题，消息类型为Twist，回调函数为self.twist_callback(导航数据)
         self.subscription_twist = self.create_subscription(
             Twist,
             '/red_standard_robot1/cmd_vel',
