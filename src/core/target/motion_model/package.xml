@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>motion_model</name>
+  <version>0.1.0</version>
+  <description>
+    运动状态池模块 - 提供装甲板目标的运动预测功能。
+    支持常规运动模型和旋转运动模型，使用EKF进行多目标跟踪。
+  </description>
+  
+  <maintainer email="your_email@example.com">Your Name</maintainer>
+  <license>Apache-2.0</license>
+  
+  <author email="your_email@example.com">Your Name</author>
+  
+  <!-- 构建工具依赖 -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  
+  <!-- 构建依赖 -->
+  <build_depend>rclcpp</build_depend>
+  <build_depend>autoaim_msgs</build_depend>
+  <build_depend>filter_lib</build_depend>
+  <build_depend>eigen</build_depend>
+  <build_depend>yaml-cpp</build_depend>
+  
+  <!-- 导出依赖（使用此库的包也需要这些依赖） -->
+  <build_export_depend>rclcpp</build_export_depend>
+  <build_export_depend>autoaim_msgs</build_export_depend>
+  <build_export_depend>filter_lib</build_export_depend>
+  <build_export_depend>eigen</build_export_depend>
+  <build_export_depend>yaml-cpp</build_export_depend>
+  
+  <!-- 运行时依赖 -->
+  <exec_depend>rclcpp</exec_depend>
+  <exec_depend>autoaim_msgs</exec_depend>
+  <exec_depend>filter_lib</exec_depend>
+  <exec_depend>eigen</exec_depend>
+  <exec_depend>yaml-cpp</exec_depend>
+  
+  <!-- 测试依赖 -->
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+  <test_depend>ament_cmake_gtest</test_depend>
+  
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

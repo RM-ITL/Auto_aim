@@ -1,0 +1,145 @@
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+-- Found rclcpp: 27.0.0 (/opt/ros/rolling/share/rclcpp/cmake)
+-- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)
+-- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+-- Found FastRTPS: /opt/ros/rolling/include  
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found OpenCV: /usr (found version "4.5.4") 
+-- Found autoaim_msgs: 0.0.1 (/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake)
+-- Found filter_lib: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/filter_lib/share/filter_lib/cmake)
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Found AMD headers in: /usr/include/suitesparse
+-- Found AMD library: /usr/lib/x86_64-linux-gnu/libamd.so
+-- Found CAMD headers in: /usr/include/suitesparse
+-- Found CAMD library: /usr/lib/x86_64-linux-gnu/libcamd.so
+-- Found CCOLAMD headers in: /usr/include/suitesparse
+-- Found CCOLAMD library: /usr/lib/x86_64-linux-gnu/libccolamd.so
+-- Found CHOLMOD headers in: /usr/include/suitesparse
+-- Found CHOLMOD library: /usr/lib/x86_64-linux-gnu/libcholmod.so
+-- Found COLAMD headers in: /usr/include/suitesparse
+-- Found COLAMD library: /usr/lib/x86_64-linux-gnu/libcolamd.so
+-- Found SPQR headers in: /usr/include/suitesparse
+-- Found SPQR library: /usr/lib/x86_64-linux-gnu/libspqr.so
+-- Found Config headers in: /usr/include/suitesparse
+-- Found Config library: /usr/lib/x86_64-linux-gnu/libsuitesparseconfig.so
+-- Found Intel Thread Building Blocks (TBB) library (2021.5 / ) include location: . Assuming SuiteSparseQR was compiled with TBB.
+-- Looking for shm_open in rt
+-- Looking for shm_open in rt - found
+-- Adding librt to SuiteSparse_config libraries (required on Linux & Unix [not OSX] if SuiteSparse is compiled with timing).
+-- Could NOT find METIS (missing: METIS_INCLUDE_DIR METIS_LIBRARY) 
+-- Found ament_lint_auto: 0.16.3 (/opt/ros/rolling/share/ament_lint_auto/cmake)
+-- Added test 'copyright' to check source files copyright and LICENSE
+-- Added test 'cppcheck' to perform static code analysis on C / C++ code
+-- Configured cppcheck include dirs: /home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include;$<BUILD_INTERFACE:/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include>
+-- Configured cppcheck exclude dirs and/or files: 
+-- Added test 'cpplint' to check C / C++ code against the Google style
+-- Configured cpplint exclude dirs and/or files: 
+-- Added test 'lint_cmake' to check CMake code style
+-- Added test 'uncrustify' to check C / C++ code style
+-- Configured uncrustify additional arguments: 
+-- Added test 'xmllint' to check XML markup files
+-- Configuring done (2.7s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/motion_model
+[ 20%] [32mBuilding CXX object CMakeFiles/motion_model.dir/src/rotating_model.cpp.o[0m
+[ 40%] [32mBuilding CXX object CMakeFiles/motion_model.dir/src/common_model_v2.cpp.o[0m
+[ 60%] [32mBuilding CXX object CMakeFiles/motion_model.dir/src/common_model_v1.cpp.o[0m
+[ 80%] [32mBuilding CXX object CMakeFiles/motion_model.dir/src/full_model.cpp.o[0m
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/src/common_model_v1.cpp:6[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v1.hpp:[m[K In constructor ‘[01m[Kmotion_model::DecoupledPrediction::DecoupledPrediction()[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v1.hpp:79:12:[m[K [01;35m[Kwarning: [m[K‘[01m[Kmotion_model::DecoupledPrediction::prediction_confidence[m[K’ will be initialized after [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   79 |     double [01;35m[Kprediction_confidence[m[K;       // 预测置信度 [0,1]
+      |            [01;35m[K^~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v1.hpp:62:12:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kdouble motion_model::DecoupledPrediction::coupling_strength[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   62 |     double [01;35m[Kcoupling_strength[m[K;           // 耦合强度 ρ [0,1]
+      |            [01;35m[K^~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v1.hpp:81:5:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   81 |     [01;35m[KDecoupledPrediction[m[K()
+      |     [01;35m[K^~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v1.hpp:[m[K In constructor ‘[01m[Kmotion_model::TestModel::TestModel(const string&, size_t, double, bool)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v1.hpp:249:10:[m[K [01;35m[Kwarning: [m[K‘[01m[Kmotion_model::TestModel::enable_coupling_[m[K’ will be initialized after [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+  249 |     bool [01;35m[Kenable_coupling_[m[K;
+      |          [01;35m[K^~~~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v1.hpp:244:10:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kbool motion_model::TestModel::is_initialized_[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+  244 |     bool [01;35m[Kis_initialized_[m[K;
+      |          [01;35m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/src/common_model_v1.cpp:15:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   15 | [01;35m[KTestModel[m[K::TestModel(const std::string& model_name,
+      | [01;35m[K^~~~~~~~~[m[K
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/src/common_model_v2.cpp:6[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v2.hpp:[m[K In constructor ‘[01m[Kmotion_model::SingleTargetMotionModel::SingleTargetMotionModel()[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v2.hpp:153:42:[m[K [01;35m[Kwarning: [m[K‘[01m[Kmotion_model::SingleTargetMotionModel::filter_params_[m[K’ will be initialized after [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+  153 |     filter_lib::TrackQueueV3::Parameters [01;35m[Kfilter_params_[m[K; // 滤波器参数
+      |                                          [01;35m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v2.hpp:152:30:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kfilter_lib::TrackQueueV3 motion_model::SingleTargetMotionModel::filter_[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+  152 |     filter_lib::TrackQueueV3 [01;35m[Kfilter_[m[K;                    // EKF滤波器
+      |                              [01;35m[K^~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/src/common_model_v2.cpp:13:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   13 | [01;35m[KSingleTargetMotionModel[m[K::SingleTargetMotionModel()
+      | [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/src/common_model_v2.cpp:6[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v2.hpp:[m[K In constructor ‘[01m[Kmotion_model::SingleTargetMotionModel::SingleTargetMotionModel(const filter_lib::TrackQueueV3::Parameters&)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v2.hpp:153:42:[m[K [01;35m[Kwarning: [m[K‘[01m[Kmotion_model::SingleTargetMotionModel::filter_params_[m[K’ will be initialized after [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+  153 |     filter_lib::TrackQueueV3::Parameters [01;35m[Kfilter_params_[m[K; // 滤波器参数
+      |                                          [01;35m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v2.hpp:152:30:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kfilter_lib::TrackQueueV3 motion_model::SingleTargetMotionModel::filter_[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+  152 |     filter_lib::TrackQueueV3 [01;35m[Kfilter_[m[K;                    // EKF滤波器
+      |                              [01;35m[K^~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/src/common_model_v2.cpp:18:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   18 | [01;35m[KSingleTargetMotionModel[m[K::SingleTargetMotionModel(const filter_lib::TrackQueueV3::Parameters& params)
+      | [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/src/common_model_v2.cpp:[m[K In member function ‘[01m[Kmotion_model::Prediction motion_model::SingleTargetMotionModel::get_current_state() const[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/src/common_model_v2.cpp:130:10:[m[K [01;35m[Kwarning: [m[Kvariable ‘[01m[Kstate[m[K’ set but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-but-set-variable-Wunused-but-set-variable]8;;[m[K]
+  130 |     auto [01;35m[Kstate[m[K = filter_.state();
+      |          [01;35m[K^~~~~[m[K
+[100%] [32m[1mLinking CXX shared library libmotion_model.so[0m
+[100%] Built target motion_model
+-- Install configuration: ""
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/motion_model/environment/library_path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/motion_model/environment/library_path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/lib/libmotion_model.so
+-- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/motion_model/lib/libmotion_model.so" to ""
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/include
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/include/common_model_v1.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/include/rotating_model.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/include/common_model_v2.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/include/full_model.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/ament_index/resource_index/package_run_dependencies/motion_model
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/ament_index/resource_index/parent_prefix_path/motion_model
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/motion_model/environment/ament_prefix_path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/motion_model/environment/ament_prefix_path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/motion_model/environment/path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/motion_model/environment/path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/motion_model/local_setup.bash
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/motion_model/local_setup.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/motion_model/local_setup.zsh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/motion_model/local_setup.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/motion_model/package.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/ament_index/resource_index/packages/motion_model
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/motion_model/cmake/motion_model_targetsExport.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/motion_model/cmake/motion_model_targetsExport-noconfig.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/motion_model/cmake/ament_cmake_export_targets-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/motion_model/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/motion_model/cmake/motion_modelConfig.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/motion_model/cmake/motion_modelConfig-version.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/motion_model/share/motion_model/package.xml

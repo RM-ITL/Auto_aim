@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>tracker</name>
+  <version>0.1.0</version>
+  <description>ROS2 package for armor tracking and target prediction</description>
+  <maintainer email="your_email@example.com">Your Name</maintainer>
+  <license>Apache-2.0</license>
+
+  <!-- 构建工具依赖 -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- 构建时依赖 -->
+  <build_depend>rclcpp</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>tf2</build_depend>
+  <build_depend>tf2_ros</build_depend>
+  <build_depend>autoaim_msgs</build_depend>
+  <build_depend>eigen</build_depend>
+  <build_depend>yaml-cpp</build_depend>
+  <build_depend>libopencv-dev</build_depend>
+  <depend>utils</depend>
+  <depend>solver</depend>
+  <depend>detected</depend>
+  <depend>predictor</depend>
+
+  <!-- 执行时依赖 -->
+  <exec_depend>rclcpp</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>tf2</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>autoaim_msgs</exec_depend>
+  <exec_depend>eigen</exec_depend>
+  <exec_depend>yaml-cpp</exec_depend>
+  <exec_depend>libopencv-dev</exec_depend>
+
+  <!-- 测试依赖（可选） -->
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <!-- 导出信息 -->
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

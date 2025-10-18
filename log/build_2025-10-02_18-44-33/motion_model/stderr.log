@@ -1,0 +1,47 @@
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/src/common_model_v1.cpp:6[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v1.hpp:[m[K In constructor ‘[01m[Kmotion_model::DecoupledPrediction::DecoupledPrediction()[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v1.hpp:79:12:[m[K [01;35m[Kwarning: [m[K‘[01m[Kmotion_model::DecoupledPrediction::prediction_confidence[m[K’ will be initialized after [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   79 |     double [01;35m[Kprediction_confidence[m[K;       // 预测置信度 [0,1]
+      |            [01;35m[K^~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v1.hpp:62:12:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kdouble motion_model::DecoupledPrediction::coupling_strength[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   62 |     double [01;35m[Kcoupling_strength[m[K;           // 耦合强度 ρ [0,1]
+      |            [01;35m[K^~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v1.hpp:81:5:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   81 |     [01;35m[KDecoupledPrediction[m[K()
+      |     [01;35m[K^~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v1.hpp:[m[K In constructor ‘[01m[Kmotion_model::TestModel::TestModel(const string&, size_t, double, bool)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v1.hpp:249:10:[m[K [01;35m[Kwarning: [m[K‘[01m[Kmotion_model::TestModel::enable_coupling_[m[K’ will be initialized after [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+  249 |     bool [01;35m[Kenable_coupling_[m[K;
+      |          [01;35m[K^~~~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v1.hpp:244:10:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kbool motion_model::TestModel::is_initialized_[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+  244 |     bool [01;35m[Kis_initialized_[m[K;
+      |          [01;35m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/src/common_model_v1.cpp:15:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   15 | [01;35m[KTestModel[m[K::TestModel(const std::string& model_name,
+      | [01;35m[K^~~~~~~~~[m[K
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/src/common_model_v2.cpp:6[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v2.hpp:[m[K In constructor ‘[01m[Kmotion_model::SingleTargetMotionModel::SingleTargetMotionModel()[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v2.hpp:153:42:[m[K [01;35m[Kwarning: [m[K‘[01m[Kmotion_model::SingleTargetMotionModel::filter_params_[m[K’ will be initialized after [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+  153 |     filter_lib::TrackQueueV3::Parameters [01;35m[Kfilter_params_[m[K; // 滤波器参数
+      |                                          [01;35m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v2.hpp:152:30:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kfilter_lib::TrackQueueV3 motion_model::SingleTargetMotionModel::filter_[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+  152 |     filter_lib::TrackQueueV3 [01;35m[Kfilter_[m[K;                    // EKF滤波器
+      |                              [01;35m[K^~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/src/common_model_v2.cpp:13:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   13 | [01;35m[KSingleTargetMotionModel[m[K::SingleTargetMotionModel()
+      | [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/src/common_model_v2.cpp:6[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v2.hpp:[m[K In constructor ‘[01m[Kmotion_model::SingleTargetMotionModel::SingleTargetMotionModel(const filter_lib::TrackQueueV3::Parameters&)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v2.hpp:153:42:[m[K [01;35m[Kwarning: [m[K‘[01m[Kmotion_model::SingleTargetMotionModel::filter_params_[m[K’ will be initialized after [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+  153 |     filter_lib::TrackQueueV3::Parameters [01;35m[Kfilter_params_[m[K; // 滤波器参数
+      |                                          [01;35m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/include/common_model_v2.hpp:152:30:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kfilter_lib::TrackQueueV3 motion_model::SingleTargetMotionModel::filter_[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+  152 |     filter_lib::TrackQueueV3 [01;35m[Kfilter_[m[K;                    // EKF滤波器
+      |                              [01;35m[K^~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/src/common_model_v2.cpp:18:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   18 | [01;35m[KSingleTargetMotionModel[m[K::SingleTargetMotionModel(const filter_lib::TrackQueueV3::Parameters& params)
+      | [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/src/common_model_v2.cpp:[m[K In member function ‘[01m[Kmotion_model::Prediction motion_model::SingleTargetMotionModel::get_current_state() const[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/motion_model/src/common_model_v2.cpp:130:10:[m[K [01;35m[Kwarning: [m[Kvariable ‘[01m[Kstate[m[K’ set but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-but-set-variable-Wunused-but-set-variable]8;;[m[K]
+  130 |     auto [01;35m[Kstate[m[K = filter_.state();
+      |          [01;35m[K^~~~~[m[K

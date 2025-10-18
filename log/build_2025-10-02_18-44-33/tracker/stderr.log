@@ -1,0 +1,77 @@
+In file included from [01m[K/opt/ros/rolling/include/rclcpp/rclcpp/logging.hpp:24[m[K,
+                 from [01m[K/opt/ros/rolling/include/rclcpp/rclcpp/copy_all_parameter_values.hpp:27[m[K,
+                 from [01m[K/opt/ros/rolling/include/rclcpp/rclcpp/rclcpp.hpp:171[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker.cpp:5[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker.cpp:[m[K In member function ‘[01m[Kstd::__cxx11::list<predict::Target> tracker::Tracker::track(std::__cxx11::list<autoaim_msgs::msg::Armor_<std::allocator<void> > >&, std::chrono::_V2::steady_clock::time_point, bool)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker.cpp:119:19:[m[K [01;35m[Kwarning: [m[Kformat ‘[01m[K%d[m[K’ expects argument of type ‘[01m[Kint[m[K’, but argument 6 has type ‘[01m[Klong unsigned int[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wformat=-Wformat=]8;;[m[K]
+  119 |                   [01;35m[K"NIS失败率过高 (%d/%d)，重置为lost"[m[K,
+      |                   [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+  120 |                   failures, [32m[Kekf.window_size[m[K);
+      |                             [32m[K~~~~~~~~~~~~~~~[m[K
+      |                                 [32m[K|[m[K
+      |                                 [32m[Klong unsigned int[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker.cpp:119:39:[m[K [01;36m[Knote: [m[Kformat string is defined here
+  119 |                   "NIS失败率过高 (%d/[01;36m[K%d[m[K)，重置为lost",
+      |                                      [01;36m[K~^[m[K
+      |                                       [01;36m[K|[m[K
+      |                                       [01;36m[Kint[m[K
+      |                                      [32m[K%ld[m[K
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/include/tracker_node.hpp:9[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker_node.cpp:1[m[K:
+[01m[K/opt/ros/rolling/include/cv_bridge/cv_bridge/cv_bridge.h:42:2:[m[K [01;35m[Kwarning: [m[K#warning This header is obsolete, please include cv_bridge/cv_bridge.hpp instead [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wcpp-Wcpp]8;;[m[K]
+   42 | #[01;35m[Kwarning[m[K This header is obsolete, please include cv_bridge/cv_bridge.hpp instead
+      |  [01;35m[K^~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker_node.cpp:[m[K In member function ‘[01m[Kvoid tracker::TrackerNode::processArmors()[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker_node.cpp:128:39:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Kspdlog::logger::debug(const char [91], <unresolved overloaded function type>, <unresolved overloaded function type>, <unresolved overloaded function type>, <unresolved overloaded function type>)[m[K’
+  128 |                 [01;31m[Kutils::logger()->debug([m[K
+      |                 [01;31m[K~~~~~~~~~~~~~~~~~~~~~~^[m[K
+  129 | [01;31m[K                    "装甲板数据是:x坐标:{.3f}, y坐标:{:.3f}, z坐标是:{:.3f}, angle角度是:{:.3f}",[m[K
+      |                     [01;31m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+  130 | [01;31m[K                    xyza.x,[m[K
+      |                     [01;31m[K~~~~~~~[m[K            
+  131 | [01;31m[K                    xyza.y,[m[K
+      |                     [01;31m[K~~~~~~~[m[K            
+  132 | [01;31m[K                    xyza.z,[m[K
+      |                     [01;31m[K~~~~~~~[m[K            
+  133 | [01;31m[K                    xyza.w[m[K
+      |                     [01;31m[K~~~~~~[m[K             
+  134 | [01;31m[K                  )[m[K;
+      |                   [01;31m[K~[m[K                    
+In file included from [01m[K/usr/include/spdlog/details/registry-inl.h:12[m[K,
+                 from [01m[K/usr/include/spdlog/details/registry.h:114[m[K,
+                 from [01m[K/usr/include/spdlog/spdlog.h:13[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/install/utils/include/logger.hpp:4[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/install/utils/include/math_tools.hpp:6[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/install/solver/include/module/solver.hpp:7[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/include/tracker.hpp:10[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/include/tracker_node.hpp:16[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker_node.cpp:1[m[K:
+[01m[K/usr/include/spdlog/logger.h:150:10:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kvoid spdlog::logger::debug(fmt::v8::format_string<T ...>, Args&& ...) [with Args = {}; fmt::v8::format_string<T ...> = fmt::v8::basic_format_string<char>][m[K’
+  150 |     void [01;36m[Kdebug[m[K(fmt::format_string<Args...> fmt, Args &&...args)
+      |          [01;36m[K^~~~~[m[K
+[01m[K/usr/include/spdlog/logger.h:150:10:[m[K [01;36m[Knote: [m[K  candidate expects 1 argument, 5 provided
+[01m[K/usr/include/spdlog/logger.h:236:10:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Ktemplate<class T> void spdlog::logger::debug(const T&)[m[K’
+  236 |     void [01;36m[Kdebug[m[K(const T &msg)
+      |          [01;36m[K^~~~~[m[K
+[01m[K/usr/include/spdlog/logger.h:236:10:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker_node.cpp:128:39:[m[K [01;36m[Knote: [m[K  candidate expects 1 argument, 5 provided
+  128 |                 [01;36m[Kutils::logger()->debug([m[K
+      |                 [01;36m[K~~~~~~~~~~~~~~~~~~~~~~^[m[K
+  129 | [01;36m[K                    "装甲板数据是:x坐标:{.3f}, y坐标:{:.3f}, z坐标是:{:.3f}, angle角度是:{:.3f}",[m[K
+      |                     [01;36m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+  130 | [01;36m[K                    xyza.x,[m[K
+      |                     [01;36m[K~~~~~~~[m[K            
+  131 | [01;36m[K                    xyza.y,[m[K
+      |                     [01;36m[K~~~~~~~[m[K            
+  132 | [01;36m[K                    xyza.z,[m[K
+      |                     [01;36m[K~~~~~~~[m[K            
+  133 | [01;36m[K                    xyza.w[m[K
+      |                     [01;36m[K~~~~~~[m[K             
+  134 | [01;36m[K                  )[m[K;
+      |                   [01;36m[K~[m[K                    
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker_node.cpp:125:18:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Karmor_number[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+  125 |             auto [01;35m[Karmor_number[m[K = armor_list.size();
+      |                  [01;35m[K^~~~~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/tracker_node.dir/build.make:76：CMakeFiles/tracker_node.dir/src/tracker_node.cpp.o] 错误 1
+gmake[1]: *** [CMakeFiles/Makefile2:165：CMakeFiles/tracker_node.dir/all] 错误 2
+gmake: *** [Makefile:146：all] 错误 2

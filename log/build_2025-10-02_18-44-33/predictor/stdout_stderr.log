@@ -1,0 +1,138 @@
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+-- Found rclcpp: 27.0.0 (/opt/ros/rolling/share/rclcpp/cmake)
+-- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)
+-- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+-- Found FastRTPS: /opt/ros/rolling/include  
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found std_msgs: 5.3.0 (/opt/ros/rolling/share/std_msgs/cmake)
+-- Found geometry_msgs: 5.3.0 (/opt/ros/rolling/share/geometry_msgs/cmake)
+-- Found visualization_msgs: 5.3.0 (/opt/ros/rolling/share/visualization_msgs/cmake)
+-- Found tf2: 0.36.0 (/opt/ros/rolling/share/tf2/cmake)
+-- Found tf2_geometry_msgs: 0.36.0 (/opt/ros/rolling/share/tf2_geometry_msgs/cmake)
+-- Found eigen3_cmake_module: 0.3.0 (/opt/ros/rolling/share/eigen3_cmake_module/cmake)
+-- Found Eigen3: TRUE (found version "3.4.0") 
+-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+-- Found autoaim_msgs: 0.0.1 (/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake)
+-- Found utils: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake)
+-- Found solver: 0.0.0 (/home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake)
+-- Found motion_model: 0.1.0 (/home/guo/ITL_sentry_auto_new/install/motion_model/share/motion_model/cmake)
+-- Found Threads: TRUE  
+-- Found AMD headers in: /usr/include/suitesparse
+-- Found AMD library: /usr/lib/x86_64-linux-gnu/libamd.so
+-- Found CAMD headers in: /usr/include/suitesparse
+-- Found CAMD library: /usr/lib/x86_64-linux-gnu/libcamd.so
+-- Found CCOLAMD headers in: /usr/include/suitesparse
+-- Found CCOLAMD library: /usr/lib/x86_64-linux-gnu/libccolamd.so
+-- Found CHOLMOD headers in: /usr/include/suitesparse
+-- Found CHOLMOD library: /usr/lib/x86_64-linux-gnu/libcholmod.so
+-- Found COLAMD headers in: /usr/include/suitesparse
+-- Found COLAMD library: /usr/lib/x86_64-linux-gnu/libcolamd.so
+-- Found SPQR headers in: /usr/include/suitesparse
+-- Found SPQR library: /usr/lib/x86_64-linux-gnu/libspqr.so
+-- Found Config headers in: /usr/include/suitesparse
+-- Found Config library: /usr/lib/x86_64-linux-gnu/libsuitesparseconfig.so
+-- Found Intel Thread Building Blocks (TBB) library (2021.5 / ) include location: . Assuming SuiteSparseQR was compiled with TBB.
+-- Looking for shm_open in rt
+-- Looking for shm_open in rt - found
+-- Adding librt to SuiteSparse_config libraries (required on Linux & Unix [not OSX] if SuiteSparse is compiled with timing).
+-- Could NOT find METIS (missing: METIS_INCLUDE_DIR METIS_LIBRARY) 
+-- Configuring done (3.3s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/predictor
+[ 50%] [32mBuilding CXX object CMakeFiles/predictor.dir/src/target.cpp.o[0m
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/target/predictor/src/target.cpp:1[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/predictor/include/target.hpp:[m[K In constructor ‘[01m[Kpredict::Target::Target(const solver::Armor_pose&, std::chrono::_V2::steady_clock::time_point, double, int, Eigen::VectorXd)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/predictor/include/target.hpp:57:7:[m[K [01;35m[Kwarning: [m[K‘[01m[Kpredict::Target::update_count_[m[K’ will be initialized after [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   57 |   int [01;35m[Kupdate_count_[m[K;
+      |       [01;35m[K^~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/predictor/include/target.hpp:55:7:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kint predict::Target::armor_num_[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   55 |   int [01;35m[Karmor_num_[m[K;
+      |       [01;35m[K^~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/predictor/src/target.cpp:9:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+    9 | [01;35m[KTarget[m[K::Target(
+      | [01;35m[K^~~~~~[m[K
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/target/predictor/src/target.cpp:1[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/predictor/include/target.hpp:62:41:[m[K [01;35m[Kwarning: [m[K‘[01m[Kpredict::Target::t_[m[K’ will be initialized after [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   62 |   std::chrono::steady_clock::time_point [01;35m[Kt_[m[K;
+      |                                         [01;35m[K^~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/predictor/include/target.hpp:59:8:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kbool predict::Target::is_switch_[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   59 |   bool [01;35m[Kis_switch_[m[K, is_converged_;
+      |        [01;35m[K^~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/predictor/src/target.cpp:9:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+    9 | [01;35m[KTarget[m[K::Target(
+      | [01;35m[K^~~~~~[m[K
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/target/predictor/src/target.cpp:1[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/predictor/include/target.hpp:59:20:[m[K [01;35m[Kwarning: [m[K‘[01m[Kpredict::Target::is_converged_[m[K’ will be initialized after [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   59 |   bool is_switch_, [01;35m[Kis_converged_[m[K;
+      |                    [01;35m[K^~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/predictor/include/target.hpp:56:7:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kint predict::Target::switch_count_[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   56 |   int [01;35m[Kswitch_count_[m[K;
+      |       [01;35m[K^~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/predictor/src/target.cpp:9:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+    9 | [01;35m[KTarget[m[K::Target(
+      | [01;35m[K^~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/predictor/src/target.cpp:[m[K In member function ‘[01m[Kvoid predict::Target::update(const solver::Armor_pose&)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/predictor/src/target.cpp:164:30:[m[K [01;35m[Kwarning: [m[Kcomparison of integer expressions of different signedness: ‘[01m[Kint[m[K’ and ‘[01m[Kstd::vector<std::pair<Eigen::Matrix<double, 4, 1>, int> >::size_type[m[K’ {aka ‘[01m[Klong unsigned int[m[K’} [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wsign-compare-Wsign-compare]8;;[m[K]
+  164 |   for (int i = 0; i < 3 && [01;35m[Ki < xyza_i_list.size()[m[K; i++) {
+      |                            [01;35m[K~~^~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/predictor/src/target.cpp:[m[K In member function ‘[01m[Kbool predict::Target::diverged() const[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/predictor/src/target.cpp:300:10:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kcov_trace[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+  300 |   double [01;35m[Kcov_trace[m[K = ekf_.P.trace();  // 协方差矩阵的迹
+      |          [01;35m[K^~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/predictor/src/target.cpp:306:10:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kspeed[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+  306 |   double [01;35m[Kspeed[m[K = std::sqrt(vx*vx + vy*vy + vz*vz);
+      |          [01;35m[K^~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/predictor/src/target.cpp:309:8:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kr_ok[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+  309 |   auto [01;35m[Kr_ok[m[K = r > 0.05 && r < 0.5;
+      |        [01;35m[K^~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/target/predictor/src/target.cpp:310:8:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kl_ok[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+  310 |   auto [01;35m[Kl_ok[m[K = r_plus_l > 0.05 && r_plus_l < 0.5;
+      |        [01;35m[K^~~~[m[K
+[100%] [32m[1mLinking CXX static library libpredictor.a[0m
+[100%] Built target predictor
+-- Install configuration: ""
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/environment/library_path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/environment/library_path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/lib/libpredictor.a
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/include
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/include/target.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/cmake/predictorTargets.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/cmake/predictorTargets-noconfig.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/ament_index/resource_index/package_run_dependencies/predictor
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/ament_index/resource_index/parent_prefix_path/predictor
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/environment/ament_prefix_path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/environment/ament_prefix_path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/environment/path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/environment/path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/local_setup.bash
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/local_setup.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/local_setup.zsh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/local_setup.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/package.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/ament_index/resource_index/packages/predictor
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/cmake/predictorTargetsExport.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/cmake/predictorTargetsExport-noconfig.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/cmake/ament_cmake_export_targets-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/cmake/predictorConfig.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/cmake/predictorConfig-version.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/package.xml

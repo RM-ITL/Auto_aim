@@ -1,0 +1,31 @@
+[ 50%] Built target tracker_lib
+[ 75%] [32mBuilding CXX object CMakeFiles/tracker_node.dir/src/tracker_node.cpp.o[0m
+[100%] [32m[1mLinking CXX executable tracker_node[0m
+[100%] Built target tracker_node
+-- Install configuration: ""
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/lib/tracker/tracker_node
+-- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/tracker/lib/tracker/tracker_node" to ""
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/lib/libtracker_lib.a
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/include
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/include/tracker.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/include/tracker_node.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/environment/library_path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/environment/library_path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/ament_index/resource_index/package_run_dependencies/tracker
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/ament_index/resource_index/parent_prefix_path/tracker
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/environment/ament_prefix_path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/environment/ament_prefix_path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/environment/path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/environment/path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/local_setup.bash
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/local_setup.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/local_setup.zsh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/local_setup.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/package.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/ament_index/resource_index/packages/tracker
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/cmake/ament_cmake_export_libraries-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/cmake/trackerConfig.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/cmake/trackerConfig-version.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/package.xml

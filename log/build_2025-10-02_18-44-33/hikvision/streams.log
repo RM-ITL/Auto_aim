@@ -1,0 +1,77 @@
+[0.017s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/hikvision': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake /home/guo/ITL_sentry_auto_new/src/core/device/camera -DCMAKE_INSTALL_PREFIX=/home/guo/ITL_sentry_auto_new/install/hikvision
+[0.081s] -- The C compiler identification is GNU 11.4.0
+[0.138s] -- The CXX compiler identification is GNU 11.4.0
+[0.156s] -- Detecting C compiler ABI info
+[0.220s] -- Detecting C compiler ABI info - done
+[0.232s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.232s] -- Detecting C compile features
+[0.233s] -- Detecting C compile features - done
+[0.242s] -- Detecting CXX compiler ABI info
+[0.312s] -- Detecting CXX compiler ABI info - done
+[0.323s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.323s] -- Detecting CXX compile features
+[0.324s] -- Detecting CXX compile features - done
+[0.329s] -- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)
+[0.775s] -- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+[0.870s] -- Found rclcpp: 27.0.0 (/opt/ros/rolling/share/rclcpp/cmake)
+[0.915s] -- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)
+[0.928s] -- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)
+[0.949s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.972s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.148s] -- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)
+[1.150s] -- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)
+[1.248s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[1.278s] -- Found FastRTPS: /opt/ros/rolling/include  
+[1.324s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[1.520s] -- Found sensor_msgs: 5.3.0 (/opt/ros/rolling/share/sensor_msgs/cmake)
+[1.724s] -- Found cv_bridge: 3.4.0 (/opt/ros/rolling/share/cv_bridge/cmake)
+[1.751s] -- Found OpenCV: /usr (found version "4.5.4") 
+[1.754s] -- Found image_transport: 5.1.0 (/opt/ros/rolling/share/image_transport/cmake)
+[1.812s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[1.871s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[1.872s] -- Found Threads: TRUE  
+[1.873s] -- Found autoaim_msgs: 0.0.1 (/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake)
+[1.994s] -- Found utils: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake)
+[2.032s] -- Found PkgConfig: /usr/bin/pkg-config (found version "1.8.0") 
+[2.033s] -- Checking for module 'libusb-1.0'
+[2.046s] --   Found libusb-1.0, version 1.0.25
+[2.082s] -- Found ament_lint_auto: 0.16.3 (/opt/ros/rolling/share/ament_lint_auto/cmake)
+[2.144s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[2.144s] -- Configured cppcheck include dirs: /home/guo/ITL_sentry_auto_new/src/core/device/camera/include;/home/guo/ITL_sentry_auto_new/src/core/device/camera/utils;$<BUILD_INTERFACE:/home/guo/ITL_sentry_auto_new/src/core/device/camera/include>
+[2.144s] -- Configured cppcheck exclude dirs and/or files: 
+[2.145s] -- Added test 'lint_cmake' to check CMake code style
+[2.145s] -- Added test 'uncrustify' to check C / C++ code style
+[2.146s] -- Configured uncrustify additional arguments: 
+[2.146s] -- Added test 'xmllint' to check XML markup files
+[2.148s] -- Configuring done (2.1s)
+[2.161s] -- Generating done (0.0s)
+[2.165s] -- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/hikvision
+[2.172s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/hikvision' returned '0': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake /home/guo/ITL_sentry_auto_new/src/core/device/camera -DCMAKE_INSTALL_PREFIX=/home/guo/ITL_sentry_auto_new/install/hikvision
+[2.172s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/hikvision': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/hikvision -- -j24 -l24
+[2.195s] [ 50%] [32mBuilding CXX object CMakeFiles/hik_camera_node.dir/src/hikcamera.cpp.o[0m
+[9.186s] [100%] [32m[1mLinking CXX executable hik_camera_node[0m
+[9.665s] [100%] Built target hik_camera_node
+[9.671s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/hikvision' returned '0': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/hikvision -- -j24 -l24
+[9.671s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/hikvision': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/hikvision
+[9.673s] -- Install configuration: ""
+[9.673s] -- Installing: /home/guo/ITL_sentry_auto_new/install/hikvision/lib/hikvision/hik_camera_node
+[9.676s] -- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/hikvision/lib/hikvision/hik_camera_node" to "/opt/MVS/lib/64"
+[9.676s] -- Installing: /home/guo/ITL_sentry_auto_new/install/hikvision/include/hikvision
+[9.676s] -- Installing: /home/guo/ITL_sentry_auto_new/install/hikvision/include/hikvision/hikcamera.hpp
+[9.676s] -- Installing: /home/guo/ITL_sentry_auto_new/install/hikvision/share/ament_index/resource_index/package_run_dependencies/hikvision
+[9.676s] -- Installing: /home/guo/ITL_sentry_auto_new/install/hikvision/share/ament_index/resource_index/parent_prefix_path/hikvision
+[9.676s] -- Installing: /home/guo/ITL_sentry_auto_new/install/hikvision/share/hikvision/environment/ament_prefix_path.sh
+[9.676s] -- Installing: /home/guo/ITL_sentry_auto_new/install/hikvision/share/hikvision/environment/ament_prefix_path.dsv
+[9.676s] -- Installing: /home/guo/ITL_sentry_auto_new/install/hikvision/share/hikvision/environment/path.sh
+[9.677s] -- Installing: /home/guo/ITL_sentry_auto_new/install/hikvision/share/hikvision/environment/path.dsv
+[9.677s] -- Installing: /home/guo/ITL_sentry_auto_new/install/hikvision/share/hikvision/local_setup.bash
+[9.677s] -- Installing: /home/guo/ITL_sentry_auto_new/install/hikvision/share/hikvision/local_setup.sh
+[9.677s] -- Installing: /home/guo/ITL_sentry_auto_new/install/hikvision/share/hikvision/local_setup.zsh
+[9.677s] -- Installing: /home/guo/ITL_sentry_auto_new/install/hikvision/share/hikvision/local_setup.dsv
+[9.677s] -- Installing: /home/guo/ITL_sentry_auto_new/install/hikvision/share/hikvision/package.dsv
+[9.677s] -- Installing: /home/guo/ITL_sentry_auto_new/install/hikvision/share/ament_index/resource_index/packages/hikvision
+[9.677s] -- Installing: /home/guo/ITL_sentry_auto_new/install/hikvision/share/hikvision/cmake/ament_cmake_export_dependencies-extras.cmake
+[9.677s] -- Installing: /home/guo/ITL_sentry_auto_new/install/hikvision/share/hikvision/cmake/hikvisionConfig.cmake
+[9.677s] -- Installing: /home/guo/ITL_sentry_auto_new/install/hikvision/share/hikvision/cmake/hikvisionConfig-version.cmake
+[9.677s] -- Installing: /home/guo/ITL_sentry_auto_new/install/hikvision/share/hikvision/package.xml
+[9.679s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/hikvision' returned '0': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/hikvision

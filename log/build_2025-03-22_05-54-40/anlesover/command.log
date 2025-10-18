@@ -1,4 +1,0 @@
-Invoking command in '/home/shaobing/rm_ws/build/anlesover': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/shaobing/rm_ws/build/anlesover -- -j16 -l16
-Invoked command in '/home/shaobing/rm_ws/build/anlesover' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/shaobing/rm_ws/build/anlesover -- -j16 -l16
-Invoking command in '/home/shaobing/rm_ws/build/anlesover': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/shaobing/rm_ws/build/anlesover
-Invoked command in '/home/shaobing/rm_ws/build/anlesover' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/shaobing/rm_ws/build/anlesover

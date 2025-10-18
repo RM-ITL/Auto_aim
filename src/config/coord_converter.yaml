@@ -1,0 +1,209 @@
+CalibParam:
+  # 外参校准参数（保持不变）
+  EXTRI:
+    SO3_BiToBr:
+      - key: /imu/data
+        value:
+          qx: 0
+          qy: 0
+          qz: 0
+          qw: 1
+    POS_BiInBr:
+      - key: /imu/data
+        value:
+          r0c0: 0
+          r1c0: 0
+          r2c0: 0
+    SO3_CmToBr:
+      - key: /image_topic
+        value:
+          qx: 0.5013545547662571
+          qy: -0.4786430989388319
+          qz: 0.5215410043866743
+          qw: -0.497533290340152
+    POS_CmInBr:
+      - key: /image_topic
+        value:
+          r0c0: 0.0
+          r1c0: 0.0      
+          r2c0: 0.03
+  
+  # 时间同步参数（保持不变）
+  TEMPORAL:
+    TO_BiToBr:
+      - key: /imu/data
+        value: 0
+    TO_RjToBr:
+      []
+    TO_LkToBr:      
+      []
+    TO_CmToBr:
+      - key: /image_topic
+        value: -0.003308117713373338
+    TO_DnToBr:
+      []
+    TO_EsToBr:
+      []
+    RS_READOUT:
+      - key: /image_topic
+        value: 0
+  
+  # 内参校准参数（已更新）
+  INTRI:
+    IMU:
+      - key: /imu/data
+        value:
+          ptr_wrapper:
+            id: 2147483649
+            data:
+              ACCE:
+                BIAS:
+                  r0c0: -2.304013762502108
+                  r1c0: -0.6613550174646946
+                  r2c0: 0.2228910137641298
+                MAP_COEFF:
+                  r0c0: 1.004088323785791
+                  r1c0: 1.004244396612517
+                  r2c0: 1.004195687965688
+                  r3c0: 0.0002990784587541946
+                  r4c0: -0.002883393638668129
+                  r5c0: -0.000435143857068258
+              GYRO:
+                BIAS:
+                  r0c0: 0.03148866871892756
+                  r1c0: -0.106053755353517
+                  r2c0: 0.01210119625873641
+                MAP_COEFF:
+                  r0c0: 1
+                  r1c0: 1
+                  r2c0: 1
+                  r3c0: 0
+                  r4c0: 0
+                  r5c0: 0
+              SO3_AtoG:
+                qx: 0
+                qy: 0
+                qz: 0
+                qw: 1
+    Camera:
+      - key: /image_topic
+        value:
+          polymorphic_id: 2147483649
+          polymorphic_name: pinhole_brown_t2
+          ptr_wrapper:
+            id: 2147483650
+            data:
+              img_width: 1280
+              img_height: 1024
+              # focal_length:                     # 8mm相机
+              #   - 1740.1391026563904
+              #   - 1743.466162735272
+              # principal_point:
+              #   - 600.0573645949644
+              #   - 415.5957223704912
+              # disto_param:
+              #   - -0.11407724406859104
+              #   - 0.9907393620859306
+              #   - -0.012350441691573684
+              #   - -0.0022510643311303606
+              #   - -2.920015848738005
+              focal_length:                     # 6mm相机
+                - 1330.649408921195
+                - 1332.3006999890033
+              principal_point:
+                - 627.2791611048931
+                - 533.2806702069377
+              disto_param:
+                - -0.14828277112729327
+                - 0.7868245788660153
+                - 0.0023478362007317123
+                - 0.002535817596959765
+                - -1.5222934363748177
+              # focal_length:                   # 4mm相机
+              #   - 893.4306170676092
+              #   - 888.878979439582
+              # principal_point:
+              #   - 618.4622245880115
+              #   - 511.73226091888046
+              # disto_param:
+              #   - -0.09613598816721357
+              #   - 0.3686128765511766
+              #   - -0.0035685183642176046
+              #   - 0.002876545526120485
+              #   - -0.594006385480322
+  
+  # 重力向量（保持不变）
+  GRAVITY:
+    r0c0: -4.996003610813204e-15
+    r1c0: -2.42861286636753e-15
+    r2c0: -9.810000000000004
+
+# 敌方颜色配置
+enemy_color: "red"  # 或 "blue"
+
+# 跟踪状态机参数
+min_detect_count: 3              # 最小检测次数
+max_temp_lost_count: 10          # 普通目标的最大临时丢失容忍度  
+outpost_max_temp_lost_count: 20  # 前哨站的最大临时丢失容忍度
+
+# PnP解算节点额外配置参数（保持不变）
+pnp_solver:
+  # 话题配置
+  topics:
+    armor_sub: "detected_data"
+    imu_sub: "/imu/data"
+    imu_euler_sub: "/dm/imu"
+    image_sub: "/yolo_detections_image"
+    predictions_sub: "/predictor/armor_predictions"
+    targets_pub: "/pnp_solver/targets"
+    prediction_image_pub: "/pnp_solver/prediction_image"
+    serial_pub: "/serial_cmd"
+  
+  # 检测范围配置
+  detection_range:
+    min_distance: 0.01
+    max_distance: 10.0
+  
+  # IMU配置
+  imu:
+    buffer_time: 1.0
+    max_time_diff: 0.05
+
+# 几何补偿器参数
+geometric_compensator:
+  # 装甲板尺寸参数（毫米）
+  armor_dimensions:
+    small_armor:
+      width: 135.0
+      height: 55.0
+    big_armor:
+      width: 230.0
+      height: 55.0
+  
+  # 装甲板姿态参数
+  armor_pose:
+    use_fixed_pitch: true        # 是否使用固定pitch角
+    fixed_pitch: 15.0            # 固定pitch角（度）
+    fixed_roll: 0.0              # 固定roll角（度）
+    search_range: 30.0           # 搜索范围（度）
+    search_epsilon: 0.5          # 搜索精度（度）
+  
+  # 优化参数
+  optimization:
+    max_reprojection_error: 100.0  # 最大重投影误差（像素）
+    max_iterations: 30            # 最大迭代次数
+    pixel_error_weight: 1.0       # 像素误差权重
+    edge_error_weight: 0.5        # 边长误差权重
+    angle_error_weight: 0.3       # 角度误差权重
+  
+  # 弹道参数
+  ballistic_params:
+    bullet_speed: 16.0             # 子弹速度（米/秒）
+    resistance_k: 0.022928514188   # 空气阻力系数
+    initial_shoot_angle: 30.0      # 初始发射角度（度）
+  
+  # 相机到枪管偏移（毫米）
+  camera_to_barrel_offset:
+    x: 0.0
+    y: 100.0                        # 相机在枪管上方
+    z: 0.0
