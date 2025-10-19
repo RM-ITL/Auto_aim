@@ -68,6 +68,13 @@ const PriorityMap rank_map = {
 {armor_auto_aim::ArmorName::not_armor, armor_auto_aim::ArmorPriority::fifth}};// 非装甲板 - 第五优先级
 
 
+struct Visualization
+{
+  std::array<cv::Point2f, 4> corners{};
+  ArmorName name{ArmorName::not_armor};
+  ArmorType type{ArmorType::small};
+};
+
 struct Armor
 {
     int class_id;              // YOLO原始输出ID (0-37)
@@ -195,6 +202,31 @@ struct Armor
         return rank < other.rank;  // rank值越小，优先级越高
     }
 };
+
+inline std::string armor_name_to_string(ArmorName name)
+{
+  switch (name) {
+    case ArmorName::one:
+      return "one";
+    case ArmorName::two:
+      return "two";
+    case ArmorName::three:
+      return "three";
+    case ArmorName::four:
+      return "four";
+    case ArmorName::five:
+      return "five";
+    case ArmorName::sentry:
+      return "sentry";
+    case ArmorName::outpost:
+      return "outpost";
+    case ArmorName::base:
+      return "base";
+    case ArmorName::not_armor:
+    default:
+      return "not_armor";
+  }
+}
 
 }  // namespace armor_auto_aim
 

@@ -1,0 +1,36 @@
+[0.020s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/detected': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/detected -- -j24 -l24
+[0.045s] [ 22%] Built target armor_data_lib
+[0.063s] [ 44%] Built target armor_classifier_lib
+[0.064s] [ 77%] Built target armor_detector_lib
+[0.083s] [ 88%] [32mBuilding CXX object CMakeFiles/detected.dir/src/node/armor_detector_node.cpp.o[0m
+[1.444s] In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/src/node/armor_detector_node.cpp:1[m[K:
+[1.444s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/include/node/armor_detector_node.hpp:37:88:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K)[m[K’ before ‘[01m[K;[m[K’ token
+[1.444s]    37 | ualize_results[34m[K([m[Kcv::Mat & canvas, const std::vector<Visualization> & armors[01;31m[K;[m[K
+[1.444s]       |               [34m[K~[m[K                                                           [01;31m[K^[m[K
+[1.444s]       |                                                                           [32m[K)[m[K
+[1.447s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/include/node/armor_detector_node.hpp:47:37:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[Kint[m[K’
+[1.447s]    47 |     const cv::Point & center_point, [01;31m[Kint[m[K frame_index);
+[1.447s]       |                                     [01;31m[K^~~[m[K
+[1.609s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/src/node/armor_detector_node.cpp:[m[K In constructor ‘[01m[Karmor_auto_aim::Detector::Detector(const string&)[m[K’:
+[1.609s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/src/node/armor_detector_node.cpp:32:1:[m[K [01;31m[Kerror: [m[Kuninitialized reference member in ‘[01m[Kconst Point&[m[K’ {aka ‘[01m[Kconst class cv::Point_<int>&[m[K’} [[01;31m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-fpermissive-fpermissive]8;;[m[K]
+[1.609s]    32 | [01;31m[KDetector[m[K::Detector(const std::string& config_path)
+[1.609s]       | [01;31m[K^~~~~~~~[m[K
+[1.609s] In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/src/node/armor_detector_node.cpp:1[m[K:
+[1.609s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/include/node/armor_detector_node.hpp:47:23:[m[K [01;36m[Knote: [m[K‘[01m[Kconst Point& armor_auto_aim::Detector::center_point[m[K’ should be initialized
+[1.609s]    47 |     const cv::Point & [01;36m[Kcenter_point[m[K, int frame_index);
+[1.609s]       |                       [01;36m[K^~~~~~~~~~~~[m[K
+[1.611s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/src/node/armor_detector_node.cpp:[m[K At global scope:
+[1.611s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/src/node/armor_detector_node.cpp:114:7:[m[K [01;31m[Kerror: [m[Kno declaration matches ‘[01m[Kvoid armor_auto_aim::Detector::visualize_results(cv::Mat&, const std::vector<armor_auto_aim::Visualization>&, const Point&, int)[m[K’
+[1.611s]   114 | void  [01;31m[KDetector[m[K::visualize_results(
+[1.611s]       |       [01;31m[K^~~~~~~~[m[K
+[1.611s] In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/src/node/armor_detector_node.cpp:1[m[K:
+[1.611s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/include/node/armor_detector_node.hpp:37:11:[m[K [01;36m[Knote: [m[Kcandidate is: ‘[01m[Kvoid armor_auto_aim::Detector::visualize_results(cv::Mat&, const std::vector<armor_auto_aim::Visualization>&)[m[K’
+[1.611s]    37 |     void  [01;36m[Kvisualize_results[m[K(cv::Mat & canvas, const std::vector<Visualization> & armors;
+[1.611s]       |           [01;36m[K^~~~~~~~~~~~~~~~~[m[K
+[1.611s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/include/node/armor_detector_node.hpp:14:7:[m[K [01;36m[Knote: [m[K‘[01m[Kclass armor_auto_aim::Detector[m[K’ defined here
+[1.611s]    14 | class [01;36m[KDetector[m[K {
+[1.611s]       |       [01;36m[K^~~~~~~~[m[K
+[3.202s] gmake[2]: *** [CMakeFiles/detected.dir/build.make:76：CMakeFiles/detected.dir/src/node/armor_detector_node.cpp.o] 错误 1
+[3.202s] gmake[1]: *** [CMakeFiles/Makefile2:222：CMakeFiles/detected.dir/all] 错误 2
+[3.203s] gmake: *** [Makefile:146：all] 错误 2
+[3.204s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/detected' returned '2': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/detected -- -j24 -l24

@@ -9,6 +9,8 @@
 #include <string>
 #include "solver.hpp"
 #include "math_tools.hpp"
+#include "logger.hpp"
+#include <utility>
 
 namespace solver {
 
@@ -36,40 +38,50 @@ public:
     
     YawPitch getCurrentAngles() const;
     
-    bool isInitialized() const { return is_initialized_; }
+    // bool isInitialized() const { return is_initialized_; }
 
-    std::vector<cv::Point2f> reproject_armor(const Eigen::Vector3d & xyz_in_camera, 
-                                        double yaw, ArmorType type, ArmorName name) const;
+    // std::vector<cv::Point2f> reproject_armor(const Eigen::Vector3d & xyz_in_world, 
+    //                                     double yaw, ArmorType type, ArmorName name) const;
+
     
-    std::vector<cv::Point2f> projectWorldToImage(const Eigen::Vector3d& world_point) const;
+    std::pair<Eigen::Matrix3d, Eigen::Matrix3d> getCameraToWorldRotation() const;
 
 private:
-    void initializeWorldFrame();
+    // void initializeWorldFrame();
     bool loadCalibrationFromYAML(const std::string& yaml_path);
     
-    Eigen::Vector3d cameraToIMU(const Eigen::Vector3d& point_camera) const;
-    Eigen::Vector3d imuToWorld(const Eigen::Vector3d& point_imu) const;
-    Eigen::Vector3d worldToCamera(const Eigen::Vector3d& point_world) const;
-    Eigen::Vector3d worldToIMU(const Eigen::Vector3d& point_world) const;
-    Eigen::Vector3d imuToCamera(const Eigen::Vector3d& point_imu) const;
+
+    Eigen::Vector3d cameraToGimbal(const Eigen::Vector3d& point_camera) const;
     Eigen::Vector3d cameraToWorld(const Eigen::Vector3d& point_camera) const;
+    Eigen::Vector3d GimbalToWorld(const Eigen::Vector3d& point_gimbal) const;
+    Eigen::Vector3d GimbalToCamera(const Eigen::Vector3d& point_gimbal) const;
+    Eigen::Vector3d WorldToCamera(const Eigen::Vector3d& point_world) const;
+    Eigen::Vector3d WorldToGimbal(const Eigen::Vector3d& point_world) const;
+
+
     
-    Eigen::Vector3d extractGravityFromIMU(const Eigen::Quaterniond& q_imu) const;
-    Eigen::Matrix3d computeWorldAlignment(const Eigen::Vector3d& gravity_in_imu) const;
+    // Eigen::Vector3d extractGravityFromIMU(const Eigen::Quaterniond& q_imu) const;
+    // Eigen::Matrix3d computeWorldAlignment(const Eigen::Vector3d& gravity_in_imu) const;
     
     cv::Mat camera_matrix_; // 相机内参
     cv::Mat dist_coeffs_;   // 畸变参数
     
-    Eigen::Matrix3d R_camera_to_imu;  // 相机到IMU的旋转
-    Eigen::Vector3d t_camera_to_imu;  // 相机到IMU的平移向量
-    Eigen::Matrix3d R_imu_to_camera;  // IMU到相机的旋转
+    // Eigen::Matrix3d R_camera_to_imu;  // 相机到IMU的旋转
+    // Eigen::Vector3d t_camera_to_imu;  // 相机到IMU的平移向量
+    // Eigen::Matrix3d R_imu_to_camera;  // IMU到相机的旋转
 
     
     bool is_initialized_;
-    Eigen::Matrix3d R_world_alignment_;    // 世界坐标系对齐矩阵
-    Eigen::Matrix3d R_yaw_init_;           // 消除初始时刻的yaw矩阵
+    // Eigen::Matrix3d R_world_alignment_;    // 世界坐标系对齐矩阵
+    // Eigen::Matrix3d R_yaw_init_;           // 消除初始时刻的yaw矩阵
     Eigen::Matrix3d R_imu_to_world_;       // IMU到世界坐标系的矩阵
     
+    Eigen::Matrix3d R_imu_current;
+    Eigen::Matrix3d R_gimbal_to_world;
+    Eigen::Matrix3d R_gimbal_to_imu;
+    Eigen::Matrix3d R_camera_to_gimbal;
+
+
     Eigen::Quaterniond current_q_abs_;     // 当前时刻的四元数
     double current_timestamp_;
     

@@ -1,0 +1,110 @@
+-- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)
+-- Found utils: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake)
+-- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)
+-- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found predictor: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/cmake)
+-- Found eigen3_cmake_module: 0.3.0 (/opt/ros/rolling/share/eigen3_cmake_module/cmake)
+-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+-- Found AMD headers in: /usr/include/suitesparse
+-- Found AMD library: /usr/lib/x86_64-linux-gnu/libamd.so
+-- Found CAMD headers in: /usr/include/suitesparse
+-- Found CAMD library: /usr/lib/x86_64-linux-gnu/libcamd.so
+-- Found CCOLAMD headers in: /usr/include/suitesparse
+-- Found CCOLAMD library: /usr/lib/x86_64-linux-gnu/libccolamd.so
+-- Found CHOLMOD headers in: /usr/include/suitesparse
+-- Found CHOLMOD library: /usr/lib/x86_64-linux-gnu/libcholmod.so
+-- Found COLAMD headers in: /usr/include/suitesparse
+-- Found COLAMD library: /usr/lib/x86_64-linux-gnu/libcolamd.so
+-- Found SPQR headers in: /usr/include/suitesparse
+-- Found SPQR library: /usr/lib/x86_64-linux-gnu/libspqr.so
+-- Found Config headers in: /usr/include/suitesparse
+-- Found Config library: /usr/lib/x86_64-linux-gnu/libsuitesparseconfig.so
+-- Found Intel Thread Building Blocks (TBB) library (2021.5 / ) include location: . Assuming SuiteSparseQR was compiled with TBB.
+-- Adding librt to SuiteSparse_config libraries (required on Linux & Unix [not OSX] if SuiteSparse is compiled with timing).
+-- Could NOT find METIS (missing: METIS_INCLUDE_DIR METIS_LIBRARY) 
+-- Found ament_lint_auto: 0.16.3 (/opt/ros/rolling/share/ament_lint_auto/cmake)
+-- Added test 'copyright' to check source files copyright and LICENSE
+-- Added test 'cppcheck' to perform static code analysis on C / C++ code
+-- Configured cppcheck include dirs: $<BUILD_INTERFACE:/home/guo/ITL_sentry_auto_new/src/core/planner/include>;/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/include
+-- Configured cppcheck exclude dirs and/or files: 
+-- Added test 'cpplint' to check C / C++ code against the Google style
+-- Configured cpplint exclude dirs and/or files: 
+-- Added test 'lint_cmake' to check CMake code style
+-- Added test 'uncrustify' to check C / C++ code style
+-- Configured uncrustify additional arguments: 
+-- Added test 'xmllint' to check XML markup files
+-- Configuring done (2.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/planner
+[ 16%] [32mBuilding CXX object CMakeFiles/planner.dir/tinympc/src/admm.cpp.o[0m
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:[m[K In function ‘[01m[KtinyVector project_soc(tinyVector, float)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:40:42:[m[K [01;35m[Kwarning: [m[K‘[01m[KEigen::placeholders::last[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-declarations-Wdeprecated-declarations]8;;[m[K]
+   40 |     tinytype u0 = s(Eigen::placeholders::[01;35m[Klast[m[K) * mu;
+      |                                          [01;35m[K^~~~[m[K
+In file included from [01m[K/usr/include/eigen3/Eigen/Core:265[m[K,
+                 from [01m[K/usr/include/eigen3/Eigen/Dense:1[m[K,
+                 from [01m[K/usr/include/eigen3/Eigen/Eigen:1[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/include/types.hpp:3[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/include/admm.hpp:3[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:3[m[K:
+[01m[K/usr/include/eigen3/Eigen/src/Core/util/IndexedViewHelper.h:180:40:[m[K [01;36m[Knote: [m[Kdeclared here
+  180 |   EIGEN_DEPRECATED static const last_t [01;36m[Klast[m[K = Eigen::last;   // PLEASE use Eigen::last   instead of Eigen::placeholders::last
+      |                                        [01;36m[K^~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:[m[K In function ‘[01m[Kint solve(TinySolver*)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:333:22:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kpri_res_input[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+  333 |             tinytype [01;35m[Kpri_res_input[m[K = (solver->work->u - solver->work->znew).cwiseAbs().maxCoeff();
+      |                      [01;35m[K^~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:334:22:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kpri_res_state[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+  334 |             tinytype [01;35m[Kpri_res_state[m[K = (solver->work->x - solver->work->vnew).cwiseAbs().maxCoeff();
+      |                      [01;35m[K^~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:335:22:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kdua_res_input[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+  335 |             tinytype [01;35m[Kdua_res_input[m[K = solver->cache->rho * (solver->work->znew - z_prev).cwiseAbs().maxCoeff();
+      |                      [01;35m[K^~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:336:22:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kdua_res_state[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+  336 |             tinytype [01;35m[Kdua_res_state[m[K = solver->cache->rho * (solver->work->vnew - v_prev).cwiseAbs().maxCoeff();
+      |                      [01;35m[K^~~~~~~~~~~~~[m[K
+[ 33%] [32m[1mLinking CXX shared library libplanner.so[0m
+[100%] Built target planner
+-- Install configuration: "Release"
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/lib/libplanner.so
+-- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/planner/lib/libplanner.so" to ""
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/include
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/include/planner.hpp
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/admm.hpp
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/rho_benchmark.hpp
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/codegen.hpp
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/types.hpp
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/tiny_api_constants.hpp
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/error.hpp
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/tiny_api.hpp
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/plannerTargets.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/plannerTargets-release.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/environment/library_path.sh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/environment/library_path.dsv
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/ament_index/resource_index/package_run_dependencies/planner
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/ament_index/resource_index/parent_prefix_path/planner
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/environment/ament_prefix_path.sh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/environment/path.sh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/environment/path.dsv
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/local_setup.bash
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/local_setup.sh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/local_setup.zsh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/local_setup.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/package.dsv
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/ament_index/resource_index/packages/planner
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/plannerTargetsExport.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/plannerTargetsExport-release.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/ament_cmake_export_libraries-extras.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/ament_cmake_export_targets-extras.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/plannerConfig.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/plannerConfig-version.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/package.xml

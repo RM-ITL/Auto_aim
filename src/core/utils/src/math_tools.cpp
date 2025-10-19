@@ -245,11 +245,9 @@ Eigen::Vector3d eulers_yxz(const Eigen::Matrix3d& R_) {
     return eulers;  // 返回 [yaw, pitch, roll] 弧度值
 }
 
-Eigen::Matrix3d rotation_matrix_zyx(const Eigen::Vector3d & ypr)
+Eigen::Matrix3d rotation_matrix_zyx(double yaw, double pitch, double roll)
 {
-  double roll = ypr[2];
-  double pitch = ypr[1];
-  double yaw = ypr[0];
+
   double cos_yaw = cos(yaw);
   double sin_yaw = sin(yaw);
   double cos_pitch = cos(pitch);
@@ -386,4 +384,7 @@ double limit_min_max(double input, double min, double max)
     return min;
   return input;
 }
+
+
+
 }  // namespace tools

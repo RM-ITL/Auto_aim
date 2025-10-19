@@ -17,10 +17,10 @@ CalibParam:
     SO3_CmToBr:
       - key: /image_topic
         value:
-          qx: 0.5013545547662571
-          qy: -0.4786430989388319
-          qz: 0.5215410043866743
-          qw: -0.497533290340152
+          qx: 0.5000
+          qy: -0.5000
+          qz: 0.5000
+          qw: -0.5000
     POS_CmInBr:
       - key: /image_topic
         value:
@@ -146,64 +146,106 @@ min_detect_count: 3              # 最小检测次数
 max_temp_lost_count: 10          # 普通目标的最大临时丢失容忍度  
 outpost_max_temp_lost_count: 20  # 前哨站的最大临时丢失容忍度
 
-# PnP解算节点额外配置参数（保持不变）
-pnp_solver:
-  # 话题配置
-  topics:
-    armor_sub: "detected_data"
-    imu_sub: "/imu/data"
-    imu_euler_sub: "/dm/imu"
-    image_sub: "/yolo_detections_image"
-    predictions_sub: "/predictor/armor_predictions"
-    targets_pub: "/pnp_solver/targets"
-    prediction_image_pub: "/pnp_solver/prediction_image"
-    serial_pub: "/serial_cmd"
-  
-  # 检测范围配置
-  detection_range:
-    min_distance: 0.01
-    max_distance: 10.0
-  
-  # IMU配置
-  imu:
-    buffer_time: 1.0
-    max_time_diff: 0.05
+camera:
+  parameters:
+    exposure_ms: 3.0  
+    gain: 10.0 
+    fps: 120.0
+    target_width: 1280
+    target_height: 1024
+    image_topic: "image_topic"
+    debug: false
 
-# 几何补偿器参数
-geometric_compensator:
-  # 装甲板尺寸参数（毫米）
-  armor_dimensions:
-    small_armor:
-      width: 135.0
-      height: 55.0
-    big_armor:
-      width: 230.0
-      height: 55.0
+yolo11:
+  yolo11_model_path: "/home/guo/ITL_sentry_auto_new/src/model/yolo11.xml"
+  # 推理设备
+  device: "CPU"  # 可选: CPU, GPU, MYRIAD
+  enemy_color: "blue"
+  # 检测阈值
+  threshold: 0.5
+  min_confidence: 0.8
+  score_threshold: 0.7
+  nms_threshold: 0.3
   
-  # 装甲板姿态参数
-  armor_pose:
-    use_fixed_pitch: true        # 是否使用固定pitch角
-    fixed_pitch: 15.0            # 固定pitch角（度）
-    fixed_roll: 0.0              # 固定roll角（度）
-    search_range: 30.0           # 搜索范围（度）
-    search_epsilon: 0.5          # 搜索精度（度）
+
+
+# IMU相关配置
+DM_IMU:
+  ros__parameters:
+    # 串口配置
+    port: "/dev/ttyACM0"
+    baud: 921600
+    
+    # 发布频率相关
+    publish_rate: 1000  # Hz
+    
+
+# 解算模块所需的参数
+Solver:
+  coord_converter:  # 坐标变换所需参数
+    rotation_matrix_camera_to_gimbal:
+      rows: 3
+      cols: 3
+      dt: float
+      data: [0, 0, 1,
+            -1, 0, 0,
+            0, -1, 0]
+
+    rotation_matrix_gimbal_to_imu:
+      rows: 3
+      cols: 3
+      dt: float
+      data: [-1, 0, 0,
+              0, -1, 0,
+              0, 0, 1]
+
+
+Tracker:
+  enemy_color: "red"  # 或 "blue"
+  # 跟踪状态机参数
+  min_detect_count: 3              # 最小检测次数
+  max_temp_lost_count: 10          # 普通目标的最大临时丢失容忍度  
+  outpost_max_temp_lost_count: 20  # 前哨站的最大临时丢失容忍度
+
+
+Aimer:
+  #####-----aimer参数-----#####
+  yaw_offset: -0.8 # degree -2.5
+  pitch_offset: -1  # degree 2
+  comming_angle: 60 # degree
+  leaving_angle: 20 # degree
+  left_yaw_offset: -1
+  right_yaw_offset: -0.6
+  decision_speed: 10 # rad/s
+  high_speed_delay_time: 0.026 # s
+  low_speed_delay_time: 0.010 # s
+
+
+###planner参数###
+fire_thresh: 0.0035
+
+max_yaw_acc: 50
+Q_yaw: [9e6, 0]
+R_yaw: [1]
+
+max_pitch_acc: 100
+Q_pitch: [9e6, 0]
+R_pitch: [1]
+yaw_offset: 2 # degree -2.5
+pitch_offset: 6.5 # degree 2
+comming_angle: 55 # degree
+leaving_angle: 20 # degree
+decision_speed: 7 # rad/s
+high_speed_delay_time: 0.0 # s
+low_speed_delay_time: 0.0 # s planner use this value
+
+
+# Gimbal:
+#   enable_serial: false
+#   com_port: "/dev/gimbal"
   
-  # 优化参数
-  optimization:
-    max_reprojection_error: 100.0  # 最大重投影误差（像素）
-    max_iterations: 30            # 最大迭代次数
-    pixel_error_weight: 1.0       # 像素误差权重
-    edge_error_weight: 0.5        # 边长误差权重
-    angle_error_weight: 0.3       # 角度误差权重
-  
-  # 弹道参数
-  ballistic_params:
-    bullet_speed: 16.0             # 子弹速度（米/秒）
-    resistance_k: 0.022928514188   # 空气阻力系数
-    initial_shoot_angle: 30.0      # 初始发射角度（度）
-  
-  # 相机到枪管偏移（毫米）
-  camera_to_barrel_offset:
-    x: 0.0
-    y: 100.0                        # 相机在枪管上方
-    z: 0.0
+  # # 相机到枪管偏移（毫米）
+  # camera_to_barrel_offset:
+  #   x: 0.0
+  #   y: 100.0                        # 相机在枪管上方
+  #   z: 0.0

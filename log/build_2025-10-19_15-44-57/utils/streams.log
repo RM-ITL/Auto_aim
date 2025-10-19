@@ -1,0 +1,29 @@
+[0.014s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/utils': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/utils -- -j24 -l24
+[0.031s] -- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)
+[0.255s] -- Found rclcpp: 27.0.0 (/opt/ros/rolling/share/rclcpp/cmake)
+[0.287s] -- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)
+[0.298s] -- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)
+[0.313s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.332s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.490s] -- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)
+[0.492s] -- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)
+[0.593s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.832s] -- Configuring done (0.8s)
+[0.845s] -- Generating done (0.0s)
+[0.848s] -- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/utils
+[0.875s] [ 20%] [32mBuilding CXX object CMakeFiles/utils.dir/src/math_tools.cpp.o[0m
+[1.691s] In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/utils/src/math_tools.cpp:1[m[K:
+[1.691s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/utils/include/math_tools.hpp:66:61:[m[K [01;31m[Kerror: [m[Knon-member function ‘[01m[Kdouble utils::to_seconds(std::chrono::_V2::steady_clock::time_point)[m[K’ cannot have cv-qualifier
+[1.691s]    66 | double to_seconds(std::chrono::steady_clock::time_point tp) [01;31m[Kconst[m[K;
+[1.691s]       |                                                             [01;31m[K^~~~~[m[K
+[1.823s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/utils/src/math_tools.cpp:388:61:[m[K [01;31m[Kerror: [m[Knon-member function ‘[01m[Kdouble utils::to_seconds(std::chrono::_V2::steady_clock::time_point)[m[K’ cannot have cv-qualifier
+[1.823s]   388 | double to_seconds(std::chrono::steady_clock::time_point tp) [01;31m[Kconst[m[K
+[1.823s]       |                                                             [01;31m[K^~~~~[m[K
+[1.827s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/utils/src/math_tools.cpp:[m[K In function ‘[01m[Kdouble utils::to_seconds(std::chrono::_V2::steady_clock::time_point)[m[K’:
+[1.827s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/utils/src/math_tools.cpp:390:45:[m[K [01;31m[Kerror: [m[K‘[01m[Kstart_time_[m[K’ was not declared in this scope
+[1.827s]   390 |   return std::chrono::duration<double>(tp - [01;31m[Kstart_time_[m[K).count();
+[1.827s]       |                                             [01;31m[K^~~~~~~~~~~[m[K
+[2.880s] gmake[2]: *** [CMakeFiles/utils.dir/build.make:76：CMakeFiles/utils.dir/src/math_tools.cpp.o] 错误 1
+[2.880s] gmake[1]: *** [CMakeFiles/Makefile2:137：CMakeFiles/utils.dir/all] 错误 2
+[2.880s] gmake: *** [Makefile:146：all] 错误 2
+[2.882s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/utils' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/utils -- -j24 -l24

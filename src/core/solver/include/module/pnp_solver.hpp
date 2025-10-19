@@ -44,7 +44,7 @@ private:
     
     const double max_distance_ = 10000.0;      // mm
     const double min_distance_ = 100.0;        // mm  
-    const double max_reprojection_error_ = 5.0; // pixels
+    const double max_reprojection_error_ = 200.0; // pixels
 };
 
 } // namespace solver

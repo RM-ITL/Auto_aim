@@ -1,0 +1,4 @@
+[ 20%] Built target solver_base
+[ 40%] Built target coord_converter
+[ 70%] Built target pnp_solver_lib
+[ 70%] [32mBuilding CXX object CMakeFiles/yaw_optimzier_lib.dir/src/module/optimize_yaw.cpp.o[0m

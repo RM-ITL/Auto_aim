@@ -1,0 +1,39 @@
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/src/node/armor_detector_node.cpp:[m[K In member function ‘[01m[Kstd::vector<armor_auto_aim::Armor> armor_auto_aim::Detector::detect(const cv::Mat&, cv::Mat*)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/src/node/armor_detector_node.cpp:69:12:[m[K [01;31m[Kerror: [m[K‘[01m[Klogger[m[K’ is not a member of ‘[01m[Kutils[m[K’
+   69 |     utils::[01;31m[Klogger[m[K()->debug(
+      |            [01;31m[K^~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/src/node/armor_detector_node.cpp:71:16:[m[K [01;31m[Kerror: [m[K‘[01m[Kclass std::vector<armor_auto_aim::Armor>[m[K’ has no member named ‘[01m[Kpoints[m[K’; did you mean ‘[01m[Kpointer[m[K’?
+   71 |         armors.[01;31m[Kpoints[m[K[0].x, armors.points[0].y,
+      |                [01;31m[K^~~~~~[m[K
+      |                [32m[Kpointer[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/src/node/armor_detector_node.cpp:71:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kclass std::vector<armor_auto_aim::Armor>[m[K’ has no member named ‘[01m[Kpoints[m[K’; did you mean ‘[01m[Kpointer[m[K’?
+   71 |         armors.points[0].x, armors.[01;31m[Kpoints[m[K[0].y,
+      |                                    [01;31m[K^~~~~~[m[K
+      |                                    [32m[Kpointer[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/src/node/armor_detector_node.cpp:72:16:[m[K [01;31m[Kerror: [m[K‘[01m[Kclass std::vector<armor_auto_aim::Armor>[m[K’ has no member named ‘[01m[Kpoints[m[K’; did you mean ‘[01m[Kpointer[m[K’?
+   72 |         armors.[01;31m[Kpoints[m[K[1].x, armors.points[1].y,
+      |                [01;31m[K^~~~~~[m[K
+      |                [32m[Kpointer[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/src/node/armor_detector_node.cpp:72:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kclass std::vector<armor_auto_aim::Armor>[m[K’ has no member named ‘[01m[Kpoints[m[K’; did you mean ‘[01m[Kpointer[m[K’?
+   72 |         armors.points[1].x, armors.[01;31m[Kpoints[m[K[1].y,
+      |                                    [01;31m[K^~~~~~[m[K
+      |                                    [32m[Kpointer[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/src/node/armor_detector_node.cpp:73:16:[m[K [01;31m[Kerror: [m[K‘[01m[Kclass std::vector<armor_auto_aim::Armor>[m[K’ has no member named ‘[01m[Kpoints[m[K’; did you mean ‘[01m[Kpointer[m[K’?
+   73 |         armors.[01;31m[Kpoints[m[K[2].x, armors.points[2].y,
+      |                [01;31m[K^~~~~~[m[K
+      |                [32m[Kpointer[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/src/node/armor_detector_node.cpp:73:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kclass std::vector<armor_auto_aim::Armor>[m[K’ has no member named ‘[01m[Kpoints[m[K’; did you mean ‘[01m[Kpointer[m[K’?
+   73 |         armors.points[2].x, armors.[01;31m[Kpoints[m[K[2].y,
+      |                                    [01;31m[K^~~~~~[m[K
+      |                                    [32m[Kpointer[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/src/node/armor_detector_node.cpp:74:16:[m[K [01;31m[Kerror: [m[K‘[01m[Kclass std::vector<armor_auto_aim::Armor>[m[K’ has no member named ‘[01m[Kpoints[m[K’; did you mean ‘[01m[Kpointer[m[K’?
+   74 |         armors.[01;31m[Kpoints[m[K[3].x, armors.points[3].y
+      |                [01;31m[K^~~~~~[m[K
+      |                [32m[Kpointer[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/detected/src/node/armor_detector_node.cpp:74:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kclass std::vector<armor_auto_aim::Armor>[m[K’ has no member named ‘[01m[Kpoints[m[K’; did you mean ‘[01m[Kpointer[m[K’?
+   74 |         armors.points[3].x, armors.[01;31m[Kpoints[m[K[3].y
+      |                                    [01;31m[K^~~~~~[m[K
+      |                                    [32m[Kpointer[m[K
+gmake[2]: *** [CMakeFiles/detected.dir/build.make:76：CMakeFiles/detected.dir/src/node/armor_detector_node.cpp.o] 错误 1
+gmake[1]: *** [CMakeFiles/Makefile2:222：CMakeFiles/detected.dir/all] 错误 2
+gmake: *** [Makefile:146：all] 错误 2

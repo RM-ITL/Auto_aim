@@ -234,45 +234,45 @@ void Target::update_ypda(const solver::Armor_pose & armor_pose, int id)
 
   ekf_.update(z, H, R, h, z_subtract);
 
-  Eigen::Vector4d z_pred = h(ekf_.x);
-  Eigen::Vector4d innovation = z_subtract(z, z_pred);
+  // Eigen::Vector4d z_pred = h(ekf_.x);
+  // Eigen::Vector4d innovation = z_subtract(z, z_pred);
   
-  // 计算新息协方差 S = H * P * H^T + R
-  Eigen::MatrixXd S = H * ekf_.P * H.transpose() + R;
+  // // 计算新息协方差 S = H * P * H^T + R
+  // Eigen::MatrixXd S = H * ekf_.P * H.transpose() + R;
   
-  // 计算NIS值（归一化新息平方）
-  double nis = innovation.transpose() * S.inverse() * innovation;
+  // // 计算NIS值（归一化新息平方）
+  // double nis = innovation.transpose() * S.inverse() * innovation;
   
-  // 记录每个维度的新息和测量噪声
-  utils::logger()->debug(
-    "【EKF更新详情】更新次数:{} | 装甲板ID:{}\n"
-    "  观测值 z: [yaw={:.4f}, pitch={:.4f}, dist={:.3f}m, angle={:.4f}]\n"
-    "  预测值 h(x): [yaw={:.4f}, pitch={:.4f}, dist={:.3f}m, angle={:.4f}]\n"
-    "  新息 (z-h): [Δyaw={:.4f}, Δpitch={:.4f}, Δdist={:.3f}m, Δangle={:.4f}]\n"
-    "  测量噪声R对角线: [{:.4e}, {:.4e}, {:.4e}, {:.4e}]\n"
-    "  NIS值: {:.2f} (理论chi2(4)分布，95%置信区间约9.49)",
-    update_count_, id,
-    z[0], z[1], z[2], z[3],
-    z_pred[0], z_pred[1], z_pred[2], z_pred[3],
-    innovation[0], innovation[1], innovation[2], innovation[3],
-    R(0,0), R(1,1), R(2,2), R(3,3),
-    nis
-  );
+  // // 记录每个维度的新息和测量噪声
+  // utils::logger()->debug(
+  //   "【EKF更新详情】更新次数:{} | 装甲板ID:{}\n"
+  //   "  观测值 z: [yaw={:.4f}, pitch={:.4f}, dist={:.3f}m, angle={:.4f}]\n"
+  //   "  预测值 h(x): [yaw={:.4f}, pitch={:.4f}, dist={:.3f}m, angle={:.4f}]\n"
+  //   "  新息 (z-h): [Δyaw={:.4f}, Δpitch={:.4f}, Δdist={:.3f}m, Δangle={:.4f}]\n"
+  //   "  测量噪声R对角线: [{:.4e}, {:.4e}, {:.4e}, {:.4e}]\n"
+  //   "  NIS值: {:.2f} (理论chi2(4)分布，95%置信区间约9.49)",
+  //   update_count_, id,
+  //   z[0], z[1], z[2], z[3],
+  //   z_pred[0], z_pred[1], z_pred[2], z_pred[3],
+  //   innovation[0], innovation[1], innovation[2], innovation[3],
+  //   R(0,0), R(1,1), R(2,2), R(3,3),
+  //   nis
+  // );
   
-  // 如果NIS值异常，发出警告
-  if (nis > 15.0) {  // 远超过95%置信区间的阈值
-    utils::logger()->warn(
-      "⚠️ NIS值异常偏高！NIS={:.2f} >> 9.49\n"
-      "  最大新息维度: {}",
-      nis,
-      std::abs(innovation[0]) > std::abs(innovation[1]) && 
-      std::abs(innovation[0]) > std::abs(innovation[2]) && 
-      std::abs(innovation[0]) > std::abs(innovation[3]) ? "yaw角度" :
-      std::abs(innovation[1]) > std::abs(innovation[2]) && 
-      std::abs(innovation[1]) > std::abs(innovation[3]) ? "pitch角度" :
-      std::abs(innovation[2]) > std::abs(innovation[3]) ? "距离distance" : "装甲板angle"
-    );
-  }
+  // // 如果NIS值异常，发出警告
+  // if (nis > 15.0) {  // 远超过95%置信区间的阈值
+  //   utils::logger()->warn(
+  //     "⚠️ NIS值异常偏高！NIS={:.2f} >> 9.49\n"
+  //     "  最大新息维度: {}",
+  //     nis,
+  //     std::abs(innovation[0]) > std::abs(innovation[1]) && 
+  //     std::abs(innovation[0]) > std::abs(innovation[2]) && 
+  //     std::abs(innovation[0]) > std::abs(innovation[3]) ? "yaw角度" :
+  //     std::abs(innovation[1]) > std::abs(innovation[2]) && 
+  //     std::abs(innovation[1]) > std::abs(innovation[3]) ? "pitch角度" :
+  //     std::abs(innovation[2]) > std::abs(innovation[3]) ? "距离distance" : "装甲板angle"
+  //   );
+  // }
 }
 
 Eigen::VectorXd Target::ekf_x() const { return ekf_.x; }

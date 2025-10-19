@@ -1,9 +1,0 @@
-In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/include/tracker_node.hpp:9[m[K,
-                 from [01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker_node.cpp:1[m[K:
-[01m[K/opt/ros/rolling/include/cv_bridge/cv_bridge/cv_bridge.h:42:2:[m[K [01;35m[Kwarning: [m[K#warning This header is obsolete, please include cv_bridge/cv_bridge.hpp instead [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wcpp-Wcpp]8;;[m[K]
-   42 | #[01;35m[Kwarning[m[K This header is obsolete, please include cv_bridge/cv_bridge.hpp instead
-      |  [01;35m[K^~~~~~~[m[K
-[01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker_node.cpp:[m[K In member function ‘[01m[Kvoid tracker::TrackerNode::processArmors()[m[K’:
-[01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker_node.cpp:125:18:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Karmor_number[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
-  125 |             auto [01;35m[Karmor_number[m[K = armor_list.size();
-      |                  [01;35m[K^~~~~~~~~~~~[m[K

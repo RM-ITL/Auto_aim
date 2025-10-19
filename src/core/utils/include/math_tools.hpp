@@ -29,7 +29,7 @@ Eigen::Vector3d eulers_yxz(const Eigen::Matrix3d& R_);
 
 // 欧拉角转旋转矩阵
 // zyx:先绕z轴旋转，再绕y轴旋转，最后绕x轴旋转
-Eigen::Matrix3d rotation_matrix_zyx(const Eigen::Vector3d & ypr);
+Eigen::Matrix3d rotation_matrix_zyx(double yaw, double pitch, double roll);
 
 // yxz：绕y轴旋转，再绕x轴旋转，最后绕z轴旋转
 Eigen::Matrix3d rotation_matrix_yxz(double yaw, double pitch, double roll);
@@ -62,6 +62,7 @@ T square(T const & a)
 };
 
 double limit_min_max(double input, double min, double max);
+
 }  // namespace tools
 
 #endif  // TOOLS__MATH_TOOLS_HPP

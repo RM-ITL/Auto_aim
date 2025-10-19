@@ -1,2 +1,0 @@
-colcon build --symlink-install
-

@@ -1,0 +1,33 @@
+[ 50%] [32mBuilding CXX object CMakeFiles/pipeline_node.dir/src/test_node.cpp.o[0m
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:1[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/include/test_node.hpp:70:65:[m[K [01;31m[Kerror: [m[Kexpected identifier before numeric constant
+   70 |   utils::ThreadSafeQueue<DebugPacket, true> visualization_queue([01;31m[K2[m[K);
+      |                                                                 [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/include/test_node.hpp:70:65:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K,[m[K’ or ‘[01m[K...[m[K’ before numeric constant
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/include/test_node.hpp:71:77:[m[K [01;31m[Kerror: [m[Kexpected identifier before numeric constant
+   71 | ils::ThreadSafeQueue<std::optional<predict::Target>, true> target_queue([01;31m[K1[m[K);
+      |                                                                         [01;31m[K^[m[K
+
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/include/test_node.hpp:71:77:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K,[m[K’ or ‘[01m[K...[m[K’ before numeric constant
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:[m[K In member function ‘[01m[Kint pipeline::PipelineApp::run()[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:117:7:[m[K [01;31m[Kerror: [m[K‘[01m[Karmor[m[K’ was not declared in this scope; did you mean ‘[01m[KArmors[m[K’?
+  117 |       [01;31m[Karmor[m[K.begin(), armor.end());
+      |       [01;31m[K^~~~~[m[K
+      |       [32m[KArmors[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:146:7:[m[K [01;31m[Kerror: [m[Kinvalid use of member function ‘[01m[Kutils::ThreadSafeQueue<pipeline::DebugPacket, true> pipeline::PipelineApp::visualization_queue(int)[m[K’ (did you forget the ‘[01m[K()[m[K’ ?)
+  146 |       [01;31m[Kvisualization_queue[m[K.push(debug_packet);
+      |       [01;31m[K^~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:[m[K In member function ‘[01m[Kvoid pipeline::PipelineApp::request_stop()[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:165:7:[m[K [01;31m[Kerror: [m[Kinvalid use of member function ‘[01m[Kutils::ThreadSafeQueue<pipeline::DebugPacket, true> pipeline::PipelineApp::visualization_queue(int)[m[K’ (did you forget the ‘[01m[K()[m[K’ ?)
+  165 |       [01;31m[Kvisualization_queue[m[K.push(DebugPacket{});
+      |       [01;31m[K^~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:165:45:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K)[m[K’ token
+  165 |       visualization_queue.push(DebugPacket{}[01;31m[K)[m[K;
+      |                                             [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:[m[K In member function ‘[01m[Kvoid pipeline::PipelineApp::visualization_loop()[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:202:5:[m[K [01;31m[Kerror: [m[Kinvalid use of member function ‘[01m[Kutils::ThreadSafeQueue<pipeline::DebugPacket, true> pipeline::PipelineApp::visualization_queue(int)[m[K’ (did you forget the ‘[01m[K()[m[K’ ?)
+  202 |     [01;31m[Kvisualization_queue[m[K.pop(packet);
+      |     [01;31m[K^~~~~~~~~~~~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/pipeline_node.dir/build.make:76：CMakeFiles/pipeline_node.dir/src/test_node.cpp.o] 错误 1
+gmake[1]: *** [CMakeFiles/Makefile2:137：CMakeFiles/pipeline_node.dir/all] 错误 2
+gmake: *** [Makefile:146：all] 错误 2

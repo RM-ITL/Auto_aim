@@ -1,0 +1,30 @@
+[100%] Built target gimbal
+-- Install configuration: ""
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/environment/library_path.sh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/environment/library_path.dsv
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/include
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/include/gimbal.hpp
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/lib/libgimbal.so
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/cmake/gimbalTargets.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/cmake/gimbalTargets-noconfig.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/ament_index/resource_index/package_run_dependencies/gimbal
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/ament_index/resource_index/parent_prefix_path/gimbal
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/environment/ament_prefix_path.sh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/environment/path.sh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/environment/path.dsv
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/local_setup.bash
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/local_setup.sh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/local_setup.zsh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/local_setup.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/package.dsv
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/ament_index/resource_index/packages/gimbal
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/cmake/gimbalTargetsExport.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/cmake/gimbalTargetsExport-noconfig.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/cmake/ament_cmake_export_libraries-extras.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/cmake/ament_cmake_export_targets-extras.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/cmake/gimbalConfig.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/cmake/gimbalConfig-version.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/package.xml

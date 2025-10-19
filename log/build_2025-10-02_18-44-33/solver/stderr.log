@@ -1,4 +1,0 @@
-[01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/module/optimize_yaw.cpp:[m[K In member function ‘[01m[KEigen::Matrix3d solver::YawOptimizer::optimizeWithPrior(const Vector3d&, const Matrix3d&, solver::ArmorType, solver::ArmorName, const std::vector<cv::Point_<float> >&, const solver::CoordConverter&)[m[K’:
-[01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/module/optimize_yaw.cpp:97:27:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kconverter[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
-   97 |     [01;35m[Kconst CoordConverter& converter[m[K) {
-      |     [01;35m[K~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~[m[K

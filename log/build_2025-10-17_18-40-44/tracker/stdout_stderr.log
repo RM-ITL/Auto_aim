@@ -1,0 +1,41 @@
+[ 25%] [32mBuilding CXX object CMakeFiles/tracker_lib.dir/src/tracker.cpp.o[0m
+In file included from [01m[K/opt/ros/rolling/include/rclcpp/rclcpp/logging.hpp:24[m[K,
+                 from [01m[K/opt/ros/rolling/include/rclcpp/rclcpp/copy_all_parameter_values.hpp:27[m[K,
+                 from [01m[K/opt/ros/rolling/include/rclcpp/rclcpp/rclcpp.hpp:171[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker.cpp:5[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker.cpp:[m[K In member function ‘[01m[Kstd::__cxx11::list<predict::Target> tracker::Tracker::track(std::__cxx11::list<armor_auto_aim::Armor>&, std::chrono::_V2::steady_clock::time_point, bool)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker.cpp:126:19:[m[K [01;35m[Kwarning: [m[Kformat ‘[01m[K%d[m[K’ expects argument of type ‘[01m[Kint[m[K’, but argument 6 has type ‘[01m[Klong unsigned int[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wformat=-Wformat=]8;;[m[K]
+  126 |                   [01;35m[K"NIS失败率过高 (%d/%d)，重置为lost"[m[K,
+      |                   [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+  127 |                   failures, [32m[Kekf.window_size[m[K);
+      |                             [32m[K~~~~~~~~~~~~~~~[m[K
+      |                                 [32m[K|[m[K
+      |                                 [32m[Klong unsigned int[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker.cpp:126:39:[m[K [01;36m[Knote: [m[Kformat string is defined here
+  126 |                   "NIS失败率过高 (%d/[01;36m[K%d[m[K)，重置为lost",
+      |                                      [01;36m[K~^[m[K
+      |                                       [01;36m[K|[m[K
+      |                                       [01;36m[Kint[m[K
+      |                                      [32m[K%ld[m[K
+[ 50%] [32m[1mLinking CXX static library libtracker_lib.a[0m
+[ 50%] Built target tracker_lib
+[ 75%] [32mBuilding CXX object CMakeFiles/tracker_node.dir/src/tracker_node.cpp.o[0m
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/include/tracker_node.hpp:9[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker_node.cpp:1[m[K:
+[01m[K/opt/ros/rolling/include/cv_bridge/cv_bridge/cv_bridge.h:42:2:[m[K [01;35m[Kwarning: [m[K#warning This header is obsolete, please include cv_bridge/cv_bridge.hpp instead [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wcpp-Wcpp]8;;[m[K]
+   42 | #[01;35m[Kwarning[m[K This header is obsolete, please include cv_bridge/cv_bridge.hpp instead
+      |  [01;35m[K^~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker_node.cpp:[m[K In member function ‘[01m[Kvoid tracker::TrackerNode::processArmors()[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker_node.cpp:108:36:[m[K [01;31m[Kerror: [m[Kcannot convert ‘[01m[Kstd::__cxx11::list<autoaim_msgs::msg::Armor_<std::allocator<void> > >[m[K’ to ‘[01m[Kstd::__cxx11::list<armor_auto_aim::Armor>&[m[K’
+  108 |     auto targets = tracker_->track([01;31m[Kcurrent_armors[m[K, now, true);
+      |                                    [01;31m[K^~~~~~~~~~~~~~[m[K
+      |                                    [01;31m[K|[m[K
+      |                                    [01;31m[Kstd::__cxx11::list<autoaim_msgs::msg::Armor_<std::allocator<void> > >[m[K
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/include/tracker_node.hpp:16[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker_node.cpp:1[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/include/tracker.hpp:30:25:[m[K [01;36m[Knote: [m[K  initializing argument 1 of ‘[01m[Kstd::__cxx11::list<predict::Target> tracker::Tracker::track(std::__cxx11::list<armor_auto_aim::Armor>&, std::chrono::_V2::steady_clock::time_point, bool)[m[K’
+   30 |     [01;36m[Kstd::list<Armors> & armors[m[K,
+      |     [01;36m[K~~~~~~~~~~~~~~~~~~~~^~~~~~[m[K
+gmake[2]: *** [CMakeFiles/tracker_node.dir/build.make:76：CMakeFiles/tracker_node.dir/src/tracker_node.cpp.o] 错误 1
+gmake[1]: *** [CMakeFiles/Makefile2:165：CMakeFiles/tracker_node.dir/all] 错误 2
+gmake: *** [Makefile:146：all] 错误 2

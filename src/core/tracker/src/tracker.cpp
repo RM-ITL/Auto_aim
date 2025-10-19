@@ -17,15 +17,15 @@ Tracker::Tracker(const std::string & config_path, solver::Solver & solver)
   auto yaml = YAML::LoadFile(config_path);
   
   // 解析敌方颜色配置
-  std::string enemy_color_str = yaml["enemy_color"].as<std::string>();
+  std::string enemy_color_str = yaml["Tracker"]["enemy_color"].as<std::string>();
   enemy_color_ = (enemy_color_str == "red") ? 
                  armor_auto_aim::Color::red : 
                  armor_auto_aim::Color::blue;
   
   // 加载跟踪参数
-  min_detect_count_ = yaml["min_detect_count"].as<int>();
-  max_temp_lost_count_ = yaml["max_temp_lost_count"].as<int>();
-  outpost_max_temp_lost_count_ = yaml["outpost_max_temp_lost_count"].as<int>();
+  min_detect_count_ = yaml["Tracker"]["min_detect_count"].as<int>();
+  max_temp_lost_count_ = yaml["Tracker"]["max_temp_lost_count"].as<int>();
+  outpost_max_temp_lost_count_ = yaml["Tracker"]["outpost_max_temp_lost_count"].as<int>();
   normal_temp_lost_count_ = max_temp_lost_count_;
   
   RCLCPP_INFO(rclcpp::get_logger("Tracker"), 
@@ -36,7 +36,7 @@ Tracker::Tracker(const std::string & config_path, solver::Solver & solver)
 std::string Tracker::state() const { return state_; }
 
 std::list<predict::Target> Tracker::track(
-  std::list<autoaim_msgs::msg::Armor> & armors, 
+  std::list<Armors> & armors, 
   std::chrono::steady_clock::time_point t, 
   bool use_enemy_color)
 {
@@ -50,26 +50,33 @@ std::list<predict::Target> Tracker::track(
     state_ = "lost";
   }
   
+  // // 根据配置过滤敌方装甲板
+  // if (use_enemy_color) {
+  //   // 将字符串颜色转换为枚举类型进行比较
+  //   armors.remove_if([this](Armors & a) { 
+  //     armor_auto_aim::Color msg_color;
+  //     if (a.color == "red") {
+  //       msg_color = armor_auto_aim::Color::red;
+  //     } else if (a.color == "blue") {
+  //       msg_color = armor_auto_aim::Color::blue;
+  //     } else if (a.color == "extinguish") {
+  //       msg_color = armor_auto_aim::Color::extinguish;
+  //     } else {
+  //       msg_color = armor_auto_aim::Color::purple;
+  //     }
+  //     return msg_color != enemy_color_; 
+  //   });
+  // }
   // 根据配置过滤敌方装甲板
   if (use_enemy_color) {
-    // 将字符串颜色转换为枚举类型进行比较
-    armors.remove_if([this](const autoaim_msgs::msg::Armor & a) { 
-      armor_auto_aim::Color msg_color;
-      if (a.color == "red") {
-        msg_color = armor_auto_aim::Color::red;
-      } else if (a.color == "blue") {
-        msg_color = armor_auto_aim::Color::blue;
-      } else if (a.color == "extinguish") {
-        msg_color = armor_auto_aim::Color::extinguish;
-      } else {
-        msg_color = armor_auto_aim::Color::purple;
-      }
-      return msg_color != enemy_color_; 
+    // 直接比较两个枚举值，简单高效
+    armors.remove_if([this](Armors & a) { 
+      return a.color != enemy_color_;  // 保留颜色匹配的，移除不匹配的
     });
   }
 
   // 按距离图像中心排序，优先选择靠近中心的装甲板
-  armors.sort([](const autoaim_msgs::msg::Armor & a, const autoaim_msgs::msg::Armor & b) {
+  armors.sort([](Armors & a, Armors & b) {
     cv::Point2f img_center(1440 / 2, 1080 / 2);  // TODO: 从相机参数读取
     cv::Point2f a_center(a.center.x, a.center.y);
     cv::Point2f b_center(b.center.x, b.center.y);
@@ -79,7 +86,7 @@ std::list<predict::Target> Tracker::track(
   });
 
   // 按优先级排序（数字越小优先级越高）
-  armors.sort([](const autoaim_msgs::msg::Armor & a, const autoaim_msgs::msg::Armor & b) { 
+  armors.sort([](Armors & a, Armors & b) { 
     return a.rank < b.rank; 
   });
 
@@ -204,7 +211,7 @@ void Tracker::state_machine(bool found)
   }
 }
 
-bool Tracker::set_target(std::list<autoaim_msgs::msg::Armor> & armors, 
+bool Tracker::set_target(std::list<Armors> & armors, 
                          std::chrono::steady_clock::time_point t)
 {
   if (armors.empty()) {
@@ -212,26 +219,28 @@ bool Tracker::set_target(std::list<autoaim_msgs::msg::Armor> & armors,
   }
 
   // 获取优先级最高的装甲板
-  auto & armor_msg = armors.front();
+  auto & armor = armors.front();
   
   // 使用Solver进行PnP解算，得到装甲板的3D位姿
   double timestamp = std::chrono::duration<double>(t.time_since_epoch()).count();
-  solver::Armor_pose armor_pose = solver_.processArmor(armor_msg, timestamp);
+  solver::Armor_pose armor_pose = solver_.processArmor(armor, timestamp);
 
   utils::logger()->debug(
     "【Target构造】接收装甲板数据:\n"
     "  装甲板ID: {}, 类型: {}\n"
     "  相机坐标: [{:.3f}, {:.3f}, {:.3f}]\n"
+    "  云台坐标: [{:.3f}, {:.3f}, {:.3f}]\n"
     "  世界坐标: [{:.3f}, {:.3f}, {:.3f}]\n"
     "  世界球坐标: [yaw={:.3f}rad, pitch={:.3f}rad, distance={:.3f}m]\n"
-    "  相机姿态: [yaw={:.3f}, pitch={:.3f}, roll={:.3f}]rad\n"
+    "  云台姿态: [yaw={:.3f}, pitch={:.3f}, roll={:.3f}]rad\n"
     "  世界姿态: [yaw={:.3f}, pitch={:.3f}, roll={:.3f}]rad",
     static_cast<int>(armor_pose.id), 
     static_cast<int>(armor_pose.type),
     armor_pose.camera_position[0], armor_pose.camera_position[1], armor_pose.camera_position[2],
+    armor_pose.gimbal_position[0], armor_pose.gimbal_position[1], armor_pose.gimbal_position[2],
     armor_pose.world_position[0], armor_pose.world_position[1], armor_pose.world_position[2],
     armor_pose.world_spherical.yaw, armor_pose.world_spherical.pitch, armor_pose.world_spherical.distance,
-    armor_pose.camera_orientation.yaw, armor_pose.camera_orientation.pitch, armor_pose.camera_orientation.roll,
+    armor_pose.gimbal_orientation.yaw, armor_pose.gimbal_orientation.pitch, armor_pose.gimbal_orientation.roll,
     armor_pose.world_orientation.yaw, armor_pose.world_orientation.pitch, armor_pose.world_orientation.roll
   );
 
@@ -285,7 +294,7 @@ bool Tracker::set_target(std::list<autoaim_msgs::msg::Armor> & armors,
   return true;
 }
 
-bool Tracker::update_target(std::list<autoaim_msgs::msg::Armor> & armors, 
+bool Tracker::update_target(std::list<Armors> & armors, 
                            std::chrono::steady_clock::time_point t)
 {
   // 先进行预测，推进卡尔曼滤波器状态
@@ -293,18 +302,18 @@ bool Tracker::update_target(std::list<autoaim_msgs::msg::Armor> & armors,
 
   // 查找匹配当前目标的装甲板
   int found_count = 0;
-  autoaim_msgs::msg::Armor* best_armor = nullptr;
+  Armors* best_armor = nullptr;
   double min_center_x = 1e10;  // 用于选择最左侧的装甲板（可选策略）
   
   for (auto & armor : armors) {
     // 检查装甲板编号和类型是否匹配
-    if (armor.number != static_cast<int>(target_.name)) continue;
+    if (armor.name != static_cast<int>(target_.name)) continue;
     
     // 类型匹配检查
-    armor_auto_aim::ArmorType msg_type = (armor.type == "big" || armor.type == "large") ? 
-                                         armor_auto_aim::ArmorType::big : 
-                                         armor_auto_aim::ArmorType::small;
-    if (msg_type != target_.armor_type) continue;
+    // armor_auto_aim::ArmorType msg_type = (armor.type == "big" || armor.type == "large") ? 
+    //                                      armor_auto_aim::ArmorType::big : 
+    //                                      armor_auto_aim::ArmorType::small;
+    if (armor.type != target_.armor_type) continue;
     
     found_count++;
     

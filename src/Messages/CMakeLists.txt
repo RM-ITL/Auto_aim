@@ -22,6 +22,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Prediction.msg"
   "msg/Predictions.msg"
   "msg/Serialcmd.msg"
+  "msg/Debug.msg"
   DEPENDENCIES std_msgs geometry_msgs sensor_msgs
 )
 

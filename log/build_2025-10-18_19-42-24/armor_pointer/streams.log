@@ -1,0 +1,32 @@
+[0.019s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/armor_pointer': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/armor_pointer -- -j24 -l24
+[0.045s] [100%] Built target armor_pointer
+[0.058s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/armor_pointer' returned '0': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/armor_pointer -- -j24 -l24
+[0.061s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/armor_pointer': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/armor_pointer
+[0.063s] -- Install configuration: ""
+[0.063s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/environment/library_path.sh
+[0.063s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/environment/library_path.dsv
+[0.063s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/include
+[0.063s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/include/types.hpp
+[0.064s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/include/lightbar_detector.hpp
+[0.064s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/include/image_processor.hpp
+[0.064s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/lib/libarmor_pointer.a
+[0.064s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/ament_index/resource_index/package_run_dependencies/armor_pointer
+[0.064s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/ament_index/resource_index/parent_prefix_path/armor_pointer
+[0.064s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/environment/ament_prefix_path.sh
+[0.064s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/environment/ament_prefix_path.dsv
+[0.064s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/environment/path.sh
+[0.064s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/environment/path.dsv
+[0.064s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/local_setup.bash
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/local_setup.sh
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/local_setup.zsh
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/local_setup.dsv
+[0.065s] -- Installing: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/package.dsv
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/ament_index/resource_index/packages/armor_pointer
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/cmake/armor_pointerTargetsExport.cmake
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/cmake/armor_pointerTargetsExport-noconfig.cmake
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/cmake/ament_cmake_export_targets-extras.cmake
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/cmake/ament_cmake_export_dependencies-extras.cmake
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/cmake/armor_pointerConfig.cmake
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/cmake/armor_pointerConfig-version.cmake
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/package.xml
+[0.101s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/armor_pointer' returned '0': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/armor_pointer

@@ -1,0 +1,108 @@
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:243:9:[m[K [01;35m[Kwarning: [m[Kmissing terminating " character
+  243 |         [01;35m[K"[m[K[Pipeline] 规划输出:
+      |         [01;35m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:243:9:[m[K [01;31m[Kerror: [m[Kmissing terminating " character
+  243 |         [01;31m[K"[Pipeline] 规划输出:[m[K
+      |         [01;31m[K^~~~~~~~~~~~~~~~~~~~~[m[K 
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:247:41:[m[K [01;35m[Kwarning: [m[Kmissing terminating " character
+  247 |         yaw_acc={:.3f}, pitch_acc={:.3f}[01;35m[K"[m[K,
+      |                                         [01;35m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:247:41:[m[K [01;31m[Kerror: [m[Kmissing terminating " character
+  247 |         yaw_acc={:.3f}, pitch_acc={:.3f}[01;31m[K",[m[K
+      |                                         [01;31m[K^~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:[m[K In member function ‘[01m[Kvoid pipeline::PipelineApp::planner_loop()[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:244:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kyaw[m[K’ was not declared in this scope
+  244 |         [01;31m[Kyaw[m[K={:.3f} pitch={:.3f} fire={},
+      |         [01;31m[K^~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:244:14:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K:[m[K’ token
+  244 |         yaw={[01;31m[K:[m[K.3f} pitch={:.3f} fire={},
+      |              [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:244:14:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K}[m[K’ before ‘[01m[K:[m[K’ token
+  244 |         yaw=[32m[K{[m[K[01;31m[K:[m[K.3f} pitch={:.3f} fire={},
+      |             [32m[K~[m[K[01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:244:20:[m[K [01;31m[Kerror: [m[K‘[01m[Kpitch[m[K’ was not declared in this scope
+  244 |         yaw={:.3f} [01;31m[Kpitch[m[K={:.3f} fire={},
+      |                    [01;31m[K^~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:244:27:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K:[m[K’ token
+  244 |         yaw={:.3f} pitch={[01;31m[K:[m[K.3f} fire={},
+      |                           [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:244:27:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K}[m[K’ before ‘[01m[K:[m[K’ token
+  244 |         yaw={:.3f} pitch=[32m[K{[m[K[01;31m[K:[m[K.3f} fire={},
+      |                          [32m[K~[m[K[01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:244:33:[m[K [01;31m[Kerror: [m[K‘[01m[Kfire[m[K’ was not declared in this scope
+  244 |         yaw={:.3f} pitch={:.3f} [01;31m[Kfire[m[K={},
+      |                                 [01;31m[K^~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:245:9:[m[K [01;31m[Kerror: [m[K‘[01m[Ktarget_yaw[m[K’ was not declared in this scope
+  245 |         [01;31m[Ktarget_yaw[m[K={:.3f}, target_pitch={:.3f},
+      |         [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:245:21:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K:[m[K’ token
+  245 |         target_yaw={[01;31m[K:[m[K.3f}, target_pitch={:.3f},
+      |                     [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:245:21:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K}[m[K’ before ‘[01m[K:[m[K’ token
+  245 |         target_yaw=[32m[K{[m[K[01;31m[K:[m[K.3f}, target_pitch={:.3f},
+      |                    [32m[K~[m[K[01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:[m[K At global scope:
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:245:26:[m[K [01;31m[Kerror: [m[Kmixing declarations and function-definitions is forbidden
+  245 |         target_yaw={:.3f}[01;31m[K,[m[K target_pitch={:.3f},
+      |                          [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:245:28:[m[K [01;31m[Kerror: [m[Kvariable or field ‘[01m[Ktarget_pitch[m[K’ declared void
+  245 |         target_yaw={:.3f}, [01;31m[Ktarget_pitch[m[K={:.3f},
+      |                            [01;31m[K^~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:245:42:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K:[m[K’ token
+  245 |         target_yaw={:.3f}, target_pitch={[01;31m[K:[m[K.3f},
+      |                                          [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:245:42:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K}[m[K’ before ‘[01m[K:[m[K’ token
+  245 |         target_yaw={:.3f}, target_pitch=[32m[K{[m[K[01;31m[K:[m[K.3f},
+      |                                         [32m[K~[m[K[01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:245:47:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[K,[m[K’ token
+  245 |         target_yaw={:.3f}, target_pitch={:.3f}[01;31m[K,[m[K
+      |                                               [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:246:16:[m[K [01;31m[Kerror: [m[Kexpected constructor, destructor, or type conversion before ‘[01m[K=[m[K’ token
+  246 |         yaw_vel[01;31m[K=[m[K{:.3f}, pitch_vel={:.3f},
+      |                [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:246:23:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[K,[m[K’ token
+  246 |         yaw_vel={:.3f}[01;31m[K,[m[K pitch_vel={:.3f},
+      |                       [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:246:34:[m[K [01;31m[Kerror: [m[Kexpected constructor, destructor, or type conversion before ‘[01m[K=[m[K’ token
+  246 |         yaw_vel={:.3f}, pitch_vel[01;31m[K=[m[K{:.3f},
+      |                                  [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:246:41:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[K,[m[K’ token
+  246 |         yaw_vel={:.3f}, pitch_vel={:.3f}[01;31m[K,[m[K
+      |                                         [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:247:16:[m[K [01;31m[Kerror: [m[Kexpected constructor, destructor, or type conversion before ‘[01m[K=[m[K’ token
+  247 |         yaw_acc[01;31m[K=[m[K{:.3f}, pitch_acc={:.3f}",
+      |                [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:247:23:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[K,[m[K’ token
+  247 |         yaw_acc={:.3f}[01;31m[K,[m[K pitch_acc={:.3f}",
+      |                       [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:247:34:[m[K [01;31m[Kerror: [m[Kexpected constructor, destructor, or type conversion before ‘[01m[K=[m[K’ token
+  247 |         yaw_acc={:.3f}, pitch_acc[01;31m[K=[m[K{:.3f}",
+      |                                  [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:248:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kplan_result[m[K’ does not name a type
+  248 |         [01;31m[Kplan_result[m[K.yaw, plan_result.pitch, plan_result.fire, plan_result.target_yaw, plan_result,target_pitch,
+      |         [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:250:7:[m[K [01;31m[Kerror: [m[K‘[01m[Klast_log_time[m[K’ does not name a type
+  250 |       [01;31m[Klast_log_time[m[K = now;
+      |       [01;31m[K^~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:251:5:[m[K [01;31m[Kerror: [m[Kexpected declaration before ‘[01m[K}[m[K’ token
+  251 |     [01;31m[K}[m[K
+      |     [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:253:32:[m[K [01;31m[Kerror: [m[Kexpected constructor, destructor, or type conversion before ‘[01m[K([m[K’ token
+  253 |     std::this_thread::sleep_for[01;31m[K([m[Kstd::chrono::milliseconds(10));
+      |                                [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:254:3:[m[K [01;31m[Kerror: [m[Kexpected declaration before ‘[01m[K}[m[K’ token
+  254 |   [01;31m[K}[m[K
+      |   [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:256:20:[m[K [01;31m[Kerror: [m[Kexpected type-specifier before ‘[01m[Kinfo[m[K’
+  256 |   utils::logger()->[01;31m[Kinfo[m[K("[Pipeline] 规划线程退出");
+      |                    [01;31m[K^~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:256:20:[m[K [01;31m[Kerror: [m[Kexpected constructor, destructor, or type conversion before ‘[01m[Kinfo[m[K’
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:257:1:[m[K [01;31m[Kerror: [m[Kexpected declaration before ‘[01m[K}[m[K’ token
+  257 | [01;31m[K}[m[K
+      | [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:259:1:[m[K [01;31m[Kerror: [m[Kexpected declaration before ‘[01m[K}[m[K’ token
+  259 | [01;31m[K}[m[K  // namespace pipeline
+      | [01;31m[K^[m[K
+gmake[2]: *** [CMakeFiles/pipeline_node.dir/build.make:76：CMakeFiles/pipeline_node.dir/src/test_node.cpp.o] 错误 1
+gmake[1]: *** [CMakeFiles/Makefile2:137：CMakeFiles/pipeline_node.dir/all] 错误 2
+gmake: *** [Makefile:146：all] 错误 2

@@ -55,51 +55,83 @@ Orientation::Orientation(double y, double p, double r, double t)
 
 }
 
-// solver.cpp 中添加
-// solver.cpp 中的 Orientation 构造函数
-// solver.cpp 中的 Orientation 构造函数
-Orientation::Orientation(const Eigen::Matrix3d& rotation, double t)
+// Orientation::Orientation_yxz(const Eigen::Matrix3d& rotation, double t)
+//     : timestamp(t) {
+    
+//     // // 调试输出：打印输入的旋转矩阵
+//     // utils::logger()->debug(
+//     //     "Orientation构造 - 输入旋转矩阵:\n"
+//     //     "  [{:.6f}, {:.6f}, {:.6f}]\n"
+//     //     "  [{:.6f}, {:.6f}, {:.6f}]\n"
+//     //     "  [{:.6f}, {:.6f}, {:.6f}]",
+//     //     rotation(0,0), rotation(0,1), rotation(0,2),
+//     //     rotation(1,0), rotation(1,1), rotation(1,2),
+//     //     rotation(2,0), rotation(2,1), rotation(2,2)
+//     // );
+    
+//     // 调用欧拉角提取,这里调用修改后的yxz轴提取,现在得到的angles就是ypr了
+//     Eigen::Vector3d angles = utils::eulers_yxz(rotation);
+    
+//     // 调试输出：提取的弧度值
+//     // utils::logger()->debug(
+//     //     "Orientation构造 - 提取的欧拉角(弧度): yaw={:.6f}, pitch={:.6f}, roll={:.6f}",
+//     //     angles[0], angles[1], angles[2]
+//     // );
+
+
+    
+//     // 转换为角度
+//     // roll = angles[0] * 180.0 / CV_PI;       // 对应真实yaw
+//     // yaw = angles[1] * 180.0 / CV_PI;        // 对应真实pitch
+//     // pitch = angles[2] * 180.0 / CV_PI;      // 对应真实roll
+    
+//     // 这是弧度值
+//     // roll = angles[0];       // 对应真实yaw
+//     // yaw = angles[1];        // 对应真实pitch
+//     // pitch = angles[2];      // 对应真实roll
+
+//     yaw = angles[0];
+//     pitch = angles[1];
+//     roll = angles[2];
+    
+//     // // 调试输出：转换后的角度值
+//     // utils::logger()->debug(
+//     //     "Orientation构造 - 转换后的角度: yaw={:.2f}°, pitch={:.2f}°, roll={:.2f}°",
+//     //     yaw, pitch, roll
+//     // );
+// }
+
+// 统一的从旋转矩阵构造的函数，通过枚举指定欧拉角顺序
+Orientation::Orientation(const Eigen::Matrix3d& rotation, solver::EulerOrder order, double t)
     : timestamp(t) {
     
-    // // 调试输出：打印输入的旋转矩阵
-    // utils::logger()->debug(
-    //     "Orientation构造 - 输入旋转矩阵:\n"
-    //     "  [{:.6f}, {:.6f}, {:.6f}]\n"
-    //     "  [{:.6f}, {:.6f}, {:.6f}]\n"
-    //     "  [{:.6f}, {:.6f}, {:.6f}]",
-    //     rotation(0,0), rotation(0,1), rotation(0,2),
-    //     rotation(1,0), rotation(1,1), rotation(1,2),
-    //     rotation(2,0), rotation(2,1), rotation(2,2)
-    // );
+    Eigen::Vector3d angles;
     
-    // 调用欧拉角提取,这里调用修改后的yxz轴提取,现在得到的angles就是ypr了
-    Eigen::Vector3d angles = utils::eulers_yxz(rotation);
+    // 根据指定的欧拉角顺序选择对应的提取函数
+    switch (order) {
+        case EulerOrder::YXZ:
+            angles = utils::eulers_yxz(rotation);
+            break;
+        case EulerOrder::ZYX:
+            angles = utils::eulers_zyx(rotation);
+            break;
+        default:
+            // 默认使用YXZ顺序
+            angles = utils::eulers_yxz(rotation);
+            break;
+    }
     
-    // 调试输出：提取的弧度值
-    // utils::logger()->debug(
-    //     "Orientation构造 - 提取的欧拉角(弧度): yaw={:.6f}, pitch={:.6f}, roll={:.6f}",
-    //     angles[0], angles[1], angles[2]
-    // );
-
-
-    
-    // 转换为角度
-    // roll = angles[0] * 180.0 / CV_PI;       // 对应真实yaw
-    // yaw = angles[1] * 180.0 / CV_PI;        // 对应真实pitch
-    // pitch = angles[2] * 180.0 / CV_PI;      // 对应真实roll
-    
-    // 这是弧度值
-    // roll = angles[0];       // 对应真实yaw
-    // yaw = angles[1];        // 对应真实pitch
-    // pitch = angles[2];      // 对应真实roll
+    // 直接使用弧度值
+    // yaw = angles[0] * 180.0 / CV_PI;
+    // pitch = angles[1] * 180.0 / CV_PI;
+    // roll = angles[2] * 180.0 / CV_PI;
 
     yaw = angles[0];
     pitch = angles[1];
     roll = angles[2];
-    
-    // // 调试输出：转换后的角度值
+
     // utils::logger()->debug(
-    //     "Orientation构造 - 转换后的角度: yaw={:.2f}°, pitch={:.2f}°, roll={:.2f}°",
+    //     "解算得到的角度为yaw:{:.2f}, pitch为{:.2f}, roll为{:.2f}",
     //     yaw, pitch, roll
     // );
 }
@@ -122,10 +154,11 @@ Armor_pose::Armor_pose(armor_auto_aim::ArmorName id,
     : id(id),
       type(type),
       camera_position(camera_pos),
+      gimbal_position(camera_pos),
       world_position(world_pos),
       world_spherical(world_pos, t),
-      camera_orientation(camera_rotation, t),
-      world_orientation(world_rotation,t),
+      gimbal_orientation(camera_rotation, EulerOrder::ZYX ,t),
+      world_orientation(world_rotation, EulerOrder::ZYX ,t),
       timestamp(t) {
 }
 

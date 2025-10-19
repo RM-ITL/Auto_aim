@@ -1,0 +1,57 @@
+[0.015s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/solver': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/solver -- -j24 -l24
+[0.042s] [ 20%] Built target solver_base
+[0.059s] [ 40%] Built target coord_converter
+[0.060s] [ 60%] Built target yaw_optimzier_lib
+[0.061s] [ 80%] Built target pnp_solver_lib
+[0.078s] [ 90%] [32mBuilding CXX object CMakeFiles/solver_interface.dir/src/solver_node.cpp.o[0m
+[3.260s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/solver_node.cpp:[m[K In member function ‘[01m[Ksolver::Armor_pose solver::Solver::processArmor(solver::Armors, double)[m[K’:
+[3.261s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/solver_node.cpp:57:10:[m[K [01;35m[Kwarning: [m[Kstructured binding declaration set but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-but-set-variable-Wunused-but-set-variable]8;;[m[K]
+[3.261s]    57 |     auto [01;35m[K[R_gimbal_to_world, R_camera_to_gimbal][m[K = coord_converter_->getCameraToWorldRotation();
+[3.261s]       |          [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[3.261s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/solver_node.cpp:203:21:[m[K [01;35m[Kwarning: [m[Kvariable ‘[01m[Ktest_R_armor_to_camera[m[K’ set but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-but-set-variable-Wunused-but-set-variable]8;;[m[K]
+[3.261s]   203 |     Eigen::Matrix3d [01;35m[Ktest_R_armor_to_camera[m[K = coord_converter_->transformRotation(
+[3.261s]       |                     [01;35m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[8.500s] [100%] [32m[1mLinking CXX shared library libsolver_interface.so[0m
+[8.840s] [100%] Built target solver_interface
+[8.844s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/solver' returned '0': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/solver -- -j24 -l24
+[8.846s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/solver': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/solver
+[8.847s] -- Install configuration: "Release"
+[8.847s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/lib/libsolver_base.so
+[8.847s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/lib/libcoord_converter.so
+[8.847s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/lib/libpnp_solver_lib.so
+[8.847s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/lib/libyaw_optimzier_lib.so
+[8.848s] -- Installing: /home/guo/ITL_sentry_auto_new/install/solver/lib/libsolver_interface.so
+[8.851s] -- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/solver/lib/libsolver_interface.so" to ""
+[8.852s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/solverTargets.cmake
+[8.852s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/solverTargets-release.cmake
+[8.852s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/include
+[8.852s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/include/solver_node.hpp
+[8.852s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/include/module
+[8.852s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/include/module/coord_converter.hpp
+[8.852s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/include/module/optimize_yaw.hpp
+[8.852s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/include/module/solver.hpp
+[8.852s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/include/module/pnp_solver.hpp
+[8.852s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/environment/library_path.sh
+[8.852s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/environment/library_path.dsv
+[8.852s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/ament_index/resource_index/package_run_dependencies/solver
+[8.852s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/ament_index/resource_index/parent_prefix_path/solver
+[8.852s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/environment/ament_prefix_path.sh
+[8.852s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/environment/ament_prefix_path.dsv
+[8.852s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/environment/path.sh
+[8.852s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/environment/path.dsv
+[8.852s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/local_setup.bash
+[8.852s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/local_setup.sh
+[8.853s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/local_setup.zsh
+[8.853s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/local_setup.dsv
+[8.853s] -- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/package.dsv
+[8.853s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/ament_index/resource_index/packages/solver
+[8.853s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/solver_targetsExport.cmake
+[8.853s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/solver_targetsExport-release.cmake
+[8.853s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/ament_cmake_export_include_directories-extras.cmake
+[8.853s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/ament_cmake_export_libraries-extras.cmake
+[8.853s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/ament_cmake_export_targets-extras.cmake
+[8.853s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/ament_cmake_export_dependencies-extras.cmake
+[8.853s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/solverConfig.cmake
+[8.853s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/solverConfig-version.cmake
+[8.854s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/package.xml
+[8.855s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/solver' returned '0': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/solver

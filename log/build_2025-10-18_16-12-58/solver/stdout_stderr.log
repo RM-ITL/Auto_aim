@@ -1,0 +1,37 @@
+[ 20%] Built target solver_base
+[ 40%] Built target coord_converter
+[ 70%] Built target pnp_solver_lib
+[ 70%] [32mBuilding CXX object CMakeFiles/yaw_optimzier_lib.dir/src/module/optimize_yaw.cpp.o[0m
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/module/optimize_yaw.cpp:1[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/include/module/optimize_yaw.hpp:[m[K In constructor ‘[01m[Ksolver::YawOptimizer::YawOptimizer(const string&, solver::CoordConverter*)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/include/module/optimize_yaw.hpp:73:20:[m[K [01;35m[Kwarning: [m[K‘[01m[Ksolver::YawOptimizer::last_optimized_yaw_[m[K’ will be initialized after [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   73 |     mutable double [01;35m[Klast_optimized_yaw_[m[K;
+      |                    [01;35m[K^~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/include/module/optimize_yaw.hpp:66:21:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Ksolver::CoordConverter* solver::YawOptimizer::CoordConverter_[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   66 |     CoordConverter* [01;35m[KCoordConverter_[m[K;
+      |                     [01;35m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/module/optimize_yaw.cpp:10:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   10 | [01;35m[KYawOptimizer[m[K::YawOptimizer(const std::string& yaml_config_path,
+      | [01;35m[K^~~~~~~~~~~~[m[K
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/module/optimize_yaw.cpp:1[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/include/module/optimize_yaw.hpp:[m[K In constructor ‘[01m[Ksolver::YawOptimizer::YawOptimizer(const cv::Mat&, const cv::Mat&, solver::CoordConverter*)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/include/module/optimize_yaw.hpp:73:20:[m[K [01;35m[Kwarning: [m[K‘[01m[Ksolver::YawOptimizer::last_optimized_yaw_[m[K’ will be initialized after [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   73 |     mutable double [01;35m[Klast_optimized_yaw_[m[K;
+      |                    [01;35m[K^~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/include/module/optimize_yaw.hpp:66:21:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Ksolver::CoordConverter* solver::YawOptimizer::CoordConverter_[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   66 |     CoordConverter* [01;35m[KCoordConverter_[m[K;
+      |                     [01;35m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/module/optimize_yaw.cpp:27:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+   27 | [01;35m[KYawOptimizer[m[K::YawOptimizer(const cv::Mat& camera_matrix,
+      | [01;35m[K^~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/module/optimize_yaw.cpp:[m[K In member function ‘[01m[KEigen::Matrix3d solver::YawOptimizer::optimize_yaw(const Vector3d&, const Matrix3d&, solver::ArmorType, solver::ArmorName, const std::vector<cv::Point_<float> >&, const solver::CoordConverter&)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/module/optimize_yaw.cpp:139:23:[m[K [01;31m[Kerror: [m[K‘[01m[Kpiror_yaw[m[K’ was not declared in this scope; did you mean ‘[01m[Kprior_yaw[m[K’?
+  139 |     for (double yaw = [01;31m[Kpiror_yaw[m[K - search_range_rad;
+      |                       [01;31m[K^~~~~~~~~[m[K
+      |                       [32m[Kprior_yaw[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/module/optimize_yaw.cpp:103:27:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kconverter[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+  103 |     [01;35m[Kconst CoordConverter& converter[m[K) {
+      |     [01;35m[K~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/yaw_optimzier_lib.dir/build.make:76：CMakeFiles/yaw_optimzier_lib.dir/src/module/optimize_yaw.cpp.o] 错误 1
+gmake[1]: *** [CMakeFiles/Makefile2:223：CMakeFiles/yaw_optimzier_lib.dir/all] 错误 2
+gmake: *** [Makefile:146：all] 错误 2

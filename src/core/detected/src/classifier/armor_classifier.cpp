@@ -1,9 +1,50 @@
 #include "classifier/armor_classifier.hpp"
 #include "detector_tools.hpp"
 #include <filesystem>
-#include <rclcpp/rclcpp.hpp>
+#include <cstdio>
+#include <iostream>
+#include <iomanip>
+#include <sstream>
+#include <utility>
 
 namespace armor_auto_aim {
+
+namespace {
+
+template<typename... Args>
+void log_info(const char* fmt, Args&&... args) {
+    char buffer[512];
+    std::snprintf(buffer, sizeof(buffer), fmt, std::forward<Args>(args)...);
+    std::cout << "[ArmorClassifier][INFO] " << buffer << std::endl;
+}
+
+template<typename... Args>
+void log_warn(const char* fmt, Args&&... args) {
+    char buffer[512];
+    std::snprintf(buffer, sizeof(buffer), fmt, std::forward<Args>(args)...);
+    std::cout << "[ArmorClassifier][WARN] " << buffer << std::endl;
+}
+
+template<typename... Args>
+void log_error(const char* fmt, Args&&... args) {
+    char buffer[512];
+    std::snprintf(buffer, sizeof(buffer), fmt, std::forward<Args>(args)...);
+    std::cerr << "[ArmorClassifier][ERROR] " << buffer << std::endl;
+}
+
+template<typename... Args>
+void log_debug(const char* fmt, Args&&... args) {
+#ifndef NDEBUG
+    char buffer[512];
+    std::snprintf(buffer, sizeof(buffer), fmt, std::forward<Args>(args)...);
+    std::cout << "[ArmorClassifier][DEBUG] " << buffer << std::endl;
+#else
+    (void)fmt;
+    (void)sizeof...(args);
+#endif
+}
+
+}  // namespace
 
 ArmorClassifier::Config ArmorClassifier::Config::from_yaml(const YAML::Node& node) {
     Config config;
@@ -37,9 +78,8 @@ ArmorClassifier::ArmorClassifier(const std::string& config_path)
         throw std::runtime_error("分类器初始化失败: " + model_path_);
     }
     
-    RCLCPP_INFO(rclcpp::get_logger("ArmorClassifier"), 
-        "分类器初始化成功 | 模型: %s | 设备: %s | 阈值: %.2f", 
-        model_path_.c_str(), device_.c_str(), conf_threshold_);
+    log_info("分类器初始化成功 | 模型: %s | 设备: %s | 阈值: %.2f",
+             model_path_.c_str(), device_.c_str(), conf_threshold_);
 }
 
 ArmorClassifier::~ArmorClassifier() = default;
@@ -93,8 +133,7 @@ bool ArmorClassifier::initialize_model() {
         return true;
         
     } catch (const std::exception& e) {
-        RCLCPP_ERROR(rclcpp::get_logger("ArmorClassifier"), 
-            "模型加载失败: %s", e.what());
+        log_error("模型加载失败: %s", e.what());
         return false;
     }
 }
@@ -103,15 +142,15 @@ bool ArmorClassifier::initialize_model() {
 void ArmorClassifier::classify(Armor& armor) {
     // 检查是否已经分类过
     if (armor.classify_confidence >= 0.0f) {
-        RCLCPP_DEBUG(rclcpp::get_logger("ArmorClassifier"),
-            "装甲板已分类，跳过重复分类");
+#ifndef NDEBUG
+        log_debug("装甲板已分类，跳过重复分类");
+#endif
         return;
     }
     
     // 检查ROI图像是否可用
     if (armor.roi_image.empty()) {
-        RCLCPP_WARN(rclcpp::get_logger("ArmorClassifier"),
-            "装甲板ROI图像为空，无法分类");
+        log_warn("装甲板ROI图像为空，无法分类");
         armor.classify_confidence = 0.0f;
         armor.is_valid = false;
         armor.name = not_armor;
@@ -124,11 +163,12 @@ void ArmorClassifier::classify(Armor& armor) {
     // 更新Armor对象
     update_armor_with_classification(armor, class_id, confidence);
     
-    RCLCPP_DEBUG(rclcpp::get_logger("ArmorClassifier"),
-        "分类完成 | 数字: %s | 置信度: %.3f | 有效: %s",
-        armor.getNameString().c_str(),
-        armor.classify_confidence,
-        armor.is_valid ? "是" : "否");
+#ifndef NDEBUG
+    log_debug("分类完成 | 数字: %s | 置信度: %.3f | 有效: %s",
+              armor.getNameString().c_str(),
+              armor.classify_confidence,
+              armor.is_valid ? "是" : "否");
+#endif
 }
 
 // 批量分类
@@ -147,9 +187,10 @@ void ArmorClassifier::classify_batch(std::vector<Armor>& armors) {
         classified_count++;
     }
     
-    RCLCPP_DEBUG(rclcpp::get_logger("ArmorClassifier"),
-        "批量分类完成 | 总数: %zu | 分类: %d | 跳过: %d",
-        armors.size(), classified_count, skipped_count);
+#ifndef NDEBUG
+    log_debug("批量分类完成 | 总数: %zu | 分类: %d | 跳过: %d",
+              armors.size(), classified_count, skipped_count);
+#endif
 }
 
 // 内部分类实现
@@ -159,7 +200,7 @@ std::pair<int, float> ArmorClassifier::classify_internal(const cv::Mat& armor_im
     }
     
     if (!initialized_) {
-        RCLCPP_ERROR(rclcpp::get_logger("ArmorClassifier"), "分类器未初始化");
+        log_error("分类器未初始化");
         return {-1, 0.0f};
     }
     
@@ -181,20 +222,19 @@ std::pair<int, float> ArmorClassifier::classify_internal(const cv::Mat& armor_im
         auto [class_id, confidence] = postprocess(output);
         
         // 调试输出：显示所有类别的置信度
-        if (rclcpp::get_logger("ArmorClassifier").get_effective_level() <= rclcpp::Logger::Level::Debug) {
-            std::stringstream ss;
-            ss << "分类详细置信度: ";
-            for (size_t i = 0; i < class_names_.size() && i < all_confidences.size(); ++i) {
-                ss << class_names_[i] << ":" << std::fixed << std::setprecision(3) << all_confidences[i] << " ";
-            }
-            RCLCPP_DEBUG(rclcpp::get_logger("ArmorClassifier"), "%s", ss.str().c_str());
+#ifndef NDEBUG
+        std::stringstream ss;
+        ss << "分类详细置信度: ";
+        for (size_t i = 0; i < class_names_.size() && i < all_confidences.size(); ++i) {
+            ss << class_names_[i] << ":" << std::fixed << std::setprecision(3) << all_confidences[i] << " ";
         }
+        log_debug("%s", ss.str().c_str());
+#endif
         
         return {class_id, confidence};
         
     } catch (const std::exception& e) {
-        RCLCPP_ERROR(rclcpp::get_logger("ArmorClassifier"), 
-            "分类失败: %s", e.what());
+        log_error("分类失败: %s", e.what());
         return {-1, 0.0f};
     }
 }
@@ -321,8 +361,7 @@ ov::Tensor ArmorClassifier::preprocess(const cv::Mat& image) {
         return tensor;
         
     } catch (const std::exception& e) {
-        RCLCPP_ERROR(rclcpp::get_logger("ArmorClassifier"), 
-            "预处理失败: %s", e.what());
+        log_error("预处理失败: %s", e.what());
         return ov::Tensor();
     }
 }
@@ -379,8 +418,7 @@ bool ArmorClassifier::validate_input(const cv::Mat& image) const {
 
 void ArmorClassifier::set_confidence_threshold(float threshold) {
     conf_threshold_ = std::max(0.0f, std::min(1.0f, threshold));
-    RCLCPP_INFO(rclcpp::get_logger("ArmorClassifier"), 
-        "置信度阈值更新: %.2f", conf_threshold_);
+    log_info("置信度阈值更新: %.2f", conf_threshold_);
 }
 
 
@@ -388,8 +426,7 @@ std::unique_ptr<ArmorClassifier> create_classifier(const std::string& config_pat
     try {
         return std::make_unique<ArmorClassifier>(config_path);
     } catch (const std::exception& e) {
-        RCLCPP_ERROR(rclcpp::get_logger("ArmorClassifier"), 
-            "创建分类器失败: %s", e.what());
+        log_error("创建分类器失败: %s", e.what());
         return nullptr;
     }
 }

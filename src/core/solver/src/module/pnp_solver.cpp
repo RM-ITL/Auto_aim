@@ -193,6 +193,11 @@ solver::PnPResult PnPSolver::solvePnP(const std::vector<cv::Point2f>& corners,
         result.reprojection_error = calculateReprojectionError(
             world_points_float, undistorted_corners, rvec, tvec);
         
+        // utils::logger()->debug(
+        //     "重投影误差是:{:.2f}",
+        //     result.reprojection_error
+        // );
+        
         result.success = validatePnPResult(result);
         
     } catch (const std::exception& e) {

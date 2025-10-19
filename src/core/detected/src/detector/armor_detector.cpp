@@ -1,11 +1,43 @@
 #include "detector/armor_detector.hpp"
 #include "detector_tools.hpp"
 #include <filesystem>
+#include <cstdio>
+#include <iostream>
 #include <chrono>
 #include <algorithm>
-#include <rclcpp/rclcpp.hpp>
+#include <utility>
 
 namespace armor_auto_aim {
+
+namespace {
+
+template<typename... Args>
+void log_info(const char* fmt, Args&&... args) {
+    char buffer[512];
+    std::snprintf(buffer, sizeof(buffer), fmt, std::forward<Args>(args)...);
+    std::cout << "[ArmorDetector][INFO] " << buffer << std::endl;
+}
+
+template<typename... Args>
+void log_error(const char* fmt, Args&&... args) {
+    char buffer[512];
+    std::snprintf(buffer, sizeof(buffer), fmt, std::forward<Args>(args)...);
+    std::cerr << "[ArmorDetector][ERROR] " << buffer << std::endl;
+}
+
+template<typename... Args>
+void log_debug(const char* fmt, Args&&... args) {
+#ifndef NDEBUG
+    char buffer[512];
+    std::snprintf(buffer, sizeof(buffer), fmt, std::forward<Args>(args)...);
+    std::cout << "[ArmorDetector][DEBUG] " << buffer << std::endl;
+#else
+    (void)fmt;
+    (void)sizeof...(args);
+#endif
+}
+
+}  // namespace
 
 ArmorDetector::Config ArmorDetector::Config::from_yaml(const YAML::Node& node) {
     Config config;
@@ -40,9 +72,8 @@ ArmorDetector::ArmorDetector(const std::string& config_path)
         init_async_pipeline(4);  // 从配置中读取的值
         initialized_ = true;
         
-        RCLCPP_INFO(rclcpp::get_logger("ArmorDetector"), 
-            "检测器初始化成功 | 模型: %s | 设备: %s | 输入尺寸: %dx%d",
-            model_path_.c_str(), device_.c_str(), input_width_, input_height_);
+        log_info("检测器初始化成功 | 模型: %s | 设备: %s | 输入尺寸: %dx%d",
+                 model_path_.c_str(), device_.c_str(), input_width_, input_height_);
         
     } catch (const std::exception& e) {
         throw std::runtime_error("检测器初始化失败: " + std::string(e.what()));
@@ -143,8 +174,7 @@ std::vector<Armor> ArmorDetector::detect(const cv::Mat& image) {
         auto output = infer_requests_[request_id].get_output_tensor();
         auto results = postprocess(output, image.size(), image);
         
-        RCLCPP_DEBUG(rclcpp::get_logger("ArmorDetector"),
-            "检测完成 | 发现 %zu 个装甲板", results.size());
+        log_debug("检测完成 | 发现 %zu 个装甲板", results.size());
         
         return_request_id(request_id);
         return results;
@@ -332,11 +362,12 @@ Armor ArmorDetector::create_armor_from_detection(const cv::Rect& box,
     armor.classify_confidence = -1.0f;  // 使用-1表示未分类
     armor.is_valid = true;  // 检测有效，但分类结果待定
     
-    RCLCPP_DEBUG(rclcpp::get_logger("ArmorDetector"),
-        "创建装甲板 | 位置: [%d,%d,%dx%d] | 置信度: %.3f | 颜色类别: %d | 类型: %s",
-        box.x, box.y, box.width, box.height,
-        confidence, class_id,
-        armor.type == big ? "大装甲" : "小装甲");
+#ifndef NDEBUG
+    log_debug("创建装甲板 | 位置: [%d,%d,%dx%d] | 置信度: %.3f | 颜色类别: %d | 类型: %s",
+              box.x, box.y, box.width, box.height,
+              confidence, class_id,
+              armor.type == big ? "大装甲" : "小装甲");
+#endif
     
     return armor;
 }
@@ -398,8 +429,7 @@ std::unique_ptr<ArmorDetector> create_detector(const std::string& config_path) {
     try {
         return std::make_unique<ArmorDetector>(config_path);
     } catch (const std::exception& e) {
-        RCLCPP_ERROR(rclcpp::get_logger("ArmorDetector"),
-            "创建检测器失败: %s", e.what());
+        log_error("创建检测器失败: %s", e.what());
         return nullptr;
     }
 }

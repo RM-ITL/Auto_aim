@@ -19,6 +19,7 @@ find_package(geometry_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(autoaim_msgs REQUIRED)  # 自定义消息包
+find_package(cv_bridge REQUIRED)
 
 # 查找外部库
 find_package(Eigen3 REQUIRED)
@@ -29,6 +30,9 @@ find_package(utils REQUIRED)  # 添加utils包依赖
 find_package(solver REQUIRED)
 find_package(detected REQUIRED)
 find_package(predictor REQUIRED)
+find_package(serial REQUIRED)
+find_package(gimbal REQUIRED)
+
 
 # 包含目录
 include_directories(
@@ -44,48 +48,54 @@ add_library(tracker_lib
 # 设置tracker库的依赖
 ament_target_dependencies(tracker_lib
   rclcpp
+  cv_bridge
   autoaim_msgs
   utils
   solver
   predictor
   detected
+  serial
+  gimbal
 )
 
-# 链接外部库到tracker库
-target_link_libraries(tracker_lib
-  ${OpenCV_LIBS}
-  yaml-cpp
-  Eigen3::Eigen
-)
+# # 链接外部库到tracker库
+# target_link_libraries(tracker_lib
+#   ${OpenCV_LIBS}
+#   yaml-cpp
+#   Eigen3::Eigen
+# )
 
-# 创建tracker_node可执行文件
-add_executable(tracker_node
-  src/tracker_node.cpp
-)
+# # 创建tracker_node可执行文件
+# add_executable(tracker_node
+#   src/tracker_node.cpp
+# )
 
-# 设置tracker_node的依赖
-ament_target_dependencies(tracker_node
-  rclcpp
-  sensor_msgs
-  geometry_msgs
-  autoaim_msgs
-  tf2
-  utils
-  solver
-  predictor
-  detected
-)
+# # 设置tracker_node的依赖
+# ament_target_dependencies(tracker_node
+#   rclcpp
+#   cv_bridge
+#   sensor_msgs
+#   geometry_msgs
+#   autoaim_msgs
+#   tf2
+#   utils
+#   solver
+#   predictor
+#   detected
+#   serial
+#   gimbal
+# )
 
-# 链接库到可执行文件
-target_link_libraries(tracker_node
-  tracker_lib
-  yaml-cpp
-  Eigen3::Eigen
-)
+# # 链接库到可执行文件
+# target_link_libraries(tracker_node
+#   tracker_lib
+#   yaml-cpp
+#   Eigen3::Eigen
+# )
 
 # 安装可执行文件
 install(TARGETS
-  tracker_node
+  # tracker_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -118,6 +128,7 @@ ament_export_libraries(tracker_lib)
 ament_export_dependencies(
   rclcpp
   sensor_msgs
+  cv_bridge
   geometry_msgs
   autoaim_msgs
   tf2
@@ -128,6 +139,8 @@ ament_export_dependencies(
   solver
   predictor
   detected
+  serial
+  gimbal
 )
 
 # 添加测试支持（可选）

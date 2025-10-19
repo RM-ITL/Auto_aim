@@ -10,12 +10,29 @@
 namespace solver {
 
 // 装甲板世界坐标点定义
+// const std::vector<cv::Point3f> PW_SMALL = {
+//     cv::Point3f(-67.5, -27.5, 0),  // 对应图像左上
+//     cv::Point3f(67.5, -27.5, 0),   // 对应图像右上
+//     cv::Point3f(67.5, 27.5, 0),    // 对应图像右下
+//     cv::Point3f(-67.5, 27.5, 0)    // 对应图像左下
+// };
+
+// 现在这个与IMU的坐标系定义一致
 const std::vector<cv::Point3f> PW_SMALL = {
-    cv::Point3f(-67.5, -27.5, 0),  // 对应图像左上
-    cv::Point3f(67.5, -27.5, 0),   // 对应图像右上
-    cv::Point3f(67.5, 27.5, 0),    // 对应图像右下
-    cv::Point3f(-67.5, 27.5, 0)    // 对应图像左下
+    cv::Point3f(0, 67.5, 27.5),  // 对应图像左上
+    cv::Point3f(0, -67.5, 27.5),   // 对应图像右上
+    cv::Point3f(0, -67.5, -27.5),    // 对应图像右下
+    cv::Point3f(0, 67.5, -27.5)    // 对应图像左下
 };
+
+// const std::vector<cv::Point3f> PW_SMALL = {
+//     cv::Point3f( 27.5, 0, -67.5),  // 左上：(0,-67.5,-27.5)→(27.5,0,-67.5)
+//     cv::Point3f( 27.5, 0,  67.5),  // 右上：(0,67.5,-27.5)→(27.5,0,67.5)
+//     cv::Point3f(-27.5, 0,  67.5),  // 右下：(0,67.5,27.5)→(-27.5,0,67.5)
+//     cv::Point3f(-27.5, 0, -67.5)   // 左下：(0,-67.5,27.5)→(-27.5,0,-67.5)
+// };
+
+
 const std::vector<cv::Point3f> PW_BIG = {
     cv::Point3f(-115.0f, -27.5f, 0.0f),
     cv::Point3f(115.0f, -27.5f, 0.0f),
@@ -26,7 +43,13 @@ const std::vector<cv::Point3f> PW_BIG = {
 enum class CoordinateFrame {
     CAMERA,
     IMU,
-    WORLD
+    WORLD,
+    GIMBAL
+};
+
+enum class EulerOrder{
+    YXZ,
+    ZYX
 };
 
 
@@ -65,7 +88,7 @@ struct Orientation
 
     Orientation();
     Orientation(double y, double p, double r, double t = 0.0);
-    Orientation(const Eigen::Matrix3d& rotation, double t = 0.0);
+    Orientation(const Eigen::Matrix3d& rotation, EulerOrder order, double t = 0.0);
 };
 
 
@@ -74,9 +97,10 @@ struct Armor_pose {
     armor_auto_aim::ArmorName id;        // 装甲板ID
     armor_auto_aim::ArmorType type;      // 装甲板类型
     Eigen::Vector3d camera_position;      // 相机坐标系位置
+    Eigen::Vector3d gimbal_position;      // 云台坐标系位置
     Eigen::Vector3d world_position;      // 世界坐标系位置
     SphericalCoord world_spherical;      // 世界坐标系球坐标
-    Orientation camera_orientation;       // 相机坐标系下的姿态
+    Orientation gimbal_orientation;       // 云台坐标系下的姿态
     Orientation world_orientation;       // 世界坐标系下的姿态
     double timestamp;
     

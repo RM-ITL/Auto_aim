@@ -17,12 +17,16 @@ using ArmorType = armor_auto_aim::ArmorType;
 
 class YawOptimizer {
 public:
-    explicit YawOptimizer(const std::string& yaml_config_path);
-    YawOptimizer(const cv::Mat& camera_matrix, const cv::Mat& dist_coeffs);
-    
-    Eigen::Matrix3d optimizeWithPrior(
-        const Eigen::Vector3d& camera_position,
-        const Eigen::Matrix3d& prior_R_armor_to_camera,
+    explicit YawOptimizer(const std::string& yaml_config_path, 
+                          CoordConverter* CoordConverter_);
+
+            YawOptimizer(const cv::Mat& camera_matrix, 
+                    const cv::Mat& dist_coeffs,
+                    CoordConverter* CoordConverter_);
+
+    Eigen::Matrix3d optimize_yaw(
+        const Eigen::Vector3d& world_position,
+        const Eigen::Matrix3d& R_armor_to_world,
         ArmorType armor_type,
         ArmorName armor_name,
         const std::vector<cv::Point2f>& detected_corners,
@@ -37,21 +41,30 @@ public:
     bool isInitialized() const { 
         return !camera_matrix_.empty() && !dist_coeffs_.empty(); 
     }
+
+    std::vector<cv::Point2f> reproject_armor(const Eigen::Vector3d & xyz_in_world, 
+                                        const Eigen::Matrix3d& R, ArmorType type) const;
+    
+    std::vector<cv::Point2f> reproject_armor_out(const Eigen::Vector3d & xyz_in_world, 
+                                        double yaw, ArmorType type, ArmorName name) const;
      
 private:
     bool loadCameraParamsFromYAML(const std::string& yaml_path);
     
-    void extractWorldEulerAngles(const Eigen::Matrix3d& R_world_to_armor, 
+    void extractWorldEulerAngles(const Eigen::Matrix3d& R_armor_to_camera, 
                                  double& yaw, double& pitch, double& roll) const; 
     
-    double calculateReprojectionError(
-        const Eigen::Vector3d& camera_position,
-        const Eigen::Matrix3d& R_armor_to_camera,
+    double ReprojectionError(
+        const Eigen::Vector3d& world_position,
+        const Eigen::Matrix3d& R_armor_to_world,
         ArmorType armor_type,
         const std::vector<cv::Point2f>& detected_corners) const;
     
     
 private:
+
+    CoordConverter* CoordConverter_;
+
     cv::Mat camera_matrix_;
     cv::Mat dist_coeffs_;
     double search_range_;

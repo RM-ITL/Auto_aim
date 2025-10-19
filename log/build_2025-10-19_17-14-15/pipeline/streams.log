@@ -1,0 +1,111 @@
+[0.049s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/pipeline': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/pipeline -- -j24 -l24
+[0.083s] [ 50%] [32mBuilding CXX object CMakeFiles/pipeline_node.dir/src/test_node.cpp.o[0m
+[0.674s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:243:9:[m[K [01;35m[Kwarning: [m[Kmissing terminating " character
+[0.674s]   243 |         [01;35m[K"[m[K[Pipeline] 规划输出:
+[0.674s]       |         [01;35m[K^[m[K
+[0.674s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:243:9:[m[K [01;31m[Kerror: [m[Kmissing terminating " character
+[0.674s]   243 |         [01;31m[K"[Pipeline] 规划输出:[m[K
+[0.674s]       |         [01;31m[K^~~~~~~~~~~~~~~~~~~~~[m[K 
+[0.674s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:247:41:[m[K [01;35m[Kwarning: [m[Kmissing terminating " character
+[0.674s]   247 |         yaw_acc={:.3f}, pitch_acc={:.3f}[01;35m[K"[m[K,
+[0.674s]       |                                         [01;35m[K^[m[K
+[0.674s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:247:41:[m[K [01;31m[Kerror: [m[Kmissing terminating " character
+[0.674s]   247 |         yaw_acc={:.3f}, pitch_acc={:.3f}[01;31m[K",[m[K
+[0.674s]       |                                         [01;31m[K^~[m[K
+[4.352s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:[m[K In member function ‘[01m[Kvoid pipeline::PipelineApp::planner_loop()[m[K’:
+[4.352s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:244:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kyaw[m[K’ was not declared in this scope
+[4.352s]   244 |         [01;31m[Kyaw[m[K={:.3f} pitch={:.3f} fire={},
+[4.352s]       |         [01;31m[K^~~[m[K
+[4.352s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:244:14:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K:[m[K’ token
+[4.352s]   244 |         yaw={[01;31m[K:[m[K.3f} pitch={:.3f} fire={},
+[4.353s]       |              [01;31m[K^[m[K
+[4.353s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:244:14:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K}[m[K’ before ‘[01m[K:[m[K’ token
+[4.353s]   244 |         yaw=[32m[K{[m[K[01;31m[K:[m[K.3f} pitch={:.3f} fire={},
+[4.353s]       |             [32m[K~[m[K[01;31m[K^[m[K
+[4.358s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:244:20:[m[K [01;31m[Kerror: [m[K‘[01m[Kpitch[m[K’ was not declared in this scope
+[4.358s]   244 |         yaw={:.3f} [01;31m[Kpitch[m[K={:.3f} fire={},
+[4.358s]       |                    [01;31m[K^~~~~[m[K
+[4.358s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:244:27:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K:[m[K’ token
+[4.358s]   244 |         yaw={:.3f} pitch={[01;31m[K:[m[K.3f} fire={},
+[4.358s]       |                           [01;31m[K^[m[K
+[4.358s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:244:27:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K}[m[K’ before ‘[01m[K:[m[K’ token
+[4.358s]   244 |         yaw={:.3f} pitch=[32m[K{[m[K[01;31m[K:[m[K.3f} fire={},
+[4.358s]       |                          [32m[K~[m[K[01;31m[K^[m[K
+[4.363s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:244:33:[m[K [01;31m[Kerror: [m[K‘[01m[Kfire[m[K’ was not declared in this scope
+[4.363s]   244 |         yaw={:.3f} pitch={:.3f} [01;31m[Kfire[m[K={},
+[4.363s]       |                                 [01;31m[K^~~~[m[K
+[4.372s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:245:9:[m[K [01;31m[Kerror: [m[K‘[01m[Ktarget_yaw[m[K’ was not declared in this scope
+[4.372s]   245 |         [01;31m[Ktarget_yaw[m[K={:.3f}, target_pitch={:.3f},
+[4.372s]       |         [01;31m[K^~~~~~~~~~[m[K
+[4.372s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:245:21:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K:[m[K’ token
+[4.372s]   245 |         target_yaw={[01;31m[K:[m[K.3f}, target_pitch={:.3f},
+[4.372s]       |                     [01;31m[K^[m[K
+[4.372s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:245:21:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K}[m[K’ before ‘[01m[K:[m[K’ token
+[4.372s]   245 |         target_yaw=[32m[K{[m[K[01;31m[K:[m[K.3f}, target_pitch={:.3f},
+[4.372s]       |                    [32m[K~[m[K[01;31m[K^[m[K
+[4.373s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:[m[K At global scope:
+[4.373s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:245:26:[m[K [01;31m[Kerror: [m[Kmixing declarations and function-definitions is forbidden
+[4.373s]   245 |         target_yaw={:.3f}[01;31m[K,[m[K target_pitch={:.3f},
+[4.373s]       |                          [01;31m[K^[m[K
+[4.373s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:245:28:[m[K [01;31m[Kerror: [m[Kvariable or field ‘[01m[Ktarget_pitch[m[K’ declared void
+[4.373s]   245 |         target_yaw={:.3f}, [01;31m[Ktarget_pitch[m[K={:.3f},
+[4.373s]       |                            [01;31m[K^~~~~~~~~~~~[m[K
+[4.373s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:245:42:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K:[m[K’ token
+[4.373s]   245 |         target_yaw={:.3f}, target_pitch={[01;31m[K:[m[K.3f},
+[4.373s]       |                                          [01;31m[K^[m[K
+[4.373s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:245:42:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K}[m[K’ before ‘[01m[K:[m[K’ token
+[4.373s]   245 |         target_yaw={:.3f}, target_pitch=[32m[K{[m[K[01;31m[K:[m[K.3f},
+[4.373s]       |                                         [32m[K~[m[K[01;31m[K^[m[K
+[4.373s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:245:47:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[K,[m[K’ token
+[4.374s]   245 |         target_yaw={:.3f}, target_pitch={:.3f}[01;31m[K,[m[K
+[4.374s]       |                                               [01;31m[K^[m[K
+[4.374s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:246:16:[m[K [01;31m[Kerror: [m[Kexpected constructor, destructor, or type conversion before ‘[01m[K=[m[K’ token
+[4.374s]   246 |         yaw_vel[01;31m[K=[m[K{:.3f}, pitch_vel={:.3f},
+[4.374s]       |                [01;31m[K^[m[K
+[4.374s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:246:23:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[K,[m[K’ token
+[4.374s]   246 |         yaw_vel={:.3f}[01;31m[K,[m[K pitch_vel={:.3f},
+[4.374s]       |                       [01;31m[K^[m[K
+[4.374s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:246:34:[m[K [01;31m[Kerror: [m[Kexpected constructor, destructor, or type conversion before ‘[01m[K=[m[K’ token
+[4.374s]   246 |         yaw_vel={:.3f}, pitch_vel[01;31m[K=[m[K{:.3f},
+[4.374s]       |                                  [01;31m[K^[m[K
+[4.374s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:246:41:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[K,[m[K’ token
+[4.374s]   246 |         yaw_vel={:.3f}, pitch_vel={:.3f}[01;31m[K,[m[K
+[4.374s]       |                                         [01;31m[K^[m[K
+[4.375s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:247:16:[m[K [01;31m[Kerror: [m[Kexpected constructor, destructor, or type conversion before ‘[01m[K=[m[K’ token
+[4.375s]   247 |         yaw_acc[01;31m[K=[m[K{:.3f}, pitch_acc={:.3f}",
+[4.375s]       |                [01;31m[K^[m[K
+[4.375s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:247:23:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[K,[m[K’ token
+[4.375s]   247 |         yaw_acc={:.3f}[01;31m[K,[m[K pitch_acc={:.3f}",
+[4.375s]       |                       [01;31m[K^[m[K
+[4.375s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:247:34:[m[K [01;31m[Kerror: [m[Kexpected constructor, destructor, or type conversion before ‘[01m[K=[m[K’ token
+[4.375s]   247 |         yaw_acc={:.3f}, pitch_acc[01;31m[K=[m[K{:.3f}",
+[4.375s]       |                                  [01;31m[K^[m[K
+[4.375s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:248:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kplan_result[m[K’ does not name a type
+[4.375s]   248 |         [01;31m[Kplan_result[m[K.yaw, plan_result.pitch, plan_result.fire, plan_result.target_yaw, plan_result,target_pitch,
+[4.376s]       |         [01;31m[K^~~~~~~~~~~[m[K
+[4.378s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:250:7:[m[K [01;31m[Kerror: [m[K‘[01m[Klast_log_time[m[K’ does not name a type
+[4.378s]   250 |       [01;31m[Klast_log_time[m[K = now;
+[4.378s]       |       [01;31m[K^~~~~~~~~~~~~[m[K
+[4.378s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:251:5:[m[K [01;31m[Kerror: [m[Kexpected declaration before ‘[01m[K}[m[K’ token
+[4.378s]   251 |     [01;31m[K}[m[K
+[4.378s]       |     [01;31m[K^[m[K
+[4.378s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:253:32:[m[K [01;31m[Kerror: [m[Kexpected constructor, destructor, or type conversion before ‘[01m[K([m[K’ token
+[4.378s]   253 |     std::this_thread::sleep_for[01;31m[K([m[Kstd::chrono::milliseconds(10));
+[4.378s]       |                                [01;31m[K^[m[K
+[4.378s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:254:3:[m[K [01;31m[Kerror: [m[Kexpected declaration before ‘[01m[K}[m[K’ token
+[4.378s]   254 |   [01;31m[K}[m[K
+[4.378s]       |   [01;31m[K^[m[K
+[4.378s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:256:20:[m[K [01;31m[Kerror: [m[Kexpected type-specifier before ‘[01m[Kinfo[m[K’
+[4.378s]   256 |   utils::logger()->[01;31m[Kinfo[m[K("[Pipeline] 规划线程退出");
+[4.378s]       |                    [01;31m[K^~~~[m[K
+[4.378s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:256:20:[m[K [01;31m[Kerror: [m[Kexpected constructor, destructor, or type conversion before ‘[01m[Kinfo[m[K’
+[4.378s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:257:1:[m[K [01;31m[Kerror: [m[Kexpected declaration before ‘[01m[K}[m[K’ token
+[4.378s]   257 | [01;31m[K}[m[K
+[4.378s]       | [01;31m[K^[m[K
+[4.378s] [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:259:1:[m[K [01;31m[Kerror: [m[Kexpected declaration before ‘[01m[K}[m[K’ token
+[4.378s]   259 | [01;31m[K}[m[K  // namespace pipeline
+[4.378s]       | [01;31m[K^[m[K
+[6.409s] gmake[2]: *** [CMakeFiles/pipeline_node.dir/build.make:76：CMakeFiles/pipeline_node.dir/src/test_node.cpp.o] 错误 1
+[6.409s] gmake[1]: *** [CMakeFiles/Makefile2:137：CMakeFiles/pipeline_node.dir/all] 错误 2
+[6.409s] gmake: *** [Makefile:146：all] 错误 2
+[6.411s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/pipeline' returned '2': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/pipeline -- -j24 -l24

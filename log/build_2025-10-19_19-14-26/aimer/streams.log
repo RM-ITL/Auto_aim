@@ -1,0 +1,86 @@
+[0.030s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/aimer': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/aimer -- -j24 -l24
+[0.045s] -- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)
+[0.208s] -- Found rclcpp: 27.0.0 (/opt/ros/rolling/share/rclcpp/cmake)
+[0.231s] -- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)
+[0.238s] -- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)
+[0.250s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.264s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.396s] -- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)
+[0.397s] -- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)
+[0.487s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.644s] -- Found utils: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake)
+[0.671s] -- Found cboard: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake)
+[0.685s] -- Found detected: 0.0.2 (/home/guo/ITL_sentry_auto_new/install/detected/share/detected/cmake)
+[0.696s] -- Found predictor: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/cmake)
+[1.016s] -- Found eigen3_cmake_module: 0.3.0 (/opt/ros/rolling/share/eigen3_cmake_module/cmake)
+[1.017s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[1.687s] -- Found AMD headers in: /usr/include/suitesparse
+[1.687s] -- Found AMD library: /usr/lib/x86_64-linux-gnu/libamd.so
+[1.687s] -- Found CAMD headers in: /usr/include/suitesparse
+[1.687s] -- Found CAMD library: /usr/lib/x86_64-linux-gnu/libcamd.so
+[1.687s] -- Found CCOLAMD headers in: /usr/include/suitesparse
+[1.688s] -- Found CCOLAMD library: /usr/lib/x86_64-linux-gnu/libccolamd.so
+[1.688s] -- Found CHOLMOD headers in: /usr/include/suitesparse
+[1.688s] -- Found CHOLMOD library: /usr/lib/x86_64-linux-gnu/libcholmod.so
+[1.688s] -- Found COLAMD headers in: /usr/include/suitesparse
+[1.688s] -- Found COLAMD library: /usr/lib/x86_64-linux-gnu/libcolamd.so
+[1.688s] -- Found SPQR headers in: /usr/include/suitesparse
+[1.688s] -- Found SPQR library: /usr/lib/x86_64-linux-gnu/libspqr.so
+[1.688s] -- Found Config headers in: /usr/include/suitesparse
+[1.689s] -- Found Config library: /usr/lib/x86_64-linux-gnu/libsuitesparseconfig.so
+[1.689s] -- Found Intel Thread Building Blocks (TBB) library (2021.5 / ) include location: . Assuming SuiteSparseQR was compiled with TBB.
+[1.690s] -- Adding librt to SuiteSparse_config libraries (required on Linux & Unix [not OSX] if SuiteSparse is compiled with timing).
+[1.691s] -- Could NOT find METIS (missing: METIS_INCLUDE_DIR METIS_LIBRARY) 
+[2.015s] -- Configuring done (2.0s)
+[2.037s] -- Generating done (0.0s)
+[2.042s] -- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/aimer
+[2.068s] [ 50%] [32mBuilding CXX object CMakeFiles/aimer.dir/src/aimer.cpp.o[0m
+[3.815s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/aimer/src/aimer.cpp:[m[K In member function ‘[01m[Kio::Command aimer::Aimer::aim(std::__cxx11::list<predict::Target>, std::chrono::_V2::steady_clock::time_point, double, bool)[m[K’:
+[3.815s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/aimer/src/aimer.cpp:79:8:[m[K [01;35m[Kwarning: [m[Kvariable ‘[01m[Kconverged[m[K’ set but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-but-set-variable-Wunused-but-set-variable]8;;[m[K]
+[3.815s]    79 |   bool [01;35m[Kconverged[m[K = false;
+[3.815s]       |        [01;35m[K^~~~~~~~~[m[K
+[3.817s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/aimer/src/aimer.cpp:[m[K In member function ‘[01m[Kaimer::AimPoint aimer::Aimer::choose_aim_point(const predict::Target&)[m[K’:
+[3.817s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/aimer/src/aimer.cpp:157:21:[m[K [01;35m[Kwarning: [m[Kcomparison of integer expressions of different signedness: ‘[01m[Kint[m[K’ and ‘[01m[Klong unsigned int[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wsign-compare-Wsign-compare]8;;[m[K]
+[3.817s]   157 |   for (int i = 0; [01;35m[Ki < armor_num[m[K; i++) {
+[3.817s]       |                   [01;35m[K~~^~~~~~~~~~~[m[K
+[3.817s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/aimer/src/aimer.cpp:166:23:[m[K [01;35m[Kwarning: [m[Kcomparison of integer expressions of different signedness: ‘[01m[Kint[m[K’ and ‘[01m[Klong unsigned int[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wsign-compare-Wsign-compare]8;;[m[K]
+[3.817s]   166 |     for (int i = 0; [01;35m[Ki < armor_num[m[K; i++) {
+[3.817s]       |                     [01;35m[K~~^~~~~~~~~~~[m[K
+[3.818s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/aimer/src/aimer.cpp:202:21:[m[K [01;35m[Kwarning: [m[Kcomparison of integer expressions of different signedness: ‘[01m[Kint[m[K’ and ‘[01m[Klong unsigned int[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wsign-compare-Wsign-compare]8;;[m[K]
+[3.818s]   202 |   for (int i = 0; [01;35m[Ki < armor_num[m[K; i++) {
+[3.818s]       |                   [01;35m[K~~^~~~~~~~~~~[m[K
+[7.098s] [100%] [32m[1mLinking CXX shared library libaimer.so[0m
+[7.549s] [100%] Built target aimer
+[7.554s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/aimer' returned '0': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/aimer -- -j24 -l24
+[7.556s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/aimer': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/aimer
+[7.558s] -- Install configuration: ""
+[7.558s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/environment/library_path.sh
+[7.558s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/environment/library_path.dsv
+[7.558s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/include
+[7.558s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/include/aimer.hpp
+[7.558s] -- Installing: /home/guo/ITL_sentry_auto_new/install/aimer/lib/libaimer.so
+[7.561s] -- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/aimer/lib/libaimer.so" to ""
+[7.562s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/cmake/aimerTargets.cmake
+[7.562s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/cmake/aimerTargets-noconfig.cmake
+[7.562s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/ament_index/resource_index/package_run_dependencies/aimer
+[7.562s] -- Installing: /home/guo/ITL_sentry_auto_new/install/aimer/share/ament_index/resource_index/parent_prefix_path/aimer
+[7.562s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/environment/ament_prefix_path.sh
+[7.562s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/environment/ament_prefix_path.dsv
+[7.562s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/environment/path.sh
+[7.562s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/environment/path.dsv
+[7.562s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/local_setup.bash
+[7.562s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/local_setup.sh
+[7.563s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/local_setup.zsh
+[7.563s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/local_setup.dsv
+[7.563s] -- Installing: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/package.dsv
+[7.563s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/ament_index/resource_index/packages/aimer
+[7.563s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/cmake/aimerTargetsExport.cmake
+[7.563s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/cmake/aimerTargetsExport-noconfig.cmake
+[7.563s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/cmake/ament_cmake_export_include_directories-extras.cmake
+[7.563s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/cmake/ament_cmake_export_libraries-extras.cmake
+[7.564s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/cmake/ament_cmake_export_dependencies-extras.cmake
+[7.564s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/cmake/ament_cmake_export_targets-extras.cmake
+[7.565s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/cmake/aimerConfig.cmake
+[7.565s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/cmake/aimerConfig-version.cmake
+[7.565s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/aimer/share/aimer/package.xml
+[7.565s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/aimer' returned '0': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/aimer

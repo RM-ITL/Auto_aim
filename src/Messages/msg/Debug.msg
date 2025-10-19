@@ -1,0 +1,10 @@
+bool enable_control
+bool fire
+float32 target_yaw
+float32 target_pitch
+float32 yaw
+float32 yaw_vel
+float32 yaw_acc
+float32 pitch
+float32 pitch_vel
+float32 pitch_acc

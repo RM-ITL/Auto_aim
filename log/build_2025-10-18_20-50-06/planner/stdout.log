@@ -1,0 +1,41 @@
+[ 20%] Building CXX object CMakeFiles/planner.dir/src/planner.cpp.o
+[ 40%] Linking CXX shared library libplanner.so
+[100%] Built target planner
+-- Install configuration: "Release"
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/lib/libplanner.so
+-- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/planner/lib/libplanner.so" to ""
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/include
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/include/planner.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/admm.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/rho_benchmark.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/codegen.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/types.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/tiny_api_constants.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/error.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/tiny_api.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/plannerTargets.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/plannerTargets-release.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/environment/library_path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/environment/library_path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/ament_index/resource_index/package_run_dependencies/planner
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/ament_index/resource_index/parent_prefix_path/planner
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/environment/ament_prefix_path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/environment/ament_prefix_path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/environment/path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/environment/path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/local_setup.bash
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/local_setup.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/local_setup.zsh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/local_setup.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/package.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/ament_index/resource_index/packages/planner
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/plannerTargetsExport.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/plannerTargetsExport-release.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/ament_cmake_export_libraries-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/ament_cmake_export_targets-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/plannerConfig.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/plannerConfig-version.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/package.xml

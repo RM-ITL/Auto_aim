@@ -1,0 +1,9 @@
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:9[m[K:
+[01m[K/opt/ros/rolling/include/cv_bridge/cv_bridge/cv_bridge.h:42:2:[m[K [01;35m[Kwarning: [m[K#warning This header is obsolete, please include cv_bridge/cv_bridge.hpp instead [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wcpp-Wcpp]8;;[m[K]
+   42 | #[01;35m[Kwarning[m[K This header is obsolete, please include cv_bridge/cv_bridge.hpp instead
+      |  [01;35m[K^~~~~~~[m[K
+/usr/bin/ld: 找不到 -larmor_detector_module: 没有那个文件或目录
+collect2: error: ld returned 1 exit status
+gmake[2]: *** [CMakeFiles/pipeline_node.dir/build.make:257：pipeline_node] 错误 1
+gmake[1]: *** [CMakeFiles/Makefile2:137：CMakeFiles/pipeline_node.dir/all] 错误 2
+gmake: *** [Makefile:146：all] 错误 2

@@ -1,0 +1,101 @@
+[0.038s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/tracker': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/tracker -- -j24 -l24
+[0.052s] -- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)
+[0.217s] -- Found rclcpp: 27.0.0 (/opt/ros/rolling/share/rclcpp/cmake)
+[0.239s] -- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)
+[0.246s] -- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)
+[0.257s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.271s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.404s] -- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)
+[0.406s] -- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)
+[0.497s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.653s] -- Found sensor_msgs: 5.3.0 (/opt/ros/rolling/share/sensor_msgs/cmake)
+[0.825s] -- Found tf2: 0.36.0 (/opt/ros/rolling/share/tf2/cmake)
+[0.832s] -- Found tf2_ros: 0.36.0 (/opt/ros/rolling/share/tf2_ros/cmake)
+[1.187s] -- Found autoaim_msgs: 0.0.1 (/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake)
+[1.299s] -- Found cv_bridge: 3.4.0 (/opt/ros/rolling/share/cv_bridge/cmake)
+[1.324s] -- Found utils: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake)
+[1.347s] -- Found solver: 0.0.0 (/home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake)
+[1.363s] -- Found eigen3_cmake_module: 0.3.0 (/opt/ros/rolling/share/eigen3_cmake_module/cmake)
+[1.365s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[1.433s] -- Found predictor: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/cmake)
+[1.799s] -- Found AMD headers in: /usr/include/suitesparse
+[1.799s] -- Found AMD library: /usr/lib/x86_64-linux-gnu/libamd.so
+[1.799s] -- Found CAMD headers in: /usr/include/suitesparse
+[1.799s] -- Found CAMD library: /usr/lib/x86_64-linux-gnu/libcamd.so
+[1.799s] -- Found CCOLAMD headers in: /usr/include/suitesparse
+[1.799s] -- Found CCOLAMD library: /usr/lib/x86_64-linux-gnu/libccolamd.so
+[1.799s] -- Found CHOLMOD headers in: /usr/include/suitesparse
+[1.799s] -- Found CHOLMOD library: /usr/lib/x86_64-linux-gnu/libcholmod.so
+[1.799s] -- Found COLAMD headers in: /usr/include/suitesparse
+[1.799s] -- Found COLAMD library: /usr/lib/x86_64-linux-gnu/libcolamd.so
+[1.799s] -- Found SPQR headers in: /usr/include/suitesparse
+[1.799s] -- Found SPQR library: /usr/lib/x86_64-linux-gnu/libspqr.so
+[1.799s] -- Found Config headers in: /usr/include/suitesparse
+[1.800s] -- Found Config library: /usr/lib/x86_64-linux-gnu/libsuitesparseconfig.so
+[1.800s] -- Found Intel Thread Building Blocks (TBB) library (2021.5 / ) include location: . Assuming SuiteSparseQR was compiled with TBB.
+[1.800s] -- Adding librt to SuiteSparse_config libraries (required on Linux & Unix [not OSX] if SuiteSparse is compiled with timing).
+[1.804s] -- Could NOT find METIS (missing: METIS_INCLUDE_DIR METIS_LIBRARY) 
+[1.916s] -- Found serial: 0.1.0 (/home/guo/ITL_sentry_auto_new/install/serial/share/serial/cmake)
+[1.922s] -- Found gimbal: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/gimbal/share/gimbal/cmake)
+[1.949s] -- Found ament_lint_auto: 0.16.3 (/opt/ros/rolling/share/ament_lint_auto/cmake)
+[1.999s] -- Added test 'copyright' to check source files copyright and LICENSE
+[1.999s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[2.000s] -- Configured cppcheck include dirs: /home/guo/ITL_sentry_auto_new/src/core/tracker/include
+[2.000s] -- Configured cppcheck exclude dirs and/or files: 
+[2.000s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[2.000s] -- Configured cpplint exclude dirs and/or files: 
+[2.000s] -- Added test 'lint_cmake' to check CMake code style
+[2.001s] -- Added test 'uncrustify' to check C / C++ code style
+[2.001s] -- Configured uncrustify additional arguments: 
+[2.001s] -- Added test 'xmllint' to check XML markup files
+[2.002s] -- Configuring done (2.0s)
+[2.021s] -- Generating done (0.0s)
+[2.024s] -- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/tracker
+[2.053s] [ 50%] [32mBuilding CXX object CMakeFiles/tracker_lib.dir/src/tracker.cpp.o[0m
+[5.119s] In file included from [01m[K/opt/ros/rolling/include/rclcpp/rclcpp/logging.hpp:24[m[K,
+[5.119s]                  from [01m[K/opt/ros/rolling/include/rclcpp/rclcpp/copy_all_parameter_values.hpp:27[m[K,
+[5.119s]                  from [01m[K/opt/ros/rolling/include/rclcpp/rclcpp/rclcpp.hpp:171[m[K,
+[5.119s]                  from [01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker.cpp:5[m[K:
+[5.120s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker.cpp:[m[K In member function ‘[01m[Kstd::__cxx11::list<predict::Target> tracker::Tracker::track(std::__cxx11::list<armor_auto_aim::Armor>&, std::chrono::_V2::steady_clock::time_point, bool)[m[K’:
+[5.120s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker.cpp:126:19:[m[K [01;35m[Kwarning: [m[Kformat ‘[01m[K%d[m[K’ expects argument of type ‘[01m[Kint[m[K’, but argument 6 has type ‘[01m[Klong unsigned int[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wformat=-Wformat=]8;;[m[K]
+[5.120s]   126 |                   [01;35m[K"NIS失败率过高 (%d/%d)，重置为lost"[m[K,
+[5.120s]       |                   [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[5.120s]   127 |                   failures, [32m[Kekf.window_size[m[K);
+[5.120s]       |                             [32m[K~~~~~~~~~~~~~~~[m[K
+[5.120s]       |                                 [32m[K|[m[K
+[5.120s]       |                                 [32m[Klong unsigned int[m[K
+[5.120s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/tracker/src/tracker.cpp:126:39:[m[K [01;36m[Knote: [m[Kformat string is defined here
+[5.120s]   126 |                   "NIS失败率过高 (%d/[01;36m[K%d[m[K)，重置为lost",
+[5.120s]       |                                      [01;36m[K~^[m[K
+[5.120s]       |                                       [01;36m[K|[m[K
+[5.120s]       |                                       [01;36m[Kint[m[K
+[5.120s]       |                                      [32m[K%ld[m[K
+[8.884s] [100%] [32m[1mLinking CXX static library libtracker_lib.a[0m
+[8.946s] [100%] Built target tracker_lib
+[8.950s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/tracker' returned '0': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/tracker -- -j24 -l24
+[8.951s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/tracker': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/tracker
+[8.953s] -- Install configuration: ""
+[8.953s] -- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/lib/libtracker_lib.a
+[8.958s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/tracker/include
+[8.958s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/tracker/include/tracker.hpp
+[8.958s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/environment/library_path.sh
+[8.958s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/environment/library_path.dsv
+[8.958s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/tracker/share/ament_index/resource_index/package_run_dependencies/tracker
+[8.958s] -- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/ament_index/resource_index/parent_prefix_path/tracker
+[8.958s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/environment/ament_prefix_path.sh
+[8.958s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/environment/ament_prefix_path.dsv
+[8.958s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/environment/path.sh
+[8.958s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/environment/path.dsv
+[8.958s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/local_setup.bash
+[8.958s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/local_setup.sh
+[8.958s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/local_setup.zsh
+[8.958s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/local_setup.dsv
+[8.959s] -- Installing: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/package.dsv
+[8.959s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/tracker/share/ament_index/resource_index/packages/tracker
+[8.959s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/cmake/ament_cmake_export_include_directories-extras.cmake
+[8.959s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/cmake/ament_cmake_export_libraries-extras.cmake
+[8.959s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/cmake/ament_cmake_export_dependencies-extras.cmake
+[8.959s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/cmake/trackerConfig.cmake
+[8.959s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/cmake/trackerConfig-version.cmake
+[8.959s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/package.xml
+[8.960s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/tracker' returned '0': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/tracker

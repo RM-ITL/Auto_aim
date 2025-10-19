@@ -1,0 +1,153 @@
+[0.000000] (-) TimerEvent: {}
+[0.000350] (-) JobUnselected: {'identifier': 'aimer'}
+[0.000377] (-) JobUnselected: {'identifier': 'armor_pointer'}
+[0.000402] (-) JobUnselected: {'identifier': 'autoaim_msgs'}
+[0.000412] (-) JobUnselected: {'identifier': 'cboard'}
+[0.000423] (-) JobUnselected: {'identifier': 'detected'}
+[0.000430] (-) JobUnselected: {'identifier': 'dm_imu'}
+[0.000437] (-) JobUnselected: {'identifier': 'filter_lib'}
+[0.000444] (-) JobUnselected: {'identifier': 'gimbal'}
+[0.000474] (-) JobUnselected: {'identifier': 'hikvision'}
+[0.000481] (-) JobUnselected: {'identifier': 'launch_node'}
+[0.000489] (-) JobUnselected: {'identifier': 'motion_model'}
+[0.000498] (-) JobUnselected: {'identifier': 'planner'}
+[0.000526] (-) JobUnselected: {'identifier': 'predictor'}
+[0.000534] (-) JobUnselected: {'identifier': 'serial'}
+[0.000544] (-) JobUnselected: {'identifier': 'solver'}
+[0.000552] (-) JobUnselected: {'identifier': 'tracker'}
+[0.000560] (-) JobUnselected: {'identifier': 'utils'}
+[0.000571] (pipeline) JobQueued: {'identifier': 'pipeline', 'dependencies': OrderedDict([('autoaim_msgs', '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs'), ('filter_lib', '/home/guo/ITL_sentry_auto_new/install/filter_lib'), ('utils', '/home/guo/ITL_sentry_auto_new/install/utils'), ('cboard', '/home/guo/ITL_sentry_auto_new/install/cboard'), ('detected', '/home/guo/ITL_sentry_auto_new/install/detected'), ('hikvision', '/home/guo/ITL_sentry_auto_new/install/hikvision'), ('motion_model', '/home/guo/ITL_sentry_auto_new/install/motion_model'), ('serial', '/home/guo/ITL_sentry_auto_new/install/serial'), ('dm_imu', '/home/guo/ITL_sentry_auto_new/install/dm_imu'), ('gimbal', '/home/guo/ITL_sentry_auto_new/install/gimbal'), ('solver', '/home/guo/ITL_sentry_auto_new/install/solver'), ('predictor', '/home/guo/ITL_sentry_auto_new/install/predictor'), ('aimer', '/home/guo/ITL_sentry_auto_new/install/aimer'), ('planner', '/home/guo/ITL_sentry_auto_new/install/planner'), ('tracker', '/home/guo/ITL_sentry_auto_new/install/tracker')])}
+[0.001215] (pipeline) JobStarted: {'identifier': 'pipeline'}
+[0.046769] (pipeline) JobProgress: {'identifier': 'pipeline', 'progress': 'cmake'}
+[0.047564] (pipeline) JobProgress: {'identifier': 'pipeline', 'progress': 'build'}
+[0.048289] (pipeline) Command: {'cmd': ['/usr/local/bin/cmake', '--build', '/home/guo/ITL_sentry_auto_new/build/pipeline', '--', '-j24', '-l24'], 'cwd': '/home/guo/ITL_sentry_auto_new/build/pipeline', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('C_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:'), ('LANGUAGE', 'zh_CN:zh'), ('USER', 'guo'), ('XDG_SESSION_TYPE', 'x11'), ('ALLUSERSPROFILE', '/opt/MVS/MVFG'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32'), ('HOME', '/home/guo'), ('OLDPWD', '/home/guo'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '2544'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=1f0210242bd94259deeaddfa68f448e5'), ('COLORTERM', 'truecolor'), ('CPLUS_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:'), ('IM_CONFIG_PHASE', '1'), ('ROS_DISTRO', 'rolling'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'guo'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'guo'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('MVCAM_SDK_PATH', '/opt/MVS'), ('PATH', '/home/guo/.local/bin:/tmp/.tmpDrqvga:/usr/local/lib/node_modules/@openai/codex/vendor/x86_64-unknown-linux-musl/path:/opt/ros/rolling/bin:/usr/local/cuda/bin:/home/guo/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:@/tmp/.ICE-unix/2544,unix/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:/tmp/.ICE-unix/2544'), ('MVCAM_GENICAM_CLPROTOCOL', '/opt/MVS/lib/CLProtocol'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/f45f4db6_3892_4035_b12e_3f627840d8f6'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('CODEX_SANDBOX_NETWORK_DISABLED', '1'), ('LANG', 'zh_CN.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.108'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('ROSDISTRO_INDEX_URL', 'https://mirrors.tuna.tsinghua.edu.cn/rosdistro/index-v4.yaml'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('ROS_AUTOMATIC_DISCOVERY_RANGE', 'SUBNET'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/guo/ITL_sentry_auto_new/build/pipeline'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=1f0210242bd94259deeaddfa68f448e5'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/guo/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages:/opt/ros/rolling/lib/python3.10/site-packages'), ('CPATH', '/usr/local/cuda/include:'), ('COLCON', '1'), ('CODEX_MANAGED_BY_NPM', '1'), ('VTE_VERSION', '6800'), ('MVCAM_COMMON_RUNENV', '/opt/MVS/lib'), ('CMAKE_PREFIX_PATH', '/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling')]), 'shell': False}
+[0.098437] (pipeline) StdoutLine: {'line': b'[ 50%] Building CXX object CMakeFiles/pipeline_node.dir/src/test_node.cpp.o\n'}
+[0.099969] (-) TimerEvent: {}
+[0.200117] (-) TimerEvent: {}
+[0.300286] (-) TimerEvent: {}
+[0.400595] (-) TimerEvent: {}
+[0.500777] (-) TimerEvent: {}
+[0.601068] (-) TimerEvent: {}
+[0.701271] (-) TimerEvent: {}
+[0.801469] (-) TimerEvent: {}
+[0.901644] (-) TimerEvent: {}
+[1.001875] (-) TimerEvent: {}
+[1.102208] (-) TimerEvent: {}
+[1.202420] (-) TimerEvent: {}
+[1.302600] (-) TimerEvent: {}
+[1.402762] (-) TimerEvent: {}
+[1.502911] (-) TimerEvent: {}
+[1.603212] (-) TimerEvent: {}
+[1.703441] (-) TimerEvent: {}
+[1.803724] (-) TimerEvent: {}
+[1.903959] (-) TimerEvent: {}
+[2.004137] (-) TimerEvent: {}
+[2.104324] (-) TimerEvent: {}
+[2.204524] (-) TimerEvent: {}
+[2.304770] (-) TimerEvent: {}
+[2.404996] (-) TimerEvent: {}
+[2.505178] (-) TimerEvent: {}
+[2.605376] (-) TimerEvent: {}
+[2.705627] (-) TimerEvent: {}
+[2.805877] (-) TimerEvent: {}
+[2.906063] (-) TimerEvent: {}
+[3.006345] (-) TimerEvent: {}
+[3.106627] (-) TimerEvent: {}
+[3.206863] (-) TimerEvent: {}
+[3.307071] (-) TimerEvent: {}
+[3.407296] (-) TimerEvent: {}
+[3.507516] (-) TimerEvent: {}
+[3.607788] (-) TimerEvent: {}
+[3.707982] (-) TimerEvent: {}
+[3.808196] (-) TimerEvent: {}
+[3.908424] (-) TimerEvent: {}
+[4.008635] (-) TimerEvent: {}
+[4.108870] (-) TimerEvent: {}
+[4.209117] (-) TimerEvent: {}
+[4.309372] (-) TimerEvent: {}
+[4.409549] (-) TimerEvent: {}
+[4.509716] (-) TimerEvent: {}
+[4.609967] (-) TimerEvent: {}
+[4.710188] (-) TimerEvent: {}
+[4.810413] (-) TimerEvent: {}
+[4.910579] (-) TimerEvent: {}
+[5.010823] (-) TimerEvent: {}
+[5.111019] (-) TimerEvent: {}
+[5.211204] (-) TimerEvent: {}
+[5.311403] (-) TimerEvent: {}
+[5.411681] (-) TimerEvent: {}
+[5.511886] (-) TimerEvent: {}
+[5.612057] (-) TimerEvent: {}
+[5.712235] (-) TimerEvent: {}
+[5.812423] (-) TimerEvent: {}
+[5.912676] (-) TimerEvent: {}
+[6.012923] (-) TimerEvent: {}
+[6.113106] (-) TimerEvent: {}
+[6.213376] (-) TimerEvent: {}
+[6.313568] (-) TimerEvent: {}
+[6.413758] (-) TimerEvent: {}
+[6.513980] (-) TimerEvent: {}
+[6.614227] (-) TimerEvent: {}
+[6.714473] (-) TimerEvent: {}
+[6.814767] (-) TimerEvent: {}
+[6.914990] (-) TimerEvent: {}
+[7.015145] (-) TimerEvent: {}
+[7.115329] (-) TimerEvent: {}
+[7.215568] (-) TimerEvent: {}
+[7.315792] (-) TimerEvent: {}
+[7.416012] (-) TimerEvent: {}
+[7.516169] (-) TimerEvent: {}
+[7.616355] (-) TimerEvent: {}
+[7.716535] (-) TimerEvent: {}
+[7.816767] (-) TimerEvent: {}
+[7.916994] (-) TimerEvent: {}
+[8.017149] (-) TimerEvent: {}
+[8.117326] (-) TimerEvent: {}
+[8.217564] (-) TimerEvent: {}
+[8.317794] (-) TimerEvent: {}
+[8.417998] (-) TimerEvent: {}
+[8.518152] (-) TimerEvent: {}
+[8.618305] (-) TimerEvent: {}
+[8.718464] (-) TimerEvent: {}
+[8.818624] (-) TimerEvent: {}
+[8.886504] (pipeline) StdoutLine: {'line': b'[100%] Linking CXX executable pipeline_node\n'}
+[8.918814] (-) TimerEvent: {}
+[9.019005] (-) TimerEvent: {}
+[9.119175] (-) TimerEvent: {}
+[9.219356] (-) TimerEvent: {}
+[9.319567] (-) TimerEvent: {}
+[9.419759] (-) TimerEvent: {}
+[9.519971] (-) TimerEvent: {}
+[9.620171] (-) TimerEvent: {}
+[9.720362] (-) TimerEvent: {}
+[9.820541] (-) TimerEvent: {}
+[9.920758] (-) TimerEvent: {}
+[10.020898] (-) TimerEvent: {}
+[10.096329] (pipeline) StdoutLine: {'line': b'[100%] Built target pipeline_node\n'}
+[10.100384] (pipeline) CommandEnded: {'returncode': 0}
+[10.101537] (pipeline) JobProgress: {'identifier': 'pipeline', 'progress': 'install'}
+[10.103840] (pipeline) Command: {'cmd': ['/usr/local/bin/cmake', '--install', '/home/guo/ITL_sentry_auto_new/build/pipeline'], 'cwd': '/home/guo/ITL_sentry_auto_new/build/pipeline', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('C_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:'), ('LANGUAGE', 'zh_CN:zh'), ('USER', 'guo'), ('XDG_SESSION_TYPE', 'x11'), ('ALLUSERSPROFILE', '/opt/MVS/MVFG'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32'), ('HOME', '/home/guo'), ('OLDPWD', '/home/guo'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '2544'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=1f0210242bd94259deeaddfa68f448e5'), ('COLORTERM', 'truecolor'), ('CPLUS_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:'), ('IM_CONFIG_PHASE', '1'), ('ROS_DISTRO', 'rolling'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'guo'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'guo'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('MVCAM_SDK_PATH', '/opt/MVS'), ('PATH', '/home/guo/.local/bin:/tmp/.tmpDrqvga:/usr/local/lib/node_modules/@openai/codex/vendor/x86_64-unknown-linux-musl/path:/opt/ros/rolling/bin:/usr/local/cuda/bin:/home/guo/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:@/tmp/.ICE-unix/2544,unix/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:/tmp/.ICE-unix/2544'), ('MVCAM_GENICAM_CLPROTOCOL', '/opt/MVS/lib/CLProtocol'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/f45f4db6_3892_4035_b12e_3f627840d8f6'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('CODEX_SANDBOX_NETWORK_DISABLED', '1'), ('LANG', 'zh_CN.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.108'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('ROSDISTRO_INDEX_URL', 'https://mirrors.tuna.tsinghua.edu.cn/rosdistro/index-v4.yaml'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('ROS_AUTOMATIC_DISCOVERY_RANGE', 'SUBNET'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/guo/ITL_sentry_auto_new/build/pipeline'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=1f0210242bd94259deeaddfa68f448e5'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/guo/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages:/opt/ros/rolling/lib/python3.10/site-packages'), ('CPATH', '/usr/local/cuda/include:'), ('COLCON', '1'), ('CODEX_MANAGED_BY_NPM', '1'), ('VTE_VERSION', '6800'), ('MVCAM_COMMON_RUNENV', '/opt/MVS/lib'), ('CMAKE_PREFIX_PATH', '/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling')]), 'shell': False}
+[10.106767] (pipeline) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[10.107323] (pipeline) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/pipeline/lib/pipeline/pipeline_node\n'}
+[10.110848] (pipeline) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/pipeline/lib/pipeline/pipeline_node" to ""\n'}
+[10.111019] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/include\n'}
+[10.111129] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/include/test_node.hpp\n'}
+[10.111205] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/ament_index/resource_index/package_run_dependencies/pipeline\n'}
+[10.111416] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/ament_index/resource_index/parent_prefix_path/pipeline\n'}
+[10.111552] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/environment/ament_prefix_path.sh\n'}
+[10.111627] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/environment/ament_prefix_path.dsv\n'}
+[10.111696] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/environment/path.sh\n'}
+[10.111764] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/environment/path.dsv\n'}
+[10.111837] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/local_setup.bash\n'}
+[10.112304] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/local_setup.sh\n'}
+[10.112688] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/local_setup.zsh\n'}
+[10.112849] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/local_setup.dsv\n'}
+[10.113285] (pipeline) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/package.dsv\n'}
+[10.113466] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/ament_index/resource_index/packages/pipeline\n'}
+[10.113625] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/cmake/pipelineConfig.cmake\n'}
+[10.113772] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/cmake/pipelineConfig-version.cmake\n'}
+[10.113923] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/package.xml\n'}
+[10.114183] (pipeline) CommandEnded: {'returncode': 0}
+[10.121290] (-) TimerEvent: {}
+[10.124831] (pipeline) JobEnded: {'identifier': 'pipeline', 'rc': 0}
+[10.125296] (-) EventReactorShutdown: {}

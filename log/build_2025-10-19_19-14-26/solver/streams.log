@@ -1,0 +1,85 @@
+[0.017s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/solver': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/solver -- -j24 -l24
+[0.032s] -- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)
+[0.211s] -- Found rclcpp: 27.0.0 (/opt/ros/rolling/share/rclcpp/cmake)
+[0.234s] -- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)
+[0.242s] -- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)
+[0.254s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.272s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.414s] -- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)
+[0.416s] -- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)
+[0.531s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.693s] -- Found std_msgs: 5.3.0 (/opt/ros/rolling/share/std_msgs/cmake)
+[0.719s] -- Found geometry_msgs: 5.3.0 (/opt/ros/rolling/share/geometry_msgs/cmake)
+[0.754s] -- Found tf2_geometry_msgs: 0.36.0 (/opt/ros/rolling/share/tf2_geometry_msgs/cmake)
+[0.759s] -- Found eigen3_cmake_module: 0.3.0 (/opt/ros/rolling/share/eigen3_cmake_module/cmake)
+[0.761s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[1.149s] -- Found autoaim_msgs: 0.0.1 (/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake)
+[1.392s] -- Found utils: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake)
+[1.415s] -- Found detected: 0.0.2 (/home/guo/ITL_sentry_auto_new/install/detected/share/detected/cmake)
+[1.490s] -- Found ament_lint_auto: 0.16.3 (/opt/ros/rolling/share/ament_lint_auto/cmake)
+[1.543s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[1.544s] -- Configured cppcheck include dirs: /home/guo/ITL_sentry_auto_new/src/core/solver/include;$<BUILD_INTERFACE:/home/guo/ITL_sentry_auto_new/src/core/solver/include>
+[1.544s] -- Configured cppcheck exclude dirs and/or files: 
+[1.545s] -- Added test 'lint_cmake' to check CMake code style
+[1.545s] -- Added test 'uncrustify' to check C / C++ code style
+[1.546s] -- Configured uncrustify additional arguments: 
+[1.546s] -- Added test 'xmllint' to check XML markup files
+[1.548s] -- Configuring done (1.5s)
+[1.597s] -- Generating done (0.0s)
+[1.606s] -- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/solver
+[1.638s] [ 20%] Built target solver_base
+[1.655s] [ 40%] Built target coord_converter
+[1.662s] [ 60%] Built target pnp_solver_lib
+[1.662s] [ 80%] Built target yaw_optimzier_lib
+[1.684s] [ 90%] [32mBuilding CXX object CMakeFiles/solver_interface.dir/src/solver_node.cpp.o[0m
+[4.685s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/solver_node.cpp:[m[K In member function ‘[01m[Ksolver::Armor_pose solver::Solver::processArmor(solver::Armors, double)[m[K’:
+[4.685s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/solver_node.cpp:57:10:[m[K [01;35m[Kwarning: [m[Kstructured binding declaration set but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-but-set-variable-Wunused-but-set-variable]8;;[m[K]
+[4.685s]    57 |     auto [01;35m[K[R_gimbal_to_world, R_camera_to_gimbal][m[K = coord_converter_->getCameraToWorldRotation();
+[4.685s]       |          [01;35m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[4.685s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/solver_node.cpp:203:21:[m[K [01;35m[Kwarning: [m[Kvariable ‘[01m[Ktest_R_armor_to_camera[m[K’ set but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-but-set-variable-Wunused-but-set-variable]8;;[m[K]
+[4.685s]   203 |     Eigen::Matrix3d [01;35m[Ktest_R_armor_to_camera[m[K = coord_converter_->transformRotation(
+[4.686s]       |                     [01;35m[K^~~~~~~~~~~~~~~~~~~~~~[m[K
+[9.501s] [100%] [32m[1mLinking CXX shared library libsolver_interface.so[0m
+[9.828s] [100%] Built target solver_interface
+[9.833s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/solver' returned '0': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/solver -- -j24 -l24
+[9.833s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/solver': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/solver
+[9.835s] -- Install configuration: "Release"
+[9.835s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/lib/libsolver_base.so
+[9.835s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/lib/libcoord_converter.so
+[9.835s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/lib/libpnp_solver_lib.so
+[9.835s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/lib/libyaw_optimzier_lib.so
+[9.835s] -- Installing: /home/guo/ITL_sentry_auto_new/install/solver/lib/libsolver_interface.so
+[9.839s] -- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/solver/lib/libsolver_interface.so" to ""
+[9.839s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/solverTargets.cmake
+[9.839s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/solverTargets-release.cmake
+[9.839s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/include
+[9.839s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/include/solver_node.hpp
+[9.839s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/include/module
+[9.839s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/include/module/coord_converter.hpp
+[9.839s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/include/module/optimize_yaw.hpp
+[9.839s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/include/module/solver.hpp
+[9.839s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/include/module/pnp_solver.hpp
+[9.839s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/environment/library_path.sh
+[9.839s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/environment/library_path.dsv
+[9.839s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/ament_index/resource_index/package_run_dependencies/solver
+[9.839s] -- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/ament_index/resource_index/parent_prefix_path/solver
+[9.839s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/environment/ament_prefix_path.sh
+[9.839s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/environment/ament_prefix_path.dsv
+[9.839s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/environment/path.sh
+[9.839s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/environment/path.dsv
+[9.839s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/local_setup.bash
+[9.839s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/local_setup.sh
+[9.839s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/local_setup.zsh
+[9.839s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/local_setup.dsv
+[9.839s] -- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/package.dsv
+[9.840s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/ament_index/resource_index/packages/solver
+[9.840s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/solver_targetsExport.cmake
+[9.840s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/solver_targetsExport-release.cmake
+[9.840s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/ament_cmake_export_include_directories-extras.cmake
+[9.840s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/ament_cmake_export_libraries-extras.cmake
+[9.840s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/ament_cmake_export_targets-extras.cmake
+[9.840s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/ament_cmake_export_dependencies-extras.cmake
+[9.840s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/solverConfig.cmake
+[9.840s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/solverConfig-version.cmake
+[9.840s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/package.xml
+[9.841s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/solver' returned '0': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/solver

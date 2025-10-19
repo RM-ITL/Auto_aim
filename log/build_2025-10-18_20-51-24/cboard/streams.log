@@ -1,0 +1,38 @@
+[0.014s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/cboard': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/utils/lib:${LD_LIBRARY_PATH} /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/cboard -- -j24 -l24
+[0.033s] [ 50%] [32m[1mLinking CXX shared library libcboard.so[0m
+[0.521s] [100%] Built target cboard
+[0.553s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/cboard' returned '0': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/utils/lib:${LD_LIBRARY_PATH} /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/cboard -- -j24 -l24
+[0.555s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/cboard': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/utils/lib:${LD_LIBRARY_PATH} /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/cboard
+[0.556s] -- Install configuration: ""
+[0.557s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/environment/library_path.sh
+[0.557s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/environment/library_path.dsv
+[0.557s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/include
+[0.557s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/include/command.hpp
+[0.557s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/include/cboard.hpp
+[0.557s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/include/socketcan.hpp
+[0.557s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/lib/libcboard.so
+[0.560s] -- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/cboard/lib/libcboard.so" to ""
+[0.561s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake/cboardTargets.cmake
+[0.561s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake/cboardTargets-noconfig.cmake
+[0.561s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/ament_index/resource_index/package_run_dependencies/cboard
+[0.561s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/ament_index/resource_index/parent_prefix_path/cboard
+[0.561s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/environment/ament_prefix_path.sh
+[0.562s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/environment/ament_prefix_path.dsv
+[0.562s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/environment/path.sh
+[0.562s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/environment/path.dsv
+[0.562s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/local_setup.bash
+[0.563s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/local_setup.sh
+[0.563s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/local_setup.zsh
+[0.563s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/local_setup.dsv
+[0.564s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/package.dsv
+[0.565s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/ament_index/resource_index/packages/cboard
+[0.565s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake/cboardTargetsExport.cmake
+[0.565s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake/cboardTargetsExport-noconfig.cmake
+[0.565s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake/ament_cmake_export_include_directories-extras.cmake
+[0.565s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake/ament_cmake_export_libraries-extras.cmake
+[0.565s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake/ament_cmake_export_dependencies-extras.cmake
+[0.565s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake/ament_cmake_export_targets-extras.cmake
+[0.565s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake/cboardConfig.cmake
+[0.566s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake/cboardConfig-version.cmake
+[0.566s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/package.xml
+[0.566s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/cboard' returned '0': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/utils/lib:${LD_LIBRARY_PATH} /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/cboard

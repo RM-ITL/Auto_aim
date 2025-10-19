@@ -1,0 +1,144 @@
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+-- Found utils: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake)
+-- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)
+-- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+-- Found FastRTPS: /opt/ros/rolling/include  
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found predictor: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/cmake)
+-- Found eigen3_cmake_module: 0.3.0 (/opt/ros/rolling/share/eigen3_cmake_module/cmake)
+-- Found Eigen3: TRUE (found version "3.4.0") 
+-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Found AMD headers in: /usr/include/suitesparse
+-- Found AMD library: /usr/lib/x86_64-linux-gnu/libamd.so
+-- Found CAMD headers in: /usr/include/suitesparse
+-- Found CAMD library: /usr/lib/x86_64-linux-gnu/libcamd.so
+-- Found CCOLAMD headers in: /usr/include/suitesparse
+-- Found CCOLAMD library: /usr/lib/x86_64-linux-gnu/libccolamd.so
+-- Found CHOLMOD headers in: /usr/include/suitesparse
+-- Found CHOLMOD library: /usr/lib/x86_64-linux-gnu/libcholmod.so
+-- Found COLAMD headers in: /usr/include/suitesparse
+-- Found COLAMD library: /usr/lib/x86_64-linux-gnu/libcolamd.so
+-- Found SPQR headers in: /usr/include/suitesparse
+-- Found SPQR library: /usr/lib/x86_64-linux-gnu/libspqr.so
+-- Found Config headers in: /usr/include/suitesparse
+-- Found Config library: /usr/lib/x86_64-linux-gnu/libsuitesparseconfig.so
+-- Found Intel Thread Building Blocks (TBB) library (2021.5 / ) include location: . Assuming SuiteSparseQR was compiled with TBB.
+-- Looking for shm_open in rt
+-- Looking for shm_open in rt - found
+-- Adding librt to SuiteSparse_config libraries (required on Linux & Unix [not OSX] if SuiteSparse is compiled with timing).
+-- Could NOT find METIS (missing: METIS_INCLUDE_DIR METIS_LIBRARY) 
+-- Found ament_lint_auto: 0.16.3 (/opt/ros/rolling/share/ament_lint_auto/cmake)
+-- Added test 'copyright' to check source files copyright and LICENSE
+-- Added test 'cppcheck' to perform static code analysis on C / C++ code
+-- Configured cppcheck include dirs: $<BUILD_INTERFACE:/home/guo/ITL_sentry_auto_new/src/core/planner/include>;/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/include
+-- Configured cppcheck exclude dirs and/or files: 
+-- Added test 'cpplint' to check C / C++ code against the Google style
+-- Configured cpplint exclude dirs and/or files: 
+-- Added test 'lint_cmake' to check CMake code style
+-- Added test 'uncrustify' to check C / C++ code style
+-- Configured uncrustify additional arguments: 
+-- Added test 'xmllint' to check XML markup files
+-- Configuring done (3.2s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/planner
+[ 20%] [32mBuilding CXX object CMakeFiles/planner.dir/src/planner.cpp.o[0m
+[ 60%] [32mBuilding CXX object CMakeFiles/planner.dir/tinympc/src/tiny_api.cpp.o[0m
+[ 60%] [32mBuilding CXX object CMakeFiles/planner.dir/tinympc/src/codegen.cpp.o[0m
+[ 80%] [32mBuilding CXX object CMakeFiles/planner.dir/tinympc/src/rho_benchmark.cpp.o[0m
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:1[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/include/planner.hpp:17:14:[m[K [01;31m[Kerror: [m[K‘[01m[KTrajectory[m[K’ has not been declared in ‘[01m[Kutils[m[K’
+   17 | using utils::[01;31m[KTrajectory[m[K = Eigen::Matrix<double, 4, HORIZON>;  // yaw, yaw_vel, pitch, pitch_vel
+      |              [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/include/planner.hpp:17:24:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[K=[m[K’ token
+   17 | using utils::Trajectory[01;31m[K [m[K[32m[K=[m[K Eigen::Matrix<double, 4, HORIZON>;  // yaw, yaw_vel, pitch, pitch_vel
+      |                        [01;31m[K^[m[K[32m[K~[m[K
+      |                        [32m[K;[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/include/planner.hpp:17:25:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[K=[m[K’ token
+   17 | using utils::Trajectory [01;31m[K=[m[K Eigen::Matrix<double, 4, HORIZON>;  // yaw, yaw_vel, pitch, pitch_vel
+      |                         [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/include/planner.hpp:55:10:[m[K [01;31m[Kerror: [m[K‘[01m[KTrajectory[m[K’ in namespace ‘[01m[Kutils[m[K’ does not name a type
+   55 |   utils::[01;31m[KTrajectory[m[K get_trajectory(predict::Target & target, double yaw0, double bullet_speed);
+      |          [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:[m[K In member function ‘[01m[Kplan::Plan plan::Planner::plan(predict::Target, double)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:49:3:[m[K [01;31m[Kerror: [m[K‘[01m[KTrajectory[m[K’ was not declared in this scope; did you mean ‘[01m[Kutils::Trajectory[m[K’?
+   49 |   [01;31m[KTrajectory[m[K traj;
+      |   [01;31m[K^~~~~~~~~~[m[K
+      |   [32m[Kutils::Trajectory[m[K
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:6[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/install/utils/include/trajectory.hpp:6:8:[m[K [01;36m[Knote: [m[K‘[01m[Kutils::Trajectory[m[K’ declared here
+    6 | struct [01;36m[KTrajectory[m[K
+      |        [01;36m[K^~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:52:5:[m[K [01;31m[Kerror: [m[K‘[01m[Ktraj[m[K’ was not declared in this scope
+   52 |     [01;31m[Ktraj[m[K = get_trajectory(target, yaw0, bullet_speed);
+      |     [01;31m[K^~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:52:12:[m[K [01;31m[Kerror: [m[K‘[01m[Kget_trajectory[m[K’ was not declared in this scope
+   52 |     traj = [01;31m[Kget_trajectory[m[K(target, yaw0, bullet_speed);
+      |            [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:55:18:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::fire[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+   55 |     return {false[01;35m[K}[m[K;
+      |                  [01;35m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:55:18:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::target_yaw[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:55:18:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::target_pitch[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:55:18:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::yaw[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:55:18:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::yaw_vel[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:55:18:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::yaw_acc[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:55:18:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::pitch[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:55:18:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::pitch_vel[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:55:18:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::pitch_acc[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:60:9:[m[K [01;31m[Kerror: [m[K‘[01m[Ktraj[m[K’ was not declared in this scope
+   60 |   x0 << [01;31m[Ktraj[m[K(0, 0), traj(1, 0);
+      |         [01;31m[K^~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:[m[K In member function ‘[01m[Kplan::Plan plan::Planner::plan(std::optional<predict::Target>, double)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:98:41:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::fire[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+   98 |   if (!target.has_value()) return {false[01;35m[K}[m[K;
+      |                                         [01;35m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:98:41:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::target_yaw[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:98:41:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::target_pitch[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:98:41:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::yaw[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:98:41:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::yaw_vel[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:98:41:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::yaw_acc[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:98:41:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::pitch[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:98:41:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::pitch_vel[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:98:41:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::pitch_acc[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:[m[K At global scope:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:156:48:[m[K [01;31m[Kerror: [m[K‘[01m[KTarget[m[K’ does not name a type
+  156 | Eigen::Matrix<double, 2, 1> Planner::aim(const [01;31m[KTarget[m[K & target, double bullet_speed)
+      |                                                [01;31m[K^~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:156:29:[m[K [01;31m[Kerror: [m[Kno declaration matches ‘[01m[KEigen::Matrix<double, 2, 1> plan::Planner::aim(const int&, double)[m[K’
+  156 | Eigen::Matrix<double, 2, 1> [01;31m[KPlanner[m[K::aim(const Target & target, double bullet_speed)
+      |                             [01;31m[K^~~~~~~[m[K
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:1[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/include/planner.hpp:54:31:[m[K [01;36m[Knote: [m[Kcandidate is: ‘[01m[KEigen::Matrix<double, 2, 1> plan::Planner::aim(const predict::Target&, double)[m[K’
+   54 |   Eigen::Matrix<double, 2, 1> [01;36m[Kaim[m[K(const predict::Target & target, double bullet_speed);
+      |                               [01;36m[K^~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/include/planner.hpp:33:7:[m[K [01;36m[Knote: [m[K‘[01m[Kclass plan::Planner[m[K’ defined here
+   33 | class [01;36m[KPlanner[m[K
+      |       [01;36m[K^~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:179:1:[m[K [01;31m[Kerror: [m[K‘[01m[KTrajectory[m[K’ does not name a type
+  179 | [01;31m[KTrajectory[m[K Planner::get_trajectory(predict::arget & target, double yaw0, double bullet_speed)
+      | [01;31m[K^~~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/planner.dir/build.make:76：CMakeFiles/planner.dir/src/planner.cpp.o] 错误 1
+gmake[2]: *** 正在等待未完成的任务....
+gmake[1]: *** [CMakeFiles/Makefile2:137：CMakeFiles/planner.dir/all] 错误 2
+gmake: *** [Makefile:146：all] 错误 2

@@ -1,0 +1,7 @@
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:[m[K In member function ‘[01m[Kint pipeline::PipelineApp::run()[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:123:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kyaw_optimizer_[m[K’ was not declared in this scope
+  123 |           [01;31m[Kyaw_optimizer_[m[K->reproject_armor_out(world_point, xyza[3], target.armor_type, target.name);
+      |           [01;31m[K^~~~~~~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/pipeline_node.dir/build.make:76：CMakeFiles/pipeline_node.dir/src/test_node.cpp.o] 错误 1
+gmake[1]: *** [CMakeFiles/Makefile2:137：CMakeFiles/pipeline_node.dir/all] 错误 2
+gmake: *** [Makefile:146：all] 错误 2

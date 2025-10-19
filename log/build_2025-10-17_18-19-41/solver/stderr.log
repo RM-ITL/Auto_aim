@@ -1,0 +1,33 @@
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/solver_node.cpp:[m[K In member function ‘[01m[Ksolver::Armor_pose solver::Solver::processArmor(solver::Armors, double)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/solver_node.cpp:30:44:[m[K [01;31m[Kerror: [m[K‘[01m[Kusing Armors = struct armor_auto_aim::Armor[m[K’ {aka ‘[01m[Kstruct armor_auto_aim::Armor[m[K’} has no member named ‘[01m[Knumber[m[K’
+   30 |     armor_pose.id = parseArmorNumber(armor.[01;31m[Knumber[m[K);
+      |                                            [01;31m[K^~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/solver_node.cpp:31:44:[m[K [01;31m[Kerror: [m[Kcannot convert ‘[01m[Karmor_auto_aim::ArmorType[m[K’ to ‘[01m[Kconst string&[m[K’ {aka ‘[01m[Kconst std::__cxx11::basic_string<char>&[m[K’}
+   31 |     armor_pose.type = parseArmorType([01;31m[Karmor.type[m[K);
+      |                                      [01;31m[K~~~~~~^~~~[m[K
+      |                                            [01;31m[K|[m[K
+      |                                            [01;31m[Karmor_auto_aim::ArmorType[m[K
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/solver_node.cpp:1[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/include/solver_node.hpp:41:49:[m[K [01;36m[Knote: [m[K  initializing argument 1 of ‘[01m[Ksolver::ArmorType solver::Solver::parseArmorType(const string&) const[m[K’
+   41 |     ArmorType parseArmorType([01;36m[Kconst std::string& type_str[m[K) const;
+      |                              [01;36m[K~~~~~~~~~~~~~~~~~~~^~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/solver_node.cpp:33:55:[m[K [01;31m[Kerror: [m[Kcannot convert ‘[01m[Ksolver::Armors[m[K’ {aka ‘[01m[Karmor_auto_aim::Armor[m[K’} to ‘[01m[Kconst Armor&[m[K’ {aka ‘[01m[Kconst autoaim_msgs::msg::Armor_<std::allocator<void> >&[m[K’}
+   33 |     std::vector<cv::Point2f> corners = extractCorners([01;31m[Karmor[m[K);
+      |                                                       [01;31m[K^~~~~[m[K
+      |                                                       [01;31m[K|[m[K
+      |                                                       [01;31m[Ksolver::Armors {aka armor_auto_aim::Armor}[m[K
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/solver_node.cpp:1[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/include/solver_node.hpp:42:77:[m[K [01;36m[Knote: [m[K  initializing argument 1 of ‘[01m[Kstd::vector<cv::Point_<float> > solver::Solver::extractCorners(const Armor&) const[m[K’
+   42 | or<cv::Point2f> extractCorners([01;36m[Kconst autoaim_msgs::msg::Armor& armor_msg[m[K) const;
+      |                                [01;36m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~[m[K
+
+In file included from [01m[K/opt/ros/rolling/include/rclcpp/rclcpp/logging.hpp:24[m[K,
+                 from [01m[K/opt/ros/rolling/include/rclcpp/rclcpp/copy_all_parameter_values.hpp:27[m[K,
+                 from [01m[K/opt/ros/rolling/include/rclcpp/rclcpp/rclcpp.hpp:171[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/solver_node.cpp:2[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/solver/src/solver_node.cpp:41:57:[m[K [01;31m[Kerror: [m[K‘[01m[Kusing Armors = struct armor_auto_aim::Armor[m[K’ {aka ‘[01m[Kstruct armor_auto_aim::Armor[m[K’} has no member named ‘[01m[Knumber[m[K’
+   41 |                    "PnP求解失败，装甲板编号: %d", armor.[01;31m[Knumber[m[K);
+      |                                                         [01;31m[K^~~~~~[m[K
+gmake[2]: *** [CMakeFiles/solver_interface.dir/build.make:76：CMakeFiles/solver_interface.dir/src/solver_node.cpp.o] 错误 1
+gmake[1]: *** [CMakeFiles/Makefile2:252：CMakeFiles/solver_interface.dir/all] 错误 2
+gmake: *** [Makefile:146：all] 错误 2

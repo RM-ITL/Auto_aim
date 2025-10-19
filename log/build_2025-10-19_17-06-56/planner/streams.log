@@ -1,0 +1,114 @@
+[0.025s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/planner': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/planner -- -j24 -l24
+[0.041s] -- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)
+[0.220s] -- Found utils: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake)
+[0.250s] -- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)
+[0.258s] -- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)
+[0.269s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.285s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.423s] -- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)
+[0.426s] -- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)
+[0.520s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.716s] -- Found predictor: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/predictor/share/predictor/cmake)
+[1.058s] -- Found eigen3_cmake_module: 0.3.0 (/opt/ros/rolling/share/eigen3_cmake_module/cmake)
+[1.059s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[1.752s] -- Found AMD headers in: /usr/include/suitesparse
+[1.752s] -- Found AMD library: /usr/lib/x86_64-linux-gnu/libamd.so
+[1.752s] -- Found CAMD headers in: /usr/include/suitesparse
+[1.752s] -- Found CAMD library: /usr/lib/x86_64-linux-gnu/libcamd.so
+[1.752s] -- Found CCOLAMD headers in: /usr/include/suitesparse
+[1.752s] -- Found CCOLAMD library: /usr/lib/x86_64-linux-gnu/libccolamd.so
+[1.752s] -- Found CHOLMOD headers in: /usr/include/suitesparse
+[1.752s] -- Found CHOLMOD library: /usr/lib/x86_64-linux-gnu/libcholmod.so
+[1.752s] -- Found COLAMD headers in: /usr/include/suitesparse
+[1.752s] -- Found COLAMD library: /usr/lib/x86_64-linux-gnu/libcolamd.so
+[1.752s] -- Found SPQR headers in: /usr/include/suitesparse
+[1.752s] -- Found SPQR library: /usr/lib/x86_64-linux-gnu/libspqr.so
+[1.752s] -- Found Config headers in: /usr/include/suitesparse
+[1.752s] -- Found Config library: /usr/lib/x86_64-linux-gnu/libsuitesparseconfig.so
+[1.754s] -- Found Intel Thread Building Blocks (TBB) library (2021.5 / ) include location: . Assuming SuiteSparseQR was compiled with TBB.
+[1.754s] -- Adding librt to SuiteSparse_config libraries (required on Linux & Unix [not OSX] if SuiteSparse is compiled with timing).
+[1.758s] -- Could NOT find METIS (missing: METIS_INCLUDE_DIR METIS_LIBRARY) 
+[1.945s] -- Found ament_lint_auto: 0.16.3 (/opt/ros/rolling/share/ament_lint_auto/cmake)
+[1.997s] -- Added test 'copyright' to check source files copyright and LICENSE
+[1.998s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[1.998s] -- Configured cppcheck include dirs: $<BUILD_INTERFACE:/home/guo/ITL_sentry_auto_new/src/core/planner/include>;/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/include
+[1.998s] -- Configured cppcheck exclude dirs and/or files: 
+[1.998s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[1.998s] -- Configured cpplint exclude dirs and/or files: 
+[1.999s] -- Added test 'lint_cmake' to check CMake code style
+[2.000s] -- Added test 'uncrustify' to check C / C++ code style
+[2.000s] -- Configured uncrustify additional arguments: 
+[2.000s] -- Added test 'xmllint' to check XML markup files
+[2.002s] -- Configuring done (2.0s)
+[2.024s] -- Generating done (0.0s)
+[2.029s] -- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/planner
+[2.062s] [ 16%] [32mBuilding CXX object CMakeFiles/planner.dir/tinympc/src/admm.cpp.o[0m
+[2.831s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:[m[K In function ‘[01m[KtinyVector project_soc(tinyVector, float)[m[K’:
+[2.831s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:40:42:[m[K [01;35m[Kwarning: [m[K‘[01m[KEigen::placeholders::last[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-declarations-Wdeprecated-declarations]8;;[m[K]
+[2.831s]    40 |     tinytype u0 = s(Eigen::placeholders::[01;35m[Klast[m[K) * mu;
+[2.831s]       |                                          [01;35m[K^~~~[m[K
+[2.831s] In file included from [01m[K/usr/include/eigen3/Eigen/Core:265[m[K,
+[2.831s]                  from [01m[K/usr/include/eigen3/Eigen/Dense:1[m[K,
+[2.831s]                  from [01m[K/usr/include/eigen3/Eigen/Eigen:1[m[K,
+[2.831s]                  from [01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/include/types.hpp:3[m[K,
+[2.831s]                  from [01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/include/admm.hpp:3[m[K,
+[2.831s]                  from [01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:3[m[K:
+[2.831s] [01m[K/usr/include/eigen3/Eigen/src/Core/util/IndexedViewHelper.h:180:40:[m[K [01;36m[Knote: [m[Kdeclared here
+[2.831s]   180 |   EIGEN_DEPRECATED static const last_t [01;36m[Klast[m[K = Eigen::last;   // PLEASE use Eigen::last   instead of Eigen::placeholders::last
+[2.831s]       |                                        [01;36m[K^~~~[m[K
+[2.984s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:[m[K In function ‘[01m[Kint solve(TinySolver*)[m[K’:
+[2.984s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:333:22:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kpri_res_input[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+[2.984s]   333 |             tinytype [01;35m[Kpri_res_input[m[K = (solver->work->u - solver->work->znew).cwiseAbs().maxCoeff();
+[2.984s]       |                      [01;35m[K^~~~~~~~~~~~~[m[K
+[2.984s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:334:22:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kpri_res_state[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+[2.984s]   334 |             tinytype [01;35m[Kpri_res_state[m[K = (solver->work->x - solver->work->vnew).cwiseAbs().maxCoeff();
+[2.984s]       |                      [01;35m[K^~~~~~~~~~~~~[m[K
+[2.984s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:335:22:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kdua_res_input[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+[2.984s]   335 |             tinytype [01;35m[Kdua_res_input[m[K = solver->cache->rho * (solver->work->znew - z_prev).cwiseAbs().maxCoeff();
+[2.984s]       |                      [01;35m[K^~~~~~~~~~~~~[m[K
+[2.984s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:336:22:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kdua_res_state[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+[2.984s]   336 |             tinytype [01;35m[Kdua_res_state[m[K = solver->cache->rho * (solver->work->vnew - v_prev).cwiseAbs().maxCoeff();
+[2.985s]       |                      [01;35m[K^~~~~~~~~~~~~[m[K
+[4.687s] [ 33%] [32m[1mLinking CXX shared library libplanner.so[0m
+[5.073s] [100%] Built target planner
+[5.077s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/planner' returned '0': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/planner -- -j24 -l24
+[5.079s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/planner': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/planner
+[5.081s] -- Install configuration: "Release"
+[5.081s] -- Installing: /home/guo/ITL_sentry_auto_new/install/planner/lib/libplanner.so
+[5.086s] -- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/planner/lib/libplanner.so" to ""
+[5.086s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/include
+[5.086s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/include/planner.hpp
+[5.086s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc
+[5.086s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/admm.hpp
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/rho_benchmark.hpp
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/codegen.hpp
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/types.hpp
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/tiny_api_constants.hpp
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/error.hpp
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/include/tinympc/tiny_api.hpp
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/plannerTargets.cmake
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/plannerTargets-release.cmake
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/environment/library_path.sh
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/environment/library_path.dsv
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/ament_index/resource_index/package_run_dependencies/planner
+[5.087s] -- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/ament_index/resource_index/parent_prefix_path/planner
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/environment/ament_prefix_path.sh
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/environment/ament_prefix_path.dsv
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/environment/path.sh
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/environment/path.dsv
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/local_setup.bash
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/local_setup.sh
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/local_setup.zsh
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/local_setup.dsv
+[5.087s] -- Installing: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/package.dsv
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/ament_index/resource_index/packages/planner
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/plannerTargetsExport.cmake
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/plannerTargetsExport-release.cmake
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/ament_cmake_export_include_directories-extras.cmake
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/ament_cmake_export_libraries-extras.cmake
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/ament_cmake_export_targets-extras.cmake
+[5.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/ament_cmake_export_dependencies-extras.cmake
+[5.088s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/plannerConfig.cmake
+[5.088s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake/plannerConfig-version.cmake
+[5.088s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/planner/share/planner/package.xml
+[5.089s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/planner' returned '0': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/planner

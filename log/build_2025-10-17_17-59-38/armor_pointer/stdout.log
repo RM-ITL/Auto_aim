@@ -1,0 +1,28 @@
+[100%] Built target armor_pointer
+-- Install configuration: ""
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/environment/library_path.sh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/environment/library_path.dsv
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/include
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/include/types.hpp
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/include/lightbar_detector.hpp
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/include/image_processor.hpp
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/lib/libarmor_pointer.a
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/ament_index/resource_index/package_run_dependencies/armor_pointer
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/ament_index/resource_index/parent_prefix_path/armor_pointer
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/environment/ament_prefix_path.sh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/environment/path.sh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/environment/path.dsv
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/local_setup.bash
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/local_setup.sh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/local_setup.zsh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/local_setup.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/package.dsv
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/ament_index/resource_index/packages/armor_pointer
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/cmake/armor_pointerTargetsExport.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/cmake/armor_pointerTargetsExport-noconfig.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/cmake/ament_cmake_export_targets-extras.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/cmake/armor_pointerConfig.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/cmake/armor_pointerConfig-version.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/armor_pointer/share/armor_pointer/package.xml

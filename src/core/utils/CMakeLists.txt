@@ -11,9 +11,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic -fPIC)
 endif()
 
-# ============================================
-# 查找所有依赖包
-# ============================================
+
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(OpenCV REQUIRED)
@@ -21,44 +19,27 @@ find_package(yaml-cpp REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(fmt REQUIRED)
 
-# ============================================
-# 创建静态库
-# ============================================
 add_library(${PROJECT_NAME} STATIC
-  src/imu_data_processor.cpp
   src/math_tools.cpp
   src/logger.cpp
+  src/trajectory.cpp
+  src/crc.cpp
 )
 
-# ============================================
-# 设置包含目录 - 这是关键！
-# 必须在创建目标后立即设置，确保编译时能找到所有头文件
-# ============================================
 target_include_directories(${PROJECT_NAME} PUBLIC
-  # 本项目的头文件
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
-  # Eigen3的头文件路径 - 显式添加
-  ${EIGEN3_INCLUDE_DIRS}
-  # OpenCV的头文件路径 - 显式添加  
+  ${EIGEN3_INCLUDE_DIRS} 
   ${OpenCV_INCLUDE_DIRS}
-  # yaml-cpp的头文件路径（如果需要）
   ${yaml-cpp_INCLUDE_DIRS}
   ${fmt_INCLUDE_DIRS}
 )
 
-# ============================================
-# 处理编译定义（如果Eigen需要）
-# ============================================
+
 if(DEFINED EIGEN3_DEFINITIONS)
   target_compile_definitions(${PROJECT_NAME} PUBLIC ${EIGEN3_DEFINITIONS})
 endif()
 
-# ============================================
-# 链接库文件
-# 注意：先设置非ROS库，再用ament处理ROS包
-# ============================================
-# 链接系统库
 target_link_libraries(${PROJECT_NAME}
   ${OpenCV_LIBS}
   ${EIGEN3_LIBRARIES}
@@ -66,21 +47,13 @@ target_link_libraries(${PROJECT_NAME}
   fmt
 )
 
-# 使用ament处理ROS包依赖
-# 注意：这必须在target_link_libraries之后调用
 ament_target_dependencies(${PROJECT_NAME}
   rclcpp
 )
 
-# ============================================
-# 创建别名目标（向后兼容）
-# ============================================
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
-# ============================================
-# 导出配置
-# ============================================
-# 导出包含目录
+
 ament_export_include_directories(
   include
   ${EIGEN3_INCLUDE_DIRS}
@@ -108,10 +81,7 @@ ament_export_dependencies(
 # 导出目标
 ament_export_targets(${PROJECT_NAME}Targets HAS_LIBRARY_TARGET)
 
-# ============================================
-# 安装规则
-# ============================================
-# 安装头文件
+
 install(
   DIRECTORY include/
   DESTINATION include
@@ -135,7 +105,4 @@ install(
   DESTINATION share/${PROJECT_NAME}/cmake
 )
 
-# ============================================
-# 生成包配置
-# ============================================
 ament_package()

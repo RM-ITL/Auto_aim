@@ -16,6 +16,9 @@
 
 namespace tracker
 {
+
+using Armors = armor_auto_aim::Armor;
+
 class Tracker
 {
 public:
@@ -24,7 +27,7 @@ public:
   std::string state() const;
 
   std::list<predict::Target> track(
-    std::list<autoaim_msgs::msg::Armor> & armors, 
+    std::list<Armors> & armors, 
     std::chrono::steady_clock::time_point t,
     bool use_enemy_color = true);
 
@@ -50,9 +53,9 @@ private:
 
   // 内部方法
   void state_machine(bool found);
-  bool set_target(std::list<autoaim_msgs::msg::Armor> & armors, 
+  bool set_target(std::list<Armors> & armors, 
                   std::chrono::steady_clock::time_point t);
-  bool update_target(std::list<autoaim_msgs::msg::Armor> & armors, 
+  bool update_target(std::list<Armors> & armors, 
                      std::chrono::steady_clock::time_point t);
 };
 

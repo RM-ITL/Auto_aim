@@ -38,7 +38,7 @@ include_directories(
 # ========================================
 # 创建静态库
 # ========================================
-add_library(${PROJECT_NAME} STATIC
+add_library(${PROJECT_NAME} SHARED
   src/target.cpp
 )
 

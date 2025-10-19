@@ -24,6 +24,10 @@
   <depend>solver</depend>
   <depend>detected</depend>
   <depend>predictor</depend>
+  <depend>aimer</depend>
+  <depend>serial</depend>
+  <depend>gimbal</depend>
+  <depend>cv_bridge</depend>
 
   <!-- 执行时依赖 -->
   <exec_depend>rclcpp</exec_depend>
