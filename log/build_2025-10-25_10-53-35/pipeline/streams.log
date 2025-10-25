@@ -1,0 +1,63 @@
+[0.051s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/pipeline': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/launch_node:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/pipeline -- -j24 -l24
+[0.069s] -- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)
+[0.255s] -- Found rclcpp: 27.0.0 (/opt/ros/rolling/share/rclcpp/cmake)
+[0.289s] -- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)
+[0.299s] -- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)
+[0.314s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.332s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.481s] -- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)
+[0.484s] -- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)
+[0.592s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.772s] -- Found hikvision: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/hikvision/share/hikvision/cmake)
+[0.813s] -- Found serial: 0.1.0 (/home/guo/ITL_sentry_auto_new/install/serial/share/serial/cmake)
+[0.816s] -- Found dm_imu: 0.0.0 (/home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/cmake)
+[0.821s] -- Found detected: 0.0.2 (/home/guo/ITL_sentry_auto_new/install/detected/share/detected/cmake)
+[0.833s] -- Found solver: 0.0.0 (/home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake)
+[0.919s] -- Found eigen3_cmake_module: 0.3.0 (/opt/ros/rolling/share/eigen3_cmake_module/cmake)
+[0.921s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[1.666s] -- Found tracker: 0.1.0 (/home/guo/ITL_sentry_auto_new/install/tracker/share/tracker/cmake)
+[2.244s] -- Found AMD headers in: /usr/include/suitesparse
+[2.245s] -- Found AMD library: /usr/lib/x86_64-linux-gnu/libamd.so
+[2.245s] -- Found CAMD headers in: /usr/include/suitesparse
+[2.245s] -- Found CAMD library: /usr/lib/x86_64-linux-gnu/libcamd.so
+[2.245s] -- Found CCOLAMD headers in: /usr/include/suitesparse
+[2.245s] -- Found CCOLAMD library: /usr/lib/x86_64-linux-gnu/libccolamd.so
+[2.245s] -- Found CHOLMOD headers in: /usr/include/suitesparse
+[2.245s] -- Found CHOLMOD library: /usr/lib/x86_64-linux-gnu/libcholmod.so
+[2.245s] -- Found COLAMD headers in: /usr/include/suitesparse
+[2.246s] -- Found COLAMD library: /usr/lib/x86_64-linux-gnu/libcolamd.so
+[2.246s] -- Found SPQR headers in: /usr/include/suitesparse
+[2.246s] -- Found SPQR library: /usr/lib/x86_64-linux-gnu/libspqr.so
+[2.246s] -- Found Config headers in: /usr/include/suitesparse
+[2.246s] -- Found Config library: /usr/lib/x86_64-linux-gnu/libsuitesparseconfig.so
+[2.247s] -- Found Intel Thread Building Blocks (TBB) library (2021.5 / ) include location: . Assuming SuiteSparseQR was compiled with TBB.
+[2.247s] -- Adding librt to SuiteSparse_config libraries (required on Linux & Unix [not OSX] if SuiteSparse is compiled with timing).
+[2.251s] -- Could NOT find METIS (missing: METIS_INCLUDE_DIR METIS_LIBRARY) 
+[2.414s] -- Found planner: 0.1.0 (/home/guo/ITL_sentry_auto_new/install/planner/share/planner/cmake)
+[3.838s] -- Found ament_lint_auto: 0.16.3 (/opt/ros/rolling/share/ament_lint_auto/cmake)
+[3.892s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[3.892s] -- Configured cppcheck include dirs: /home/guo/ITL_sentry_auto_new/src/node/include
+[3.892s] -- Configured cppcheck exclude dirs and/or files: 
+[3.893s] -- Added test 'lint_cmake' to check CMake code style
+[3.894s] -- Added test 'uncrustify' to check C / C++ code style
+[3.894s] -- Configured uncrustify additional arguments: 
+[3.894s] -- Added test 'xmllint' to check XML markup files
+[3.895s] -- Configuring done (3.8s)
+[3.951s] -- Generating done (0.0s)
+[3.958s] -- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/pipeline
+[3.991s] [ 25%] [32mBuilding CXX object CMakeFiles/video_node.dir/src/video_node.cpp.o[0m
+[3.993s] [ 75%] Built target pipeline_node
+[6.397s] In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/node/include/video_node.hpp:18[m[K,
+[6.397s]                  from [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/video_node.cpp:1[m[K:
+[6.397s] [01m[K/home/guo/ITL_sentry_auto_new/install/detected/include/node/armor_detector_node.hpp:14:7:[m[K [01;31m[Kerror: [m[Kredefinition of ‘[01m[Kclass armor_auto_aim::Detector[m[K’
+[6.397s]    14 | class [01;31m[KDetector[m[K {
+[6.397s]       |       [01;31m[K^~~~~~~~[m[K
+[6.397s] In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/node/include/video_node.hpp:14[m[K,
+[6.397s]                  from [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/video_node.cpp:1[m[K:
+[6.397s] [01m[K/home/guo/ITL_sentry_auto_new/install/detected/include/node/armor_detector_node.hpp:14:7:[m[K [01;36m[Knote: [m[Kprevious definition of ‘[01m[Kclass armor_auto_aim::Detector[m[K’
+[6.397s]    14 | class [01;36m[KDetector[m[K {
+[6.397s]       |       [01;36m[K^~~~~~~~[m[K
+[7.959s] gmake[2]: *** [CMakeFiles/video_node.dir/build.make:76：CMakeFiles/video_node.dir/src/video_node.cpp.o] 错误 1
+[7.960s] gmake[1]: *** [CMakeFiles/Makefile2:165：CMakeFiles/video_node.dir/all] 错误 2
+[7.960s] gmake: *** [Makefile:146：all] 错误 2
+[7.962s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/pipeline' returned '2': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/launch_node:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/armor_pointer/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/pipeline -- -j24 -l24

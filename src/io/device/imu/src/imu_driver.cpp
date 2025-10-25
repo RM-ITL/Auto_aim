@@ -34,11 +34,13 @@ void sleep_for_post_config()
 }
 }  // namespace
 
-DmImu::DmImu()
-: imu_serial_port_("/dev/ttyACM0"),
-  imu_seial_baud_(921600),
+DmImu::DmImu(const std::string & config_path)
+: imu_seial_baud_(921600),
   queue_(kQueueCapacity)
 {
+  auto yaml = utils::load(config_path);
+  imu_serial_port_ = utils::read<std::string>(yaml, "imu_com_port");
+  
   data_ = {0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F};
   pending_bytes_.reserve(256);
 

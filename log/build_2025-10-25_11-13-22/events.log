@@ -1,0 +1,354 @@
+[0.000000] (-) TimerEvent: {}
+[0.000115] (-) JobUnselected: {'identifier': 'aimer'}
+[0.000152] (-) JobUnselected: {'identifier': 'armor_pointer'}
+[0.000184] (-) JobUnselected: {'identifier': 'autoaim_msgs'}
+[0.000486] (-) JobUnselected: {'identifier': 'cboard'}
+[0.000644] (-) JobUnselected: {'identifier': 'detected'}
+[0.000680] (-) JobUnselected: {'identifier': 'dm_imu'}
+[0.000738] (-) JobUnselected: {'identifier': 'filter_lib'}
+[0.000760] (-) JobUnselected: {'identifier': 'gimbal'}
+[0.000788] (-) JobUnselected: {'identifier': 'hikvision'}
+[0.000848] (-) JobUnselected: {'identifier': 'launch_node'}
+[0.000867] (-) JobUnselected: {'identifier': 'motion_model'}
+[0.000887] (-) JobUnselected: {'identifier': 'planner'}
+[0.000905] (-) JobUnselected: {'identifier': 'predictor'}
+[0.000934] (-) JobUnselected: {'identifier': 'serial'}
+[0.000959] (-) JobUnselected: {'identifier': 'solver'}
+[0.001001] (-) JobUnselected: {'identifier': 'tracker'}
+[0.001019] (-) JobUnselected: {'identifier': 'utils'}
+[0.001047] (pipeline) JobQueued: {'identifier': 'pipeline', 'dependencies': OrderedDict([('autoaim_msgs', '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs'), ('filter_lib', '/home/guo/ITL_sentry_auto_new/install/filter_lib'), ('utils', '/home/guo/ITL_sentry_auto_new/install/utils'), ('cboard', '/home/guo/ITL_sentry_auto_new/install/cboard'), ('detected', '/home/guo/ITL_sentry_auto_new/install/detected'), ('hikvision', '/home/guo/ITL_sentry_auto_new/install/hikvision'), ('motion_model', '/home/guo/ITL_sentry_auto_new/install/motion_model'), ('serial', '/home/guo/ITL_sentry_auto_new/install/serial'), ('dm_imu', '/home/guo/ITL_sentry_auto_new/install/dm_imu'), ('gimbal', '/home/guo/ITL_sentry_auto_new/install/gimbal'), ('solver', '/home/guo/ITL_sentry_auto_new/install/solver'), ('predictor', '/home/guo/ITL_sentry_auto_new/install/predictor'), ('aimer', '/home/guo/ITL_sentry_auto_new/install/aimer'), ('planner', '/home/guo/ITL_sentry_auto_new/install/planner'), ('tracker', '/home/guo/ITL_sentry_auto_new/install/tracker')])}
+[0.001092] (pipeline) JobStarted: {'identifier': 'pipeline'}
+[0.058943] (pipeline) JobProgress: {'identifier': 'pipeline', 'progress': 'cmake'}
+[0.062193] (pipeline) JobProgress: {'identifier': 'pipeline', 'progress': 'build'}
+[0.062339] (pipeline) Command: {'cmd': ['/usr/local/bin/cmake', '--build', '/home/guo/ITL_sentry_auto_new/build/pipeline', '--', '-j24', '-l24'], 'cwd': '/home/guo/ITL_sentry_auto_new/build/pipeline', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('C_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:'), ('LANGUAGE', 'zh_CN:zh'), ('USER', 'guo'), ('XDG_SESSION_TYPE', 'x11'), ('ALLUSERSPROFILE', '/opt/MVS/MVFG'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32'), ('HOME', '/home/guo'), ('OLDPWD', '/home/guo'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '2580'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('CPLUS_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:'), ('IM_CONFIG_PHASE', '1'), ('ROS_DISTRO', 'rolling'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'guo'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'guo'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('MVCAM_SDK_PATH', '/opt/MVS'), ('PATH', '/home/guo/.local/bin:/tmp/.tmp91ageq:/usr/local/lib/node_modules/@openai/codex/vendor/x86_64-unknown-linux-musl/path:/opt/ros/rolling/bin:/usr/local/cuda/bin:/home/guo/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:@/tmp/.ICE-unix/2557,unix/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:/tmp/.ICE-unix/2557'), ('MVCAM_GENICAM_CLPROTOCOL', '/opt/MVS/lib/CLProtocol'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/8538f2f0_41fc_4553_87f4_6e7a6b9ef744'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('CODEX_SANDBOX_NETWORK_DISABLED', '1'), ('LANG', 'zh_CN.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.206'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('ROSDISTRO_INDEX_URL', 'https://mirrors.tuna.tsinghua.edu.cn/rosdistro/index-v4.yaml'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('ROS_AUTOMATIC_DISCOVERY_RANGE', 'SUBNET'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/guo/ITL_sentry_auto_new/build/pipeline'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/guo/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages:/opt/ros/rolling/lib/python3.10/site-packages'), ('CPATH', '/usr/local/cuda/include:'), ('COLCON', '1'), ('CODEX_MANAGED_BY_NPM', '1'), ('VTE_VERSION', '6800'), ('MVCAM_COMMON_RUNENV', '/opt/MVS/lib'), ('CMAKE_PREFIX_PATH', '/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling')]), 'shell': False}
+[0.099407] (-) TimerEvent: {}
+[0.130275] (pipeline) StdoutLine: {'line': b'[ 50%] Built target pipeline_node\n'}
+[0.132740] (pipeline) StdoutLine: {'line': b'[ 75%] Building CXX object CMakeFiles/video_node.dir/src/video_node.cpp.o\n'}
+[0.199492] (-) TimerEvent: {}
+[0.299654] (-) TimerEvent: {}
+[0.399896] (-) TimerEvent: {}
+[0.500146] (-) TimerEvent: {}
+[0.600318] (-) TimerEvent: {}
+[0.700475] (-) TimerEvent: {}
+[0.800744] (-) TimerEvent: {}
+[0.900981] (-) TimerEvent: {}
+[1.001239] (-) TimerEvent: {}
+[1.101401] (-) TimerEvent: {}
+[1.201589] (-) TimerEvent: {}
+[1.301822] (-) TimerEvent: {}
+[1.402060] (-) TimerEvent: {}
+[1.502279] (-) TimerEvent: {}
+[1.602440] (-) TimerEvent: {}
+[1.702627] (-) TimerEvent: {}
+[1.802862] (-) TimerEvent: {}
+[1.903101] (-) TimerEvent: {}
+[2.003265] (-) TimerEvent: {}
+[2.103423] (-) TimerEvent: {}
+[2.203609] (-) TimerEvent: {}
+[2.303851] (-) TimerEvent: {}
+[2.404089] (-) TimerEvent: {}
+[2.504300] (-) TimerEvent: {}
+[2.604457] (-) TimerEvent: {}
+[2.704614] (-) TimerEvent: {}
+[2.804801] (-) TimerEvent: {}
+[2.904979] (-) TimerEvent: {}
+[3.005257] (-) TimerEvent: {}
+[3.105480] (-) TimerEvent: {}
+[3.205674] (-) TimerEvent: {}
+[3.305931] (-) TimerEvent: {}
+[3.406252] (-) TimerEvent: {}
+[3.506444] (-) TimerEvent: {}
+[3.606624] (-) TimerEvent: {}
+[3.706791] (-) TimerEvent: {}
+[3.806952] (-) TimerEvent: {}
+[3.907111] (-) TimerEvent: {}
+[4.007381] (-) TimerEvent: {}
+[4.107572] (-) TimerEvent: {}
+[4.207807] (-) TimerEvent: {}
+[4.307980] (-) TimerEvent: {}
+[4.408257] (-) TimerEvent: {}
+[4.508418] (-) TimerEvent: {}
+[4.608594] (-) TimerEvent: {}
+[4.708826] (-) TimerEvent: {}
+[4.808980] (-) TimerEvent: {}
+[4.909322] (-) TimerEvent: {}
+[5.009506] (-) TimerEvent: {}
+[5.109736] (-) TimerEvent: {}
+[5.209939] (-) TimerEvent: {}
+[5.310102] (-) TimerEvent: {}
+[5.410351] (-) TimerEvent: {}
+[5.510514] (-) TimerEvent: {}
+[5.610689] (-) TimerEvent: {}
+[5.710933] (-) TimerEvent: {}
+[5.811217] (-) TimerEvent: {}
+[5.911463] (-) TimerEvent: {}
+[5.974009] (pipeline) StdoutLine: {'line': b'[100%] Linking CXX executable video_node\n'}
+[6.011586] (-) TimerEvent: {}
+[6.111831] (-) TimerEvent: {}
+[6.212086] (-) TimerEvent: {}
+[6.312267] (-) TimerEvent: {}
+[6.412444] (-) TimerEvent: {}
+[6.512635] (-) TimerEvent: {}
+[6.612871] (-) TimerEvent: {}
+[6.713103] (-) TimerEvent: {}
+[6.813369] (-) TimerEvent: {}
+[6.913570] (-) TimerEvent: {}
+[6.970682] (pipeline) StdoutLine: {'line': b'[100%] Built target video_node\n'}
+[6.973969] (pipeline) CommandEnded: {'returncode': 0}
+[6.974774] (pipeline) JobProgress: {'identifier': 'pipeline', 'progress': 'install'}
+[6.976463] (pipeline) Command: {'cmd': ['/usr/local/bin/cmake', '--install', '/home/guo/ITL_sentry_auto_new/build/pipeline'], 'cwd': '/home/guo/ITL_sentry_auto_new/build/pipeline', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('C_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:'), ('LANGUAGE', 'zh_CN:zh'), ('USER', 'guo'), ('XDG_SESSION_TYPE', 'x11'), ('ALLUSERSPROFILE', '/opt/MVS/MVFG'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/guo/ITL_sentry_auto_new/install/tracker/lib:/home/guo/ITL_sentry_auto_new/install/planner/lib:/home/guo/ITL_sentry_auto_new/install/aimer/lib:/home/guo/ITL_sentry_auto_new/install/predictor/lib:/home/guo/ITL_sentry_auto_new/install/solver/lib:/home/guo/ITL_sentry_auto_new/install/gimbal/lib:/home/guo/ITL_sentry_auto_new/install/dm_imu/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/motion_model/lib:/home/guo/ITL_sentry_auto_new/install/hikvision/lib:/home/guo/ITL_sentry_auto_new/install/detected/lib:/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/filter_lib/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32'), ('HOME', '/home/guo'), ('OLDPWD', '/home/guo'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '2580'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('CPLUS_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:'), ('IM_CONFIG_PHASE', '1'), ('ROS_DISTRO', 'rolling'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'guo'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'guo'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('MVCAM_SDK_PATH', '/opt/MVS'), ('PATH', '/home/guo/.local/bin:/tmp/.tmp91ageq:/usr/local/lib/node_modules/@openai/codex/vendor/x86_64-unknown-linux-musl/path:/opt/ros/rolling/bin:/usr/local/cuda/bin:/home/guo/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:@/tmp/.ICE-unix/2557,unix/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:/tmp/.ICE-unix/2557'), ('MVCAM_GENICAM_CLPROTOCOL', '/opt/MVS/lib/CLProtocol'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/8538f2f0_41fc_4553_87f4_6e7a6b9ef744'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('CODEX_SANDBOX_NETWORK_DISABLED', '1'), ('LANG', 'zh_CN.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.206'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('ROSDISTRO_INDEX_URL', 'https://mirrors.tuna.tsinghua.edu.cn/rosdistro/index-v4.yaml'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('ROS_AUTOMATIC_DISCOVERY_RANGE', 'SUBNET'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/guo/ITL_sentry_auto_new/build/pipeline'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/guo/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages:/opt/ros/rolling/lib/python3.10/site-packages'), ('CPATH', '/usr/local/cuda/include:'), ('COLCON', '1'), ('CODEX_MANAGED_BY_NPM', '1'), ('VTE_VERSION', '6800'), ('MVCAM_COMMON_RUNENV', '/opt/MVS/lib'), ('CMAKE_PREFIX_PATH', '/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling')]), 'shell': False}
+[6.979129] (pipeline) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[6.979269] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/lib/pipeline/pipeline_node\n'}
+[6.979514] (pipeline) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/pipeline/lib/pipeline/video_node\n'}
+[6.982821] (pipeline) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/pipeline/lib/pipeline/video_node" to ""\n'}
+[6.983061] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/include\n'}
+[6.983101] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/include/video_node.hpp\n'}
+[6.983139] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/include/test_node.hpp\n'}
+[6.983236] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/ament_index/resource_index/package_run_dependencies/pipeline\n'}
+[6.983351] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/ament_index/resource_index/parent_prefix_path/pipeline\n'}
+[6.983381] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/environment/ament_prefix_path.sh\n'}
+[6.983410] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/environment/ament_prefix_path.dsv\n'}
+[6.983438] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/environment/path.sh\n'}
+[6.983473] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/environment/path.dsv\n'}
+[6.983501] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/local_setup.bash\n'}
+[6.983529] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/local_setup.sh\n'}
+[6.983558] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/local_setup.zsh\n'}
+[6.983586] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/local_setup.dsv\n'}
+[6.983613] (pipeline) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/package.dsv\n'}
+[6.983641] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/ament_index/resource_index/packages/pipeline\n'}
+[6.983669] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/cmake/pipelineConfig.cmake\n'}
+[6.983696] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/cmake/pipelineConfig-version.cmake\n'}
+[6.983724] (pipeline) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/package.xml\n'}
+[7.013719] (-) TimerEvent: {}
+[7.113957] (-) TimerEvent: {}
+[7.214278] (-) TimerEvent: {}
+[7.314559] (-) TimerEvent: {}
+[7.414843] (-) TimerEvent: {}
+[7.515225] (-) TimerEvent: {}
+[7.615504] (-) TimerEvent: {}
+[7.715849] (-) TimerEvent: {}
+[7.816293] (-) TimerEvent: {}
+[7.916606] (-) TimerEvent: {}
+[8.016958] (-) TimerEvent: {}
+[8.117264] (-) TimerEvent: {}
+[8.217555] (-) TimerEvent: {}
+[8.317813] (-) TimerEvent: {}
+[8.418181] (-) TimerEvent: {}
+[8.518491] (-) TimerEvent: {}
+[8.618852] (-) TimerEvent: {}
+[8.719241] (-) TimerEvent: {}
+[8.819561] (-) TimerEvent: {}
+[8.919956] (-) TimerEvent: {}
+[9.020344] (-) TimerEvent: {}
+[9.120632] (-) TimerEvent: {}
+[9.220997] (-) TimerEvent: {}
+[9.321335] (-) TimerEvent: {}
+[9.421582] (-) TimerEvent: {}
+[9.521985] (-) TimerEvent: {}
+[9.622401] (-) TimerEvent: {}
+[9.722779] (-) TimerEvent: {}
+[9.823199] (-) TimerEvent: {}
+[9.923589] (-) TimerEvent: {}
+[10.023888] (-) TimerEvent: {}
+[10.124269] (-) TimerEvent: {}
+[10.224585] (-) TimerEvent: {}
+[10.324973] (-) TimerEvent: {}
+[10.425329] (-) TimerEvent: {}
+[10.525728] (-) TimerEvent: {}
+[10.626134] (-) TimerEvent: {}
+[10.726539] (-) TimerEvent: {}
+[10.826921] (-) TimerEvent: {}
+[10.927264] (-) TimerEvent: {}
+[11.027552] (-) TimerEvent: {}
+[11.127748] (-) TimerEvent: {}
+[11.227950] (-) TimerEvent: {}
+[11.328187] (-) TimerEvent: {}
+[11.428440] (-) TimerEvent: {}
+[11.528675] (-) TimerEvent: {}
+[11.628974] (-) TimerEvent: {}
+[11.729346] (-) TimerEvent: {}
+[11.829636] (-) TimerEvent: {}
+[11.929918] (-) TimerEvent: {}
+[12.030309] (-) TimerEvent: {}
+[12.130615] (-) TimerEvent: {}
+[12.230949] (-) TimerEvent: {}
+[12.331297] (-) TimerEvent: {}
+[12.431589] (-) TimerEvent: {}
+[12.531940] (-) TimerEvent: {}
+[12.632421] (-) TimerEvent: {}
+[12.732728] (-) TimerEvent: {}
+[12.833070] (-) TimerEvent: {}
+[12.933345] (-) TimerEvent: {}
+[13.033605] (-) TimerEvent: {}
+[13.133973] (-) TimerEvent: {}
+[13.234321] (-) TimerEvent: {}
+[13.334588] (-) TimerEvent: {}
+[13.434880] (-) TimerEvent: {}
+[13.535253] (-) TimerEvent: {}
+[13.635793] (-) TimerEvent: {}
+[13.736271] (-) TimerEvent: {}
+[13.836735] (-) TimerEvent: {}
+[13.937184] (-) TimerEvent: {}
+[14.037730] (-) TimerEvent: {}
+[14.138094] (-) TimerEvent: {}
+[14.238432] (-) TimerEvent: {}
+[14.338739] (-) TimerEvent: {}
+[14.439082] (-) TimerEvent: {}
+[14.539463] (-) TimerEvent: {}
+[14.639735] (-) TimerEvent: {}
+[14.740088] (-) TimerEvent: {}
+[14.840394] (-) TimerEvent: {}
+[14.940748] (-) TimerEvent: {}
+[15.041101] (-) TimerEvent: {}
+[15.141385] (-) TimerEvent: {}
+[15.241678] (-) TimerEvent: {}
+[15.342085] (-) TimerEvent: {}
+[15.442389] (-) TimerEvent: {}
+[15.542682] (-) TimerEvent: {}
+[15.642949] (-) TimerEvent: {}
+[15.743270] (-) TimerEvent: {}
+[15.843493] (-) TimerEvent: {}
+[15.943833] (-) TimerEvent: {}
+[16.044217] (-) TimerEvent: {}
+[16.144533] (-) TimerEvent: {}
+[16.244884] (-) TimerEvent: {}
+[16.345254] (-) TimerEvent: {}
+[16.445560] (-) TimerEvent: {}
+[16.545972] (-) TimerEvent: {}
+[16.646357] (-) TimerEvent: {}
+[16.746650] (-) TimerEvent: {}
+[16.847049] (-) TimerEvent: {}
+[16.947360] (-) TimerEvent: {}
+[17.047635] (-) TimerEvent: {}
+[17.147933] (-) TimerEvent: {}
+[17.248258] (-) TimerEvent: {}
+[17.348552] (-) TimerEvent: {}
+[17.448820] (-) TimerEvent: {}
+[17.549203] (-) TimerEvent: {}
+[17.649506] (-) TimerEvent: {}
+[17.749811] (-) TimerEvent: {}
+[17.850219] (-) TimerEvent: {}
+[17.950509] (-) TimerEvent: {}
+[18.050795] (-) TimerEvent: {}
+[18.151182] (-) TimerEvent: {}
+[18.251485] (-) TimerEvent: {}
+[18.351768] (-) TimerEvent: {}
+[18.452100] (-) TimerEvent: {}
+[18.552461] (-) TimerEvent: {}
+[18.652850] (-) TimerEvent: {}
+[18.753271] (-) TimerEvent: {}
+[18.853567] (-) TimerEvent: {}
+[18.953929] (-) TimerEvent: {}
+[19.054329] (-) TimerEvent: {}
+[19.154631] (-) TimerEvent: {}
+[19.255020] (-) TimerEvent: {}
+[19.355399] (-) TimerEvent: {}
+[19.455729] (-) TimerEvent: {}
+[19.556128] (-) TimerEvent: {}
+[19.656467] (-) TimerEvent: {}
+[19.756771] (-) TimerEvent: {}
+[19.857187] (-) TimerEvent: {}
+[19.957552] (-) TimerEvent: {}
+[20.057973] (-) TimerEvent: {}
+[20.158365] (-) TimerEvent: {}
+[20.258707] (-) TimerEvent: {}
+[20.359112] (-) TimerEvent: {}
+[20.459440] (-) TimerEvent: {}
+[20.559735] (-) TimerEvent: {}
+[20.660082] (-) TimerEvent: {}
+[20.760427] (-) TimerEvent: {}
+[20.860755] (-) TimerEvent: {}
+[20.961043] (-) TimerEvent: {}
+[21.061325] (-) TimerEvent: {}
+[21.161692] (-) TimerEvent: {}
+[21.262062] (-) TimerEvent: {}
+[21.362347] (-) TimerEvent: {}
+[21.462710] (-) TimerEvent: {}
+[21.563072] (-) TimerEvent: {}
+[21.663359] (-) TimerEvent: {}
+[21.763651] (-) TimerEvent: {}
+[21.863993] (-) TimerEvent: {}
+[21.964330] (-) TimerEvent: {}
+[22.064627] (-) TimerEvent: {}
+[22.164988] (-) TimerEvent: {}
+[22.265340] (-) TimerEvent: {}
+[22.365686] (-) TimerEvent: {}
+[22.466066] (-) TimerEvent: {}
+[22.566469] (-) TimerEvent: {}
+[22.666823] (-) TimerEvent: {}
+[22.767263] (-) TimerEvent: {}
+[22.867632] (-) TimerEvent: {}
+[22.968028] (-) TimerEvent: {}
+[23.068352] (-) TimerEvent: {}
+[23.168634] (-) TimerEvent: {}
+[23.268948] (-) TimerEvent: {}
+[23.369342] (-) TimerEvent: {}
+[23.469646] (-) TimerEvent: {}
+[23.569995] (-) TimerEvent: {}
+[23.670337] (-) TimerEvent: {}
+[23.770645] (-) TimerEvent: {}
+[23.871005] (-) TimerEvent: {}
+[23.971311] (-) TimerEvent: {}
+[24.071583] (-) TimerEvent: {}
+[24.171900] (-) TimerEvent: {}
+[24.272256] (-) TimerEvent: {}
+[24.372654] (-) TimerEvent: {}
+[24.472980] (-) TimerEvent: {}
+[24.573314] (-) TimerEvent: {}
+[24.673569] (-) TimerEvent: {}
+[24.773841] (-) TimerEvent: {}
+[24.874211] (-) TimerEvent: {}
+[24.974534] (-) TimerEvent: {}
+[25.074796] (-) TimerEvent: {}
+[25.175107] (-) TimerEvent: {}
+[25.275485] (-) TimerEvent: {}
+[25.375833] (-) TimerEvent: {}
+[25.476106] (-) TimerEvent: {}
+[25.576375] (-) TimerEvent: {}
+[25.676767] (-) TimerEvent: {}
+[25.777127] (-) TimerEvent: {}
+[25.877497] (-) TimerEvent: {}
+[25.977792] (-) TimerEvent: {}
+[26.078176] (-) TimerEvent: {}
+[26.178551] (-) TimerEvent: {}
+[26.278872] (-) TimerEvent: {}
+[26.379178] (-) TimerEvent: {}
+[26.479459] (-) TimerEvent: {}
+[26.579756] (-) TimerEvent: {}
+[26.680132] (-) TimerEvent: {}
+[26.780534] (-) TimerEvent: {}
+[26.880838] (-) TimerEvent: {}
+[26.981244] (-) TimerEvent: {}
+[27.081545] (-) TimerEvent: {}
+[27.181855] (-) TimerEvent: {}
+[27.282259] (-) TimerEvent: {}
+[27.382574] (-) TimerEvent: {}
+[27.482948] (-) TimerEvent: {}
+[27.583342] (-) TimerEvent: {}
+[27.683735] (-) TimerEvent: {}
+[27.784112] (-) TimerEvent: {}
+[27.884449] (-) TimerEvent: {}
+[27.984742] (-) TimerEvent: {}
+[28.085094] (-) TimerEvent: {}
+[28.185404] (-) TimerEvent: {}
+[28.285703] (-) TimerEvent: {}
+[28.386002] (-) TimerEvent: {}
+[28.486366] (-) TimerEvent: {}
+[28.586767] (-) TimerEvent: {}
+[28.687191] (-) TimerEvent: {}
+[28.787473] (-) TimerEvent: {}
+[28.887885] (-) TimerEvent: {}
+[28.988200] (-) TimerEvent: {}
+[29.088524] (-) TimerEvent: {}
+[29.188908] (-) TimerEvent: {}
+[29.289298] (-) TimerEvent: {}
+[29.389684] (-) TimerEvent: {}
+[29.490052] (-) TimerEvent: {}
+[29.590353] (-) TimerEvent: {}
+[29.690668] (-) TimerEvent: {}
+[29.791058] (-) TimerEvent: {}
+[29.891460] (-) TimerEvent: {}
+[29.991755] (-) TimerEvent: {}
+[30.023959] (pipeline) CommandEnded: {'returncode': 0}
+[30.044302] (pipeline) JobEnded: {'identifier': 'pipeline', 'rc': 0}
+[30.044776] (-) EventReactorShutdown: {}

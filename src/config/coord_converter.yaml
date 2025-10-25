@@ -171,14 +171,13 @@ yolo11:
 
 # IMU相关配置
 DM_IMU:
-  ros__parameters:
-    # 串口配置
-    port: "/dev/ttyACM0"
-    baud: 921600
-    
-    # 发布频率相关
-    publish_rate: 1000  # Hz
-    
+# 串口配置
+imu_com_port: "/dev/ttyACM1"
+baud: 921600
+
+# 发布频率相关
+publish_rate: 1000  # Hz
+  
 
 # 解算模块所需的参数
 Solver:
@@ -240,9 +239,12 @@ high_speed_delay_time: 0.0 # s
 low_speed_delay_time: 0.0 # s planner use this value
 
 
-# Gimbal:
-#   enable_serial: false
-#   com_port: "/dev/gimbal"
+Gimbal:
+enable_serial: false
+com_port: "/dev/gimbal"
+
+Video:
+path: "/home/guo/视频/test1.mp4"
   
   # # 相机到枪管偏移（毫米）
   # camera_to_barrel_offset:

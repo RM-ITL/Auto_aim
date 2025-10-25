@@ -21,12 +21,12 @@
 #include "solver_node.hpp"
 #include "thread_safe_queue.hpp"
 #include "tracker.hpp"
-#include "module/coord_converter.hpp"
 #include "common/armor.hpp"
 #include "planner.hpp"
 #include "autoaim_msgs/msg/debug.hpp"
+#include "gimbal.hpp"
 
-namespace pipeline
+namespace Application
 {
 
 using Armors = armor_auto_aim::Armor;
@@ -65,6 +65,7 @@ private:
   solver::YawOptimizer* yaw_optimizer_;
   std::unique_ptr<tracker::Tracker> tracker_;
   std::unique_ptr<plan::Planner> planner_;
+  std::unique_ptr<io::Gimbal> gimbal_;
   rclcpp::Node::SharedPtr ros_node_;
   rclcpp::Publisher<autoaim_msgs::msg::Debug>::SharedPtr debug_pub_;
 

@@ -1,0 +1,43 @@
+[0.023s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/detected': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/launch_node:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/detected -- -j24 -l24
+[0.049s] [ 22%] Built target armor_data_lib
+[0.064s] [ 66%] Built target armor_classifier_lib
+[0.064s] [ 77%] Built target armor_detector_lib
+[0.079s] [100%] Built target detected
+[0.083s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/detected' returned '0': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/launch_node:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/detected -- -j24 -l24
+[0.085s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/detected': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/launch_node:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/detected
+[0.087s] -- Install configuration: "Release"
+[0.087s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/lib/libarmor_data_lib.so
+[0.088s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/lib/libarmor_detector_lib.so
+[0.088s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/lib/libarmor_classifier_lib.so
+[0.088s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/lib/libdetected.so
+[0.088s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/include
+[0.088s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/include/common
+[0.088s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/include/common/armor.hpp
+[0.088s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/include/node
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/include/node/armor_detector_node.hpp
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/include/classifier
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/include/classifier/armor_classifier.hpp
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/include/detector
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/include/detector/common_detector.hpp
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/include/detector/yolo11.hpp
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/share/detected/environment/library_path.sh
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/share/detected/environment/library_path.dsv
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/share/ament_index/resource_index/package_run_dependencies/detected
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/share/ament_index/resource_index/parent_prefix_path/detected
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/share/detected/environment/ament_prefix_path.sh
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/share/detected/environment/ament_prefix_path.dsv
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/share/detected/environment/path.sh
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/share/detected/environment/path.dsv
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/share/detected/local_setup.bash
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/share/detected/local_setup.sh
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/share/detected/local_setup.zsh
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/share/detected/local_setup.dsv
+[0.089s] -- Installing: /home/guo/ITL_sentry_auto_new/install/detected/share/detected/package.dsv
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/share/ament_index/resource_index/packages/detected
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/share/detected/cmake/ament_cmake_export_dependencies-extras.cmake
+[0.089s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/share/detected/cmake/ament_cmake_export_libraries-extras.cmake
+[0.090s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/share/detected/cmake/ament_cmake_export_include_directories-extras.cmake
+[0.090s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/share/detected/cmake/detectedConfig.cmake
+[0.090s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/share/detected/cmake/detectedConfig-version.cmake
+[0.090s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/detected/share/detected/package.xml
+[0.091s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/detected' returned '0': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/tracker:/home/guo/ITL_sentry_auto_new/install/planner:/home/guo/ITL_sentry_auto_new/install/aimer:/home/guo/ITL_sentry_auto_new/install/predictor:/home/guo/ITL_sentry_auto_new/install/solver:/home/guo/ITL_sentry_auto_new/install/hikvision:/home/guo/ITL_sentry_auto_new/install/gimbal:/home/guo/ITL_sentry_auto_new/install/dm_imu:/home/guo/ITL_sentry_auto_new/install/detected:/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/motion_model:/home/guo/ITL_sentry_auto_new/install/launch_node:/home/guo/ITL_sentry_auto_new/install/filter_lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/armor_pointer:/opt/ros/rolling /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/detected

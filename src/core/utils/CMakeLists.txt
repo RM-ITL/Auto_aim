@@ -24,6 +24,7 @@ add_library(${PROJECT_NAME} STATIC
   src/logger.cpp
   src/trajectory.cpp
   src/crc.cpp
+  src/video.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC

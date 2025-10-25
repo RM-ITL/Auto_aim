@@ -1,0 +1,18 @@
+[ 50%] [32mBuilding CXX object CMakeFiles/pipeline_node.dir/src/test_node.cpp.o[0m
+In file included from [01m[K/usr/include/c++/11/memory:76[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/node/include/test_node.hpp:8[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:1[m[K:
+/usr/include/c++/11/bits/unique_ptr.h: In instantiation of ‘[01m[Ktypename std::_MakeUniq<_Tp>::__single_object std::make_unique(_Args&& ...) [with _Tp = io::DmImu; _Args = {}; typename std::_MakeUniq<_Tp>::__single_object = std::unique_ptr<io::DmImu>][m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:42:40:[m[K   required from here
+[01m[K/usr/include/c++/11/bits/unique_ptr.h:962:30:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Kio::DmImu::DmImu()[m[K’
+  962 |     { return unique_ptr<_Tp>([01;31m[Knew _Tp(std::forward<_Args>(__args)...)[m[K); }
+      |                              [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/node/include/test_node.hpp:19[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:1[m[K:
+[01m[K/home/guo/ITL_sentry_auto_new/install/dm_imu/include/imu_driver.h:29:3:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kio::DmImu::DmImu(const string&)[m[K’
+   29 |   [01;36m[KDmImu[m[K(const std::string & config_path);
+      |   [01;36m[K^~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/install/dm_imu/include/imu_driver.h:29:3:[m[K [01;36m[Knote: [m[K  candidate expects 1 argument, 0 provided
+gmake[2]: *** [CMakeFiles/pipeline_node.dir/build.make:76：CMakeFiles/pipeline_node.dir/src/test_node.cpp.o] 错误 1
+gmake[1]: *** [CMakeFiles/Makefile2:137：CMakeFiles/pipeline_node.dir/all] 错误 2
+gmake: *** [Makefile:146：all] 错误 2

@@ -26,7 +26,15 @@ add_executable(pipeline_node
   src/test_node.cpp
 )
 
+add_executable(video_node
+  src/video_node.cpp
+)
+
 target_include_directories(pipeline_node PRIVATE
+  include
+)
+
+target_include_directories(video_node PRIVATE
   include
 )
 
@@ -44,12 +52,27 @@ ament_target_dependencies(pipeline_node
   autoaim_msgs
 )
 
+ament_target_dependencies(video_node
+  Eigen3
+  utils
+  detected
+  serial
+  dm_imu
+  solver
+  tracker
+)
+
 target_link_libraries(pipeline_node
+  ${OpenCV_LIBS}
+)
+
+target_link_libraries(video_node
   ${OpenCV_LIBS}
 )
 
 install(TARGETS
   pipeline_node
+  video_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

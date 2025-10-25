@@ -1,3 +1,6 @@
+#ifndef ARMOR_AUTO_AIM_ARMOR_DETECTOR_NODE_HPP_
+#define ARMOR_AUTO_AIM_ARMOR_DETECTOR_NODE_HPP_
+
 #include <opencv2/opencv.hpp>
 #include <yaml-cpp/yaml.h>
 
@@ -48,3 +51,5 @@ private:
 };
 
 }  // namespace armor_auto_aim
+
+#endif  // ARMOR_AUTO_AIM_ARMOR_DETECTOR_NODE_HPP_

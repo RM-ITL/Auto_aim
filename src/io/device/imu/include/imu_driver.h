@@ -10,6 +10,7 @@
 #include <Eigen/Geometry>
 #include "serial/serial.h"
 #include "thread_safe_queue.hpp"
+#include "yaml.hpp"
 
 namespace io
 {
@@ -25,7 +26,7 @@ struct ImuData
 class DmImu 
 {
 public:
-  DmImu();
+  DmImu(const std::string & config_path);
   ~DmImu();
 
   Eigen::Quaterniond imu_at(std::chrono::steady_clock::time_point timestamp);

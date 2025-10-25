@@ -30,7 +30,7 @@ set(DATA_STRUCTURE_SOURCES
 )
 
 set(DETECTOR_SOURCES
-  src/detector/armor_detector.cpp
+  src/detector/common_detector.cpp
   src/detector/yolo11.cpp
 )
 

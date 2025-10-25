@@ -19,7 +19,7 @@ Gimbal::Gimbal(const std::string & config_path)
     exit(1);
   }
 
-  thread_ = std::thread(&Gimbal::read_thread, this);
+  // thread_ = std::thread(&Gimbal::read_thread, this);
   utils::logger()->info("[Gimbal] Gimbal initialized.");
 }
 

@@ -16,7 +16,7 @@
 #include "logger.hpp"
 #include "draw_tools.hpp"
 
-namespace pipeline
+namespace Application
 {
 namespace
 {
@@ -39,12 +39,13 @@ PipelineApp::PipelineApp(const std::string & config_path)
     "debug", rclcpp::QoS(10));
 
   camera_ = std::make_unique<camera::HikCamera>(config_path_);
-  dm_imu_ = std::make_unique<io::DmImu>();
+  dm_imu_ = std::make_unique<io::DmImu>(config_path_);
   detector_ = std::make_unique<armor_auto_aim::Detector>(config_path_);
   solver_ = std::make_unique<solver::Solver>(config_path_);
   yaw_optimizer_ = solver_->getYawOptimizer();
   tracker_ = std::make_unique<tracker::Tracker>(config_path_, *solver_);
   planner_ = std::make_unique<plan::Planner>(config_path_);
+  gimbal_ = std::make_unique<io::Gimbal>(config_path_);
 
   enable_visualization_ = detector_->config().enable_visualization;
   visualization_center_point_ = detector_->config().center_point;
@@ -238,6 +239,45 @@ void PipelineApp::planner_loop()
 
     auto target = target_queue.front();
     auto plan_result = planner_->plan(target, bullet_speed_);
+    if (plan_result.control) {
+      gimbal_->send(
+        plan_result.control, plan_result.fire, plan_result.yaw, plan_result.yaw_vel,
+        plan_result.yaw_acc, plan_result.pitch, plan_result.pitch_vel, plan_result.pitch_acc);
+    } else {
+      gimbal_->send(false, false, 0, 0, 0, 0, 0, 0);
+    }
+    // {
+    //   static bool timers_initialized = false;
+    //   static std::chrono::steady_clock::time_point last_send_time;
+    //   static std::chrono::steady_clock::time_point window_start_time;
+    //   static int send_count = 0;
+
+    //   const auto send_time = std::chrono::steady_clock::now();
+
+    //   if (!timers_initialized) {
+    //     timers_initialized = true;
+    //     last_send_time = send_time;
+    //     window_start_time = send_time;
+    //     send_count = 1;
+    //   } else {
+    //     auto dt_us =
+    //       std::chrono::duration_cast<std::chrono::microseconds>(send_time - last_send_time);
+    //     utils::logger()->debug(
+    //       "[Pipeline] gimbal send dt = {:.3f} ms", dt_us.count() / 1000.0);
+    //     last_send_time = send_time;
+    //     send_count++;
+    //   }
+
+    //   auto window_elapsed = send_time - window_start_time;
+    //   if (window_elapsed >= std::chrono::seconds(1)) {
+    //     const double elapsed_sec = std::chrono::duration<double>(window_elapsed).count();
+    //     const double freq_hz = elapsed_sec > 0.0 ? send_count / elapsed_sec : 0.0;
+    //     utils::logger()->debug("[Pipeline] gimbal send freq = {:.1f} Hz", freq_hz);
+    //     window_start_time = send_time;
+    //     send_count = 0;
+    //   }
+    // }
+      
     if (debug_pub_) {
       auto msg = autoaim_msgs::msg::Debug{};
       msg.enable_control = plan_result.control;
@@ -293,10 +333,10 @@ int main(int argc, char ** argv)
   }
 
   rclcpp::init(argc, argv);
-  std::signal(SIGINT, pipeline::handle_signal);
+  std::signal(SIGINT, Application::handle_signal);
 
   try {
-    pipeline::PipelineApp app(config_path);
+    Application::PipelineApp app(config_path);
     int ret = app.run();
     rclcpp::shutdown();
     return ret;
