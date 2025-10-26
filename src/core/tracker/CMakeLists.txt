@@ -30,8 +30,6 @@ find_package(utils REQUIRED)  # 添加utils包依赖
 find_package(solver REQUIRED)
 find_package(detected REQUIRED)
 find_package(predictor REQUIRED)
-find_package(serial REQUIRED)
-find_package(gimbal REQUIRED)
 
 
 # 包含目录
@@ -54,44 +52,8 @@ ament_target_dependencies(tracker_lib
   solver
   predictor
   detected
-  serial
-  gimbal
 )
 
-# # 链接外部库到tracker库
-# target_link_libraries(tracker_lib
-#   ${OpenCV_LIBS}
-#   yaml-cpp
-#   Eigen3::Eigen
-# )
-
-# # 创建tracker_node可执行文件
-# add_executable(tracker_node
-#   src/tracker_node.cpp
-# )
-
-# # 设置tracker_node的依赖
-# ament_target_dependencies(tracker_node
-#   rclcpp
-#   cv_bridge
-#   sensor_msgs
-#   geometry_msgs
-#   autoaim_msgs
-#   tf2
-#   utils
-#   solver
-#   predictor
-#   detected
-#   serial
-#   gimbal
-# )
-
-# # 链接库到可执行文件
-# target_link_libraries(tracker_node
-#   tracker_lib
-#   yaml-cpp
-#   Eigen3::Eigen
-# )
 
 # 安装可执行文件
 install(TARGETS
@@ -112,15 +74,6 @@ install(DIRECTORY include/
   DESTINATION include
 )
 
-# 安装launch文件（如果有）
-# install(DIRECTORY launch
-#   DESTINATION share/${PROJECT_NAME}
-# )
-
-# 安装配置文件（如果有）
-# install(DIRECTORY config
-#   DESTINATION share/${PROJECT_NAME}
-# )
 
 # 导出依赖信息
 ament_export_include_directories(include)
@@ -139,8 +92,6 @@ ament_export_dependencies(
   solver
   predictor
   detected
-  serial
-  gimbal
 )
 
 # 添加测试支持（可选）

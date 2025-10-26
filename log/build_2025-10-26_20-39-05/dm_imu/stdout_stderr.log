@@ -1,0 +1,60 @@
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+-- Found utils: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake)
+-- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)
+-- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+-- Found FastRTPS: /opt/ros/rolling/include  
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found serial: 0.1.0 (/home/guo/ITL_sentry_auto_new/install/serial/share/serial/cmake)
+-- Configuring done (1.8s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/dm_imu
+[ 50%] [32mBuilding CXX object CMakeFiles/dm_imu.dir/src/imu_driver.cpp.o[0m
+[100%] [32m[1mLinking CXX shared library libdm_imu.so[0m
+[100%] Built target dm_imu
+-- Install configuration: ""
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/lib/libdm_imu.so
+-- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/dm_imu/lib/libdm_imu.so" to ""
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/include
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/include/imu_driver.h
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/config
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/config/imu_params.yaml
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/environment/library_path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/environment/library_path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/ament_index/resource_index/package_run_dependencies/dm_imu
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/ament_index/resource_index/parent_prefix_path/dm_imu
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/environment/ament_prefix_path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/environment/ament_prefix_path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/environment/path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/environment/path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/local_setup.bash
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/local_setup.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/local_setup.zsh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/local_setup.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/package.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/ament_index/resource_index/packages/dm_imu
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/cmake/export_dm_imuExport.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/cmake/export_dm_imuExport-noconfig.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/cmake/ament_cmake_export_targets-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/cmake/dm_imuConfig.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/cmake/dm_imuConfig-version.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/dm_imu/share/dm_imu/package.xml

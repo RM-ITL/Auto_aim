@@ -1,1 +1,0 @@
-Invoking command in '/home/guo/ITL_sentry_auto_new/build/launch_node': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/rolling /usr/local/bin/cmake /home/guo/ITL_sentry_auto_new/src/launch -DCMAKE_INSTALL_PREFIX=/home/guo/ITL_sentry_auto_new/install/launch_node

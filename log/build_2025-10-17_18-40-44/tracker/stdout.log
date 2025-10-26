@@ -1,4 +1,0 @@
-[ 25%] [32mBuilding CXX object CMakeFiles/tracker_lib.dir/src/tracker.cpp.o[0m
-[ 50%] [32m[1mLinking CXX static library libtracker_lib.a[0m
-[ 50%] Built target tracker_lib
-[ 75%] [32mBuilding CXX object CMakeFiles/tracker_node.dir/src/tracker_node.cpp.o[0m

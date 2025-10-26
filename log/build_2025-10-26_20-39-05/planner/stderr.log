@@ -1,0 +1,62 @@
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:[m[K In function ‘[01m[KtinyVector project_soc(tinyVector, float)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:40:42:[m[K [01;35m[Kwarning: [m[K‘[01m[KEigen::placeholders::last[m[K’ is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wdeprecated-declarations-Wdeprecated-declarations]8;;[m[K]
+   40 |     tinytype u0 = s(Eigen::placeholders::[01;35m[Klast[m[K) * mu;
+      |                                          [01;35m[K^~~~[m[K
+In file included from [01m[K/usr/include/eigen3/Eigen/Core:265[m[K,
+                 from [01m[K/usr/include/eigen3/Eigen/Dense:1[m[K,
+                 from [01m[K/usr/include/eigen3/Eigen/Eigen:1[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/include/types.hpp:3[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/include/admm.hpp:3[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:3[m[K:
+[01m[K/usr/include/eigen3/Eigen/src/Core/util/IndexedViewHelper.h:180:40:[m[K [01;36m[Knote: [m[Kdeclared here
+  180 |   EIGEN_DEPRECATED static const last_t [01;36m[Klast[m[K = Eigen::last;   // PLEASE use Eigen::last   instead of Eigen::placeholders::last
+      |                                        [01;36m[K^~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:[m[K In function ‘[01m[Kint solve(TinySolver*)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:333:22:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kpri_res_input[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+  333 |             tinytype [01;35m[Kpri_res_input[m[K = (solver->work->u - solver->work->znew).cwiseAbs().maxCoeff();
+      |                      [01;35m[K^~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:334:22:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kpri_res_state[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+  334 |             tinytype [01;35m[Kpri_res_state[m[K = (solver->work->x - solver->work->vnew).cwiseAbs().maxCoeff();
+      |                      [01;35m[K^~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:335:22:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kdua_res_input[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+  335 |             tinytype [01;35m[Kdua_res_input[m[K = solver->cache->rho * (solver->work->znew - z_prev).cwiseAbs().maxCoeff();
+      |                      [01;35m[K^~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/tinympc/src/admm.cpp:336:22:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kdua_res_state[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+  336 |             tinytype [01;35m[Kdua_res_state[m[K = solver->cache->rho * (solver->work->vnew - v_prev).cwiseAbs().maxCoeff();
+      |                      [01;35m[K^~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:[m[K In member function ‘[01m[Kplan::Plan plan::Planner::plan(predict::Target, double)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:55:18:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::fire[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+   55 |     return {false[01;35m[K}[m[K;
+      |                  [01;35m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:55:18:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::target_yaw[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:55:18:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::target_pitch[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:55:18:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::yaw[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:55:18:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::yaw_vel[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:55:18:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::yaw_acc[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:55:18:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::pitch[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:55:18:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::pitch_vel[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:55:18:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::pitch_acc[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:[m[K In member function ‘[01m[Kplan::Plan plan::Planner::plan(std::optional<predict::Target>, double)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:98:41:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::fire[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+   98 |   if (!target.has_value()) return {false[01;35m[K}[m[K;
+      |                                         [01;35m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:98:41:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::target_yaw[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:98:41:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::target_pitch[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:98:41:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::yaw[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:98:41:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::yaw_vel[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:98:41:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::yaw_acc[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:98:41:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::pitch[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:98:41:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::pitch_vel[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:98:41:[m[K [01;35m[Kwarning: [m[Kmissing initializer for member ‘[01m[Kplan::Plan::pitch_acc[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmissing-field-initializers-Wmissing-field-initializers]8;;[m[K]
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:[m[K In member function ‘[01m[KEigen::Matrix<double, 2, 1> plan::Planner::aim(const predict::Target&, double)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:159:10:[m[K [01;35m[Kwarning: [m[K‘[01m[Kyaw[m[K’ may be used uninitialized in this function [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmaybe-uninitialized-Wmaybe-uninitialized]8;;[m[K]
+  159 |   double [01;35m[Kyaw[m[K;
+      |          [01;35m[K^~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:158:19:[m[K [01;35m[Kwarning: [m[K‘[01m[Kxyz.Eigen::Matrix<double, 3, 1, 0, 3, 1>::<unnamed>.Eigen::PlainObjectBase<Eigen::Matrix<double, 3, 1, 0, 3, 1> >::m_storage.Eigen::DenseStorage<double, 3, 3, 1, 0>::m_data.Eigen::internal::plain_array<double, 3, 0, 0>::array[2][m[K’ may be used uninitialized in this function [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmaybe-uninitialized-Wmaybe-uninitialized]8;;[m[K]
+  158 |   Eigen::Vector3d [01;35m[Kxyz[m[K;
+      |                   [01;35m[K^~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:[m[K In member function ‘[01m[Kplan::Plan plan::Planner::plan(predict::Target, double)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/planner/src/planner.cpp:44:71:[m[K [01;35m[Kwarning: [m[K‘[01m[Kxyz.Eigen::Matrix<double, 3, 1, 0, 3, 1>::<unnamed>.Eigen::PlainObjectBase<Eigen::Matrix<double, 3, 1, 0, 3, 1> >::m_storage.Eigen::DenseStorage<double, 3, 3, 1, 0>::m_data.Eigen::internal::plain_array<double, 3, 0, 0>::array[2][m[K’ may be used uninitialized in this function [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmaybe-uninitialized-Wmaybe-uninitialized]8;;[m[K]
+   44 |  auto bullet_traj = utils::Trajectory(bullet_speed, min_dist, xyz.z()[01;35m[K)[m[K;
+      |                                                                      [01;35m[K^[m[K
+

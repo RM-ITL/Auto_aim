@@ -1,9 +1,0 @@
-[ 10%] [32m[1mLinking CXX shared library libsolver_base.so[0m
-[ 20%] Built target solver_base
-[ 30%] [32m[1mLinking CXX shared library libcoord_converter.so[0m
-[ 40%] [32m[1mLinking CXX shared library libpnp_solver_lib.so[0m
-[ 50%] [32m[1mLinking CXX shared library libyaw_optimzier_lib.so[0m
-[ 60%] Built target coord_converter
-[ 70%] Built target pnp_solver_lib
-[ 80%] Built target yaw_optimzier_lib
-[ 90%] [32mBuilding CXX object CMakeFiles/solver_interface.dir/src/solver_node.cpp.o[0m

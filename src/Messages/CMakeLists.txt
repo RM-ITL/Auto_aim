@@ -15,25 +15,10 @@ find_package(sensor_msgs REQUIRED)
 
 # 生成消息接口
 rosidl_generate_interfaces(${PROJECT_NAME}
-  "msg/Target.msg"
-  "msg/Targets.msg"
-  "msg/Armor.msg"
-  "msg/Armorresult.msg"
-  "msg/Prediction.msg"
-  "msg/Predictions.msg"
-  "msg/Serialcmd.msg"
   "msg/Debug.msg"
   DEPENDENCIES std_msgs geometry_msgs sensor_msgs
 )
 
-# 安装头文件，让其他包可以使用
-install(
-  DIRECTORY include/
-  DESTINATION include
-)
-
-# 导出包含目录，让其他包可以找到头文件
-ament_export_include_directories(include)
 # 导出依赖，让其他包知道需要这些依赖
 ament_export_dependencies(std_msgs geometry_msgs sensor_msgs)
 

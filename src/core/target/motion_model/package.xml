@@ -26,7 +26,6 @@
   <!-- 导出依赖（使用此库的包也需要这些依赖） -->
   <build_export_depend>rclcpp</build_export_depend>
   <build_export_depend>autoaim_msgs</build_export_depend>
-  <build_export_depend>filter_lib</build_export_depend>
   <build_export_depend>eigen</build_export_depend>
   <build_export_depend>yaml-cpp</build_export_depend>
   

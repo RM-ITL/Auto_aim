@@ -18,7 +18,6 @@ find_package(autoaim_msgs REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(yaml-cpp REQUIRED)
 # 假设filter_lib是另一个内部包
-find_package(filter_lib REQUIRED)
 
 # 包含目录
 include_directories(
@@ -28,9 +27,6 @@ include_directories(
 
 # 创建静态库
 add_library(${PROJECT_NAME} SHARED
-  src/common_model_v2.cpp
-  src/rotating_model.cpp
-  src/common_model_v1.cpp
   src/full_model.cpp
 )
 
@@ -46,7 +42,6 @@ ament_target_dependencies(${PROJECT_NAME}
   OpenCV
   rclcpp
   autoaim_msgs
-  filter_lib
 )
 
 # 链接yaml-cpp（非ament包，需要手动链接）
@@ -60,7 +55,6 @@ ament_export_dependencies(
   OpenCV
   rclcpp
   autoaim_msgs
-  filter_lib
   Eigen3
   yaml-cpp
 )

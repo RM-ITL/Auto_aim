@@ -21,6 +21,7 @@ find_package(solver REQUIRED)
 find_package(tracker REQUIRED)
 find_package(planner REQUIRED)
 find_package(autoaim_msgs REQUIRED)
+find_package(gimbal REQUIRED)
 
 add_executable(pipeline_node
   src/test_node.cpp
@@ -50,6 +51,7 @@ ament_target_dependencies(pipeline_node
   tracker
   planner
   autoaim_msgs
+  gimbal
 )
 
 ament_target_dependencies(video_node

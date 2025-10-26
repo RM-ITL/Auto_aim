@@ -1,7 +1,0 @@
-[ 22%] Built target armor_data_lib
-[ 33%] [32mBuilding CXX object CMakeFiles/armor_detector_lib.dir/src/detector/common_detector.cpp.o[0m
-[ 55%] Built target armor_classifier_lib
-[ 66%] [32m[1mLinking CXX shared library libarmor_detector_lib.so[0m
-[ 77%] Built target armor_detector_lib
-[ 88%] [32m[1mLinking CXX shared library libdetected.so[0m
-[100%] Built target detected

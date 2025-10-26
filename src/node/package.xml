@@ -21,6 +21,7 @@
   <depend>tracker</depend>
   <depend>planner</depend>
   <depend>autoaim_msgs</depend>
+  <depend>gimbal</depend>
 
   <build_depend>OpenCV</build_depend>
 

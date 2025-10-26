@@ -1,0 +1,470 @@
+[0.012s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/autoaim_msgs': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake /home/guo/ITL_sentry_auto_new/src/Messages -DCMAKE_INSTALL_PREFIX=/home/guo/ITL_sentry_auto_new/install/autoaim_msgs
+[0.073s] -- The C compiler identification is GNU 11.4.0
+[0.128s] -- The CXX compiler identification is GNU 11.4.0
+[0.142s] -- Detecting C compiler ABI info
+[0.199s] -- Detecting C compiler ABI info - done
+[0.208s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.208s] -- Detecting C compile features
+[0.209s] -- Detecting C compile features - done
+[0.218s] -- Detecting CXX compiler ABI info
+[0.279s] -- Detecting CXX compiler ABI info - done
+[0.289s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.290s] -- Detecting CXX compile features
+[0.290s] -- Detecting CXX compile features - done
+[0.292s] -- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)
+[0.645s] -- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+[0.711s] -- Found rosidl_default_generators: 1.6.0 (/opt/ros/rolling/share/rosidl_default_generators/cmake)
+[0.715s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.757s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.797s] -- Found rosidl_adapter: 4.5.1 (/opt/ros/rolling/share/rosidl_adapter/cmake)
+[0.804s] -- Found std_msgs: 5.3.0 (/opt/ros/rolling/share/std_msgs/cmake)
+[0.870s] -- Found geometry_msgs: 5.3.0 (/opt/ros/rolling/share/geometry_msgs/cmake)
+[0.912s] -- Found sensor_msgs: 5.3.0 (/opt/ros/rolling/share/sensor_msgs/cmake)
+[1.641s] -- Found ament_cmake_ros: 0.12.0 (/opt/ros/rolling/share/ament_cmake_ros/cmake)
+[2.167s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[2.814s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[2.837s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.6") 
+[2.839s] -- Found python_cmake_module: 0.11.0 (/opt/ros/rolling/share/python_cmake_module/cmake)
+[2.862s] -- Found PythonLibs: /usr/lib/x86_64-linux-gnu/libpython3.10.so (found suitable version "3.10.12", minimum required is "3.5") 
+[2.862s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[2.862s] -- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10
+[2.863s] -- Using PYTHON_LIBRARIES: /usr/lib/x86_64-linux-gnu/libpython3.10.so
+[2.879s] -- Found PythonExtra: .so  
+[2.950s] -- Configuring done (2.9s)
+[2.991s] -- Generating done (0.0s)
+[3.001s] -- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/autoaim_msgs
+[3.010s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/autoaim_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake /home/guo/ITL_sentry_auto_new/src/Messages -DCMAKE_INSTALL_PREFIX=/home/guo/ITL_sentry_auto_new/install/autoaim_msgs
+[3.010s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/autoaim_msgs': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/autoaim_msgs -- -j24 -l24
+[3.031s] [  1%] [34m[1mGenerating type hashes for ROS interfaces[0m
+[3.033s] [  1%] Built target ament_cmake_python_copy_autoaim_msgs
+[3.217s] running egg_info
+[3.217s] creating autoaim_msgs.egg-info
+[3.217s] writing autoaim_msgs.egg-info/PKG-INFO
+[3.217s] writing dependency_links to autoaim_msgs.egg-info/dependency_links.txt
+[3.217s] writing top-level names to autoaim_msgs.egg-info/top_level.txt
+[3.218s] writing manifest file 'autoaim_msgs.egg-info/SOURCES.txt'
+[3.219s] reading manifest file 'autoaim_msgs.egg-info/SOURCES.txt'
+[3.220s] writing manifest file 'autoaim_msgs.egg-info/SOURCES.txt'
+[3.237s] [  1%] Built target ament_cmake_python_build_autoaim_msgs_egg
+[3.523s] [  1%] Built target autoaim_msgs__rosidl_generator_type_description
+[3.527s] [  2%] [34m[1mGenerating C code for ROS interfaces[0m
+[3.532s] [  2%] [34m[1mGenerating C++ code for ROS interfaces[0m
+[4.223s] [  2%] Built target autoaim_msgs__cpp
+[4.351s] [  3%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/target__description.c.o[0m
+[4.352s] [  4%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/target__functions.c.o[0m
+[4.353s] [  6%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/targets__type_support.c.o[0m
+[4.353s] [  6%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/target__type_support.c.o[0m
+[4.353s] [  8%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/armor__description.c.o[0m
+[4.353s] [  8%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/targets__description.c.o[0m
+[4.353s] [  9%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/targets__functions.c.o[0m
+[4.353s] [ 10%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/armor__type_support.c.o[0m
+[4.354s] [ 11%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/armor__functions.c.o[0m
+[4.354s] [ 12%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/armorresult__description.c.o[0m
+[4.354s] [ 13%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/armorresult__functions.c.o[0m
+[4.355s] [ 14%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/armorresult__type_support.c.o[0m
+[4.357s] [ 15%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/prediction__description.c.o[0m
+[4.357s] [ 16%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/prediction__functions.c.o[0m
+[4.358s] [ 17%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/prediction__type_support.c.o[0m
+[4.359s] [ 18%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/predictions__description.c.o[0m
+[4.359s] [ 21%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/serialcmd__description.c.o[0m
+[4.359s] [ 19%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/predictions__functions.c.o[0m
+[4.360s] [ 20%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/predictions__type_support.c.o[0m
+[4.360s] [ 22%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/serialcmd__functions.c.o[0m
+[4.361s] [ 23%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/serialcmd__type_support.c.o[0m
+[4.361s] [ 24%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/debug__description.c.o[0m
+[4.370s] [ 25%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/debug__functions.c.o[0m
+[4.371s] [ 25%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_c.dir/rosidl_generator_c/autoaim_msgs/msg/detail/debug__type_support.c.o[0m
+[4.428s] [ 26%] [32m[1mLinking C shared library libautoaim_msgs__rosidl_generator_c.so[0m
+[4.454s] [ 26%] Built target autoaim_msgs__rosidl_generator_c
+[4.459s] [ 28%] [34m[1mGenerating C type support dispatch for ROS interfaces[0m
+[4.459s] [ 28%] [34m[1mGenerating C type support for eProsima Fast-RTPS[0m
+[4.460s] [ 29%] [34m[1mGenerating C++ type support dispatch for ROS interfaces[0m
+[4.460s] [ 30%] [34m[1mGenerating C introspection for ROS interfaces[0m
+[4.461s] [ 31%] [34m[1mGenerating C++ type support for eProsima Fast-RTPS[0m
+[4.461s] [ 32%] [34m[1mGenerating C++ introspection for ROS interfaces[0m
+[5.079s] [ 33%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/autoaim_msgs/msg/target__type_support.cpp.o[0m
+[5.079s] [ 33%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/autoaim_msgs/msg/targets__type_support.cpp.o[0m
+[5.079s] [ 34%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/autoaim_msgs/msg/armor__type_support.cpp.o[0m
+[5.080s] [ 35%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/autoaim_msgs/msg/armorresult__type_support.cpp.o[0m
+[5.080s] [ 37%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/autoaim_msgs/msg/prediction__type_support.cpp.o[0m
+[5.080s] [ 37%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/autoaim_msgs/msg/predictions__type_support.cpp.o[0m
+[5.081s] [ 38%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/autoaim_msgs/msg/serialcmd__type_support.cpp.o[0m
+[5.081s] [ 39%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/autoaim_msgs/msg/debug__type_support.cpp.o[0m
+[5.140s] [ 40%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/autoaim_msgs/msg/target__type_support.cpp.o[0m
+[5.140s] [ 41%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/autoaim_msgs/msg/targets__type_support.cpp.o[0m
+[5.142s] [ 42%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/autoaim_msgs/msg/armor__type_support.cpp.o[0m
+[5.142s] [ 43%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/autoaim_msgs/msg/armorresult__type_support.cpp.o[0m
+[5.142s] [ 44%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/autoaim_msgs/msg/prediction__type_support.cpp.o[0m
+[5.142s] [ 45%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/autoaim_msgs/msg/predictions__type_support.cpp.o[0m
+[5.142s] [ 46%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/autoaim_msgs/msg/serialcmd__type_support.cpp.o[0m
+[5.142s] [ 47%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/autoaim_msgs/msg/debug__type_support.cpp.o[0m
+[5.201s] [ 49%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/autoaim_msgs/msg/detail/targets__type_support.cpp.o[0m
+[5.201s] [ 49%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/autoaim_msgs/msg/detail/target__type_support.cpp.o[0m
+[5.202s] [ 50%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/autoaim_msgs/msg/detail/armorresult__type_support.cpp.o[0m
+[5.202s] [ 51%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/autoaim_msgs/msg/detail/armor__type_support.cpp.o[0m
+[5.202s] [ 52%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/autoaim_msgs/msg/detail/prediction__type_support.cpp.o[0m
+[5.203s] [ 53%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/autoaim_msgs/msg/detail/predictions__type_support.cpp.o[0m
+[5.204s] [ 54%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/autoaim_msgs/msg/detail/serialcmd__type_support.cpp.o[0m
+[5.204s] [ 55%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/autoaim_msgs/msg/detail/debug__type_support.cpp.o[0m
+[5.207s] [ 56%] [32m[1mLinking CXX shared library libautoaim_msgs__rosidl_typesupport_c.so[0m
+[5.256s] [ 57%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/autoaim_msgs/msg/detail/target__type_support_c.cpp.o[0m
+[5.260s] [ 58%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/autoaim_msgs/msg/detail/targets__type_support_c.cpp.o[0m
+[5.263s] [ 59%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/autoaim_msgs/msg/detail/armor__type_support_c.cpp.o[0m
+[5.267s] [ 60%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/autoaim_msgs/msg/detail/prediction__type_support_c.cpp.o[0m
+[5.269s] [ 61%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/autoaim_msgs/msg/detail/armorresult__type_support_c.cpp.o[0m
+[5.273s] [ 61%] Built target autoaim_msgs__rosidl_typesupport_c
+[5.281s] [ 62%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/autoaim_msgs/msg/detail/predictions__type_support_c.cpp.o[0m
+[5.301s] [ 63%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/autoaim_msgs/msg/detail/target__type_support.c.o[0m
+[5.425s] [ 64%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/autoaim_msgs/msg/detail/targets__type_support.c.o[0m
+[5.540s] [ 65%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/autoaim_msgs/msg/detail/armor__type_support.c.o[0m
+[5.565s] [ 66%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/autoaim_msgs/msg/detail/armorresult__type_support.c.o[0m
+[5.570s] [ 67%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/autoaim_msgs/msg/detail/prediction__type_support.c.o[0m
+[5.600s] [ 68%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/autoaim_msgs/msg/detail/serialcmd__type_support_c.cpp.o[0m
+[5.610s] [ 69%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/autoaim_msgs/msg/detail/predictions__type_support.c.o[0m
+[5.632s] [ 70%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/autoaim_msgs/msg/detail/serialcmd__type_support.c.o[0m
+[5.651s] [ 71%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/autoaim_msgs/msg/detail/debug__type_support.c.o[0m
+[5.663s] [ 72%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/autoaim_msgs/msg/detail/dds_fastrtps/target__type_support.cpp.o[0m
+[5.673s] [ 73%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/autoaim_msgs/msg/detail/debug__type_support_c.cpp.o[0m
+[5.680s] [ 74%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/autoaim_msgs/msg/detail/dds_fastrtps/targets__type_support.cpp.o[0m
+[5.701s] [ 75%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/autoaim_msgs/msg/detail/dds_fastrtps/armor__type_support.cpp.o[0m
+[5.707s] [ 76%] [32m[1mLinking C shared library libautoaim_msgs__rosidl_typesupport_introspection_c.so[0m
+[5.721s] [ 77%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/autoaim_msgs/msg/detail/dds_fastrtps/prediction__type_support.cpp.o[0m
+[5.726s] [ 78%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/autoaim_msgs/msg/detail/dds_fastrtps/armorresult__type_support.cpp.o[0m
+[5.734s] [ 78%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/autoaim_msgs/msg/detail/dds_fastrtps/predictions__type_support.cpp.o[0m
+[5.738s] [ 78%] Built target autoaim_msgs__rosidl_typesupport_introspection_c
+[5.740s] [ 79%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/autoaim_msgs/msg/detail/dds_fastrtps/serialcmd__type_support.cpp.o[0m
+[5.749s] [ 80%] [32mBuilding CXX object CMakeFiles/autoaim_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/autoaim_msgs/msg/detail/dds_fastrtps/debug__type_support.cpp.o[0m
+[5.757s] [ 81%] [32m[1mLinking CXX shared library libautoaim_msgs__rosidl_typesupport_cpp.so[0m
+[5.838s] [ 81%] Built target autoaim_msgs__rosidl_typesupport_cpp
+[5.888s] [ 82%] [32m[1mLinking CXX shared library libautoaim_msgs__rosidl_typesupport_introspection_cpp.so[0m
+[5.980s] [ 82%] Built target autoaim_msgs__rosidl_typesupport_introspection_cpp
+[6.231s] [ 83%] [32m[1mLinking CXX shared library libautoaim_msgs__rosidl_typesupport_fastrtps_c.so[0m
+[6.289s] [ 83%] Built target autoaim_msgs__rosidl_typesupport_fastrtps_c
+[6.413s] [ 84%] [32m[1mLinking CXX shared library libautoaim_msgs__rosidl_typesupport_fastrtps_cpp.so[0m
+[6.465s] [ 84%] Built target autoaim_msgs__rosidl_typesupport_fastrtps_cpp
+[6.473s] [ 84%] Built target autoaim_msgs
+[6.482s] [ 85%] [34m[1mGenerating Python code for ROS interfaces[0m
+[7.708s] [ 85%] Built target autoaim_msgs__py
+[7.715s] [ 86%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_py.dir/rosidl_generator_py/autoaim_msgs/msg/_target_s.c.o[0m
+[7.715s] [ 87%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_py.dir/rosidl_generator_py/autoaim_msgs/msg/_targets_s.c.o[0m
+[7.716s] [ 88%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_py.dir/rosidl_generator_py/autoaim_msgs/msg/_armor_s.c.o[0m
+[7.716s] [ 89%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_py.dir/rosidl_generator_py/autoaim_msgs/msg/_armorresult_s.c.o[0m
+[7.716s] [ 90%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_py.dir/rosidl_generator_py/autoaim_msgs/msg/_prediction_s.c.o[0m
+[7.717s] [ 91%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_py.dir/rosidl_generator_py/autoaim_msgs/msg/_serialcmd_s.c.o[0m
+[7.717s] [ 92%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_py.dir/rosidl_generator_py/autoaim_msgs/msg/_predictions_s.c.o[0m
+[7.718s] [ 93%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_generator_py.dir/rosidl_generator_py/autoaim_msgs/msg/_debug_s.c.o[0m
+[7.859s] [ 94%] [32m[1mLinking C shared library libautoaim_msgs__rosidl_generator_py.so[0m
+[7.886s] [ 94%] Built target autoaim_msgs__rosidl_generator_py
+[7.893s] [ 95%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/autoaim_msgs/_autoaim_msgs_s.ep.rosidl_typesupport_c.c.o[0m
+[7.894s] [ 96%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/autoaim_msgs/_autoaim_msgs_s.ep.rosidl_typesupport_introspection_c.c.o[0m
+[7.894s] [ 97%] [32mBuilding C object CMakeFiles/autoaim_msgs__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/autoaim_msgs/_autoaim_msgs_s.ep.rosidl_typesupport_fastrtps_c.c.o[0m
+[7.987s] [ 98%] [32m[1mLinking C shared library autoaim_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so[0m
+[7.988s] [ 99%] [32m[1mLinking C shared library autoaim_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so[0m
+[7.991s] [100%] [32m[1mLinking C shared library autoaim_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so[0m
+[8.016s] [100%] Built target autoaim_msgs__rosidl_typesupport_fastrtps_c__pyext
+[8.017s] [100%] Built target autoaim_msgs__rosidl_typesupport_c__pyext
+[8.026s] [100%] Built target autoaim_msgs__rosidl_typesupport_introspection_c__pyext
+[8.032s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/autoaim_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/autoaim_msgs -- -j24 -l24
+[8.033s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/autoaim_msgs': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/autoaim_msgs
+[8.036s] -- Install configuration: ""
+[8.036s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/ament_index/resource_index/rosidl_interfaces/autoaim_msgs
+[8.036s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Target.json
+[8.036s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Targets.json
+[8.036s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Armor.json
+[8.036s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Armorresult.json
+[8.036s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Prediction.json
+[8.036s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Predictions.json
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Serialcmd.json
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Debug.json
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/serialcmd.h
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/rosidl_generator_c__visibility_control.h
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/target__type_support.h
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armorresult__type_support.c
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/predictions__type_support.c
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/targets__functions.h
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/target__description.c
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/predictions__type_support.h
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/prediction__type_support.h
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/predictions__struct.h
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armor__functions.c
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/serialcmd__functions.h
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/targets__type_support.c
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/prediction__functions.h
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/serialcmd__functions.c
+[8.037s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/debug__functions.h
+[8.038s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armor__functions.h
+[8.038s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/target__functions.c
+[8.038s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/serialcmd__type_support.c
+[8.038s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/debug__type_support.h
+[8.038s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/predictions__functions.h
+[8.038s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armorresult__functions.c
+[8.038s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armor__description.c
+[8.038s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/prediction__struct.h
+[8.038s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armorresult__description.c
+[8.038s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/targets__description.c
+[8.038s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/target__functions.h
+[8.038s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/predictions__functions.c
+[8.038s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/serialcmd__struct.h
+[8.038s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armor__struct.h
+[8.038s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/serialcmd__type_support.h
+[8.038s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/predictions__description.c
+[8.038s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armor__type_support.c
+[8.038s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/debug__type_support.c
+[8.038s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/serialcmd__description.c
+[8.038s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/prediction__functions.c
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/debug__functions.c
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/debug__struct.h
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/prediction__description.c
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armor__type_support.h
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armorresult__type_support.h
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armorresult__struct.h
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/target__type_support.c
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/targets__struct.h
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/debug__description.c
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/targets__type_support.h
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/targets__functions.c
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armorresult__functions.h
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/prediction__type_support.c
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/target__struct.h
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/target.h
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/prediction.h
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/armorresult.h
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/predictions.h
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/armor.h
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/debug.h
+[8.039s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/targets.h
+[8.040s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/environment/library_path.sh
+[8.040s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/environment/library_path.dsv
+[8.040s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/libautoaim_msgs__rosidl_generator_c.so
+[8.040s] -- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/libautoaim_msgs__rosidl_generator_c.so" to ""
+[8.040s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs
+[8.040s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg
+[8.040s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail
+[8.040s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/predictions__rosidl_typesupport_fastrtps_c.h
+[8.040s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/debug__rosidl_typesupport_fastrtps_c.h
+[8.040s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/serialcmd__rosidl_typesupport_fastrtps_c.h
+[8.040s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/prediction__rosidl_typesupport_fastrtps_c.h
+[8.040s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/targets__rosidl_typesupport_fastrtps_c.h
+[8.041s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armor__rosidl_typesupport_fastrtps_c.h
+[8.041s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/target__rosidl_typesupport_fastrtps_c.h
+[8.041s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armorresult__rosidl_typesupport_fastrtps_c.h
+[8.041s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[8.041s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/libautoaim_msgs__rosidl_typesupport_fastrtps_c.so
+[8.041s] -- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/libautoaim_msgs__rosidl_typesupport_fastrtps_c.so" to ""
+[8.041s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs
+[8.041s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg
+[8.041s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[8.041s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail
+[8.041s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armorresult__type_support.c
+[8.041s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/predictions__type_support.c
+[8.041s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/prediction__rosidl_typesupport_introspection_c.h
+[8.041s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/targets__type_support.c
+[8.042s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armor__rosidl_typesupport_introspection_c.h
+[8.042s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/serialcmd__type_support.c
+[8.042s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armorresult__rosidl_typesupport_introspection_c.h
+[8.042s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/target__rosidl_typesupport_introspection_c.h
+[8.042s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/debug__rosidl_typesupport_introspection_c.h
+[8.042s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/predictions__rosidl_typesupport_introspection_c.h
+[8.042s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armor__type_support.c
+[8.042s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/debug__type_support.c
+[8.042s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/serialcmd__rosidl_typesupport_introspection_c.h
+[8.042s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/target__type_support.c
+[8.042s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/prediction__type_support.c
+[8.042s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/targets__rosidl_typesupport_introspection_c.h
+[8.042s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/libautoaim_msgs__rosidl_typesupport_introspection_c.so
+[8.042s] -- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/libautoaim_msgs__rosidl_typesupport_introspection_c.so" to ""
+[8.042s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/libautoaim_msgs__rosidl_typesupport_c.so
+[8.043s] -- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/libautoaim_msgs__rosidl_typesupport_c.so" to ""
+[8.043s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs
+[8.043s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg
+[8.043s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/targets.hpp
+[8.043s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/armor.hpp
+[8.043s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/debug.hpp
+[8.043s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail
+[8.043s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/serialcmd__traits.hpp
+[8.043s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/debug__type_support.hpp
+[8.043s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/targets__type_support.hpp
+[8.043s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/predictions__builder.hpp
+[8.043s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armor__traits.hpp
+[8.043s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armorresult__traits.hpp
+[8.043s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/targets__struct.hpp
+[8.043s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/targets__traits.hpp
+[8.043s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armorresult__type_support.hpp
+[8.043s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/prediction__builder.hpp
+[8.044s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armor__type_support.hpp
+[8.044s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/serialcmd__builder.hpp
+[8.044s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/predictions__traits.hpp
+[8.044s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armorresult__builder.hpp
+[8.044s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/predictions__struct.hpp
+[8.044s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/target__traits.hpp
+[8.044s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/prediction__type_support.hpp
+[8.044s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/serialcmd__type_support.hpp
+[8.044s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armorresult__struct.hpp
+[8.044s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/targets__builder.hpp
+[8.044s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/target__type_support.hpp
+[8.044s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/debug__struct.hpp
+[8.044s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/prediction__traits.hpp
+[8.044s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/target__builder.hpp
+[8.044s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/debug__builder.hpp
+[8.044s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/serialcmd__struct.hpp
+[8.044s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/target__struct.hpp
+[8.045s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/prediction__struct.hpp
+[8.045s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armor__builder.hpp
+[8.045s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armor__struct.hpp
+[8.045s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/debug__traits.hpp
+[8.045s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/predictions__type_support.hpp
+[8.045s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/predictions.hpp
+[8.045s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/serialcmd.hpp
+[8.045s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/armorresult.hpp
+[8.045s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/target.hpp
+[8.045s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/rosidl_generator_cpp__visibility_control.hpp
+[8.045s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/prediction.hpp
+[8.045s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs
+[8.045s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg
+[8.045s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[8.045s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail
+[8.045s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/prediction__rosidl_typesupport_fastrtps_cpp.hpp
+[8.046s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/targets__rosidl_typesupport_fastrtps_cpp.hpp
+[8.046s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/target__rosidl_typesupport_fastrtps_cpp.hpp
+[8.046s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armorresult__rosidl_typesupport_fastrtps_cpp.hpp
+[8.046s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/serialcmd__rosidl_typesupport_fastrtps_cpp.hpp
+[8.046s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/debug__rosidl_typesupport_fastrtps_cpp.hpp
+[8.046s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/dds_fastrtps
+[8.046s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armor__rosidl_typesupport_fastrtps_cpp.hpp
+[8.046s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/predictions__rosidl_typesupport_fastrtps_cpp.hpp
+[8.046s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/libautoaim_msgs__rosidl_typesupport_fastrtps_cpp.so
+[8.046s] -- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/libautoaim_msgs__rosidl_typesupport_fastrtps_cpp.so" to ""
+[8.046s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs
+[8.046s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg
+[8.046s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail
+[8.046s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/target__type_support.cpp
+[8.046s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armorresult__type_support.cpp
+[8.047s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/predictions__rosidl_typesupport_introspection_cpp.hpp
+[8.047s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/serialcmd__type_support.cpp
+[8.047s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armor__type_support.cpp
+[8.047s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/serialcmd__rosidl_typesupport_introspection_cpp.hpp
+[8.047s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/debug__type_support.cpp
+[8.047s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armorresult__rosidl_typesupport_introspection_cpp.hpp
+[8.047s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/prediction__rosidl_typesupport_introspection_cpp.hpp
+[8.047s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/targets__rosidl_typesupport_introspection_cpp.hpp
+[8.047s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/predictions__type_support.cpp
+[8.047s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/targets__type_support.cpp
+[8.047s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/armor__rosidl_typesupport_introspection_cpp.hpp
+[8.047s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/prediction__type_support.cpp
+[8.047s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/target__rosidl_typesupport_introspection_cpp.hpp
+[8.047s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_msgs/autoaim_msgs/msg/detail/debug__rosidl_typesupport_introspection_cpp.hpp
+[8.047s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/libautoaim_msgs__rosidl_typesupport_introspection_cpp.so
+[8.048s] -- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/libautoaim_msgs__rosidl_typesupport_introspection_cpp.so" to ""
+[8.048s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/libautoaim_msgs__rosidl_typesupport_cpp.so
+[8.048s] -- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/libautoaim_msgs__rosidl_typesupport_cpp.so" to ""
+[8.048s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/environment/pythonpath.sh
+[8.048s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/environment/pythonpath.dsv
+[8.048s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs-0.0.1-py3.10.egg-info
+[8.048s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs-0.0.1-py3.10.egg-info/dependency_links.txt
+[8.048s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs-0.0.1-py3.10.egg-info/top_level.txt
+[8.048s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs-0.0.1-py3.10.egg-info/PKG-INFO
+[8.048s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs-0.0.1-py3.10.egg-info/SOURCES.txt
+[8.048s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs
+[8.049s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/_autoaim_msgs_s.ep.rosidl_typesupport_c.c
+[8.049s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/_autoaim_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
+[8.049s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/_autoaim_msgs_s.ep.rosidl_typesupport_introspection_c.c
+[8.049s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/__init__.py
+[8.049s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg
+[8.049s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_armor.py
+[8.049s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_prediction_s.c
+[8.049s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_armorresult_s.c
+[8.049s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_predictions_s.c
+[8.049s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_predictions.py
+[8.049s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_serialcmd.py
+[8.049s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_serialcmd_s.c
+[8.049s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_target.py
+[8.049s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_targets_s.c
+[8.049s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_targets.py
+[8.049s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_prediction.py
+[8.049s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/__init__.py
+[8.050s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_armor_s.c
+[8.050s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_target_s.c
+[8.050s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_debug_s.c
+[8.050s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_armorresult.py
+[8.050s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_debug.py
+[8.087s] Listing '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs'...
+[8.087s] Compiling '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/__init__.py'...
+[8.087s] Listing '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg'...
+[8.087s] Compiling '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/__init__.py'...
+[8.087s] Compiling '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_armor.py'...
+[8.087s] Compiling '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_armorresult.py'...
+[8.087s] Compiling '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_debug.py'...
+[8.088s] Compiling '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_prediction.py'...
+[8.088s] Compiling '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_predictions.py'...
+[8.088s] Compiling '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_serialcmd.py'...
+[8.088s] Compiling '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_target.py'...
+[8.088s] Compiling '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/msg/_targets.py'...
+[8.091s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/autoaim_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[8.091s] -- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/autoaim_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so" to ""
+[8.091s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/autoaim_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[8.091s] -- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/autoaim_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so" to ""
+[8.092s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/autoaim_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[8.092s] -- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages/autoaim_msgs/autoaim_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so" to ""
+[8.092s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/libautoaim_msgs__rosidl_generator_py.so
+[8.092s] -- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/libautoaim_msgs__rosidl_generator_py.so" to ""
+[8.092s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Target.idl
+[8.092s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Targets.idl
+[8.092s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Armor.idl
+[8.092s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Armorresult.idl
+[8.092s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Prediction.idl
+[8.092s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Predictions.idl
+[8.093s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Serialcmd.idl
+[8.093s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Debug.idl
+[8.093s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Target.msg
+[8.093s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Targets.msg
+[8.093s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Armor.msg
+[8.093s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Armorresult.msg
+[8.093s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Prediction.msg
+[8.093s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Predictions.msg
+[8.093s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Serialcmd.msg
+[8.093s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/msg/Debug.msg
+[8.093s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include
+[8.094s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/include/autoaim_constants.hpp
+[8.094s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/ament_index/resource_index/package_run_dependencies/autoaim_msgs
+[8.094s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/ament_index/resource_index/parent_prefix_path/autoaim_msgs
+[8.094s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/environment/ament_prefix_path.sh
+[8.094s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/environment/ament_prefix_path.dsv
+[8.094s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/environment/path.sh
+[8.094s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/environment/path.dsv
+[8.094s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/local_setup.bash
+[8.094s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/local_setup.sh
+[8.094s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/local_setup.zsh
+[8.094s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/local_setup.dsv
+[8.095s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/package.dsv
+[8.095s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/ament_index/resource_index/packages/autoaim_msgs
+[8.095s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/export_autoaim_msgs__rosidl_generator_cExport.cmake
+[8.095s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/export_autoaim_msgs__rosidl_generator_cExport-noconfig.cmake
+[8.095s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/export_autoaim_msgs__rosidl_typesupport_fastrtps_cExport.cmake
+[8.095s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/export_autoaim_msgs__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[8.095s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/autoaim_msgs__rosidl_typesupport_introspection_cExport.cmake
+[8.095s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/autoaim_msgs__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[8.095s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/autoaim_msgs__rosidl_typesupport_cExport.cmake
+[8.095s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/autoaim_msgs__rosidl_typesupport_cExport-noconfig.cmake
+[8.095s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/export_autoaim_msgs__rosidl_generator_cppExport.cmake
+[8.095s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/export_autoaim_msgs__rosidl_typesupport_fastrtps_cppExport.cmake
+[8.096s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/export_autoaim_msgs__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[8.096s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/autoaim_msgs__rosidl_typesupport_introspection_cppExport.cmake
+[8.096s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/autoaim_msgs__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[8.096s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/autoaim_msgs__rosidl_typesupport_cppExport.cmake
+[8.096s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/autoaim_msgs__rosidl_typesupport_cppExport-noconfig.cmake
+[8.096s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/export_autoaim_msgs__rosidl_generator_pyExport.cmake
+[8.096s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/export_autoaim_msgs__rosidl_generator_pyExport-noconfig.cmake
+[8.096s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/rosidl_cmake-extras.cmake
+[8.096s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/ament_cmake_export_dependencies-extras.cmake
+[8.096s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/ament_cmake_export_include_directories-extras.cmake
+[8.096s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/ament_cmake_export_libraries-extras.cmake
+[8.096s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/ament_cmake_export_targets-extras.cmake
+[8.097s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[8.097s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[8.097s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/autoaim_msgsConfig.cmake
+[8.097s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake/autoaim_msgsConfig-version.cmake
+[8.097s] -- Installing: /home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/package.xml
+[8.099s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/autoaim_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/autoaim_msgs

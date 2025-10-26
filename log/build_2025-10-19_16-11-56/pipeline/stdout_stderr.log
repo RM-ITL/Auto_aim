@@ -1,9 +1,0 @@
-[ 50%] [32mBuilding CXX object CMakeFiles/pipeline_node.dir/src/test_node.cpp.o[0m
-[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:[m[K In member function ‘[01m[Kint pipeline::PipelineApp::run()[m[K’:
-[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/test_node.cpp:120:41:[m[K [01;31m[Kerror: [m[K‘[01m[Kdetla_time[m[K’ is not a member of ‘[01m[Kutils[m[K’; did you mean ‘[01m[Kdelta_time[m[K’?
-  120 |     debug_packet.timestamp_sec = utils::[01;31m[Kdetla_time[m[K(timestamp, start_time_);
-      |                                         [01;31m[K^~~~~~~~~~[m[K
-      |                                         [32m[Kdelta_time[m[K
-gmake[2]: *** [CMakeFiles/pipeline_node.dir/build.make:76：CMakeFiles/pipeline_node.dir/src/test_node.cpp.o] 错误 1
-gmake[1]: *** [CMakeFiles/Makefile2:137：CMakeFiles/pipeline_node.dir/all] 错误 2
-gmake: *** [Makefile:146：all] 错误 2

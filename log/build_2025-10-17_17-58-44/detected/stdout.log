@@ -1,4 +1,0 @@
-[ 22%] Built target armor_data_lib
-[ 55%] Built target armor_detector_lib
-[ 77%] Built target armor_classifier_lib
-[ 88%] [32mBuilding CXX object CMakeFiles/detected.dir/src/node/armor_detector_node.cpp.o[0m

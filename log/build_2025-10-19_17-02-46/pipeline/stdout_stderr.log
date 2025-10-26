@@ -1,6 +1,0 @@
-[ 50%] [32m[1mLinking CXX executable pipeline_node[0m
-/usr/bin/ld: /home/guo/ITL_sentry_auto_new/install/planner/lib/libplanner.so: undefined reference to `solve'
-collect2: error: ld returned 1 exit status
-gmake[2]: *** [CMakeFiles/pipeline_node.dir/build.make:380：pipeline_node] 错误 1
-gmake[1]: *** [CMakeFiles/Makefile2:137：CMakeFiles/pipeline_node.dir/all] 错误 2
-gmake: *** [Makefile:146：all] 错误 2
