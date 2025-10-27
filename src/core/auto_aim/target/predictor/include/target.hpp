@@ -22,9 +22,9 @@ public:
   // 使用完整的命名空间限定符
   armor_auto_aim::ArmorName name;
   armor_auto_aim::ArmorType armor_type;
-  armor_auto_aim::ArmorPriority priority;
-  bool jumped;
-  int last_id;  // debug only
+  armor_auto_aim::ArmorPriority priority = armor_auto_aim::ArmorPriority::fifth;
+  bool jumped = false;
+  int last_id = 0;  // debug only
 
   Target() = default;
   
@@ -52,11 +52,11 @@ public:
   bool checkinit();
 
 private:
-  int armor_num_;
-  int switch_count_;
-  int update_count_;
+  int armor_num_ = 0;
+  int switch_count_ = 0;
+  int update_count_ = 0;
 
-  bool is_switch_, is_converged_;
+  bool is_switch_ = false, is_converged_ = false;
 
   motion_model::ExtendedKalmanFilter ekf_;
   std::chrono::steady_clock::time_point t_;

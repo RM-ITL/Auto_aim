@@ -7,16 +7,14 @@
 
 namespace solver {
 
-YawOptimizer::YawOptimizer(const std::string& yaml_config_path,
-                           CoordConverter* CoordConverter_)
-    : search_range_(70.0),
+YawOptimizer::YawOptimizer(const std::string& yaml_config_path, CoordConverter* CoordConverter_)
+    : CoordConverter_(CoordConverter_),
+      camera_matrix_(),
+      dist_coeffs_(),
+      search_range_(70.0),
       search_step_(1.0),
       last_optimization_error_(0.0),
-      last_optimized_yaw_(0.0),
-      CoordConverter_(CoordConverter_){
-    
-    camera_matrix_ = cv::Mat();
-    dist_coeffs_ = cv::Mat();
+      last_optimized_yaw_(0.0) {
     
     if (!loadCameraParamsFromYAML(yaml_config_path)) {
         throw std::runtime_error("YawOptimizer: 无法从配置文件加载相机参数: " + yaml_config_path);
@@ -24,16 +22,17 @@ YawOptimizer::YawOptimizer(const std::string& yaml_config_path,
 
 }
 
-YawOptimizer::YawOptimizer(const cv::Mat& camera_matrix, 
-                           const cv::Mat& dist_coeffs,
-                           CoordConverter* CoordConverter_)
-    : camera_matrix_(camera_matrix.clone()),
+YawOptimizer::YawOptimizer(
+    const cv::Mat& camera_matrix,
+    const cv::Mat& dist_coeffs,
+    CoordConverter* CoordConverter_)
+    : CoordConverter_(CoordConverter_),
+      camera_matrix_(camera_matrix.clone()),
       dist_coeffs_(dist_coeffs.clone()),
       search_range_(70.0),
       search_step_(1.0),
       last_optimization_error_(0.0),
-      last_optimized_yaw_(0.0),
-      CoordConverter_(CoordConverter_) {
+      last_optimized_yaw_(0.0) {
     
     if (camera_matrix_.type() != CV_64F) {
         camera_matrix_.convertTo(camera_matrix_, CV_64F);
@@ -100,7 +99,7 @@ Eigen::Matrix3d YawOptimizer::optimize_yaw(
     ArmorType armor_type,
     ArmorName armor_name,
     const std::vector<cv::Point2f>& detected_corners,
-    const CoordConverter& converter) {
+    [[maybe_unused]] const CoordConverter& converter) {
     
     double prior_yaw, prior_pitch, prior_roll;
     extractWorldEulerAngles(R_armor_to_world, prior_yaw, prior_pitch, prior_roll);

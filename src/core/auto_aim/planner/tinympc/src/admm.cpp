@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "admm.hpp"
-#include "rho_benchmark.hpp"    
+#include "tinympc/admm.hpp"
+#include "tinympc/rho_benchmark.hpp"
 
 #define DEBUG_MODULE "TINYALG"
 
@@ -37,7 +37,7 @@ void forward_pass(TinySolver *solver)
  * @return projection onto cone if s is outside cone. Return s if s is inside cone.
 */
 tinyVector project_soc(tinyVector s, float mu) {
-    tinytype u0 = s(Eigen::placeholders::last) * mu;
+    tinytype u0 = s(Eigen::last) * mu;
     tinyVector u1 = s.head(s.rows()-1);
     float a = u1.norm();
     tinyVector cone_origin(s.rows());
@@ -330,10 +330,14 @@ int solve(TinySolver *solver)
         // Handle adaptive rho if enabled
         if (solver->settings->adaptive_rho) {
             // Calculate residuals for adaptive rho
-            tinytype pri_res_input = (solver->work->u - solver->work->znew).cwiseAbs().maxCoeff();
-            tinytype pri_res_state = (solver->work->x - solver->work->vnew).cwiseAbs().maxCoeff();
-            tinytype dua_res_input = solver->cache->rho * (solver->work->znew - z_prev).cwiseAbs().maxCoeff();
-            tinytype dua_res_state = solver->cache->rho * (solver->work->vnew - v_prev).cwiseAbs().maxCoeff();
+            [[maybe_unused]] tinytype pri_res_input =
+              (solver->work->u - solver->work->znew).cwiseAbs().maxCoeff();
+            [[maybe_unused]] tinytype pri_res_state =
+              (solver->work->x - solver->work->vnew).cwiseAbs().maxCoeff();
+            [[maybe_unused]] tinytype dua_res_input =
+              solver->cache->rho * (solver->work->znew - z_prev).cwiseAbs().maxCoeff();
+            [[maybe_unused]] tinytype dua_res_state =
+              solver->cache->rho * (solver->work->vnew - v_prev).cwiseAbs().maxCoeff();
 
             // Update rho every 5 iterations
             if (i > 0 && i % 5 == 0) {

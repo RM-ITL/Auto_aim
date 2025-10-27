@@ -83,7 +83,8 @@ Armor::Armor(int yolo_class_id, float confidence, const cv::Rect& box,
     rectangular_error = std::max(left_rectangular_error, right_rectangular_error);
     
     // 解析YOLO类别ID到具体的装甲板属性
-    if (yolo_class_id >= 0 && yolo_class_id < armor_properties.size()) {
+    if (yolo_class_id >= 0 &&
+        static_cast<std::size_t>(yolo_class_id) < armor_properties.size()) {
         // 从属性表中获取对应的颜色、名称和类型
         auto [parsed_color, parsed_name, parsed_type] = armor_properties[yolo_class_id];
         

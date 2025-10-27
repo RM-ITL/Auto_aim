@@ -1,5 +1,5 @@
-#include "tiny_api.hpp"
-#include "tiny_api_constants.hpp"
+#include "tinympc/tiny_api.hpp"
+#include "tinympc/tiny_api_constants.hpp"
 
 #include <iostream>
 

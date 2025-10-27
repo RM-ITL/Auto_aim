@@ -52,7 +52,7 @@ void Detector::set_debug(bool debug) {
     }
 }
 
-std::vector<Armor> Detector::detect(const cv::Mat& image, cv::Mat* annotated_image) {
+std::vector<Armor> Detector::detect(const cv::Mat& image, [[maybe_unused]] cv::Mat* annotated_image) {
     if (!initialized_) {
         throw std::runtime_error("装甲检测模块未初始化");
     }

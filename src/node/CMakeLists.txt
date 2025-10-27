@@ -11,17 +11,12 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(OpenCV REQUIRED)
-find_package(hikvision REQUIRED)
 find_package(utils REQUIRED)
 find_package(serial REQUIRED)
 find_package(Eigen3 REQUIRED)
-find_package(dm_imu REQUIRED)
-find_package(detected REQUIRED)
-find_package(solver REQUIRED)
-find_package(tracker REQUIRED)
-find_package(planner REQUIRED)
 find_package(autoaim_msgs REQUIRED)
-find_package(gimbal REQUIRED)
+find_package(deveice REQUIRED)
+find_package(auto_aim REQUIRED)
 
 add_executable(pipeline_node
   src/test_node.cpp
@@ -42,34 +37,30 @@ target_include_directories(video_node PRIVATE
 ament_target_dependencies(pipeline_node
   rclcpp
   Eigen3
-  hikvision
+  deveice
+  auto_aim
   utils
   serial
-  dm_imu
-  detected
-  solver
-  tracker
-  planner
   autoaim_msgs
-  gimbal
 )
 
 ament_target_dependencies(video_node
   Eigen3
   utils
-  detected
-  serial
-  dm_imu
-  solver
-  tracker
+  deveice
+  auto_aim
 )
 
 target_link_libraries(pipeline_node
   ${OpenCV_LIBS}
+  deveice::deveice
+  auto_aim::auto_aim
 )
 
 target_link_libraries(video_node
   ${OpenCV_LIBS}
+  deveice::deveice
+  auto_aim::auto_aim
 )
 
 install(TARGETS

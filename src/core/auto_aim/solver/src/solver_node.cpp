@@ -54,7 +54,9 @@ Armor_pose Solver::processArmor(Armors armor,
         need_optimization = false;
     }
 
-    auto [R_gimbal_to_world, R_camera_to_gimbal] = coord_converter_->getCameraToWorldRotation();
+    const auto rotations = coord_converter_->getCameraToWorldRotation();
+    [[maybe_unused]] const auto& R_gimbal_to_world = rotations.first;
+    [[maybe_unused]] const auto& R_camera_to_gimbal = rotations.second;
     
 
     // Eigen::Matrix3d optimized_R_armor_to_camera = Eigen::Matrix3d::Identity();   // 假设此时是正对的相机的旋转矩阵,R_armor_to_world
@@ -200,7 +202,7 @@ Armor_pose Solver::processArmor(Armors armor,
        optimized_R_armor_to_world, solver::EulerOrder::ZYX,timestamp
     );
 
-    Eigen::Matrix3d test_R_armor_to_camera = coord_converter_->transformRotation(
+    [[maybe_unused]] Eigen::Matrix3d test_R_armor_to_camera = coord_converter_->transformRotation(
         R_armor_to_world,
         CoordinateFrame::WORLD,
         CoordinateFrame::CAMERA

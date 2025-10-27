@@ -107,6 +107,9 @@ Eigen::Vector3d CoordConverter::transform(const Eigen::Vector3d& point,
         case CoordinateFrame::WORLD:
             point_world = point;
             break;
+        case CoordinateFrame::IMU:
+            point_world = point;
+            break;
     }
     
     switch (to) {
@@ -115,6 +118,8 @@ Eigen::Vector3d CoordConverter::transform(const Eigen::Vector3d& point,
         case CoordinateFrame::GIMBAL:
             return WorldToGimbal(point_world);           
         case CoordinateFrame::WORLD:
+            return point_world;
+        case CoordinateFrame::IMU:
             return point_world;
     }
     

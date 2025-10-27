@@ -76,7 +76,7 @@ io::Command Aimer::aim(
   }
 
   // 迭代求解飞行时间 (最多10次，收敛条件：相邻两次fly_time差 <0.001)
-  bool converged = false;
+  [[maybe_unused]] bool converged = false;
   double prev_fly_time = trajectory0.fly_time;
   utils::Trajectory current_traj = trajectory0;
   std::vector<predict::Target> iteration_target(10, target);  // 创建10个目标副本用于迭代预测
@@ -145,7 +145,7 @@ AimPoint Aimer::choose_aim_point(const predict::Target & target)
 {
   Eigen::VectorXd ekf_x = target.ekf_x();
   std::vector<Eigen::Vector4d> armor_xyza_list = target.armor_xyza_list();
-  auto armor_num = armor_xyza_list.size();
+  const auto armor_num = static_cast<int>(armor_xyza_list.size());
   // 如果装甲板未发生过跳变，则只有当前装甲板的位置已知
   if (!target.jumped) return {true, armor_xyza_list[0]};
 

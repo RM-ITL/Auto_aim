@@ -20,7 +20,7 @@ find_package(std_srvs REQUIRED)
 
 find_package(autoaim_msgs REQUIRED)
 find_package(utils REQUIRED)
-find_package(cboard REQUIRED)
+find_package(deveice REQUIRED)
 
 find_package(Eigen3 REQUIRED)
 find_package(OpenCV REQUIRED)
@@ -154,16 +154,6 @@ ament_target_dependencies(auto_aim_predictor
 # ====================================================================================
 set(TINYMPC_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/planner/tinympc)
 set(TINYMPC_INCLUDE_SRC_DIR ${TINYMPC_SOURCE_DIR}/include)
-set(TINYMPC_GENERATED_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/generated_includes)
-set(TINYMPC_GENERATED_PUBLIC_DIR ${TINYMPC_GENERATED_INCLUDE_DIR}/tinympc)
-
-file(MAKE_DIRECTORY ${TINYMPC_GENERATED_PUBLIC_DIR})
-
-file(GLOB TINYMPC_HEADERS "${TINYMPC_INCLUDE_SRC_DIR}/*.hpp")
-foreach(header ${TINYMPC_HEADERS})
-  get_filename_component(header_name ${header} NAME)
-  configure_file(${header} ${TINYMPC_GENERATED_PUBLIC_DIR}/${header_name} COPYONLY)
-endforeach()
 
 set(AUTO_AIM_PLANNER_SOURCES
   planner/src/planner.cpp
@@ -179,11 +169,8 @@ add_library(auto_aim::planner ALIAS auto_aim_planner)
 target_include_directories(auto_aim_planner
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/planner/include>
-    $<BUILD_INTERFACE:${TINYMPC_GENERATED_INCLUDE_DIR}>
-    $<BUILD_INTERFACE:${TINYMPC_GENERATED_PUBLIC_DIR}>
+    $<BUILD_INTERFACE:${TINYMPC_INCLUDE_SRC_DIR}>
     $<INSTALL_INTERFACE:include>
-  PRIVATE
-    ${TINYMPC_INCLUDE_SRC_DIR}
 )
 
 target_link_libraries(auto_aim_planner
@@ -238,7 +225,7 @@ target_link_libraries(auto_aim_aimer
     Eigen3::Eigen
     yaml-cpp
     fmt::fmt
-    cboard::cboard
+    deveice::cboard
     auto_aim_predictor
     utils::utils
 )
@@ -289,19 +276,23 @@ set(AUTO_AIM_PUBLIC_INCLUDE_DIRS
   ${CMAKE_CURRENT_SOURCE_DIR}/aimer/include
   ${CMAKE_CURRENT_SOURCE_DIR}/detected/include
   ${CMAKE_CURRENT_SOURCE_DIR}/planner/include
+  ${TINYMPC_INCLUDE_SRC_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/pointer/include
   ${CMAKE_CURRENT_SOURCE_DIR}/solver/include
   ${CMAKE_CURRENT_SOURCE_DIR}/target/predictor/include
   ${CMAKE_CURRENT_SOURCE_DIR}/target/motion_model/include
   ${CMAKE_CURRENT_SOURCE_DIR}/tracker/include
-  ${TINYMPC_GENERATED_INCLUDE_DIR}
 )
+set(AUTO_AIM_DUMMY_SRC ${CMAKE_CURRENT_BINARY_DIR}/auto_aim_force_link.cpp)
+if(NOT EXISTS ${AUTO_AIM_DUMMY_SRC})
+  file(WRITE ${AUTO_AIM_DUMMY_SRC}
+    "namespace auto_aim {\n"
+    "void force_link_symbols() {}\n"
+    "}\n")
+endif()
+set_source_files_properties(${AUTO_AIM_DUMMY_SRC} PROPERTIES GENERATED TRUE)
 
-set(AUTO_AIM_ROOT_SRC
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/auto_aim_module.cpp
-)
-
-add_library(auto_aim SHARED ${AUTO_AIM_ROOT_SRC})
+add_library(auto_aim SHARED ${AUTO_AIM_DUMMY_SRC})
 add_library(auto_aim::auto_aim ALIAS auto_aim)
 
 set(AUTO_AIM_MODULE_LIBS
@@ -365,7 +356,7 @@ endforeach()
 
 install(
   DIRECTORY planner/tinympc/include/
-  DESTINATION include/tinympc
+  DESTINATION include
 )
 
 ament_export_include_directories(include)
@@ -379,7 +370,7 @@ ament_export_dependencies(
   std_srvs
   autoaim_msgs
   utils
-  cboard
+  deveice
   OpenCV
   OpenVINO
   Eigen3

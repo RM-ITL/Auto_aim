@@ -14,18 +14,11 @@ Target::Target(
   Eigen::VectorXd P0_dig)
 : name(armor_pose.id),        // 注意: Armor_pose 中的字段是 id, 不是 name
   armor_type(armor_pose.type),
-  jumped(false),
-  last_id(0),
-  update_count_(0),
+  priority(armor_auto_aim::ArmorPriority::fifth),
   armor_num_(armor_num),
-  t_(t),
-  is_switch_(false),
-  is_converged_(false),
-  switch_count_(0)
+  t_(t)
 {
   auto r = radius;
-  priority = armor_auto_aim::ArmorPriority::fifth;
-  
   const Eigen::Vector3d & xyz = armor_pose.world_position;
   // 使用 world_orientation 的 yaw
   double yaw = armor_pose.world_orientation.yaw;
@@ -161,7 +154,7 @@ void Target::update(const solver::Armor_pose & armor_pose)
     });
 
   // 取前3个distance最小的装甲板
-  for (int i = 0; i < 3 && i < xyza_i_list.size(); i++) {
+  for (int i = 0; i < 3 && i < static_cast<int>(xyza_i_list.size()); i++) {
     const auto & xyza = xyza_i_list[i].first;
     Eigen::Vector3d ypd = utils::xyz2ypd(xyza.head(3));
     
@@ -297,17 +290,17 @@ bool Target::diverged() const
   double r = ekf_.x[8];           // 半径
   double l = ekf_.x[9];           // 长短轴差
   double r_plus_l = r + l;        // 长轴半径
-  double cov_trace = ekf_.P.trace();  // 协方差矩阵的迹
+  [[maybe_unused]] double cov_trace = ekf_.P.trace();  // 协方差矩阵的迹
   
   // 计算速度
   double vx = ekf_.x[1];
   double vy = ekf_.x[3]; 
   double vz = ekf_.x[5];
-  double speed = std::sqrt(vx*vx + vy*vy + vz*vz);
+  [[maybe_unused]] double speed = std::sqrt(vx * vx + vy * vy + vz * vz);
   
   // 原始的判定逻辑
-  auto r_ok = r > 0.05 && r < 0.5;
-  auto l_ok = r_plus_l > 0.05 && r_plus_l < 0.5;
+  [[maybe_unused]] auto r_ok = r > 0.05 && r < 0.5;
+  [[maybe_unused]] auto l_ok = r_plus_l > 0.05 && r_plus_l < 0.5;
   
   // 详细记录各项检查结果，这是理解问题的关键
   // utils::logger()->debug(

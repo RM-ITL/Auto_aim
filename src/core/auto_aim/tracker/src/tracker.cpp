@@ -122,9 +122,11 @@ std::list<predict::Target> Tracker::track(
       ekf.recent_nis_failures.end(), 0);
     
     if (failures >= (0.4 * ekf.window_size)) {
-      RCLCPP_WARN(rclcpp::get_logger("Tracker"), 
-                  "NIS失败率过高 (%d/%d)，重置为lost", 
-                  failures, ekf.window_size);
+      RCLCPP_WARN(
+        rclcpp::get_logger("Tracker"),
+        "NIS失败率过高 (%d/%zu)，重置为lost",
+        failures,
+        ekf.window_size);
       state_ = "lost";
       detect_count_ = 0;
       temp_lost_count_ = 0;

@@ -6,13 +6,13 @@
 #include <sys/stat.h>
 #include <unistd.h>
 //#include <error.h>
-#include "error.hpp"
+#include "tinympc/error.hpp"
 
 #include <iostream>
 #include <Eigen/Dense>
 
-// #include "types.hpp"
-#include "codegen.hpp"
+// #include "tinympc/types.hpp"
+#include "tinympc/codegen.hpp"
 
 #ifdef __MINGW32__
 #include <direct.h>

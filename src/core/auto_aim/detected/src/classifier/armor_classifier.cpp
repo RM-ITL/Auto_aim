@@ -14,21 +14,33 @@ namespace {
 template<typename... Args>
 void log_info(const char* fmt, Args&&... args) {
     char buffer[512];
-    std::snprintf(buffer, sizeof(buffer), fmt, std::forward<Args>(args)...);
+    if constexpr (sizeof...(Args) == 0) {
+        std::snprintf(buffer, sizeof(buffer), "%s", fmt);
+    } else {
+        std::snprintf(buffer, sizeof(buffer), fmt, std::forward<Args>(args)...);
+    }
     std::cout << "[ArmorClassifier][INFO] " << buffer << std::endl;
 }
 
 template<typename... Args>
 void log_warn(const char* fmt, Args&&... args) {
     char buffer[512];
-    std::snprintf(buffer, sizeof(buffer), fmt, std::forward<Args>(args)...);
+    if constexpr (sizeof...(Args) == 0) {
+        std::snprintf(buffer, sizeof(buffer), "%s", fmt);
+    } else {
+        std::snprintf(buffer, sizeof(buffer), fmt, std::forward<Args>(args)...);
+    }
     std::cout << "[ArmorClassifier][WARN] " << buffer << std::endl;
 }
 
 template<typename... Args>
 void log_error(const char* fmt, Args&&... args) {
     char buffer[512];
-    std::snprintf(buffer, sizeof(buffer), fmt, std::forward<Args>(args)...);
+    if constexpr (sizeof...(Args) == 0) {
+        std::snprintf(buffer, sizeof(buffer), "%s", fmt);
+    } else {
+        std::snprintf(buffer, sizeof(buffer), fmt, std::forward<Args>(args)...);
+    }
     std::cerr << "[ArmorClassifier][ERROR] " << buffer << std::endl;
 }
 
@@ -36,7 +48,11 @@ template<typename... Args>
 void log_debug(const char* fmt, Args&&... args) {
 #ifndef NDEBUG
     char buffer[512];
-    std::snprintf(buffer, sizeof(buffer), fmt, std::forward<Args>(args)...);
+    if constexpr (sizeof...(Args) == 0) {
+        std::snprintf(buffer, sizeof(buffer), "%s", fmt);
+    } else {
+        std::snprintf(buffer, sizeof(buffer), fmt, std::forward<Args>(args)...);
+    }
     std::cout << "[ArmorClassifier][DEBUG] " << buffer << std::endl;
 #else
     (void)fmt;
