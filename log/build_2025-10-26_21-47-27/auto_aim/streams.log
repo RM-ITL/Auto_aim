@@ -1,0 +1,249 @@
+[0.013s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/auto_aim': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake /home/guo/ITL_sentry_auto_new/src/core/auto_aim -DCMAKE_INSTALL_PREFIX=/home/guo/ITL_sentry_auto_new/install/auto_aim
+[0.017s] -- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)
+[0.194s] -- Found rclcpp: 27.0.0 (/opt/ros/rolling/share/rclcpp/cmake)
+[0.218s] -- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)
+[0.226s] -- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)
+[0.238s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.253s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.393s] -- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)
+[0.394s] -- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)
+[0.489s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.646s] -- Found std_msgs: 5.3.0 (/opt/ros/rolling/share/std_msgs/cmake)
+[0.671s] -- Found sensor_msgs: 5.3.0 (/opt/ros/rolling/share/sensor_msgs/cmake)
+[0.786s] -- Found cv_bridge: 3.4.0 (/opt/ros/rolling/share/cv_bridge/cmake)
+[0.806s] -- Found std_srvs: 5.3.0 (/opt/ros/rolling/share/std_srvs/cmake)
+[0.845s] -- Found autoaim_msgs: 0.0.1 (/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake)
+[0.954s] -- Found utils: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake)
+[0.975s] -- Found cboard: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake)
+[1.053s] -- Configuring done (1.0s)
+[1.101s] -- Generating done (0.0s)
+[1.108s] -- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/auto_aim
+[30.028s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/auto_aim' returned '0': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake /home/guo/ITL_sentry_auto_new/src/core/auto_aim -DCMAKE_INSTALL_PREFIX=/home/guo/ITL_sentry_auto_new/install/auto_aim
+[30.031s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/auto_aim': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/auto_aim -- -j24 -l24
+[30.068s] [  3%] Building CXX object CMakeFiles/auto_aim_motion_model.dir/target/motion_model/src/full_model.cpp.o
+[30.068s] [  9%] Building CXX object CMakeFiles/auto_aim_detected.dir/detected/src/detector/yolo11.cpp.o
+[30.068s] [  6%] Building CXX object CMakeFiles/auto_aim_detected.dir/detected/src/common/armor.cpp.o
+[30.069s] [ 12%] Building CXX object CMakeFiles/auto_aim_detected.dir/detected/src/detector/common_detector.cpp.o
+[30.069s] [ 16%] Building CXX object CMakeFiles/auto_aim_detected.dir/detected/src/classifier/armor_classifier.cpp.o
+[30.069s] [ 19%] Building CXX object CMakeFiles/auto_aim_pointer.dir/pointer/src/image_processor.cpp.o
+[30.069s] [ 25%] Building CXX object CMakeFiles/auto_aim_detected.dir/detected/src/node/armor_detector_node.cpp.o
+[30.069s] [ 25%] Building CXX object CMakeFiles/auto_aim_pointer.dir/pointer/src/lightbar_detector.cpp.o
+[31.150s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/detected/src/common/armor.cpp: In constructor ‘armor_auto_aim::Armor::Armor(int, float, const Rect&, const std::vector<cv::Point_<float> >&)’:
+[31.150s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/detected/src/common/armor.cpp:86:45: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<std::tuple<armor_auto_aim::Color, armor_auto_aim::ArmorName, armor_auto_aim::ArmorType> >::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+[31.150s]    86 |     if (yolo_class_id >= 0 && yolo_class_id < armor_properties.size()) {
+[31.150s]       |                               ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+[31.984s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/detected/src/node/armor_detector_node.cpp: In member function ‘std::vector<armor_auto_aim::Armor> armor_auto_aim::Detector::detect(const cv::Mat&, cv::Mat*)’:
+[31.984s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/detected/src/node/armor_detector_node.cpp:55:68: warning: unused parameter ‘annotated_image’ [-Wunused-parameter]
+[31.984s]    55 | std::vector<Armor> Detector::detect(const cv::Mat& image, cv::Mat* annotated_image) {
+[31.984s]       |                                                           ~~~~~~~~~^~~~~~~~~~~~~~~
+[32.047s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/detected/src/classifier/armor_classifier.cpp: In instantiation of ‘void armor_auto_aim::{anonymous}::log_debug(const char*, Args&& ...) [with Args = {}]’:
+[32.047s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/detected/src/classifier/armor_classifier.cpp:146:18:   required from here
+[32.047s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/detected/src/classifier/armor_classifier.cpp:39:18: warning: format not a string literal and no format arguments [-Wformat-security]
+[32.047s]    39 |     std::snprintf(buffer, sizeof(buffer), fmt, std::forward<Args>(args)...);
+[32.047s]       |     ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[32.047s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/detected/src/classifier/armor_classifier.cpp: In instantiation of ‘void armor_auto_aim::{anonymous}::log_warn(const char*, Args&& ...) [with Args = {}]’:
+[32.047s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/detected/src/classifier/armor_classifier.cpp:153:17:   required from here
+[32.047s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/detected/src/classifier/armor_classifier.cpp:24:18: warning: format not a string literal and no format arguments [-Wformat-security]
+[32.047s]    24 |     std::snprintf(buffer, sizeof(buffer), fmt, std::forward<Args>(args)...);
+[32.047s]       |     ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[32.047s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/detected/src/classifier/armor_classifier.cpp: In instantiation of ‘void armor_auto_aim::{anonymous}::log_error(const char*, Args&& ...) [with Args = {}]’:
+[32.047s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/detected/src/classifier/armor_classifier.cpp:203:18:   required from here
+[32.048s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/detected/src/classifier/armor_classifier.cpp:31:18: warning: format not a string literal and no format arguments [-Wformat-security]
+[32.048s]    31 |     std::snprintf(buffer, sizeof(buffer), fmt, std::forward<Args>(args)...);
+[32.048s]       |     ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[32.135s] [ 29%] Linking CXX static library libauto_aim_pointer.a
+[32.161s] [ 29%] Built target auto_aim_pointer
+[35.472s] [ 32%] Linking CXX static library libauto_aim_detected.a
+[35.554s] [ 32%] Built target auto_aim_detected
+[35.562s] [ 35%] Building CXX object CMakeFiles/auto_aim_solver.dir/solver/src/module/solver.cpp.o
+[35.563s] [ 41%] Building CXX object CMakeFiles/auto_aim_solver.dir/solver/src/module/pnp_solver.cpp.o
+[35.563s] [ 41%] Building CXX object CMakeFiles/auto_aim_solver.dir/solver/src/module/coord_converter.cpp.o
+[35.563s] [ 48%] Building CXX object CMakeFiles/auto_aim_solver.dir/solver/src/module/optimize_yaw.cpp.o
+[35.563s] [ 48%] Building CXX object CMakeFiles/auto_aim_solver.dir/solver/src/solver_node.cpp.o
+[36.724s] [ 51%] Linking CXX static library libauto_aim_motion_model.a
+[36.815s] [ 51%] Built target auto_aim_motion_model
+[37.607s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/solver/src/module/coord_converter.cpp: In member function ‘Eigen::Vector3d solver::CoordConverter::transform(const Vector3d&, solver::CoordinateFrame, solver::CoordinateFrame) const’:
+[37.607s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/solver/src/module/coord_converter.cpp:100:12: warning: enumeration value ‘IMU’ not handled in switch [-Wswitch]
+[37.607s]   100 |     switch (from) {
+[37.607s]       |            ^
+[37.607s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/solver/src/module/coord_converter.cpp:112:12: warning: enumeration value ‘IMU’ not handled in switch [-Wswitch]
+[37.607s]   112 |     switch (to) {
+[37.607s]       |            ^
+[39.277s] In file included from /home/guo/ITL_sentry_auto_new/src/core/auto_aim/solver/src/module/optimize_yaw.cpp:1:
+[39.277s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/solver/include/module/optimize_yaw.hpp: In constructor ‘solver::YawOptimizer::YawOptimizer(const string&, solver::CoordConverter*)’:
+[39.277s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/solver/include/module/optimize_yaw.hpp:73:20: warning: ‘solver::YawOptimizer::last_optimized_yaw_’ will be initialized after [-Wreorder]
+[39.277s]    73 |     mutable double last_optimized_yaw_;
+[39.277s]       |                    ^~~~~~~~~~~~~~~~~~~
+[39.277s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/solver/include/module/optimize_yaw.hpp:66:21: warning:   ‘solver::CoordConverter* solver::YawOptimizer::CoordConverter_’ [-Wreorder]
+[39.277s]    66 |     CoordConverter* CoordConverter_;
+[39.277s]       |                     ^~~~~~~~~~~~~~~
+[39.277s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/solver/src/module/optimize_yaw.cpp:10:1: warning:   when initialized here [-Wreorder]
+[39.277s]    10 | YawOptimizer::YawOptimizer(const std::string& yaml_config_path,
+[39.277s]       | ^~~~~~~~~~~~
+[39.278s] In file included from /home/guo/ITL_sentry_auto_new/src/core/auto_aim/solver/src/module/optimize_yaw.cpp:1:
+[39.278s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/solver/include/module/optimize_yaw.hpp: In constructor ‘solver::YawOptimizer::YawOptimizer(const cv::Mat&, const cv::Mat&, solver::CoordConverter*)’:
+[39.278s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/solver/include/module/optimize_yaw.hpp:73:20: warning: ‘solver::YawOptimizer::last_optimized_yaw_’ will be initialized after [-Wreorder]
+[39.278s]    73 |     mutable double last_optimized_yaw_;
+[39.278s]       |                    ^~~~~~~~~~~~~~~~~~~
+[39.278s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/solver/include/module/optimize_yaw.hpp:66:21: warning:   ‘solver::CoordConverter* solver::YawOptimizer::CoordConverter_’ [-Wreorder]
+[39.278s]    66 |     CoordConverter* CoordConverter_;
+[39.278s]       |                     ^~~~~~~~~~~~~~~
+[39.278s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/solver/src/module/optimize_yaw.cpp:27:1: warning:   when initialized here [-Wreorder]
+[39.278s]    27 | YawOptimizer::YawOptimizer(const cv::Mat& camera_matrix,
+[39.278s]       | ^~~~~~~~~~~~
+[39.279s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/solver/src/module/optimize_yaw.cpp: In member function ‘Eigen::Matrix3d solver::YawOptimizer::optimize_yaw(const Vector3d&, const Matrix3d&, solver::ArmorType, solver::ArmorName, const std::vector<cv::Point_<float> >&, const solver::CoordConverter&)’:
+[39.279s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/solver/src/module/optimize_yaw.cpp:103:27: warning: unused parameter ‘converter’ [-Wunused-parameter]
+[39.279s]   103 |     const CoordConverter& converter) {
+[39.279s]       |     ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+[39.292s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/solver/src/solver_node.cpp: In member function ‘solver::Armor_pose solver::Solver::processArmor(solver::Armors, double)’:
+[39.292s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/solver/src/solver_node.cpp:57:10: warning: structured binding declaration set but not used [-Wunused-but-set-variable]
+[39.292s]    57 |     auto [R_gimbal_to_world, R_camera_to_gimbal] = coord_converter_->getCameraToWorldRotation();
+[39.292s]       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[39.293s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/solver/src/solver_node.cpp:203:21: warning: variable ‘test_R_armor_to_camera’ set but not used [-Wunused-but-set-variable]
+[39.293s]   203 |     Eigen::Matrix3d test_R_armor_to_camera = coord_converter_->transformRotation(
+[39.293s]       |                     ^~~~~~~~~~~~~~~~~~~~~~
+[43.338s] [ 54%] Linking CXX static library libauto_aim_solver.a
+[43.545s] [ 54%] Built target auto_aim_solver
+[43.554s] [ 58%] Building CXX object CMakeFiles/auto_aim_predictor.dir/target/predictor/src/target.cpp.o
+[45.167s] In file included from /home/guo/ITL_sentry_auto_new/src/core/auto_aim/target/predictor/src/target.cpp:1:
+[45.167s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/target/predictor/include/target.hpp: In constructor ‘predict::Target::Target(const solver::Armor_pose&, std::chrono::_V2::steady_clock::time_point, double, int, Eigen::VectorXd)’:
+[45.167s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/target/predictor/include/target.hpp:57:7: warning: ‘predict::Target::update_count_’ will be initialized after [-Wreorder]
+[45.167s]    57 |   int update_count_;
+[45.167s]       |       ^~~~~~~~~~~~~
+[45.168s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/target/predictor/include/target.hpp:55:7: warning:   ‘int predict::Target::armor_num_’ [-Wreorder]
+[45.168s]    55 |   int armor_num_;
+[45.168s]       |       ^~~~~~~~~~
+[45.168s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/target/predictor/src/target.cpp:9:1: warning:   when initialized here [-Wreorder]
+[45.168s]     9 | Target::Target(
+[45.168s]       | ^~~~~~
+[45.168s] In file included from /home/guo/ITL_sentry_auto_new/src/core/auto_aim/target/predictor/src/target.cpp:1:
+[45.168s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/target/predictor/include/target.hpp:62:41: warning: ‘predict::Target::t_’ will be initialized after [-Wreorder]
+[45.168s]    62 |   std::chrono::steady_clock::time_point t_;
+[45.168s]       |                                         ^~
+[45.168s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/target/predictor/include/target.hpp:59:8: warning:   ‘bool predict::Target::is_switch_’ [-Wreorder]
+[45.168s]    59 |   bool is_switch_, is_converged_;
+[45.168s]       |        ^~~~~~~~~~
+[45.168s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/target/predictor/src/target.cpp:9:1: warning:   when initialized here [-Wreorder]
+[45.168s]     9 | Target::Target(
+[45.168s]       | ^~~~~~
+[45.168s] In file included from /home/guo/ITL_sentry_auto_new/src/core/auto_aim/target/predictor/src/target.cpp:1:
+[45.168s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/target/predictor/include/target.hpp:59:20: warning: ‘predict::Target::is_converged_’ will be initialized after [-Wreorder]
+[45.168s]    59 |   bool is_switch_, is_converged_;
+[45.168s]       |                    ^~~~~~~~~~~~~
+[45.168s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/target/predictor/include/target.hpp:56:7: warning:   ‘int predict::Target::switch_count_’ [-Wreorder]
+[45.168s]    56 |   int switch_count_;
+[45.168s]       |       ^~~~~~~~~~~~~
+[45.168s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/target/predictor/src/target.cpp:9:1: warning:   when initialized here [-Wreorder]
+[45.168s]     9 | Target::Target(
+[45.168s]       | ^~~~~~
+[45.195s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/target/predictor/src/target.cpp: In member function ‘void predict::Target::update(const solver::Armor_pose&)’:
+[45.196s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/target/predictor/src/target.cpp:164:30: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<std::pair<Eigen::Matrix<double, 4, 1>, int> >::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+[45.196s]   164 |   for (int i = 0; i < 3 && i < xyza_i_list.size(); i++) {
+[45.196s]       |                            ~~^~~~~~~~~~~~~~~~~~~~
+[45.199s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/target/predictor/src/target.cpp: In member function ‘bool predict::Target::diverged() const’:
+[45.199s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/target/predictor/src/target.cpp:300:10: warning: unused variable ‘cov_trace’ [-Wunused-variable]
+[45.199s]   300 |   double cov_trace = ekf_.P.trace();  // 协方差矩阵的迹
+[45.199s]       |          ^~~~~~~~~
+[45.199s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/target/predictor/src/target.cpp:306:10: warning: unused variable ‘speed’ [-Wunused-variable]
+[45.199s]   306 |   double speed = std::sqrt(vx*vx + vy*vy + vz*vz);
+[45.199s]       |          ^~~~~
+[45.199s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/target/predictor/src/target.cpp:309:8: warning: unused variable ‘r_ok’ [-Wunused-variable]
+[45.200s]   309 |   auto r_ok = r > 0.05 && r < 0.5;
+[45.200s]       |        ^~~~
+[45.200s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/target/predictor/src/target.cpp:310:8: warning: unused variable ‘l_ok’ [-Wunused-variable]
+[45.200s]   310 |   auto l_ok = r_plus_l > 0.05 && r_plus_l < 0.5;
+[45.200s]       |        ^~~~
+[48.952s] [ 61%] Linking CXX static library libauto_aim_predictor.a
+[49.028s] [ 61%] Built target auto_aim_predictor
+[49.037s] [ 64%] Building CXX object CMakeFiles/auto_aim_planner.dir/planner/src/planner.cpp.o
+[49.037s] [ 67%] Building CXX object CMakeFiles/auto_aim_aimer.dir/aimer/src/aimer.cpp.o
+[49.037s] [ 70%] Building CXX object CMakeFiles/auto_aim_planner.dir/planner/tinympc/src/rho_benchmark.cpp.o
+[49.037s] [ 74%] Building CXX object CMakeFiles/auto_aim_planner.dir/planner/tinympc/src/tiny_api.cpp.o
+[49.037s] [ 77%] Building CXX object CMakeFiles/auto_aim_planner.dir/planner/tinympc/src/admm.cpp.o
+[49.038s] [ 80%] Building CXX object CMakeFiles/auto_aim_planner.dir/planner/tinympc/src/codegen.cpp.o
+[49.047s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/tinympc/src/rho_benchmark.cpp:1:10: fatal error: rho_benchmark.hpp: 没有那个文件或目录
+[49.047s]     1 | #include "rho_benchmark.hpp"
+[49.048s]       |          ^~~~~~~~~~~~~~~~~~~
+[49.048s] compilation terminated.
+[49.048s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/tinympc/src/tiny_api.cpp:1:10: fatal error: tiny_api.hpp: 没有那个文件或目录
+[49.048s]     1 | #include "tiny_api.hpp"
+[49.048s]       |          ^~~~~~~~~~~~~~
+[49.048s] compilation terminated.
+[49.048s] gmake[2]: *** [CMakeFiles/auto_aim_planner.dir/build.make:118：CMakeFiles/auto_aim_planner.dir/planner/tinympc/src/rho_benchmark.cpp.o] 错误 1
+[49.049s] gmake[2]: *** 正在等待未完成的任务....
+[49.049s] gmake[2]: *** [CMakeFiles/auto_aim_planner.dir/build.make:90：CMakeFiles/auto_aim_planner.dir/planner/tinympc/src/tiny_api.cpp.o] 错误 1
+[49.067s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/tinympc/src/codegen.cpp:9:10: fatal error: error.hpp: 没有那个文件或目录
+[49.067s]     9 | #include "error.hpp"
+[49.067s]       |          ^~~~~~~~~~~
+[49.067s] compilation terminated.
+[49.068s] gmake[2]: *** [CMakeFiles/auto_aim_planner.dir/build.make:104：CMakeFiles/auto_aim_planner.dir/planner/tinympc/src/codegen.cpp.o] 错误 1
+[49.092s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/tinympc/src/admm.cpp:3:10: fatal error: admm.hpp: 没有那个文件或目录
+[49.092s]     3 | #include "admm.hpp"
+[49.092s]       |          ^~~~~~~~~~
+[49.092s] compilation terminated.
+[49.093s] gmake[2]: *** [CMakeFiles/auto_aim_planner.dir/build.make:132：CMakeFiles/auto_aim_planner.dir/planner/tinympc/src/admm.cpp.o] 错误 1
+[50.775s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/aimer/src/aimer.cpp: In member function ‘io::Command aimer::Aimer::aim(std::__cxx11::list<predict::Target>, std::chrono::_V2::steady_clock::time_point, double, bool)’:
+[50.775s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/aimer/src/aimer.cpp:79:8: warning: variable ‘converged’ set but not used [-Wunused-but-set-variable]
+[50.775s]    79 |   bool converged = false;
+[50.775s]       |        ^~~~~~~~~
+[50.777s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/aimer/src/aimer.cpp: In member function ‘aimer::AimPoint aimer::Aimer::choose_aim_point(const predict::Target&)’:
+[50.777s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/aimer/src/aimer.cpp:157:21: warning: comparison of integer expressions of different signedness: ‘int’ and ‘long unsigned int’ [-Wsign-compare]
+[50.778s]   157 |   for (int i = 0; i < armor_num; i++) {
+[50.778s]       |                   ~~^~~~~~~~~~~
+[50.778s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/aimer/src/aimer.cpp:166:23: warning: comparison of integer expressions of different signedness: ‘int’ and ‘long unsigned int’ [-Wsign-compare]
+[50.778s]   166 |     for (int i = 0; i < armor_num; i++) {
+[50.778s]       |                     ~~^~~~~~~~~~~
+[50.778s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/aimer/src/aimer.cpp:202:21: warning: comparison of integer expressions of different signedness: ‘int’ and ‘long unsigned int’ [-Wsign-compare]
+[50.778s]   202 |   for (int i = 0; i < armor_num; i++) {
+[50.778s]       |                   ~~^~~~~~~~~~~
+[50.887s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/src/planner.cpp: In member function ‘plan::Plan plan::Planner::plan(predict::Target, double)’:
+[50.887s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/src/planner.cpp:55:18: warning: missing initializer for member ‘plan::Plan::fire’ [-Wmissing-field-initializers]
+[50.887s]    55 |     return {false};
+[50.887s]       |                  ^
+[50.887s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/src/planner.cpp:55:18: warning: missing initializer for member ‘plan::Plan::target_yaw’ [-Wmissing-field-initializers]
+[50.887s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/src/planner.cpp:55:18: warning: missing initializer for member ‘plan::Plan::target_pitch’ [-Wmissing-field-initializers]
+[50.887s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/src/planner.cpp:55:18: warning: missing initializer for member ‘plan::Plan::yaw’ [-Wmissing-field-initializers]
+[50.887s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/src/planner.cpp:55:18: warning: missing initializer for member ‘plan::Plan::yaw_vel’ [-Wmissing-field-initializers]
+[50.887s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/src/planner.cpp:55:18: warning: missing initializer for member ‘plan::Plan::yaw_acc’ [-Wmissing-field-initializers]
+[50.887s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/src/planner.cpp:55:18: warning: missing initializer for member ‘plan::Plan::pitch’ [-Wmissing-field-initializers]
+[50.887s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/src/planner.cpp:55:18: warning: missing initializer for member ‘plan::Plan::pitch_vel’ [-Wmissing-field-initializers]
+[50.887s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/src/planner.cpp:55:18: warning: missing initializer for member ‘plan::Plan::pitch_acc’ [-Wmissing-field-initializers]
+[50.900s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/src/planner.cpp: In member function ‘plan::Plan plan::Planner::plan(std::optional<predict::Target>, double)’:
+[50.900s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/src/planner.cpp:98:41: warning: missing initializer for member ‘plan::Plan::fire’ [-Wmissing-field-initializers]
+[50.900s]    98 |   if (!target.has_value()) return {false};
+[50.900s]       |                                         ^
+[50.900s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/src/planner.cpp:98:41: warning: missing initializer for member ‘plan::Plan::target_yaw’ [-Wmissing-field-initializers]
+[50.900s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/src/planner.cpp:98:41: warning: missing initializer for member ‘plan::Plan::target_pitch’ [-Wmissing-field-initializers]
+[50.900s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/src/planner.cpp:98:41: warning: missing initializer for member ‘plan::Plan::yaw’ [-Wmissing-field-initializers]
+[50.900s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/src/planner.cpp:98:41: warning: missing initializer for member ‘plan::Plan::yaw_vel’ [-Wmissing-field-initializers]
+[50.900s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/src/planner.cpp:98:41: warning: missing initializer for member ‘plan::Plan::yaw_acc’ [-Wmissing-field-initializers]
+[50.900s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/src/planner.cpp:98:41: warning: missing initializer for member ‘plan::Plan::pitch’ [-Wmissing-field-initializers]
+[50.900s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/src/planner.cpp:98:41: warning: missing initializer for member ‘plan::Plan::pitch_vel’ [-Wmissing-field-initializers]
+[50.900s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/planner/src/planner.cpp:98:41: warning: missing initializer for member ‘plan::Plan::pitch_acc’ [-Wmissing-field-initializers]
+[54.035s] [ 83%] Linking CXX static library libauto_aim_aimer.a
+[54.094s] [ 83%] Built target auto_aim_aimer
+[54.102s] [ 87%] Building CXX object CMakeFiles/auto_aim_tracker.dir/tracker/src/tracker.cpp.o
+[54.412s] gmake[1]: *** [CMakeFiles/Makefile2:262：CMakeFiles/auto_aim_planner.dir/all] 错误 2
+[54.412s] gmake[1]: *** 正在等待未完成的任务....
+[57.197s] In file included from /opt/ros/rolling/include/rclcpp/rclcpp/logging.hpp:24,
+[57.197s]                  from /opt/ros/rolling/include/rclcpp/rclcpp/copy_all_parameter_values.hpp:27,
+[57.197s]                  from /opt/ros/rolling/include/rclcpp/rclcpp/rclcpp.hpp:171,
+[57.197s]                  from /home/guo/ITL_sentry_auto_new/src/core/auto_aim/tracker/src/tracker.cpp:5:
+[57.197s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/tracker/src/tracker.cpp: In member function ‘std::__cxx11::list<predict::Target> tracker::Tracker::track(std::__cxx11::list<armor_auto_aim::Armor>&, std::chrono::_V2::steady_clock::time_point, bool)’:
+[57.197s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/tracker/src/tracker.cpp:126:19: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘long unsigned int’ [-Wformat=]
+[57.197s]   126 |                   "NIS失败率过高 (%d/%d)，重置为lost",
+[57.197s]       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[57.197s]   127 |                   failures, ekf.window_size);
+[57.197s]       |                             ~~~~~~~~~~~~~~~
+[57.197s]       |                                 |
+[57.197s]       |                                 long unsigned int
+[57.197s] /home/guo/ITL_sentry_auto_new/src/core/auto_aim/tracker/src/tracker.cpp:126:39: note: format string is defined here
+[57.197s]   126 |                   "NIS失败率过高 (%d/%d)，重置为lost",
+[57.197s]       |                                      ~^
+[57.197s]       |                                       |
+[57.197s]       |                                       int
+[57.197s]       |                                      %ld
+[60.997s] [ 90%] Linking CXX static library libauto_aim_tracker.a
+[61.062s] [ 90%] Built target auto_aim_tracker
+[61.062s] gmake: *** [Makefile:146：all] 错误 2
+[61.064s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/auto_aim' returned '2': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/cboard:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/cboard/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/auto_aim -- -j24 -l24

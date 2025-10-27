@@ -1,0 +1,54 @@
+-- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)
+-- Found rclcpp: 27.0.0 (/opt/ros/rolling/share/rclcpp/cmake)
+-- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)
+-- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found std_msgs: 5.3.0 (/opt/ros/rolling/share/std_msgs/cmake)
+-- Found sensor_msgs: 5.3.0 (/opt/ros/rolling/share/sensor_msgs/cmake)
+-- Found cv_bridge: 3.4.0 (/opt/ros/rolling/share/cv_bridge/cmake)
+-- Found std_srvs: 5.3.0 (/opt/ros/rolling/share/std_srvs/cmake)
+-- Found autoaim_msgs: 0.0.1 (/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake)
+-- Found utils: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake)
+-- Found cboard: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake)
+-- Configuring done (1.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/auto_aim
+[  3%] Building CXX object CMakeFiles/auto_aim_motion_model.dir/target/motion_model/src/full_model.cpp.o
+[  9%] Building CXX object CMakeFiles/auto_aim_detected.dir/detected/src/detector/yolo11.cpp.o
+[  6%] Building CXX object CMakeFiles/auto_aim_detected.dir/detected/src/common/armor.cpp.o
+[ 12%] Building CXX object CMakeFiles/auto_aim_detected.dir/detected/src/detector/common_detector.cpp.o
+[ 16%] Building CXX object CMakeFiles/auto_aim_detected.dir/detected/src/classifier/armor_classifier.cpp.o
+[ 19%] Building CXX object CMakeFiles/auto_aim_pointer.dir/pointer/src/image_processor.cpp.o
+[ 25%] Building CXX object CMakeFiles/auto_aim_detected.dir/detected/src/node/armor_detector_node.cpp.o
+[ 25%] Building CXX object CMakeFiles/auto_aim_pointer.dir/pointer/src/lightbar_detector.cpp.o
+[ 29%] Linking CXX static library libauto_aim_pointer.a
+[ 29%] Built target auto_aim_pointer
+[ 32%] Linking CXX static library libauto_aim_detected.a
+[ 32%] Built target auto_aim_detected
+[ 35%] Building CXX object CMakeFiles/auto_aim_solver.dir/solver/src/module/solver.cpp.o
+[ 41%] Building CXX object CMakeFiles/auto_aim_solver.dir/solver/src/module/pnp_solver.cpp.o
+[ 41%] Building CXX object CMakeFiles/auto_aim_solver.dir/solver/src/module/coord_converter.cpp.o
+[ 48%] Building CXX object CMakeFiles/auto_aim_solver.dir/solver/src/module/optimize_yaw.cpp.o
+[ 48%] Building CXX object CMakeFiles/auto_aim_solver.dir/solver/src/solver_node.cpp.o
+[ 51%] Linking CXX static library libauto_aim_motion_model.a
+[ 51%] Built target auto_aim_motion_model
+[ 54%] Linking CXX static library libauto_aim_solver.a
+[ 54%] Built target auto_aim_solver
+[ 58%] Building CXX object CMakeFiles/auto_aim_predictor.dir/target/predictor/src/target.cpp.o
+[ 61%] Linking CXX static library libauto_aim_predictor.a
+[ 61%] Built target auto_aim_predictor
+[ 64%] Building CXX object CMakeFiles/auto_aim_planner.dir/planner/src/planner.cpp.o
+[ 67%] Building CXX object CMakeFiles/auto_aim_aimer.dir/aimer/src/aimer.cpp.o
+[ 70%] Building CXX object CMakeFiles/auto_aim_planner.dir/planner/tinympc/src/rho_benchmark.cpp.o
+[ 74%] Building CXX object CMakeFiles/auto_aim_planner.dir/planner/tinympc/src/tiny_api.cpp.o
+[ 77%] Building CXX object CMakeFiles/auto_aim_planner.dir/planner/tinympc/src/admm.cpp.o
+[ 80%] Building CXX object CMakeFiles/auto_aim_planner.dir/planner/tinympc/src/codegen.cpp.o
+[ 83%] Linking CXX static library libauto_aim_aimer.a
+[ 83%] Built target auto_aim_aimer
+[ 87%] Building CXX object CMakeFiles/auto_aim_tracker.dir/tracker/src/tracker.cpp.o
+[ 90%] Linking CXX static library libauto_aim_tracker.a
+[ 90%] Built target auto_aim_tracker

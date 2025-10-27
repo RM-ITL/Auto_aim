@@ -1,0 +1,5 @@
+[31mCMake Error at CMakeLists.txt:297 (add_library):
+  No SOURCES given to target: auto_aim
+
+[0m
+[0mCMake Generate step failed.  Build files cannot be regenerated correctly.[0m
