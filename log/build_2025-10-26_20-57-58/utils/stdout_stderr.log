@@ -1,0 +1,74 @@
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+-- Found rclcpp: 27.0.0 (/opt/ros/rolling/share/rclcpp/cmake)
+-- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)
+-- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+-- Found FastRTPS: /opt/ros/rolling/include  
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found OpenCV: /usr (found version "4.5.4") 
+-- Configuring done (1.3s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/utils
+[ 16%] [32mBuilding CXX object CMakeFiles/utils.dir/src/math_tools.cpp.o[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/utils.dir/src/crc.cpp.o[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/utils.dir/src/logger.cpp.o[0m
+[ 66%] [32mBuilding CXX object CMakeFiles/utils.dir/src/trajectory.cpp.o[0m
+[ 83%] [32mBuilding CXX object CMakeFiles/utils.dir/src/video.cpp.o[0m
+[100%] [32m[1mLinking CXX static library libutils.a[0m
+[100%] Built target utils
+-- Install configuration: ""
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/environment/library_path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/environment/library_path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/include
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/include/draw_tools.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/include/thread_safe_queue.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/include/math_tools.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/include/video.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/include/yaml.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/include/detector_tools.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/include/trajectory.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/include/performance_monitor.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/include/logger.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/include/crc.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/include/roi_tools.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/lib/libutils.a
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/utilsTargets.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/utilsTargets-noconfig.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/ament_index/resource_index/package_run_dependencies/utils
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/ament_index/resource_index/parent_prefix_path/utils
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/environment/ament_prefix_path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/environment/ament_prefix_path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/environment/path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/environment/path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/local_setup.bash
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/local_setup.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/local_setup.zsh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/local_setup.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/package.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/ament_index/resource_index/packages/utils
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/utilsTargetsExport.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/utilsTargetsExport-noconfig.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/ament_cmake_export_libraries-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/ament_cmake_export_targets-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/utilsConfig.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/utilsConfig-version.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/package.xml

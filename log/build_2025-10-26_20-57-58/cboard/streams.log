@@ -1,0 +1,99 @@
+[0.013s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/cboard': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/utils/lib:${LD_LIBRARY_PATH} /usr/local/bin/cmake /home/guo/ITL_sentry_auto_new/src/io/cboard -DCMAKE_INSTALL_PREFIX=/home/guo/ITL_sentry_auto_new/install/cboard
+[0.054s] -- The C compiler identification is GNU 11.4.0
+[0.109s] -- The CXX compiler identification is GNU 11.4.0
+[0.125s] -- Detecting C compiler ABI info
+[0.184s] -- Detecting C compiler ABI info - done
+[0.202s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.202s] -- Detecting C compile features
+[0.203s] -- Detecting C compile features - done
+[0.213s] -- Detecting CXX compiler ABI info
+[0.289s] -- Detecting CXX compiler ABI info - done
+[0.300s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.300s] -- Detecting CXX compile features
+[0.300s] -- Detecting CXX compile features - done
+[0.302s] -- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)
+[0.728s] -- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+[0.816s] -- Found rclcpp: 27.0.0 (/opt/ros/rolling/share/rclcpp/cmake)
+[0.850s] -- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)
+[0.863s] -- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)
+[0.886s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.914s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.093s] -- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)
+[1.096s] -- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)
+[1.193s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[1.236s] -- Found FastRTPS: /opt/ros/rolling/include  
+[1.293s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[1.494s] -- Found utils: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake)
+[1.614s] -- Configuring done (1.6s)
+[1.626s] -- Generating done (0.0s)
+[1.630s] -- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/cboard
+[1.637s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/cboard' returned '0': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/utils/lib:${LD_LIBRARY_PATH} /usr/local/bin/cmake /home/guo/ITL_sentry_auto_new/src/io/cboard -DCMAKE_INSTALL_PREFIX=/home/guo/ITL_sentry_auto_new/install/cboard
+[1.638s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/cboard': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/utils/lib:${LD_LIBRARY_PATH} /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/cboard -- -j24 -l24
+[1.663s] [ 50%] [32mBuilding CXX object CMakeFiles/cboard.dir/src/cboard.cpp.o[0m
+[2.751s] In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/io/cboard/include/cboard.hpp:12[m[K,
+[2.751s]                  from [01m[K/home/guo/ITL_sentry_auto_new/src/io/cboard/src/cboard.cpp:1[m[K:
+[2.752s] [01m[K/home/guo/ITL_sentry_auto_new/src/io/cboard/include/socketcan.hpp:[m[K In constructor ‘[01m[Kio::SocketCAN::SocketCAN(const string&, std::function<void(const can_frame&)>)[m[K’:
+[2.752s] [01m[K/home/guo/ITL_sentry_auto_new/src/io/cboard/include/socketcan.hpp:77:48:[m[K [01;35m[Kwarning: [m[K‘[01m[Kio::SocketCAN::rx_handler_[m[K’ will be initialized after [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+[2.752s]    77 |   std::function<void(const can_frame & frame)> [01;35m[Krx_handler_[m[K;
+[2.752s]       |                                                [01;35m[K^~~~~~~~~~~[m[K
+[2.752s] [01m[K/home/guo/ITL_sentry_auto_new/src/io/cboard/include/socketcan.hpp:71:8:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kbool io::SocketCAN::quit_[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+[2.752s]    71 |   bool [01;35m[Kquit_[m[K;
+[2.752s]       |        [01;35m[K^~~~~[m[K
+[2.752s] [01m[K/home/guo/ITL_sentry_auto_new/src/io/cboard/include/socketcan.hpp:27:3:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+[2.752s]    27 |   [01;35m[KSocketCAN[m[K(const std::string & interface, std::function<void(const can_frame & frame)> rx_handler)
+[2.752s]       |   [01;35m[K^~~~~~~~~[m[K
+[2.885s] In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/io/cboard/src/cboard.cpp:1[m[K:
+[2.886s] [01m[K/home/guo/ITL_sentry_auto_new/src/io/cboard/include/cboard.hpp:[m[K In constructor ‘[01m[Kio::CBoard::CBoard(const string&)[m[K’:
+[2.886s] [01m[K/home/guo/ITL_sentry_auto_new/src/io/cboard/include/cboard.hpp:42:13:[m[K [01;35m[Kwarning: [m[K‘[01m[Kio::CBoard::shoot_mode[m[K’ will be initialized after [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+[2.886s]    42 |   ShootMode [01;35m[Kshoot_mode[m[K;
+[2.886s]       |             [01;35m[K^~~~~~~~~~[m[K
+[2.886s] [01m[K/home/guo/ITL_sentry_auto_new/src/io/cboard/include/cboard.hpp:40:10:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kdouble io::CBoard::bullet_speed[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+[2.886s]    40 |   double [01;35m[Kbullet_speed[m[K;
+[2.886s]       |          [01;35m[K^~~~~~~~~~~~[m[K
+[2.886s] [01m[K/home/guo/ITL_sentry_auto_new/src/io/cboard/src/cboard.cpp:8:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreorder-Wreorder]8;;[m[K]
+[2.886s]     8 | [01;35m[KCBoard[m[K::CBoard(const std::string & config_path)
+[2.886s]       | [01;35m[K^~~~~~[m[K
+[2.902s] [01m[K/home/guo/ITL_sentry_auto_new/src/io/cboard/src/cboard.cpp:[m[K In member function ‘[01m[Kvoid io::CBoard::callback(const can_frame&)[m[K’:
+[2.902s] [01m[K/home/guo/ITL_sentry_auto_new/src/io/cboard/src/cboard.cpp:72:20:[m[K [01;35m[Kwarning: [m[Kcomparison of integer expressions of different signedness: ‘[01m[Kconst canid_t[m[K’ {aka ‘[01m[Kconst unsigned int[m[K’} and ‘[01m[Kint[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wsign-compare-Wsign-compare]8;;[m[K]
+[2.902s]    72 |   if ([01;35m[Kframe.can_id == quaternion_canid_[m[K) {
+[2.902s]       |       [01;35m[K~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~[m[K
+[2.902s] [01m[K/home/guo/ITL_sentry_auto_new/src/io/cboard/src/cboard.cpp:86:25:[m[K [01;35m[Kwarning: [m[Kcomparison of integer expressions of different signedness: ‘[01m[Kconst canid_t[m[K’ {aka ‘[01m[Kconst unsigned int[m[K’} and ‘[01m[Kint[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wsign-compare-Wsign-compare]8;;[m[K]
+[2.902s]    86 |   else if ([01;35m[Kframe.can_id == bullet_speed_canid_[m[K) {
+[2.902s]       |            [01;35m[K~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~[m[K
+[7.112s] [100%] [32m[1mLinking CXX shared library libcboard.so[0m
+[7.564s] [100%] Built target cboard
+[7.569s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/cboard' returned '0': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/utils/lib:${LD_LIBRARY_PATH} /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/cboard -- -j24 -l24
+[7.571s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/cboard': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/utils/lib:${LD_LIBRARY_PATH} /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/cboard
+[7.574s] -- Install configuration: ""
+[7.574s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/environment/library_path.sh
+[7.574s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/environment/library_path.dsv
+[7.574s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/include
+[7.575s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/include/command.hpp
+[7.575s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/include/cboard.hpp
+[7.575s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/include/socketcan.hpp
+[7.575s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/lib/libcboard.so
+[7.579s] -- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/cboard/lib/libcboard.so" to ""
+[7.579s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake/cboardTargets.cmake
+[7.579s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake/cboardTargets-noconfig.cmake
+[7.579s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/ament_index/resource_index/package_run_dependencies/cboard
+[7.579s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/ament_index/resource_index/parent_prefix_path/cboard
+[7.579s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/environment/ament_prefix_path.sh
+[7.579s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/environment/ament_prefix_path.dsv
+[7.580s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/environment/path.sh
+[7.580s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/environment/path.dsv
+[7.580s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/local_setup.bash
+[7.580s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/local_setup.sh
+[7.580s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/local_setup.zsh
+[7.580s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/local_setup.dsv
+[7.580s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/package.dsv
+[7.580s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/ament_index/resource_index/packages/cboard
+[7.581s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake/cboardTargetsExport.cmake
+[7.581s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake/cboardTargetsExport-noconfig.cmake
+[7.581s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake/ament_cmake_export_include_directories-extras.cmake
+[7.581s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake/ament_cmake_export_libraries-extras.cmake
+[7.581s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake/ament_cmake_export_dependencies-extras.cmake
+[7.581s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake/ament_cmake_export_targets-extras.cmake
+[7.581s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake/cboardConfig.cmake
+[7.582s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/cmake/cboardConfig-version.cmake
+[7.582s] -- Installing: /home/guo/ITL_sentry_auto_new/install/cboard/share/cboard/package.xml
+[7.584s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/cboard' returned '0': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/utils/lib:${LD_LIBRARY_PATH} /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/cboard

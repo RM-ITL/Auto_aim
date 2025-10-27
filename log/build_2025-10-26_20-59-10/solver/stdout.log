@@ -1,0 +1,50 @@
+[ 20%] Built target solver_base
+[ 40%] Built target coord_converter
+[ 60%] Built target pnp_solver_lib
+[ 80%] Built target yaw_optimzier_lib
+[ 90%] [32mBuilding CXX object CMakeFiles/solver_interface.dir/src/solver_node.cpp.o[0m
+[100%] [32m[1mLinking CXX shared library libsolver_interface.so[0m
+[100%] Built target solver_interface
+-- Install configuration: "Release"
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/lib/libsolver_base.so
+-- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/solver/lib/libsolver_base.so" to ""
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/lib/libcoord_converter.so
+-- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/solver/lib/libcoord_converter.so" to ""
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/lib/libpnp_solver_lib.so
+-- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/solver/lib/libpnp_solver_lib.so" to ""
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/lib/libyaw_optimzier_lib.so
+-- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/solver/lib/libyaw_optimzier_lib.so" to ""
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/lib/libsolver_interface.so
+-- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/solver/lib/libsolver_interface.so" to ""
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/solverTargets.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/solverTargets-release.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/include
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/include/solver_node.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/include/module
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/include/module/coord_converter.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/include/module/optimize_yaw.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/include/module/solver.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/include/module/pnp_solver.hpp
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/environment/library_path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/environment/library_path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/ament_index/resource_index/package_run_dependencies/solver
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/ament_index/resource_index/parent_prefix_path/solver
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/environment/ament_prefix_path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/environment/ament_prefix_path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/environment/path.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/environment/path.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/local_setup.bash
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/local_setup.sh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/local_setup.zsh
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/local_setup.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/package.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/ament_index/resource_index/packages/solver
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/solver_targetsExport.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/solver_targetsExport-release.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/ament_cmake_export_libraries-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/ament_cmake_export_targets-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/solverConfig.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/cmake/solverConfig-version.cmake
+-- Installing: /home/guo/ITL_sentry_auto_new/install/solver/share/solver/package.xml
