@@ -1,0 +1,35 @@
+[0.018s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/pipeline': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/auto_aim:/home/guo/ITL_sentry_auto_new/install/deveice:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/auto_aim:/home/guo/ITL_sentry_auto_new/install/deveice:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/auto_aim/lib:/home/guo/ITL_sentry_auto_new/install/deveice/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/pipeline -- -j24 -l24
+[0.034s] -- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)
+[0.216s] -- Found rclcpp: 27.0.0 (/opt/ros/rolling/share/rclcpp/cmake)
+[0.245s] -- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)
+[0.254s] -- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)
+[0.268s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.284s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.429s] -- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)
+[0.430s] -- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)
+[0.526s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.705s] -- Found utils: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake)
+[0.727s] -- Found serial: 0.1.0 (/home/guo/ITL_sentry_auto_new/install/serial/share/serial/cmake)
+[0.730s] -- Found autoaim_msgs: 0.0.1 (/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/share/autoaim_msgs/cmake)
+[1.037s] -- Found deveice: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake)
+[1.063s] -- Found auto_aim: 0.1.0 (/home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/cmake)
+[1.247s] [31mCMake Error at CMakeLists.txt:20 (find_package):
+[1.247s]   By not providing "Findauto_buff.cmake" in CMAKE_MODULE_PATH this project
+[1.247s]   has asked CMake to find a package configuration file provided by
+[1.247s]   "auto_buff", but CMake did not find one.
+[1.247s] 
+[1.247s]   Could not find a package configuration file provided by "auto_buff" with
+[1.247s]   any of the following names:
+[1.247s] 
+[1.247s]     auto_buffConfig.cmake
+[1.247s]     auto_buff-config.cmake
+[1.247s] 
+[1.247s]   Add the installation prefix of "auto_buff" to CMAKE_PREFIX_PATH or set
+[1.247s]   "auto_buff_DIR" to a directory containing one of the above files.  If
+[1.247s]   "auto_buff" provides a separate development package or SDK, be sure it has
+[1.247s]   been installed.
+[1.247s] 
+[1.247s] [0m
+[1.247s] -- Configuring incomplete, errors occurred!
+[1.252s] gmake: *** [Makefile:308：cmake_check_build_system] 错误 1
+[1.254s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/pipeline' returned '2': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/auto_aim:/home/guo/ITL_sentry_auto_new/install/deveice:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/auto_aim:/home/guo/ITL_sentry_auto_new/install/deveice:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/auto_aim/lib:/home/guo/ITL_sentry_auto_new/install/deveice/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/pipeline -- -j24 -l24

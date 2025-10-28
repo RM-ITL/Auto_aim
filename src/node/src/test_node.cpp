@@ -47,8 +47,8 @@ PipelineApp::PipelineApp(const std::string & config_path)
   planner_ = std::make_unique<plan::Planner>(config_path_);
   gimbal_ = std::make_unique<io::Gimbal>(config_path_);
 
-  enable_visualization_ = detector_->config().enable_visualization;
-  visualization_center_point_ = detector_->config().center_point;
+  // enable_visualization_ = detector_->config().enable_visualization;
+  // visualization_center_point_ = detector_->config().center_point;
   visualization_frame_counter_.store(0);
 
   if (enable_visualization_) {

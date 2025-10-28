@@ -260,7 +260,7 @@ void YOLO11Detector::draw_detections(
                           armor.getNameString() + " " +
                           ARMOR_TYPES[armor.type];
         
-        utils::draw_polygon(detection, armor.points, color);
+        utils::draw_points(detection, armor.points, color);
         utils::draw_label(detection, info, cv::Point(armor.center.x, armor.center.y), color);
     }
     

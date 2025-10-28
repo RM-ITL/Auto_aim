@@ -17,6 +17,7 @@ find_package(Eigen3 REQUIRED)
 find_package(autoaim_msgs REQUIRED)
 find_package(deveice REQUIRED)
 find_package(auto_aim REQUIRED)
+find_package(auto_buff REQUIRED)
 
 add_executable(pipeline_node
   src/test_node.cpp
@@ -49,6 +50,7 @@ ament_target_dependencies(video_node
   utils
   deveice
   auto_aim
+  auto_buff
 )
 
 target_link_libraries(pipeline_node
@@ -61,6 +63,7 @@ target_link_libraries(video_node
   ${OpenCV_LIBS}
   deveice::deveice
   auto_aim::auto_aim
+  auto_buff::auto_buff
 )
 
 install(TARGETS

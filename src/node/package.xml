@@ -17,6 +17,7 @@
   <depend>autoaim_msgs</depend>
   <depend>deveice</depend>
   <depend>auto_aim</depend>
+  <depend>auto_buff</depend>
 
   <build_depend>OpenCV</build_depend>
 

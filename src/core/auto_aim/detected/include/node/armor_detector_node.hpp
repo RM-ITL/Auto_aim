@@ -16,12 +16,12 @@ namespace armor_auto_aim {
 
 class Detector {
 public:
-    struct Config {
-        bool enable_visualization{true};
-        cv::Point center_point{640, 384};
+    // struct Config {
+    //     bool enable_visualization{true};
+    //     cv::Point center_point{640, 384};
 
-        static Config from_yaml(const YAML::Node& node);
-    };
+    //     static Config from_yaml(const YAML::Node& node);
+    // };
 
     explicit Detector(const std::string& config_path);
     ~Detector();
@@ -34,14 +34,14 @@ public:
 
     std::vector<Armor> detect(const cv::Mat& image, cv::Mat* annotated_image = nullptr);
 
-    const Config& config() const { return config_; }
+    // const Config& config() const { return config_; }
 
     void  visualize_results(cv::Mat & canvas, const std::vector<Visualization> & armors, 
     const cv::Point & center_point, int frame_index);
 
 private:
-    Config config_;
-    std::string config_file_path_;
+    // Config config_;
+    // std::string config_file_path_;
     std::unique_ptr<YOLO11Detector> detector_;
 
     bool initialized_{false};

@@ -70,7 +70,7 @@ inline void draw_quadrangle_with_corners(cv::Mat& img, const std::vector<cv::Poi
     }
 }
 
-// 专业的标签绘制（类似第二张图的效果）
+// 标签绘制
 inline void draw_detection_label(cv::Mat& img, const std::string& text, 
                                 const cv::Point2f& position,
                                 const cv::Scalar& color = colors::GREEN,
@@ -108,32 +108,6 @@ inline void draw_detection_label(cv::Mat& img, const std::string& text,
     cv::putText(img, text, text_org, font_face, font_scale, color, thickness, cv::LINE_AA);
 }
 
-// 绘制装甲板检测结果（模仿第二张图的风格）
-inline void draw_armor_detection(cv::Mat& img, const std::vector<cv::Point2f>& corners,
-                                const std::string& class_name, int class_id,
-                                float confidence, const std::string& color_str = "blue")
-{
-    // 根据颜色字符串选择绘制颜色
-    cv::Scalar draw_color = colors::GREEN;  // 默认绿色
-    
-    // 绘制四边形轮廓和角点
-    draw_quadrangle_with_corners(img, corners, draw_color, 2, 3);
-    
-    // 计算标签位置（四边形的顶部中心）
-    cv::Point2f top_center;
-    if (corners.size() == 4) {
-        top_center.x = (corners[0].x + corners[1].x) / 2;
-        top_center.y = std::min(corners[0].y, corners[1].y);
-    }
-    
-    // 构建标签文本
-    std::stringstream label;
-    label << std::fixed << std::setprecision(2);
-    label << confidence << " " << color_str << ", " << class_name << " ,small";
-    
-    // 绘制标签
-    draw_detection_label(img, label.str(), top_center, draw_color);
-}
 
 // 在图像左下角添加帧号标记（类似[494]）
 inline void draw_frame_number(cv::Mat& img, int frame_num, 
@@ -152,38 +126,6 @@ inline void draw_frame_number(cv::Mat& img, int frame_num,
                0.6, colors::WHITE, 1, cv::LINE_AA);
 }
 
-// 主要的可视化函数 - 用于节点中
-inline void draw_armor_with_corners(cv::Mat& img, const cv::Rect& box, 
-                                   const std::string& label,
-                                   const std::vector<cv::Point2f>& corners,
-                                   const cv::Scalar& color = colors::GREEN)
-{
-    if (corners.size() == 4) {
-        // 绘制精确的四边形
-        draw_quadrangle_with_corners(img, corners, color, 2, 3);
-        
-        // 计算标签位置
-        cv::Point2f label_pos;
-        label_pos.x = (corners[0].x + corners[1].x) / 2;
-        label_pos.y = std::min(corners[0].y, corners[1].y);
-        
-        // 绘制标签
-        draw_detection_label(img, label, label_pos, color, 0.6, 2);
-    } else {
-        // 降级到矩形框
-        cv::rectangle(img, box, color, 2, cv::LINE_AA);
-        cv::Point label_pos(box.x, box.y - 5);
-        draw_detection_label(img, label, cv::Point2f(label_pos.x, label_pos.y), color);
-    }
-}
-
-// 简化版本的装甲板绘制（仅矩形框）
-inline void draw_armor(cv::Mat& img, const cv::Rect& box, const std::string& label,
-                      const cv::Scalar& color = colors::GREEN)
-{
-    cv::rectangle(img, box, color, 2, cv::LINE_AA);
-    draw_detection_label(img, label, cv::Point2f(box.x, box.y), color);
-}
 
 // 绘制十字准星
 inline void draw_crosshair(cv::Mat& img, const cv::Point& center, 
@@ -216,17 +158,8 @@ inline void draw_fps(cv::Mat& img, double fps, int detections = -1,
                0.7, colors::CYAN, 2, cv::LINE_AA);
 }
 
-// 保留原有的辅助函数
-inline void draw_corners(cv::Mat& img, const std::vector<cv::Point2f>& points,
-                        const cv::Scalar& color = colors::GREEN, int radius = 3)
-{
-    for (const auto& p : points) {
-        cv::circle(img, cv::Point(static_cast<int>(p.x), static_cast<int>(p.y)), 
-                  radius, color, -1, cv::LINE_AA);
-    }
-}
 
-inline void draw_polygon(cv::Mat& img, const std::vector<cv::Point2f>& points,
+inline void draw_points(cv::Mat& img, const std::vector<cv::Point2f>& points,
                         const cv::Scalar& color = colors::GREEN, int thickness = 2)
 {
     if (points.size() < 2) return;
@@ -240,42 +173,6 @@ inline void draw_polygon(cv::Mat& img, const std::vector<cv::Point2f>& points,
     }
 }
 
-inline cv::Mat create_grid(const std::vector<cv::Mat>& images, int cols = 4, int padding = 2)
-{
-    if (images.empty()) {
-        return cv::Mat::zeros(200, 400, CV_8UC3);
-    }
-    
-    if (images.size() == 1) {
-        return images[0];
-    }
-    
-    int rows = (images.size() + cols - 1) / cols;
-    
-    int max_w = 0, max_h = 0;
-    for (const auto& img : images) {
-        max_w = std::max(max_w, img.cols);
-        max_h = std::max(max_h, img.rows);
-    }
-    
-    cv::Mat grid(rows * (max_h + padding), cols * (max_w + padding), 
-                 CV_8UC3, cv::Scalar(0, 0, 0));
-    
-    for (size_t i = 0; i < images.size(); ++i) {
-        int r = i / cols;
-        int c = i % cols;
-        
-        cv::Rect roi(c * (max_w + padding) + padding/2, 
-                     r * (max_h + padding) + padding/2,
-                     images[i].cols, images[i].rows);
-        
-        if (roi.x + roi.width <= grid.cols && roi.y + roi.height <= grid.rows) {
-            images[i].copyTo(grid(roi));
-        }
-    }
-    
-    return grid;
-}
 
 }  // namespace utils
 

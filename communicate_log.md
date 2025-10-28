@@ -8,3 +8,7 @@
 - 优化 `src/core/auto_aim/CMakeLists.txt`：改为在构建目录生成 `auto_aim_force_link.cpp` 占位源码，同时直接引用 tinympc 原始头文件路径，避免仓库内额外空源文件和临时安装目录。
 - 调整 tinympc 头文件布局，将 `planner/tinympc/include/*.hpp` 统一移动到 `planner/tinympc/include/tinympc/`，并同步更新源码引用及安装路径，确保 `#include <tinympc/...>` 在编译和安装阶段一致可见。
 - 批量处理编译警告：为 `Plan` 等结构体补全默认成员初始化，修正多个构造函数的初始化顺序、符号位比较及 `printf`/`snprintf` 的格式化安全问题，并对未使用的参数或仅用于调试的变量加上 `[[maybe_unused]]` 标记，`colcon build --packages-select cboard auto_aim` 无警告通过。
+
+## 2025-10-29
+- 新建 `src/core/auto_buff/CMakeLists.txt` 与 `package.xml`，参照 auto_aim 将现有 `buff_data_type`、`buff_detect` 编译为静态库，并以 `--whole-archive` 聚合出 `libauto_buff.so`，同步补齐安装与 ament 导出。
+- 深入梳理 auto_buff 模块：记录 `FanBlade`/`PowerRune` 等基础数据结构的字段与状态机设计；分析 YOLO11 推理接口 `get_multicandidateboxes`（多候选 NMS 输出）与 `get_onecandidatebox`（单候选最高置信度）在预处理、筛选策略上的差异；总结 `Buff_Detector` 封装流程，包括失追处理、旋转中心估计、与历史 `PowerRune` 融合的目标判定逻辑，为后续扩展（如更多子模块或识别策略）提供设计参考。

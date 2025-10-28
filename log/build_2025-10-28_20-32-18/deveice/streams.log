@@ -1,0 +1,62 @@
+[0.015s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/deveice': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/auto_aim:/home/guo/ITL_sentry_auto_new/install/deveice:/home/guo/ITL_sentry_auto_new/install/auto_buff:/home/guo/ITL_sentry_auto_new/install/launch_node:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/auto_aim/lib:/home/guo/ITL_sentry_auto_new/install/deveice/lib:/home/guo/ITL_sentry_auto_new/install/auto_buff/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/deveice -- -j24 -l24
+[0.035s] [ 10%] [32mBuilding CXX object CMakeFiles/deveice_gimbal.dir/gimbal/src/gimbal.cpp.o[0m
+[0.038s] [ 20%] [32mBuilding CXX object CMakeFiles/deveice_imu.dir/imu/src/imu_driver.cpp.o[0m
+[0.039s] [ 30%] [32mBuilding CXX object CMakeFiles/deveice_cboard.dir/cboard/src/cboard.cpp.o[0m
+[0.044s] [ 40%] [32mBuilding CXX object CMakeFiles/deveice_camera.dir/camera/src/hikcamera.cpp.o[0m
+[4.440s] [ 50%] [32m[1mLinking CXX static library libdeveice_gimbal.a[0m
+[4.545s] [ 50%] Built target deveice_gimbal
+[4.776s] [ 60%] [32m[1mLinking CXX static library libdeveice_cboard.a[0m
+[4.843s] [ 60%] Built target deveice_cboard
+[4.965s] [ 70%] [32m[1mLinking CXX static library libdeveice_imu.a[0m
+[5.026s] [ 70%] Built target deveice_imu
+[7.326s] [ 80%] [32m[1mLinking CXX static library libdeveice_camera.a[0m
+[7.390s] [ 80%] Built target deveice_camera
+[7.400s] [ 90%] [32m[1mLinking CXX shared library libdeveice.so[0m
+[7.986s] [100%] Built target deveice
+[7.992s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/deveice' returned '0': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/auto_aim:/home/guo/ITL_sentry_auto_new/install/deveice:/home/guo/ITL_sentry_auto_new/install/auto_buff:/home/guo/ITL_sentry_auto_new/install/launch_node:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/auto_aim/lib:/home/guo/ITL_sentry_auto_new/install/deveice/lib:/home/guo/ITL_sentry_auto_new/install/auto_buff/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/deveice -- -j24 -l24
+[7.992s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/deveice': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/auto_aim:/home/guo/ITL_sentry_auto_new/install/deveice:/home/guo/ITL_sentry_auto_new/install/auto_buff:/home/guo/ITL_sentry_auto_new/install/launch_node:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/auto_aim/lib:/home/guo/ITL_sentry_auto_new/install/deveice/lib:/home/guo/ITL_sentry_auto_new/install/auto_buff/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/deveice
+[7.994s] -- Install configuration: ""
+[7.994s] -- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/lib/libdeveice.so
+[7.998s] -- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/deveice/lib/libdeveice.so" to "/opt/MVS/lib/64"
+[7.998s] -- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/lib/libdeveice_camera.a
+[8.003s] -- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/lib/libdeveice_cboard.a
+[8.007s] -- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/lib/libdeveice_gimbal.a
+[8.011s] -- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/lib/libdeveice_imu.a
+[8.015s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include
+[8.015s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include/hikcamera.hpp
+[8.015s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include
+[8.015s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include/command.hpp
+[8.016s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include/cboard.hpp
+[8.016s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include/socketcan.hpp
+[8.016s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include
+[8.016s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include/gimbal.hpp
+[8.016s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include
+[8.016s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include/imu_driver.h
+[8.016s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/imu/config
+[8.016s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/imu/config/imu_params.yaml
+[8.017s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceTargets.cmake
+[8.017s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceTargets-noconfig.cmake
+[8.017s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/environment/library_path.sh
+[8.017s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/environment/library_path.dsv
+[8.017s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/package.xml
+[8.017s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/ament_index/resource_index/package_run_dependencies/deveice
+[8.018s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/ament_index/resource_index/parent_prefix_path/deveice
+[8.019s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/environment/ament_prefix_path.sh
+[8.019s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/environment/ament_prefix_path.dsv
+[8.019s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/environment/path.sh
+[8.019s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/environment/path.dsv
+[8.019s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/local_setup.bash
+[8.019s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/local_setup.sh
+[8.019s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/local_setup.zsh
+[8.019s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/local_setup.dsv
+[8.019s] -- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/package.dsv
+[8.019s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/ament_index/resource_index/packages/deveice
+[8.019s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceTargetsExport.cmake
+[8.019s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceTargetsExport-noconfig.cmake
+[8.019s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/ament_cmake_export_include_directories-extras.cmake
+[8.019s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/ament_cmake_export_targets-extras.cmake
+[8.019s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/ament_cmake_export_dependencies-extras.cmake
+[8.019s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceConfig.cmake
+[8.020s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceConfig-version.cmake
+[8.020s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/package.xml
+[8.020s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/deveice' returned '0': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/auto_aim:/home/guo/ITL_sentry_auto_new/install/deveice:/home/guo/ITL_sentry_auto_new/install/auto_buff:/home/guo/ITL_sentry_auto_new/install/launch_node:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/auto_aim/lib:/home/guo/ITL_sentry_auto_new/install/deveice/lib:/home/guo/ITL_sentry_auto_new/install/auto_buff/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/deveice

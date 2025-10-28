@@ -1,0 +1,47 @@
+[0.010s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/utils': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/utils -- -j24 -l24
+[0.036s] [ 16%] [32mBuilding CXX object CMakeFiles/utils.dir/src/video.cpp.o[0m
+[3.488s] [ 33%] [32m[1mLinking CXX static library libutils.a[0m
+[3.609s] [100%] Built target utils
+[3.612s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/utils' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/utils -- -j24 -l24
+[3.614s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/utils': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/rolling /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/utils
+[3.616s] -- Install configuration: ""
+[3.616s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/environment/library_path.sh
+[3.616s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/environment/library_path.dsv
+[3.616s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include
+[3.616s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/draw_tools.hpp
+[3.616s] -- Installing: /home/guo/ITL_sentry_auto_new/install/utils/include/thread_safe_queue.hpp
+[3.616s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/math_tools.hpp
+[3.616s] -- Installing: /home/guo/ITL_sentry_auto_new/install/utils/include/video.hpp
+[3.616s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/yaml.hpp
+[3.616s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/detector_tools.hpp
+[3.616s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/trajectory.hpp
+[3.616s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/performance_monitor.hpp
+[3.616s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/logger.hpp
+[3.616s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/crc.hpp
+[3.616s] -- Installing: /home/guo/ITL_sentry_auto_new/install/utils/include/blocking_queue.hpp
+[3.616s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/roi_tools.hpp
+[3.616s] -- Installing: /home/guo/ITL_sentry_auto_new/install/utils/lib/libutils.a
+[3.630s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/utilsTargets.cmake
+[3.630s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/utilsTargets-noconfig.cmake
+[3.630s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/ament_index/resource_index/package_run_dependencies/utils
+[3.631s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/ament_index/resource_index/parent_prefix_path/utils
+[3.631s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/environment/ament_prefix_path.sh
+[3.631s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/environment/ament_prefix_path.dsv
+[3.631s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/environment/path.sh
+[3.631s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/environment/path.dsv
+[3.631s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/local_setup.bash
+[3.631s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/local_setup.sh
+[3.631s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/local_setup.zsh
+[3.631s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/local_setup.dsv
+[3.632s] -- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/package.dsv
+[3.632s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/ament_index/resource_index/packages/utils
+[3.632s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/utilsTargetsExport.cmake
+[3.632s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/utilsTargetsExport-noconfig.cmake
+[3.632s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/ament_cmake_export_include_directories-extras.cmake
+[3.632s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/ament_cmake_export_libraries-extras.cmake
+[3.632s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/ament_cmake_export_dependencies-extras.cmake
+[3.633s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/ament_cmake_export_targets-extras.cmake
+[3.633s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/utilsConfig.cmake
+[3.633s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/utilsConfig-version.cmake
+[3.633s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/package.xml
+[3.633s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/utils' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/rolling /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/utils

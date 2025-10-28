@@ -8,34 +8,33 @@
 
 namespace armor_auto_aim {
 
-Detector::Config Detector::Config::from_yaml(const YAML::Node& node) {
-    Config config;
+// Detector::Config Detector::Config::from_yaml(const YAML::Node& node) {
+//     Config config;
 
-    if (node["yolo"]) {
-        const auto& yolo_node = node["yolo"];
+//     if (node["yolo"]) {
+//         const auto& yolo_node = node["yolo"];
 
-        if (yolo_node["data_inspection"]) {
-            const auto& inspection = yolo_node["data_inspection"];
-            config.enable_visualization = inspection["publish_annotated_image"].as<bool>(config.enable_visualization);
-        }
+//         if (yolo_node["data_inspection"]) {
+//             const auto& inspection = yolo_node["data_inspection"];
+//             config.enable_visualization = inspection["publish_annotated_image"].as<bool>(config.enable_visualization);
+//         }
 
-        if (yolo_node["visualization"] && yolo_node["visualization"]["center_point"]) {
-            const auto& center = yolo_node["visualization"]["center_point"];
-            config.center_point.x = center["x"].as<int>(config.center_point.x);
-            config.center_point.y = center["y"].as<int>(config.center_point.y);
-        }
-    }
+//         if (yolo_node["visualization"] && yolo_node["visualization"]["center_point"]) {
+//             const auto& center = yolo_node["visualization"]["center_point"];
+//             config.center_point.x = center["x"].as<int>(config.center_point.x);
+//             config.center_point.y = center["y"].as<int>(config.center_point.y);
+//         }
+//     }
 
-    return config;
-}
+//     return config;
+// }
 
-Detector::Detector(const std::string& config_path)
-    : config_file_path_(config_path) {
+Detector::Detector(const std::string& config_path){
     try {
-        YAML::Node yaml_config = YAML::LoadFile(config_file_path_);
-        config_ = Config::from_yaml(yaml_config);
+        // YAML::Node yaml_config = YAML::LoadFile(config_file_path_);
+        // config_ = Config::from_yaml(yaml_config);
 
-        detector_ = std::make_unique<YOLO11Detector>(config_file_path_, debug_);
+        detector_ = std::make_unique<YOLO11Detector>(config_path, debug_);
         initialized_ = true;
     } catch (const std::exception& e) {
         initialized_ = false;

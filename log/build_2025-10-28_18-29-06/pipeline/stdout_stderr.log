@@ -1,0 +1,63 @@
+[ 25%] [32mBuilding CXX object CMakeFiles/video_node.dir/src/video_node.cpp.o[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/pipeline_node.dir/src/test_node.cpp.o[0m
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/video_node.cpp:[m[K In constructor ‘[01m[KApplication::VideoApp::VideoApp(const string&, const string&)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/video_node.cpp:36:3:[m[K [01;31m[Kerror: [m[Kclass ‘[01m[KApplication::VideoApp[m[K’ does not have any field named ‘[01m[Kvideo_path_[m[K’
+   36 |   [01;31m[Kvideo_path_[m[K(video_path),
+      |   [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/video_node.cpp:39:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kvideo_path_[m[K’ was not declared in this scope; did you mean ‘[01m[Kvideo_path[m[K’?
+   39 |   if ([01;31m[Kvideo_path_[m[K.empty()) {
+      |       [01;31m[K^~~~~~~~~~~[m[K
+      |       [32m[Kvideo_path[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/video_node.cpp:45:32:[m[K [01;31m[Kerror: [m[K‘[01m[Kauto_buff[m[K’ was not declared in this scope
+   45 |   detector_ = std::make_unique<[01;31m[Kauto_buff[m[K::Buff_Detector>(config_path_);
+      |                                [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/video_node.cpp:45:20:[m[K [01;31m[Kerror: [m[Kparse error in template argument list
+   45 |   detector_ = std::[01;31m[Kmake_unique<auto_buff::Buff_Detector>[m[K(config_path_);
+      |                    [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/video_node.cpp:45:57:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Kmake_unique<<expression error> >(std::string&)[m[K’
+   45 |   detector_ = [01;31m[Kstd::make_unique<auto_buff::Buff_Detector>(config_path_)[m[K;
+      |               [01;31m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~[m[K
+In file included from [01m[K/usr/include/c++/11/memory:76[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/node/include/video_node.hpp:6[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/video_node.cpp:1[m[K:
+[01m[K/usr/include/c++/11/bits/unique_ptr.h:961:5:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Ktemplate<class _Tp, class ... _Args> typename std::_MakeUniq<_Tp>::__single_object std::make_unique(_Args&& ...)[m[K’
+  961 |     [01;36m[Kmake_unique[m[K(_Args&&... __args)
+      |     [01;36m[K^~~~~~~~~~~[m[K
+[01m[K/usr/include/c++/11/bits/unique_ptr.h:961:5:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/video_node.cpp:45:57:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+   45 |   detector_ = [01;31m[Kstd::make_unique<auto_buff::Buff_Detector>(config_path_)[m[K;
+      |               [01;31m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~[m[K
+In file included from [01m[K/usr/include/c++/11/memory:76[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/node/include/video_node.hpp:6[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/video_node.cpp:1[m[K:
+[01m[K/usr/include/c++/11/bits/unique_ptr.h:967:5:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Ktemplate<class _Tp> typename std::_MakeUniq<_Tp>::__array std::make_unique(std::size_t)[m[K’
+  967 |     [01;36m[Kmake_unique[m[K(size_t __num)
+      |     [01;36m[K^~~~~~~~~~~[m[K
+[01m[K/usr/include/c++/11/bits/unique_ptr.h:967:5:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/video_node.cpp:45:57:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+   45 |   detector_ = [01;31m[Kstd::make_unique<auto_buff::Buff_Detector>(config_path_)[m[K;
+      |               [01;31m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~[m[K
+In file included from [01m[K/usr/include/c++/11/memory:76[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/node/include/video_node.hpp:6[m[K,
+                 from [01m[K/home/guo/ITL_sentry_auto_new/src/node/src/video_node.cpp:1[m[K:
+[01m[K/usr/include/c++/11/bits/unique_ptr.h:973:5:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Ktemplate<class _Tp, class ... _Args> typename std::_MakeUniq<_Tp>::__invalid_type std::make_unique(_Args&& ...)[m[K’ (deleted)
+  973 |     [01;36m[Kmake_unique[m[K(_Args&&...) = delete;
+      |     [01;36m[K^~~~~~~~~~~[m[K
+[01m[K/usr/include/c++/11/bits/unique_ptr.h:973:5:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/video_node.cpp:45:57:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+   45 |   detector_ = [01;31m[Kstd::make_unique<auto_buff::Buff_Detector>(config_path_)[m[K;
+      |               [01;31m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/video_node.cpp:51:72:[m[K [01;31m[Kerror: [m[K‘[01m[Kvideo_path_[m[K’ was not declared in this scope; did you mean ‘[01m[Kvideo_path[m[K’?
+   51 |     "[VideoPipeline] 初始化完成, config: {}, video: {}", config_path_, [01;31m[Kvideo_path_[m[K);
+      |                                                                        [01;31m[K^~~~~~~~~~~[m[K
+      |                                                                        [32m[Kvideo_path[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/video_node.cpp:[m[K In member function ‘[01m[Kvoid Application::VideoApp::visualize(const Application::VideoDebugPacket&)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/node/src/video_node.cpp:143:15:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kframe_index[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+  143 |     const int [01;35m[Kframe_index[m[K = visualization_frame_counter_.fetch_add(1) + 1;
+      |               [01;35m[K^~~~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/video_node.dir/build.make:76：CMakeFiles/video_node.dir/src/video_node.cpp.o] 错误 1
+gmake[1]: *** [CMakeFiles/Makefile2:165：CMakeFiles/video_node.dir/all] 错误 2
+gmake[1]: *** 正在等待未完成的任务....
+[ 75%] [32m[1mLinking CXX executable pipeline_node[0m
+[ 75%] Built target pipeline_node
+gmake: *** [Makefile:146：all] 错误 2

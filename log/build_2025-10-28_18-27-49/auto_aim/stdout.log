@@ -1,0 +1,3 @@
+[  6%] Built target auto_aim_motion_model
+[ 16%] Built target auto_aim_pointer
+[ 19%] [32mBuilding CXX object CMakeFiles/auto_aim_detected.dir/detected/src/node/armor_detector_node.cpp.o[0m

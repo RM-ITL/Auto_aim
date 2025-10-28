@@ -1,0 +1,6 @@
+[ 28%] Built target auto_buff_data_type
+[ 42%] [32mBuilding CXX object CMakeFiles/auto_buff_detect.dir/buff_detect/src/yolo11_buff.cpp.o[0m
+[ 57%] [32m[1mLinking CXX static library libauto_buff_detect.a[0m
+[ 71%] Built target auto_buff_detect
+[ 85%] [32m[1mLinking CXX shared library libauto_buff.so[0m
+[100%] Built target auto_buff

@@ -76,7 +76,7 @@ private:
   std::thread visualization_thread_;
   std::thread planner_thread_;
 
-  bool enable_visualization_{false};
+  bool enable_visualization_{true};
   std::string visualization_window_name_{"armor_detection"};
   cv::Point visualization_center_point_{640, 384};
   std::atomic<int> visualization_frame_counter_{0};

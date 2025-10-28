@@ -1,0 +1,39 @@
+[0.008s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/auto_buff': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/utils/lib:${LD_LIBRARY_PATH} /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/auto_buff -- -j24 -l24
+[0.033s] [ 28%] Built target auto_buff_data_type
+[0.047s] [ 71%] Built target auto_buff_detect
+[0.056s] [100%] Built target auto_buff
+[0.060s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/auto_buff' returned '0': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/utils/lib:${LD_LIBRARY_PATH} /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/auto_buff -- -j24 -l24
+[0.062s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/auto_buff': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/utils/lib:${LD_LIBRARY_PATH} /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/auto_buff
+[0.064s] -- Install configuration: ""
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/lib/libauto_buff.so
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/lib/libauto_buff_data_type.a
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/lib/libauto_buff_detect.a
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/include
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/include/buff_type.hpp
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/include
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/include/buff_detector.hpp
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/include/yolo11_buff.hpp
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/auto_buff/environment/library_path.sh
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/auto_buff/environment/library_path.dsv
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/auto_buff/package.xml
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/ament_index/resource_index/package_run_dependencies/auto_buff
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/ament_index/resource_index/parent_prefix_path/auto_buff
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/auto_buff/environment/ament_prefix_path.sh
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/auto_buff/environment/ament_prefix_path.dsv
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/auto_buff/environment/path.sh
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/auto_buff/environment/path.dsv
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/auto_buff/local_setup.bash
+[0.065s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/auto_buff/local_setup.sh
+[0.066s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/auto_buff/local_setup.zsh
+[0.066s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/auto_buff/local_setup.dsv
+[0.066s] -- Installing: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/auto_buff/package.dsv
+[0.066s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/ament_index/resource_index/packages/auto_buff
+[0.066s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/auto_buff/cmake/auto_buffTargetsExport.cmake
+[0.066s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/auto_buff/cmake/auto_buffTargetsExport-noconfig.cmake
+[0.066s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/auto_buff/cmake/ament_cmake_export_include_directories-extras.cmake
+[0.066s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/auto_buff/cmake/ament_cmake_export_targets-extras.cmake
+[0.066s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/auto_buff/cmake/ament_cmake_export_dependencies-extras.cmake
+[0.066s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/auto_buff/cmake/auto_buffConfig.cmake
+[0.066s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/auto_buff/cmake/auto_buffConfig-version.cmake
+[0.066s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_buff/share/auto_buff/package.xml
+[0.068s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/auto_buff' returned '0': AMENT_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/utils:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/utils/lib:${LD_LIBRARY_PATH} /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/auto_buff

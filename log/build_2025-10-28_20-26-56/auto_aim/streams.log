@@ -1,0 +1,88 @@
+[0.017s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/auto_aim': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/deveice:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/auto_aim:/home/guo/ITL_sentry_auto_new/install/auto_buff:/home/guo/ITL_sentry_auto_new/install/launch_node:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/deveice/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/auto_aim/lib:/home/guo/ITL_sentry_auto_new/install/auto_buff/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/auto_aim -- -j24 -l24
+[0.039s] [  6%] Built target auto_aim_motion_model
+[0.040s] [ 25%] Built target auto_aim_detected
+[0.040s] [ 35%] Built target auto_aim_pointer
+[0.059s] [ 54%] Built target auto_aim_solver
+[0.072s] [ 61%] Built target auto_aim_predictor
+[0.085s] [ 67%] Built target auto_aim_aimer
+[0.088s] [ 87%] Built target auto_aim_planner
+[0.103s] [ 93%] Built target auto_aim_tracker
+[0.113s] [ 96%] [32m[1mLinking CXX shared library libauto_aim.so[0m
+[2.158s] [100%] Built target auto_aim
+[2.163s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/auto_aim' returned '0': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/deveice:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/auto_aim:/home/guo/ITL_sentry_auto_new/install/auto_buff:/home/guo/ITL_sentry_auto_new/install/launch_node:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/deveice/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/auto_aim/lib:/home/guo/ITL_sentry_auto_new/install/auto_buff/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/auto_aim -- -j24 -l24
+[2.165s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/auto_aim': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/deveice:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/auto_aim:/home/guo/ITL_sentry_auto_new/install/auto_buff:/home/guo/ITL_sentry_auto_new/install/launch_node:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/deveice/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/auto_aim/lib:/home/guo/ITL_sentry_auto_new/install/auto_buff/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/auto_aim
+[2.167s] -- Install configuration: ""
+[2.167s] -- Installing: /home/guo/ITL_sentry_auto_new/install/auto_aim/lib/libauto_aim.so
+[2.182s] -- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/auto_aim/lib/libauto_aim.so" to ""
+[2.182s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/lib/libauto_aim_aimer.a
+[2.182s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/lib/libauto_aim_detected.a
+[2.182s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/lib/libauto_aim_planner.a
+[2.182s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/lib/libauto_aim_pointer.a
+[2.182s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/lib/libauto_aim_solver.a
+[2.182s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/lib/libauto_aim_motion_model.a
+[2.182s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/lib/libauto_aim_predictor.a
+[2.182s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/lib/libauto_aim_tracker.a
+[2.183s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include
+[2.183s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/aimer.hpp
+[2.183s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include
+[2.183s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/common
+[2.183s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/common/armor.hpp
+[2.183s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/node
+[2.183s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/node/armor_detector_node.hpp
+[2.183s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/classifier
+[2.183s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/classifier/armor_classifier.hpp
+[2.183s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/detector
+[2.183s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/detector/common_detector.hpp
+[2.183s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/detector/yolo11.hpp
+[2.183s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/planner.hpp
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/types.hpp
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/lightbar_detector.hpp
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/image_processor.hpp
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/solver_node.hpp
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/module
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/module/coord_converter.hpp
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/module/optimize_yaw.hpp
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/module/solver.hpp
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/module/pnp_solver.hpp
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/target.hpp
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/full_model.hpp
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/tracker.hpp
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/tinympc
+[2.184s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/tinympc/admm.hpp
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/tinympc/rho_benchmark.hpp
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/tinympc/codegen.hpp
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/tinympc/types.hpp
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/tinympc/tiny_api_constants.hpp
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/tinympc/error.hpp
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/include/tinympc/tiny_api.hpp
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/environment/library_path.sh
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/environment/library_path.dsv
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/package.xml
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/ament_index/resource_index/package_run_dependencies/auto_aim
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/ament_index/resource_index/parent_prefix_path/auto_aim
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/environment/ament_prefix_path.sh
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/environment/ament_prefix_path.dsv
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/environment/path.sh
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/environment/path.dsv
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/local_setup.bash
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/local_setup.sh
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/local_setup.zsh
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/local_setup.dsv
+[2.185s] -- Installing: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/package.dsv
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/ament_index/resource_index/packages/auto_aim
+[2.185s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/cmake/auto_aimTargetsExport.cmake
+[2.186s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/cmake/auto_aimTargetsExport-noconfig.cmake
+[2.186s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/cmake/ament_cmake_export_include_directories-extras.cmake
+[2.186s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/cmake/ament_cmake_export_targets-extras.cmake
+[2.186s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/cmake/ament_cmake_export_dependencies-extras.cmake
+[2.186s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/cmake/auto_aimConfig.cmake
+[2.186s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/cmake/auto_aimConfig-version.cmake
+[2.186s] -- Up-to-date: /home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/package.xml
+[2.186s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/auto_aim' returned '0': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/deveice:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/auto_aim:/home/guo/ITL_sentry_auto_new/install/auto_buff:/home/guo/ITL_sentry_auto_new/install/launch_node:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/deveice/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/auto_aim/lib:/home/guo/ITL_sentry_auto_new/install/auto_buff/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/auto_aim

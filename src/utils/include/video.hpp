@@ -11,7 +11,8 @@
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
 
-#include "thread_safe_queue.hpp"
+#include "yaml.hpp"
+#include "blocking_queue.hpp"
 
 namespace utils
 {
@@ -46,7 +47,7 @@ public:
 
 private:
   std::size_t queue_capacity_;
-  ThreadSafeQueue<VideoFrame> frame_queue_;
+  BlockingQueue<VideoFrame> frame_queue_;
   std::string video_path_;
   cv::VideoCapture video_capture_;
   std::thread reader_thread_;

@@ -1,0 +1,17 @@
+[  6%] Built target auto_aim_motion_model
+[ 16%] Built target auto_aim_pointer
+[ 19%] [32mBuilding CXX object CMakeFiles/auto_aim_detected.dir/detected/src/node/armor_detector_node.cpp.o[0m
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/auto_aim/detected/src/node/armor_detector_node.cpp:[m[K In constructor ‘[01m[Karmor_auto_aim::Detector::Detector(const string&)[m[K’:
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/auto_aim/detected/src/node/armor_detector_node.cpp:32:52:[m[K [01;31m[Kerror: [m[Kexpected identifier before ‘[01m[K{[m[K’ token
+   32 | Detector::Detector(const std::string& config_path):[01;31m[K{[m[K
+      |                                                    [01;31m[K^[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/auto_aim/detected/src/node/armor_detector_node.cpp:37:54:[m[K [01;31m[Kerror: [m[K‘[01m[Kconfig_path_[m[K’ was not declared in this scope; did you mean ‘[01m[Kconfig_path[m[K’?
+   37 |         detector_ = std::make_unique<YOLO11Detector>([01;31m[Kconfig_path_[m[K, debug_);
+      |                                                      [01;31m[K^~~~~~~~~~~~[m[K
+      |                                                      [32m[Kconfig_path[m[K
+[01m[K/home/guo/ITL_sentry_auto_new/src/core/auto_aim/detected/src/node/armor_detector_node.cpp:32:39:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kconfig_path[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+   32 | Detector::Detector([01;35m[Kconst std::string& config_path[m[K):{
+      |                    [01;35m[K~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/auto_aim_detected.dir/build.make:132：CMakeFiles/auto_aim_detected.dir/detected/src/node/armor_detector_node.cpp.o] 错误 1
+gmake[1]: *** [CMakeFiles/Makefile2:153：CMakeFiles/auto_aim_detected.dir/all] 错误 2
+gmake: *** [Makefile:146：all] 错误 2

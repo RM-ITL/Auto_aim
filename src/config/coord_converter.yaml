@@ -244,7 +244,14 @@ enable_serial: false
 com_port: "/dev/gimbal"
 
 Video:
-path: "/home/guo/视频/test1.mp4"
+video_path: "/home/guo/ITL_sentry_auto_new/29657008870-1-192.mp4"
+
+#####-----buff_detector参数-----#####
+buff_model: "/home/guo/ITL_sentry_auto_new/src/model/yolo11_buff_int8.xml"
+
+#####-----buff_aimer参数-----#####
+fire_gap_time: 0.700   # s
+predict_time: 0.120     # s
   
   # # 相机到枪管偏移（毫米）
   # camera_to_barrel_offset:

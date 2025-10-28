@@ -1,0 +1,23 @@
+[0.013s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/utils': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/utils -- -j24 -l24
+[0.038s] [ 16%] [32mBuilding CXX object CMakeFiles/utils.dir/src/video.cpp.o[0m
+[0.830s] [01m[K/home/guo/ITL_sentry_auto_new/src/utils/src/video.cpp:[m[K In constructor ‘[01m[Kutils::Video::Video(const string&, std::size_t, std::function<void()>)[m[K’:
+[0.830s] [01m[K/home/guo/ITL_sentry_auto_new/src/utils/src/video.cpp:29:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kvideo_path[m[K’ was not declared in this scope; did you mean ‘[01m[Kvideo_path_[m[K’?
+[0.830s]    29 |   if ([01;31m[Kvideo_path[m[K.empty()) {
+[0.830s]       |       [01;31m[K^~~~~~~~~~[m[K
+[0.830s]       |       [32m[Kvideo_path_[m[K
+[0.833s] [01m[K/home/guo/ITL_sentry_auto_new/src/utils/src/video.cpp:33:30:[m[K [01;31m[Kerror: [m[K‘[01m[Kconfig[m[K’ was not declared in this scope
+[0.833s]    33 |   auto yaml = YAML::LoadFile([01;31m[Kconfig[m[K);
+[0.833s]       |                              [01;31m[K^~~~~~[m[K
+[0.833s] [01m[K/home/guo/ITL_sentry_auto_new/src/utils/src/video.cpp:34:50:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K>[m[K’ token
+[0.833s]    34 |   video_path_ = yaml["video_path"].as<std::string[01;31m[K>[m[K();
+[0.833s]       |                                                  [01;31m[K^[m[K
+[0.833s] [01m[K/home/guo/ITL_sentry_auto_new/src/utils/src/video.cpp:34:52:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K)[m[K’ token
+[0.833s]    34 |   video_path_ = yaml["video_path"].as<std::string>([01;31m[K)[m[K;
+[0.833s]       |                                                    [01;31m[K^[m[K
+[0.835s] [01m[K/home/guo/ITL_sentry_auto_new/src/utils/src/video.cpp:25:23:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kconfig_path[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+[0.835s]    25 |   [01;35m[Kconst std::string & config_path[m[K,
+[0.835s]       |   [01;35m[K~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~[m[K
+[1.880s] gmake[2]: *** [CMakeFiles/utils.dir/build.make:132：CMakeFiles/utils.dir/src/video.cpp.o] 错误 1
+[1.881s] gmake[1]: *** [CMakeFiles/Makefile2:137：CMakeFiles/utils.dir/all] 错误 2
+[1.881s] gmake: *** [Makefile:146：all] 错误 2
+[1.882s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/utils' returned '2': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/utils -- -j24 -l24

@@ -1,0 +1,29 @@
+[ 25%] [32mBuilding CXX object CMakeFiles/video_node.dir/src/video_node.cpp.o[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/pipeline_node.dir/src/test_node.cpp.o[0m
+[ 75%] [32m[1mLinking CXX executable video_node[0m
+[ 75%] Built target video_node
+[100%] [32m[1mLinking CXX executable pipeline_node[0m
+[100%] Built target pipeline_node
+-- Install configuration: ""
+-- Installing: /home/guo/ITL_sentry_auto_new/install/pipeline/lib/pipeline/pipeline_node
+-- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/pipeline/lib/pipeline/pipeline_node" to ""
+-- Installing: /home/guo/ITL_sentry_auto_new/install/pipeline/lib/pipeline/video_node
+-- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/pipeline/lib/pipeline/video_node" to ""
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/include
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/include/video_node.hpp
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/include/test_node.hpp
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/ament_index/resource_index/package_run_dependencies/pipeline
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/ament_index/resource_index/parent_prefix_path/pipeline
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/environment/ament_prefix_path.sh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/environment/path.sh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/environment/path.dsv
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/local_setup.bash
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/local_setup.sh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/local_setup.zsh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/local_setup.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/package.dsv
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/ament_index/resource_index/packages/pipeline
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/cmake/pipelineConfig.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/cmake/pipelineConfig-version.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/pipeline/share/pipeline/package.xml
