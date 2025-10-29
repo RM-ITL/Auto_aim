@@ -1,0 +1,74 @@
+-- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)
+-- Found rclcpp: 27.0.0 (/opt/ros/rolling/share/rclcpp/cmake)
+-- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)
+-- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found utils: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake)
+-- Found serial: 0.1.0 (/home/guo/ITL_sentry_auto_new/install/serial/share/serial/cmake)
+-- Configuring done (0.7s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/deveice
+[  8%] [32mBuilding CXX object CMakeFiles/deveice_old_gimbal.dir/old_gimbal/src/old_gimbal.cpp.o[0m
+[ 25%] Built target deveice_cboard
+[ 33%] [32mBuilding CXX object CMakeFiles/deveice_gimbal.dir/gimbal/src/gimbal.cpp.o[0m
+[ 58%] [32mBuilding CXX object CMakeFiles/deveice_imu.dir/imu/src/imu_driver.cpp.o[0m
+[ 58%] Built target deveice_camera
+[ 66%] [32m[1mLinking CXX static library libdeveice_old_gimbal.a[0m
+[ 66%] Built target deveice_old_gimbal
+[ 75%] [32m[1mLinking CXX static library libdeveice_gimbal.a[0m
+[ 75%] Built target deveice_gimbal
+[ 83%] [32m[1mLinking CXX static library libdeveice_imu.a[0m
+[ 83%] Built target deveice_imu
+[ 91%] [32m[1mLinking CXX shared library libdeveice.so[0m
+[100%] Built target deveice
+-- Install configuration: "Release"
+-- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/lib/libdeveice.so
+-- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/deveice/lib/libdeveice.so" to "/opt/MVS/lib/64"
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/lib/libdeveice_camera.a
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/lib/libdeveice_cboard.a
+-- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/lib/libdeveice_gimbal.a
+-- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/lib/libdeveice_imu.a
+-- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/lib/libdeveice_old_gimbal.a
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include/hikcamera.hpp
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include/command.hpp
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include/cboard.hpp
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include/socketcan.hpp
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include/gimbal.hpp
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include/imu_driver.h
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include/old_gimbal.hpp
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/imu/config
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/imu/config/imu_params.yaml
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceTargets.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceTargets-release.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/environment/library_path.sh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/environment/library_path.dsv
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/package.xml
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/ament_index/resource_index/package_run_dependencies/deveice
+-- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/share/ament_index/resource_index/parent_prefix_path/deveice
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/environment/ament_prefix_path.sh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/environment/path.sh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/environment/path.dsv
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/local_setup.bash
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/local_setup.sh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/local_setup.zsh
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/local_setup.dsv
+-- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/package.dsv
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/ament_index/resource_index/packages/deveice
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceTargetsExport.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceTargetsExport-release.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/ament_cmake_export_targets-extras.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceConfig.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceConfig-version.cmake
+-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/package.xml

@@ -1,0 +1,207 @@
+[0.000000] (-) TimerEvent: {}
+[0.000370] (-) JobUnselected: {'identifier': 'auto_aim'}
+[0.000654] (-) JobUnselected: {'identifier': 'auto_buff'}
+[0.000682] (-) JobUnselected: {'identifier': 'autoaim_msgs'}
+[0.000701] (-) JobUnselected: {'identifier': 'launch_node'}
+[0.000719] (-) JobUnselected: {'identifier': 'pipeline'}
+[0.000743] (-) JobUnselected: {'identifier': 'serial'}
+[0.000759] (-) JobUnselected: {'identifier': 'utils'}
+[0.000778] (deveice) JobQueued: {'identifier': 'deveice', 'dependencies': OrderedDict([('autoaim_msgs', '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs'), ('utils', '/home/guo/ITL_sentry_auto_new/install/utils'), ('serial', '/home/guo/ITL_sentry_auto_new/install/serial')])}
+[0.000803] (deveice) JobStarted: {'identifier': 'deveice'}
+[0.013272] (deveice) JobProgress: {'identifier': 'deveice', 'progress': 'cmake'}
+[0.014166] (deveice) Command: {'cmd': ['/usr/local/bin/cmake', '/home/guo/ITL_sentry_auto_new/src/io/deveice', '-DCMAKE_BUILD_TYPE=Release', '-DCMAKE_INSTALL_PREFIX=/home/guo/ITL_sentry_auto_new/install/deveice'], 'cwd': '/home/guo/ITL_sentry_auto_new/build/deveice', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('C_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:'), ('LANGUAGE', 'zh_CN:zh'), ('USER', 'guo'), ('CLAUDE_CODE_ENTRYPOINT', 'cli'), ('GIT_EDITOR', 'true'), ('XDG_SESSION_TYPE', 'x11'), ('ALLUSERSPROFILE', '/opt/MVS/MVFG'), ('SHLVL', '2'), ('LD_LIBRARY_PATH', '/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32'), ('HOME', '/home/guo'), ('OLDPWD', '/home/guo/ITL_sentry_auto_new/src'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '3158'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('CPLUS_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:'), ('IM_CONFIG_PHASE', '1'), ('ROS_DISTRO', 'rolling'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'guo'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'guo'), ('ANTHROPIC_BASE_URL', 'https://anyrouter.top'), ('TERM', 'xterm-256color'), ('OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE', 'delta'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('MVCAM_SDK_PATH', '/opt/MVS'), ('PATH', '/usr/local/cuda/bin:/usr/local/cuda/bin:/usr/local/cuda/bin:/opt/ros/rolling/bin:/usr/local/cuda/bin:/home/guo/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:@/tmp/.ICE-unix/3136,unix/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:/tmp/.ICE-unix/3136'), ('MVCAM_GENICAM_CLPROTOCOL', '/opt/MVS/lib/CLProtocol'), ('COREPACK_ENABLE_AUTO_PIN', '0'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/80103eaf_480a_4a1c_8377_58ac06fcea62'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('NoDefaultCurrentDirectoryInExePath', '1'), ('LANG', 'zh_CN.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.173'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('ROSDISTRO_INDEX_URL', 'https://mirrors.tuna.tsinghua.edu.cn/rosdistro/index-v4.yaml'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling'), ('SHELL', '/bin/bash'), ('ANTHROPIC_AUTH_TOKEN', 'sk-E6f0jQRYwYa7LtKa4J2ijee9Ip1AeiVXx7eAjSAikgpC38pq'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CLAUDECODE', '1'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('ROS_AUTOMATIC_DISCOVERY_RANGE', 'SUBNET'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/guo/ITL_sentry_auto_new/build/deveice'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/guo/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages:/opt/ros/rolling/lib/python3.10/site-packages'), ('CPATH', '/usr/local/cuda/include:/usr/local/cuda/include:/usr/local/cuda/include:/usr/local/cuda/include:'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('MVCAM_COMMON_RUNENV', '/opt/MVS/lib'), ('CMAKE_PREFIX_PATH', '/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling')]), 'shell': False}
+[0.021765] (deveice) StdoutLine: {'line': b'-- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)\n'}
+[0.099995] (-) TimerEvent: {}
+[0.200206] (-) TimerEvent: {}
+[0.241805] (deveice) StdoutLine: {'line': b'-- Found rclcpp: 27.0.0 (/opt/ros/rolling/share/rclcpp/cmake)\n'}
+[0.270421] (deveice) StdoutLine: {'line': b'-- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)\n'}
+[0.278945] (deveice) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)\n'}
+[0.292389] (deveice) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.300361] (-) TimerEvent: {}
+[0.308564] (deveice) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[0.400548] (-) TimerEvent: {}
+[0.475418] (deveice) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)\n'}
+[0.476979] (deveice) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)\n'}
+[0.500752] (-) TimerEvent: {}
+[0.600543] (deveice) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[0.600818] (-) TimerEvent: {}
+[0.700954] (-) TimerEvent: {}
+[0.774606] (deveice) StdoutLine: {'line': b'-- Found utils: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake)\n'}
+[0.801033] (-) TimerEvent: {}
+[0.802667] (deveice) StdoutLine: {'line': b'-- Found serial: 0.1.0 (/home/guo/ITL_sentry_auto_new/install/serial/share/serial/cmake)\n'}
+[0.878321] (deveice) StdoutLine: {'line': b'-- Configuring done (0.9s)\n'}
+[0.901160] (-) TimerEvent: {}
+[0.912798] (deveice) StdoutLine: {'line': b'-- Generating done (0.0s)\n'}
+[0.918143] (deveice) StdoutLine: {'line': b'-- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/deveice\n'}
+[0.922564] (deveice) CommandEnded: {'returncode': 0}
+[0.924002] (deveice) JobProgress: {'identifier': 'deveice', 'progress': 'build'}
+[0.924021] (deveice) Command: {'cmd': ['/usr/local/bin/cmake', '--build', '/home/guo/ITL_sentry_auto_new/build/deveice', '--', '-j24', '-l24'], 'cwd': '/home/guo/ITL_sentry_auto_new/build/deveice', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('C_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:'), ('LANGUAGE', 'zh_CN:zh'), ('USER', 'guo'), ('CLAUDE_CODE_ENTRYPOINT', 'cli'), ('GIT_EDITOR', 'true'), ('XDG_SESSION_TYPE', 'x11'), ('ALLUSERSPROFILE', '/opt/MVS/MVFG'), ('SHLVL', '2'), ('LD_LIBRARY_PATH', '/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32'), ('HOME', '/home/guo'), ('OLDPWD', '/home/guo/ITL_sentry_auto_new/src'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '3158'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('CPLUS_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:'), ('IM_CONFIG_PHASE', '1'), ('ROS_DISTRO', 'rolling'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'guo'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'guo'), ('ANTHROPIC_BASE_URL', 'https://anyrouter.top'), ('TERM', 'xterm-256color'), ('OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE', 'delta'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('MVCAM_SDK_PATH', '/opt/MVS'), ('PATH', '/usr/local/cuda/bin:/usr/local/cuda/bin:/usr/local/cuda/bin:/opt/ros/rolling/bin:/usr/local/cuda/bin:/home/guo/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:@/tmp/.ICE-unix/3136,unix/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:/tmp/.ICE-unix/3136'), ('MVCAM_GENICAM_CLPROTOCOL', '/opt/MVS/lib/CLProtocol'), ('COREPACK_ENABLE_AUTO_PIN', '0'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/80103eaf_480a_4a1c_8377_58ac06fcea62'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('NoDefaultCurrentDirectoryInExePath', '1'), ('LANG', 'zh_CN.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.173'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('ROSDISTRO_INDEX_URL', 'https://mirrors.tuna.tsinghua.edu.cn/rosdistro/index-v4.yaml'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling'), ('SHELL', '/bin/bash'), ('ANTHROPIC_AUTH_TOKEN', 'sk-E6f0jQRYwYa7LtKa4J2ijee9Ip1AeiVXx7eAjSAikgpC38pq'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CLAUDECODE', '1'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('ROS_AUTOMATIC_DISCOVERY_RANGE', 'SUBNET'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/guo/ITL_sentry_auto_new/build/deveice'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/guo/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages:/opt/ros/rolling/lib/python3.10/site-packages'), ('CPATH', '/usr/local/cuda/include:/usr/local/cuda/include:/usr/local/cuda/include:/usr/local/cuda/include:'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('MVCAM_COMMON_RUNENV', '/opt/MVS/lib'), ('CMAKE_PREFIX_PATH', '/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling')]), 'shell': False}
+[0.943703] (deveice) StdoutLine: {'line': b'[  8%] Building CXX object CMakeFiles/deveice_old_gimbal.dir/old_gimbal/src/old_gimbal.cpp.o\n'}
+[0.953857] (deveice) StdoutLine: {'line': b'[ 16%] Building CXX object CMakeFiles/deveice_imu.dir/imu/src/imu_driver.cpp.o\n'}
+[0.955586] (deveice) StdoutLine: {'line': b'[ 25%] Building CXX object CMakeFiles/deveice_cboard.dir/cboard/src/cboard.cpp.o\n'}
+[0.959328] (deveice) StdoutLine: {'line': b'[ 33%] Building CXX object CMakeFiles/deveice_gimbal.dir/gimbal/src/gimbal.cpp.o\n'}
+[0.964327] (deveice) StdoutLine: {'line': b'[ 41%] Building CXX object CMakeFiles/deveice_camera.dir/camera/src/hikcamera.cpp.o\n'}
+[1.001261] (-) TimerEvent: {}
+[1.101633] (-) TimerEvent: {}
+[1.201913] (-) TimerEvent: {}
+[1.302081] (-) TimerEvent: {}
+[1.402311] (-) TimerEvent: {}
+[1.502596] (-) TimerEvent: {}
+[1.602774] (-) TimerEvent: {}
+[1.702970] (-) TimerEvent: {}
+[1.803179] (-) TimerEvent: {}
+[1.903457] (-) TimerEvent: {}
+[2.003638] (-) TimerEvent: {}
+[2.103824] (-) TimerEvent: {}
+[2.204005] (-) TimerEvent: {}
+[2.304188] (-) TimerEvent: {}
+[2.404537] (-) TimerEvent: {}
+[2.504818] (-) TimerEvent: {}
+[2.604990] (-) TimerEvent: {}
+[2.705216] (-) TimerEvent: {}
+[2.805535] (-) TimerEvent: {}
+[2.905835] (-) TimerEvent: {}
+[3.006018] (-) TimerEvent: {}
+[3.106206] (-) TimerEvent: {}
+[3.206496] (-) TimerEvent: {}
+[3.306805] (-) TimerEvent: {}
+[3.406984] (-) TimerEvent: {}
+[3.507187] (-) TimerEvent: {}
+[3.607498] (-) TimerEvent: {}
+[3.707816] (-) TimerEvent: {}
+[3.807984] (-) TimerEvent: {}
+[3.908145] (-) TimerEvent: {}
+[4.008442] (-) TimerEvent: {}
+[4.108806] (-) TimerEvent: {}
+[4.208979] (-) TimerEvent: {}
+[4.309194] (-) TimerEvent: {}
+[4.409473] (-) TimerEvent: {}
+[4.509781] (-) TimerEvent: {}
+[4.609965] (-) TimerEvent: {}
+[4.710275] (-) TimerEvent: {}
+[4.810597] (-) TimerEvent: {}
+[4.910852] (-) TimerEvent: {}
+[5.011052] (-) TimerEvent: {}
+[5.111303] (-) TimerEvent: {}
+[5.211544] (-) TimerEvent: {}
+[5.311838] (-) TimerEvent: {}
+[5.412038] (-) TimerEvent: {}
+[5.512247] (-) TimerEvent: {}
+[5.612526] (-) TimerEvent: {}
+[5.712789] (-) TimerEvent: {}
+[5.812967] (-) TimerEvent: {}
+[5.913174] (-) TimerEvent: {}
+[6.013444] (-) TimerEvent: {}
+[6.113769] (-) TimerEvent: {}
+[6.214054] (-) TimerEvent: {}
+[6.314261] (-) TimerEvent: {}
+[6.406319] (deveice) StdoutLine: {'line': b'[ 50%] Linking CXX static library libdeveice_old_gimbal.a\n'}
+[6.414463] (-) TimerEvent: {}
+[6.426274] (deveice) StdoutLine: {'line': b'[ 50%] Built target deveice_old_gimbal\n'}
+[6.514665] (-) TimerEvent: {}
+[6.614873] (-) TimerEvent: {}
+[6.715119] (-) TimerEvent: {}
+[6.815329] (-) TimerEvent: {}
+[6.915653] (-) TimerEvent: {}
+[7.015845] (-) TimerEvent: {}
+[7.050132] (deveice) StdoutLine: {'line': b'[ 58%] Linking CXX static library libdeveice_gimbal.a\n'}
+[7.070783] (deveice) StdoutLine: {'line': b'[ 58%] Built target deveice_gimbal\n'}
+[7.115966] (-) TimerEvent: {}
+[7.201576] (deveice) StdoutLine: {'line': b'[ 66%] Linking CXX static library libdeveice_cboard.a\n'}
+[7.216057] (-) TimerEvent: {}
+[7.220985] (deveice) StdoutLine: {'line': b'[ 66%] Built target deveice_cboard\n'}
+[7.305671] (deveice) StdoutLine: {'line': b'[ 75%] Linking CXX static library libdeveice_imu.a\n'}
+[7.316185] (-) TimerEvent: {}
+[7.326567] (deveice) StdoutLine: {'line': b'[ 75%] Built target deveice_imu\n'}
+[7.416505] (-) TimerEvent: {}
+[7.516791] (-) TimerEvent: {}
+[7.616999] (-) TimerEvent: {}
+[7.717201] (-) TimerEvent: {}
+[7.817442] (-) TimerEvent: {}
+[7.917676] (-) TimerEvent: {}
+[8.017863] (-) TimerEvent: {}
+[8.118042] (-) TimerEvent: {}
+[8.218234] (-) TimerEvent: {}
+[8.318504] (-) TimerEvent: {}
+[8.418743] (-) TimerEvent: {}
+[8.518904] (-) TimerEvent: {}
+[8.619075] (-) TimerEvent: {}
+[8.719262] (-) TimerEvent: {}
+[8.819498] (-) TimerEvent: {}
+[8.919750] (-) TimerEvent: {}
+[9.019924] (-) TimerEvent: {}
+[9.120156] (-) TimerEvent: {}
+[9.220395] (-) TimerEvent: {}
+[9.320548] (-) TimerEvent: {}
+[9.420809] (-) TimerEvent: {}
+[9.520981] (-) TimerEvent: {}
+[9.621235] (-) TimerEvent: {}
+[9.721390] (-) TimerEvent: {}
+[9.821641] (-) TimerEvent: {}
+[9.921836] (-) TimerEvent: {}
+[10.022078] (-) TimerEvent: {}
+[10.122318] (-) TimerEvent: {}
+[10.222546] (-) TimerEvent: {}
+[10.322776] (-) TimerEvent: {}
+[10.334237] (deveice) StdoutLine: {'line': b'[ 83%] Linking CXX static library libdeveice_camera.a\n'}
+[10.352844] (deveice) StdoutLine: {'line': b'[ 83%] Built target deveice_camera\n'}
+[10.367541] (deveice) StdoutLine: {'line': b'[ 91%] Building CXX object CMakeFiles/deveice.dir/deveice_force_link.cpp.o\n'}
+[10.392706] (deveice) StdoutLine: {'line': b'[100%] Linking CXX shared library libdeveice.so\n'}
+[10.422934] (-) TimerEvent: {}
+[10.523199] (-) TimerEvent: {}
+[10.566187] (deveice) StdoutLine: {'line': b'[100%] Built target deveice\n'}
+[10.569739] (deveice) CommandEnded: {'returncode': 0}
+[10.570882] (deveice) JobProgress: {'identifier': 'deveice', 'progress': 'install'}
+[10.573012] (deveice) Command: {'cmd': ['/usr/local/bin/cmake', '--install', '/home/guo/ITL_sentry_auto_new/build/deveice'], 'cwd': '/home/guo/ITL_sentry_auto_new/build/deveice', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('C_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:'), ('LANGUAGE', 'zh_CN:zh'), ('USER', 'guo'), ('CLAUDE_CODE_ENTRYPOINT', 'cli'), ('GIT_EDITOR', 'true'), ('XDG_SESSION_TYPE', 'x11'), ('ALLUSERSPROFILE', '/opt/MVS/MVFG'), ('SHLVL', '2'), ('LD_LIBRARY_PATH', '/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32'), ('HOME', '/home/guo'), ('OLDPWD', '/home/guo/ITL_sentry_auto_new/src'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '3158'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('CPLUS_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:'), ('IM_CONFIG_PHASE', '1'), ('ROS_DISTRO', 'rolling'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'guo'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'guo'), ('ANTHROPIC_BASE_URL', 'https://anyrouter.top'), ('TERM', 'xterm-256color'), ('OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE', 'delta'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('MVCAM_SDK_PATH', '/opt/MVS'), ('PATH', '/usr/local/cuda/bin:/usr/local/cuda/bin:/usr/local/cuda/bin:/opt/ros/rolling/bin:/usr/local/cuda/bin:/home/guo/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:@/tmp/.ICE-unix/3136,unix/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:/tmp/.ICE-unix/3136'), ('MVCAM_GENICAM_CLPROTOCOL', '/opt/MVS/lib/CLProtocol'), ('COREPACK_ENABLE_AUTO_PIN', '0'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/80103eaf_480a_4a1c_8377_58ac06fcea62'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('NoDefaultCurrentDirectoryInExePath', '1'), ('LANG', 'zh_CN.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.173'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('ROSDISTRO_INDEX_URL', 'https://mirrors.tuna.tsinghua.edu.cn/rosdistro/index-v4.yaml'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling'), ('SHELL', '/bin/bash'), ('ANTHROPIC_AUTH_TOKEN', 'sk-E6f0jQRYwYa7LtKa4J2ijee9Ip1AeiVXx7eAjSAikgpC38pq'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CLAUDECODE', '1'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('ROS_AUTOMATIC_DISCOVERY_RANGE', 'SUBNET'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/guo/ITL_sentry_auto_new/build/deveice'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/guo/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages:/opt/ros/rolling/lib/python3.10/site-packages'), ('CPATH', '/usr/local/cuda/include:/usr/local/cuda/include:/usr/local/cuda/include:/usr/local/cuda/include:'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('MVCAM_COMMON_RUNENV', '/opt/MVS/lib'), ('CMAKE_PREFIX_PATH', '/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling')]), 'shell': False}
+[10.574302] (deveice) StdoutLine: {'line': b'-- Install configuration: "Release"\n'}
+[10.574350] (deveice) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/lib/libdeveice.so\n'}
+[10.575464] (deveice) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/guo/ITL_sentry_auto_new/install/deveice/lib/libdeveice.so" to "/opt/MVS/lib/64"\n'}
+[10.575524] (deveice) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/lib/libdeveice_camera.a\n'}
+[10.576340] (deveice) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/lib/libdeveice_cboard.a\n'}
+[10.577162] (deveice) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/lib/libdeveice_gimbal.a\n'}
+[10.577992] (deveice) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/lib/libdeveice_imu.a\n'}
+[10.578972] (deveice) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/lib/libdeveice_old_gimbal.a\n'}
+[10.579549] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include\n'}
+[10.579635] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include/hikcamera.hpp\n'}
+[10.579668] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include\n'}
+[10.579697] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include/command.hpp\n'}
+[10.579729] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include/cboard.hpp\n'}
+[10.579759] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include/socketcan.hpp\n'}
+[10.579790] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include\n'}
+[10.579819] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include/gimbal.hpp\n'}
+[10.579849] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include\n'}
+[10.579919] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include/imu_driver.h\n'}
+[10.579962] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/include\n'}
+[10.579995] (deveice) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/include/old_gimbal.hpp\n'}
+[10.580023] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/imu/config\n'}
+[10.580055] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/imu/config/imu_params.yaml\n'}
+[10.580207] (deveice) StdoutLine: {'line': b'-- Old export file "/home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceTargets.cmake" will be replaced.  Removing files [/home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceTargets-noconfig.cmake].\n'}
+[10.580250] (deveice) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceTargets.cmake\n'}
+[10.580278] (deveice) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceTargets-release.cmake\n'}
+[10.580306] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/environment/library_path.sh\n'}
+[10.580332] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/environment/library_path.dsv\n'}
+[10.580358] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/package.xml\n'}
+[10.580383] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/ament_index/resource_index/package_run_dependencies/deveice\n'}
+[10.580409] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/ament_index/resource_index/parent_prefix_path/deveice\n'}
+[10.580435] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/environment/ament_prefix_path.sh\n'}
+[10.580462] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/environment/ament_prefix_path.dsv\n'}
+[10.580491] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/environment/path.sh\n'}
+[10.580516] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/environment/path.dsv\n'}
+[10.580541] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/local_setup.bash\n'}
+[10.580566] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/local_setup.sh\n'}
+[10.580592] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/local_setup.zsh\n'}
+[10.580622] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/local_setup.dsv\n'}
+[10.580655] (deveice) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/package.dsv\n'}
+[10.580742] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/ament_index/resource_index/packages/deveice\n'}
+[10.580776] (deveice) StdoutLine: {'line': b'-- Old export file "/home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceTargetsExport.cmake" will be replaced.  Removing files [/home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceTargetsExport-noconfig.cmake].\n'}
+[10.580870] (deveice) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceTargetsExport.cmake\n'}
+[10.581008] (deveice) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceTargetsExport-release.cmake\n'}
+[10.581036] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[10.581062] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/ament_cmake_export_targets-extras.cmake\n'}
+[10.581088] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[10.581117] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceConfig.cmake\n'}
+[10.581142] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake/deveiceConfig-version.cmake\n'}
+[10.581169] (deveice) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/package.xml\n'}
+[10.581881] (deveice) CommandEnded: {'returncode': 0}
+[10.596121] (deveice) JobEnded: {'identifier': 'deveice', 'rc': 0}
+[10.596546] (-) EventReactorShutdown: {}

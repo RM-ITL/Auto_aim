@@ -246,6 +246,9 @@ void PipelineApp::planner_loop()
     } else {
       gimbal_->send(false, false, 0, 0, 0, 0, 0, 0);
     }
+
+    // 验证通讯帧率
+
     // {
     //   static bool timers_initialized = false;
     //   static std::chrono::steady_clock::time_point last_send_time;

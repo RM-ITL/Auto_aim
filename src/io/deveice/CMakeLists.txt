@@ -157,6 +157,37 @@ ament_target_dependencies(deveice_imu
 )
 
 # ====================================================================================
+# deveice_old_gimbal
+# ====================================================================================
+add_library(deveice_old_gimbal STATIC
+  old_gimbal/src/old_gimbal.cpp
+)
+add_library(deveice::old_gimbal ALIAS deveice_old_gimbal)
+set_target_properties(deveice_old_gimbal PROPERTIES EXPORT_NAME old_gimbal)
+
+target_include_directories(deveice_old_gimbal
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/old_gimbal/include>
+    $<INSTALL_INTERFACE:include>
+    ${LIBSERIAL_INCLUDE_DIRS}
+)
+
+target_link_libraries(deveice_old_gimbal
+  PUBLIC
+    yaml-cpp
+    utils::utils
+    serial
+    ${LIBSERIAL_LIBRARIES}
+)
+
+ament_target_dependencies(deveice_old_gimbal
+  PUBLIC
+    rclcpp
+    utils
+    serial
+)
+
+# ====================================================================================
 # 集成共享库
 # ====================================================================================
 set(deveice_PUBLIC_INCLUDE_DIRS
@@ -164,6 +195,7 @@ set(deveice_PUBLIC_INCLUDE_DIRS
   ${CMAKE_CURRENT_SOURCE_DIR}/cboard/include
   ${CMAKE_CURRENT_SOURCE_DIR}/gimbal/include
   ${CMAKE_CURRENT_SOURCE_DIR}/imu/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/old_gimbal/include
   ${MV_CAMERA_INCLUDE_DIR}
   ${LIBUSB_INCLUDE_DIRS}
   ${LIBSERIAL_INCLUDE_DIRS}
@@ -186,6 +218,7 @@ set(deveice_MODULE_LIBS
   deveice_cboard
   deveice_gimbal
   deveice_imu
+  deveice_old_gimbal
 )
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -223,6 +256,7 @@ install(
     deveice_cboard
     deveice_gimbal
     deveice_imu
+    deveice_old_gimbal
   EXPORT deveiceTargets
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
@@ -230,7 +264,7 @@ install(
   INCLUDES DESTINATION include
 )
 
-foreach(dir IN ITEMS camera/include cboard/include gimbal/include imu/include)
+foreach(dir IN ITEMS camera/include cboard/include gimbal/include imu/include old_gimbal/include)
   install(
     DIRECTORY ${dir}/
     DESTINATION include
