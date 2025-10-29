@@ -1,0 +1,368 @@
+[0.000000] (-) TimerEvent: {}
+[0.000485] (-) JobUnselected: {'identifier': 'auto_aim'}
+[0.000664] (-) JobUnselected: {'identifier': 'autoaim_msgs'}
+[0.000697] (-) JobUnselected: {'identifier': 'deveice'}
+[0.000718] (-) JobUnselected: {'identifier': 'launch_node'}
+[0.000837] (-) JobUnselected: {'identifier': 'pipeline'}
+[0.000977] (-) JobUnselected: {'identifier': 'serial'}
+[0.001008] (-) JobUnselected: {'identifier': 'utils'}
+[0.001062] (auto_buff) JobQueued: {'identifier': 'auto_buff', 'dependencies': OrderedDict([('autoaim_msgs', '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs'), ('utils', '/home/guo/ITL_sentry_auto_new/install/utils'), ('serial', '/home/guo/ITL_sentry_auto_new/install/serial'), ('deveice', '/home/guo/ITL_sentry_auto_new/install/deveice'), ('auto_aim', '/home/guo/ITL_sentry_auto_new/install/auto_aim')])}
+[0.001096] (auto_buff) JobStarted: {'identifier': 'auto_buff'}
+[0.017483] (auto_buff) JobProgress: {'identifier': 'auto_buff', 'progress': 'cmake'}
+[0.018350] (auto_buff) Command: {'cmd': ['/usr/local/bin/cmake', '/home/guo/ITL_sentry_auto_new/src/core/auto_buff', '-DCMAKE_BUILD_TYPE=Release', '-DCMAKE_INSTALL_PREFIX=/home/guo/ITL_sentry_auto_new/install/auto_buff'], 'cwd': '/home/guo/ITL_sentry_auto_new/build/auto_buff', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('C_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:'), ('LANGUAGE', 'zh_CN:zh'), ('USER', 'guo'), ('CLAUDE_CODE_ENTRYPOINT', 'cli'), ('GIT_EDITOR', 'true'), ('XDG_SESSION_TYPE', 'x11'), ('ALLUSERSPROFILE', '/opt/MVS/MVFG'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/guo/ITL_sentry_auto_new/install/auto_aim/lib:/home/guo/ITL_sentry_auto_new/install/deveice/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32'), ('HOME', '/home/guo'), ('OLDPWD', '/home/guo'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '3158'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('CPLUS_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:'), ('IM_CONFIG_PHASE', '1'), ('ROS_DISTRO', 'rolling'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'guo'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'guo'), ('ANTHROPIC_BASE_URL', 'https://anyrouter.top'), ('TERM', 'xterm-256color'), ('OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE', 'delta'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('MVCAM_SDK_PATH', '/opt/MVS'), ('PATH', '/usr/local/cuda/bin:/usr/local/cuda/bin:/usr/local/cuda/bin:/opt/ros/rolling/bin:/usr/local/cuda/bin:/home/guo/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:@/tmp/.ICE-unix/3136,unix/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:/tmp/.ICE-unix/3136'), ('MVCAM_GENICAM_CLPROTOCOL', '/opt/MVS/lib/CLProtocol'), ('COREPACK_ENABLE_AUTO_PIN', '0'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/80103eaf_480a_4a1c_8377_58ac06fcea62'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('NoDefaultCurrentDirectoryInExePath', '1'), ('LANG', 'zh_CN.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.173'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('ROSDISTRO_INDEX_URL', 'https://mirrors.tuna.tsinghua.edu.cn/rosdistro/index-v4.yaml'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/guo/ITL_sentry_auto_new/install/auto_aim:/home/guo/ITL_sentry_auto_new/install/deveice:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling'), ('SHELL', '/bin/bash'), ('ANTHROPIC_AUTH_TOKEN', 'sk-E6f0jQRYwYa7LtKa4J2ijee9Ip1AeiVXx7eAjSAikgpC38pq'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CLAUDECODE', '1'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('ROS_AUTOMATIC_DISCOVERY_RANGE', 'SUBNET'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/guo/ITL_sentry_auto_new/build/auto_buff'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/guo/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages:/opt/ros/rolling/lib/python3.10/site-packages'), ('CPATH', '/usr/local/cuda/include:/usr/local/cuda/include:/usr/local/cuda/include:/usr/local/cuda/include:'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('MVCAM_COMMON_RUNENV', '/opt/MVS/lib'), ('CMAKE_PREFIX_PATH', '/home/guo/ITL_sentry_auto_new/install/auto_aim:/home/guo/ITL_sentry_auto_new/install/deveice:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling')]), 'shell': False}
+[0.026939] (auto_buff) StdoutLine: {'line': b'-- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)\n'}
+[0.099893] (-) TimerEvent: {}
+[0.200120] (-) TimerEvent: {}
+[0.223778] (auto_buff) StdoutLine: {'line': b'-- Found utils: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake)\n'}
+[0.249940] (auto_buff) StdoutLine: {'line': b'-- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)\n'}
+[0.258363] (auto_buff) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)\n'}
+[0.269274] (auto_buff) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.283136] (auto_buff) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[0.300213] (-) TimerEvent: {}
+[0.400343] (-) TimerEvent: {}
+[0.413197] (auto_buff) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)\n'}
+[0.414371] (auto_buff) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)\n'}
+[0.500537] (-) TimerEvent: {}
+[0.506320] (auto_buff) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[0.600641] (-) TimerEvent: {}
+[0.693800] (auto_buff) StdoutLine: {'line': b'-- Found serial: 0.1.0 (/home/guo/ITL_sentry_auto_new/install/serial/share/serial/cmake)\n'}
+[0.696643] (auto_buff) StdoutLine: {'line': b'-- Found deveice: 1.0.0 (/home/guo/ITL_sentry_auto_new/install/deveice/share/deveice/cmake)\n'}
+[0.700737] (-) TimerEvent: {}
+[0.721557] (auto_buff) StdoutLine: {'line': b'-- Found auto_aim: 0.1.0 (/home/guo/ITL_sentry_auto_new/install/auto_aim/share/auto_aim/cmake)\n'}
+[0.800912] (-) TimerEvent: {}
+[0.901168] (-) TimerEvent: {}
+[1.001443] (-) TimerEvent: {}
+[1.101705] (-) TimerEvent: {}
+[1.201942] (-) TimerEvent: {}
+[1.210613] (auto_buff) StdoutLine: {'line': b'-- Configuring done (1.2s)\n'}
+[1.249937] (auto_buff) StdoutLine: {'line': b'-- Generating done (0.0s)\n'}
+[1.255356] (auto_buff) StdoutLine: {'line': b'-- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/auto_buff\n'}
+[1.261728] (auto_buff) CommandEnded: {'returncode': 0}
+[1.262934] (auto_buff) JobProgress: {'identifier': 'auto_buff', 'progress': 'build'}
+[1.263633] (auto_buff) Command: {'cmd': ['/usr/local/bin/cmake', '--build', '/home/guo/ITL_sentry_auto_new/build/auto_buff', '--', '-j24', '-l24'], 'cwd': '/home/guo/ITL_sentry_auto_new/build/auto_buff', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('C_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:'), ('LANGUAGE', 'zh_CN:zh'), ('USER', 'guo'), ('CLAUDE_CODE_ENTRYPOINT', 'cli'), ('GIT_EDITOR', 'true'), ('XDG_SESSION_TYPE', 'x11'), ('ALLUSERSPROFILE', '/opt/MVS/MVFG'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/guo/ITL_sentry_auto_new/install/auto_aim/lib:/home/guo/ITL_sentry_auto_new/install/deveice/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32'), ('HOME', '/home/guo'), ('OLDPWD', '/home/guo'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '3158'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('CPLUS_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:'), ('IM_CONFIG_PHASE', '1'), ('ROS_DISTRO', 'rolling'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'guo'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'guo'), ('ANTHROPIC_BASE_URL', 'https://anyrouter.top'), ('TERM', 'xterm-256color'), ('OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE', 'delta'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('MVCAM_SDK_PATH', '/opt/MVS'), ('PATH', '/usr/local/cuda/bin:/usr/local/cuda/bin:/usr/local/cuda/bin:/opt/ros/rolling/bin:/usr/local/cuda/bin:/home/guo/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:@/tmp/.ICE-unix/3136,unix/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:/tmp/.ICE-unix/3136'), ('MVCAM_GENICAM_CLPROTOCOL', '/opt/MVS/lib/CLProtocol'), ('COREPACK_ENABLE_AUTO_PIN', '0'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/80103eaf_480a_4a1c_8377_58ac06fcea62'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('NoDefaultCurrentDirectoryInExePath', '1'), ('LANG', 'zh_CN.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.173'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('ROSDISTRO_INDEX_URL', 'https://mirrors.tuna.tsinghua.edu.cn/rosdistro/index-v4.yaml'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/guo/ITL_sentry_auto_new/install/auto_aim:/home/guo/ITL_sentry_auto_new/install/deveice:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling'), ('SHELL', '/bin/bash'), ('ANTHROPIC_AUTH_TOKEN', 'sk-E6f0jQRYwYa7LtKa4J2ijee9Ip1AeiVXx7eAjSAikgpC38pq'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CLAUDECODE', '1'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('ROS_AUTOMATIC_DISCOVERY_RANGE', 'SUBNET'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/guo/ITL_sentry_auto_new/build/auto_buff'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/guo/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib/python3.10/site-packages:/opt/ros/rolling/lib/python3.10/site-packages'), ('CPATH', '/usr/local/cuda/include:/usr/local/cuda/include:/usr/local/cuda/include:/usr/local/cuda/include:'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('MVCAM_COMMON_RUNENV', '/opt/MVS/lib'), ('CMAKE_PREFIX_PATH', '/home/guo/ITL_sentry_auto_new/install/auto_aim:/home/guo/ITL_sentry_auto_new/install/deveice:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/opt/ros/rolling')]), 'shell': False}
+[1.297520] (auto_buff) StdoutLine: {'line': b'[  7%] Building CXX object CMakeFiles/auto_buff_data_type.dir/buff_data_type/src/buff_type.cpp.o\n'}
+[1.302128] (-) TimerEvent: {}
+[1.402391] (-) TimerEvent: {}
+[1.502575] (-) TimerEvent: {}
+[1.602910] (-) TimerEvent: {}
+[1.703197] (-) TimerEvent: {}
+[1.803462] (-) TimerEvent: {}
+[1.903646] (-) TimerEvent: {}
+[2.003914] (-) TimerEvent: {}
+[2.104088] (-) TimerEvent: {}
+[2.204381] (-) TimerEvent: {}
+[2.304562] (-) TimerEvent: {}
+[2.404834] (-) TimerEvent: {}
+[2.505081] (-) TimerEvent: {}
+[2.605242] (-) TimerEvent: {}
+[2.705407] (-) TimerEvent: {}
+[2.805635] (-) TimerEvent: {}
+[2.895621] (auto_buff) StderrLine: {'line': b'/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_data_type/src/buff_type.cpp: In constructor \xe2\x80\x98auto_buff::PowerRune::PowerRune(std::vector<auto_buff::FanBlade>&, cv::Point2f, std::optional<auto_buff::PowerRune>)\xe2\x80\x99:\n'}
+[2.895776] (auto_buff) StderrLine: {'line': b'/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_data_type/src/buff_type.cpp:29:52: warning: comparison of integer expressions of different signedness: \xe2\x80\x98std::vector<auto_buff::FanBlade>::size_type\xe2\x80\x99 {aka \xe2\x80\x98long unsigned int\xe2\x80\x99} and \xe2\x80\x98int\xe2\x80\x99 [-Wsign-compare]\n'}
+[2.895819] (auto_buff) StderrLine: {'line': b'   29 |   else if (last_powerrune.has_value() && ts.size() == last_powerrune.value().light_num) {\n'}
+[2.895866] (auto_buff) StderrLine: {'line': b'      |                                          ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'}
+[2.898022] (auto_buff) StderrLine: {'line': b'/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_data_type/src/buff_type.cpp:88:37: warning: comparison of integer expressions of different signedness: \xe2\x80\x98int\xe2\x80\x99 and \xe2\x80\x98std::vector<auto_buff::FanBlade>::size_type\xe2\x80\x99 {aka \xe2\x80\x98long unsigned int\xe2\x80\x99} [-Wsign-compare]\n'}
+[2.898115] (auto_buff) StderrLine: {'line': b'   88 |   for (int i = 0, j = 0; i < 5 && j < ts.size(); i++) {\n'}
+[2.898161] (auto_buff) StderrLine: {'line': b'      |                                   ~~^~~~~~~~~~~\n'}
+[2.905798] (-) TimerEvent: {}
+[3.005937] (-) TimerEvent: {}
+[3.106212] (-) TimerEvent: {}
+[3.206390] (-) TimerEvent: {}
+[3.306573] (-) TimerEvent: {}
+[3.406757] (-) TimerEvent: {}
+[3.507009] (-) TimerEvent: {}
+[3.607157] (-) TimerEvent: {}
+[3.707311] (-) TimerEvent: {}
+[3.807469] (-) TimerEvent: {}
+[3.907656] (-) TimerEvent: {}
+[4.007893] (-) TimerEvent: {}
+[4.108050] (-) TimerEvent: {}
+[4.208309] (-) TimerEvent: {}
+[4.308557] (-) TimerEvent: {}
+[4.408799] (-) TimerEvent: {}
+[4.509038] (-) TimerEvent: {}
+[4.609250] (-) TimerEvent: {}
+[4.709409] (-) TimerEvent: {}
+[4.809588] (-) TimerEvent: {}
+[4.909822] (-) TimerEvent: {}
+[5.010058] (-) TimerEvent: {}
+[5.110233] (-) TimerEvent: {}
+[5.210400] (-) TimerEvent: {}
+[5.310645] (-) TimerEvent: {}
+[5.410874] (-) TimerEvent: {}
+[5.511102] (-) TimerEvent: {}
+[5.611354] (-) TimerEvent: {}
+[5.711519] (-) TimerEvent: {}
+[5.811703] (-) TimerEvent: {}
+[5.911931] (-) TimerEvent: {}
+[6.012209] (-) TimerEvent: {}
+[6.112457] (-) TimerEvent: {}
+[6.212650] (-) TimerEvent: {}
+[6.312841] (-) TimerEvent: {}
+[6.413018] (-) TimerEvent: {}
+[6.513243] (-) TimerEvent: {}
+[6.613476] (-) TimerEvent: {}
+[6.713713] (-) TimerEvent: {}
+[6.813951] (-) TimerEvent: {}
+[6.914194] (-) TimerEvent: {}
+[7.014455] (-) TimerEvent: {}
+[7.114678] (-) TimerEvent: {}
+[7.165081] (auto_buff) StdoutLine: {'line': b'[ 15%] Linking CXX static library libauto_buff_data_type.a\n'}
+[7.185982] (auto_buff) StdoutLine: {'line': b'[ 15%] Built target auto_buff_data_type\n'}
+[7.213598] (auto_buff) StdoutLine: {'line': b'[ 23%] Building CXX object CMakeFiles/auto_buff_solver.dir/buff_solver/src/buff_solver.cpp.o\n'}
+[7.214767] (-) TimerEvent: {}
+[7.216701] (auto_buff) StdoutLine: {'line': b'[ 30%] Building CXX object CMakeFiles/auto_buff_detect.dir/buff_detect/src/buff_detector.cpp.o\n'}
+[7.216830] (auto_buff) StdoutLine: {'line': b'[ 38%] Building CXX object CMakeFiles/auto_buff_detect.dir/buff_detect/src/yolo11_buff.cpp.o\n'}
+[7.314935] (-) TimerEvent: {}
+[7.415173] (-) TimerEvent: {}
+[7.515434] (-) TimerEvent: {}
+[7.615627] (-) TimerEvent: {}
+[7.715869] (-) TimerEvent: {}
+[7.816115] (-) TimerEvent: {}
+[7.916296] (-) TimerEvent: {}
+[8.016533] (-) TimerEvent: {}
+[8.116825] (-) TimerEvent: {}
+[8.217010] (-) TimerEvent: {}
+[8.317344] (-) TimerEvent: {}
+[8.417506] (-) TimerEvent: {}
+[8.517698] (-) TimerEvent: {}
+[8.617945] (-) TimerEvent: {}
+[8.718138] (-) TimerEvent: {}
+[8.732541] (auto_buff) StderrLine: {'line': b'/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_detect/src/yolo11_buff.cpp: In member function \xe2\x80\x98std::vector<auto_buff::YOLO11_BUFF::Object> auto_buff::YOLO11_BUFF::get_multicandidateboxes(cv::Mat&)\xe2\x80\x99:\n'}
+[8.732689] (auto_buff) StderrLine: {'line': b'/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_detect/src/yolo11_buff.cpp:131:22: warning: unused variable \xe2\x80\x98shape\xe2\x80\x99 [-Wunused-variable]\n'}
+[8.732729] (auto_buff) StderrLine: {'line': b'  131 |     const cv::Size & shape = image.size();\n'}
+[8.732763] (auto_buff) StderrLine: {'line': b'      |                      ^~~~~\n'}
+[8.734146] (auto_buff) StderrLine: {'line': b'/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_detect/src/yolo11_buff.cpp: In member function \xe2\x80\x98std::vector<auto_buff::YOLO11_BUFF::Object> auto_buff::YOLO11_BUFF::get_onecandidatebox(cv::Mat&)\xe2\x80\x99:\n'}
+[8.734238] (auto_buff) StderrLine: {'line': b'/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_detect/src/yolo11_buff.cpp:216:22: warning: unused variable \xe2\x80\x98shape\xe2\x80\x99 [-Wunused-variable]\n'}
+[8.734281] (auto_buff) StderrLine: {'line': b'  216 |     const cv::Size & shape = image.size();\n'}
+[8.734315] (auto_buff) StderrLine: {'line': b'      |                      ^~~~~\n'}
+[8.818272] (-) TimerEvent: {}
+[8.918452] (-) TimerEvent: {}
+[9.018655] (-) TimerEvent: {}
+[9.118898] (-) TimerEvent: {}
+[9.219155] (-) TimerEvent: {}
+[9.253386] (auto_buff) StderrLine: {'line': b'In file included from /home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_detect/src/buff_detector.cpp:1:\n'}
+[9.253520] (auto_buff) StderrLine: {'line': b'/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_detect/include/buff_detector.hpp: In constructor \xe2\x80\x98auto_buff::Buff_Detector::Buff_Detector(const string&)\xe2\x80\x99:\n'}
+[9.253563] (auto_buff) StderrLine: {'line': b'/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_detect/include/buff_detector.hpp:35:7: warning: \xe2\x80\x98auto_buff::Buff_Detector::lose_\xe2\x80\x99 will be initialized after [-Wreorder]\n'}
+[9.253597] (auto_buff) StderrLine: {'line': b'   35 |   int lose_;  // \xe4\xb8\xa2\xe5\xa4\xb1\xe7\x9a\x84\xe6\xac\xa1\xe6\x95\xb0\n'}
+[9.253643] (auto_buff) StderrLine: {'line': b'      |       ^~~~~\n'}
+[9.253675] (auto_buff) StderrLine: {'line': b'/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_detect/include/buff_detector.hpp:33:15: warning:   \xe2\x80\x98auto_buff::YOLO11_BUFF auto_buff::Buff_Detector::MODE_\xe2\x80\x99 [-Wreorder]\n'}
+[9.253707] (auto_buff) StderrLine: {'line': b'   33 |   YOLO11_BUFF MODE_;\n'}
+[9.253737] (auto_buff) StderrLine: {'line': b'      |               ^~~~~\n'}
+[9.253767] (auto_buff) StderrLine: {'line': b'/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_detect/src/buff_detector.cpp:7:1: warning:   when initialized here [-Wreorder]\n'}
+[9.253799] (auto_buff) StderrLine: {'line': b'    7 | Buff_Detector::Buff_Detector(const std::string & config) : status_(LOSE), lose_(0), MODE_(config) {}\n'}
+[9.253829] (auto_buff) StderrLine: {'line': b'      | ^~~~~~~~~~~~~\n'}
+[9.319282] (-) TimerEvent: {}
+[9.419564] (-) TimerEvent: {}
+[9.519813] (-) TimerEvent: {}
+[9.620127] (-) TimerEvent: {}
+[9.720331] (-) TimerEvent: {}
+[9.820577] (-) TimerEvent: {}
+[9.920953] (-) TimerEvent: {}
+[10.021268] (-) TimerEvent: {}
+[10.121473] (-) TimerEvent: {}
+[10.221704] (-) TimerEvent: {}
+[10.322019] (-) TimerEvent: {}
+[10.422228] (-) TimerEvent: {}
+[10.522457] (-) TimerEvent: {}
+[10.622685] (-) TimerEvent: {}
+[10.722890] (-) TimerEvent: {}
+[10.823190] (-) TimerEvent: {}
+[10.923382] (-) TimerEvent: {}
+[11.023617] (-) TimerEvent: {}
+[11.123908] (-) TimerEvent: {}
+[11.224219] (-) TimerEvent: {}
+[11.324427] (-) TimerEvent: {}
+[11.424646] (-) TimerEvent: {}
+[11.524979] (-) TimerEvent: {}
+[11.625224] (-) TimerEvent: {}
+[11.725425] (-) TimerEvent: {}
+[11.825648] (-) TimerEvent: {}
+[11.925890] (-) TimerEvent: {}
+[12.026082] (-) TimerEvent: {}
+[12.126270] (-) TimerEvent: {}
+[12.226463] (-) TimerEvent: {}
+[12.326676] (-) TimerEvent: {}
+[12.426913] (-) TimerEvent: {}
+[12.527115] (-) TimerEvent: {}
+[12.627393] (-) TimerEvent: {}
+[12.727586] (-) TimerEvent: {}
+[12.827775] (-) TimerEvent: {}
+[12.928049] (-) TimerEvent: {}
+[13.028288] (-) TimerEvent: {}
+[13.128493] (-) TimerEvent: {}
+[13.228714] (-) TimerEvent: {}
+[13.328941] (-) TimerEvent: {}
+[13.429209] (-) TimerEvent: {}
+[13.529413] (-) TimerEvent: {}
+[13.629622] (-) TimerEvent: {}
+[13.729902] (-) TimerEvent: {}
+[13.830143] (-) TimerEvent: {}
+[13.930334] (-) TimerEvent: {}
+[14.030547] (-) TimerEvent: {}
+[14.130759] (-) TimerEvent: {}
+[14.231037] (-) TimerEvent: {}
+[14.255139] (auto_buff) StdoutLine: {'line': b'[ 46%] Linking CXX static library libauto_buff_detect.a\n'}
+[14.277100] (auto_buff) StdoutLine: {'line': b'[ 46%] Built target auto_buff_detect\n'}
+[14.293213] (auto_buff) StdoutLine: {'line': b'[ 53%] Building CXX object CMakeFiles/auto_buff_tagret.dir/buff_tagret/src/buff_target.cpp.o\n'}
+[14.331257] (-) TimerEvent: {}
+[14.431504] (-) TimerEvent: {}
+[14.433358] (auto_buff) StdoutLine: {'line': b'[ 61%] Linking CXX static library libauto_buff_solver.a\n'}
+[14.450048] (auto_buff) StdoutLine: {'line': b'[ 61%] Built target auto_buff_solver\n'}
+[14.531662] (-) TimerEvent: {}
+[14.631906] (-) TimerEvent: {}
+[14.732186] (-) TimerEvent: {}
+[14.832391] (-) TimerEvent: {}
+[14.932627] (-) TimerEvent: {}
+[15.032891] (-) TimerEvent: {}
+[15.133138] (-) TimerEvent: {}
+[15.233295] (-) TimerEvent: {}
+[15.333493] (-) TimerEvent: {}
+[15.433737] (-) TimerEvent: {}
+[15.533977] (-) TimerEvent: {}
+[15.634222] (-) TimerEvent: {}
+[15.734389] (-) TimerEvent: {}
+[15.834649] (-) TimerEvent: {}
+[15.934886] (-) TimerEvent: {}
+[16.035133] (-) TimerEvent: {}
+[16.135362] (-) TimerEvent: {}
+[16.235540] (-) TimerEvent: {}
+[16.335783] (-) TimerEvent: {}
+[16.436024] (-) TimerEvent: {}
+[16.486467] (auto_buff) StderrLine: {'line': b'/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_tagret/src/buff_target.cpp: In member function \xe2\x80\x98virtual void auto_buff::BigTarget::predict(double)\xe2\x80\x99:\n'}
+[16.486597] (auto_buff) StderrLine: {'line': b'/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_tagret/src/buff_target.cpp:408:10: warning: unused variable \xe2\x80\x98spd\xe2\x80\x99 [-Wunused-variable]\n'}
+[16.486641] (auto_buff) StderrLine: {'line': b'  408 |   double spd = fit_spd_;\n'}
+[16.486672] (auto_buff) StderrLine: {'line': b'      |          ^~~\n'}
+[16.536204] (-) TimerEvent: {}
+[16.636439] (-) TimerEvent: {}
+[16.736680] (-) TimerEvent: {}
+[16.836928] (-) TimerEvent: {}
+[16.937174] (-) TimerEvent: {}
+[17.037334] (-) TimerEvent: {}
+[17.137579] (-) TimerEvent: {}
+[17.237774] (-) TimerEvent: {}
+[17.338027] (-) TimerEvent: {}
+[17.438157] (-) TimerEvent: {}
+[17.538309] (-) TimerEvent: {}
+[17.638488] (-) TimerEvent: {}
+[17.738668] (-) TimerEvent: {}
+[17.838904] (-) TimerEvent: {}
+[17.939146] (-) TimerEvent: {}
+[18.039306] (-) TimerEvent: {}
+[18.139472] (-) TimerEvent: {}
+[18.239654] (-) TimerEvent: {}
+[18.339902] (-) TimerEvent: {}
+[18.440160] (-) TimerEvent: {}
+[18.540320] (-) TimerEvent: {}
+[18.640488] (-) TimerEvent: {}
+[18.740683] (-) TimerEvent: {}
+[18.840936] (-) TimerEvent: {}
+[18.941211] (-) TimerEvent: {}
+[19.041365] (-) TimerEvent: {}
+[19.141627] (-) TimerEvent: {}
+[19.241866] (-) TimerEvent: {}
+[19.342105] (-) TimerEvent: {}
+[19.442271] (-) TimerEvent: {}
+[19.542509] (-) TimerEvent: {}
+[19.642748] (-) TimerEvent: {}
+[19.742996] (-) TimerEvent: {}
+[19.843261] (-) TimerEvent: {}
+[19.943415] (-) TimerEvent: {}
+[20.043601] (-) TimerEvent: {}
+[20.143851] (-) TimerEvent: {}
+[20.244140] (-) TimerEvent: {}
+[20.344378] (-) TimerEvent: {}
+[20.444618] (-) TimerEvent: {}
+[20.544847] (-) TimerEvent: {}
+[20.645094] (-) TimerEvent: {}
+[20.745377] (-) TimerEvent: {}
+[20.845632] (-) TimerEvent: {}
+[20.945896] (-) TimerEvent: {}
+[21.046142] (-) TimerEvent: {}
+[21.146402] (-) TimerEvent: {}
+[21.246652] (-) TimerEvent: {}
+[21.346899] (-) TimerEvent: {}
+[21.447144] (-) TimerEvent: {}
+[21.547384] (-) TimerEvent: {}
+[21.647563] (-) TimerEvent: {}
+[21.747740] (-) TimerEvent: {}
+[21.847897] (-) TimerEvent: {}
+[21.948201] (-) TimerEvent: {}
+[22.048371] (-) TimerEvent: {}
+[22.148561] (-) TimerEvent: {}
+[22.248758] (-) TimerEvent: {}
+[22.349014] (-) TimerEvent: {}
+[22.449269] (-) TimerEvent: {}
+[22.549436] (-) TimerEvent: {}
+[22.649629] (-) TimerEvent: {}
+[22.749892] (-) TimerEvent: {}
+[22.850140] (-) TimerEvent: {}
+[22.950305] (-) TimerEvent: {}
+[23.050478] (-) TimerEvent: {}
+[23.150673] (-) TimerEvent: {}
+[23.250927] (-) TimerEvent: {}
+[23.351217] (-) TimerEvent: {}
+[23.386385] (auto_buff) StdoutLine: {'line': b'[ 69%] Linking CXX static library libauto_buff_tagret.a\n'}
+[23.403633] (auto_buff) StdoutLine: {'line': b'[ 69%] Built target auto_buff_tagret\n'}
+[23.426265] (auto_buff) StdoutLine: {'line': b'[ 76%] Building CXX object CMakeFiles/auto_buff_aimer.dir/buff_aimer/src/buff_aimer.cpp.o\n'}
+[23.451290] (-) TimerEvent: {}
+[23.551497] (-) TimerEvent: {}
+[23.651679] (-) TimerEvent: {}
+[23.751915] (-) TimerEvent: {}
+[23.852161] (-) TimerEvent: {}
+[23.952317] (-) TimerEvent: {}
+[24.052476] (-) TimerEvent: {}
+[24.152706] (-) TimerEvent: {}
+[24.252953] (-) TimerEvent: {}
+[24.353190] (-) TimerEvent: {}
+[24.453384] (-) TimerEvent: {}
+[24.553626] (-) TimerEvent: {}
+[24.653802] (-) TimerEvent: {}
+[24.754034] (-) TimerEvent: {}
+[24.854236] (-) TimerEvent: {}
+[24.954392] (-) TimerEvent: {}
+[25.054631] (-) TimerEvent: {}
+[25.154867] (-) TimerEvent: {}
+[25.255025] (-) TimerEvent: {}
+[25.355254] (-) TimerEvent: {}
+[25.455413] (-) TimerEvent: {}
+[25.555642] (-) TimerEvent: {}
+[25.655878] (-) TimerEvent: {}
+[25.702944] (auto_buff) StderrLine: {'line': b'In file included from /home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/include/buff_aimer.hpp:12,\n'}
+[25.703071] (auto_buff) StderrLine: {'line': b'                 from /home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp:1:\n'}
+[25.703117] (auto_buff) StderrLine: {'line': b'/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_tagret/include/buff_target.hpp:62:10: error: \xe2\x80\x98ExtendedKalmanFilter\xe2\x80\x99 in namespace \xe2\x80\x98utils\xe2\x80\x99 does not name a type\n'}
+[25.703161] (auto_buff) StderrLine: {'line': b'   62 |   utils::ExtendedKalmanFilter ekf_;\n'}
+[25.703192] (auto_buff) StderrLine: {'line': b'      |          ^~~~~~~~~~~~~~~~~~~~\n'}
+[25.711716] (auto_buff) StderrLine: {'line': b'/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp: In member function \xe2\x80\x98io::Command auto_buff::Aimer::aim(auto_buff::Target&, std::chrono::_V2::steady_clock::time_point&, double, bool)\xe2\x80\x99:\n'}
+[25.711814] (auto_buff) StderrLine: {'line': b'/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp:36:8: warning: unused variable \xe2\x80\x98angle_changed\xe2\x80\x99 [-Wunused-variable]\n'}
+[25.711855] (auto_buff) StderrLine: {'line': b'   36 |   bool angle_changed =\n'}
+[25.711885] (auto_buff) StderrLine: {'line': b'      |        ^~~~~~~~~~~~~\n'}
+[25.712196] (auto_buff) StderrLine: {'line': b'/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp: In member function \xe2\x80\x98plan::Plan auto_buff::Aimer::mpc_aim(auto_buff::Target&, std::chrono::_V2::steady_clock::time_point&, io::GimbalState, bool)\xe2\x80\x99:\n'}
+[25.712274] (auto_buff) StderrLine: {'line': b'/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp:89:8: warning: unused variable \xe2\x80\x98angle_changed\xe2\x80\x99 [-Wunused-variable]\n'}
+[25.712309] (auto_buff) StderrLine: {'line': b'   89 |   bool angle_changed =\n'}
+[25.712339] (auto_buff) StderrLine: {'line': b'      |        ^~~~~~~~~~~~~\n'}
+[25.713478] (auto_buff) StderrLine: {'line': b'/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp: In member function \xe2\x80\x98bool auto_buff::Aimer::get_send_angle(auto_buff::Target&, double, double, bool, double&, double&)\xe2\x80\x99:\n'}
+[25.713577] (auto_buff) StderrLine: {'line': b'/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp:152:14: warning: unused parameter \xe2\x80\x98to_now\xe2\x80\x99 [-Wunused-parameter]\n'}
+[25.713612] (auto_buff) StderrLine: {'line': b'  152 |   const bool to_now, double & yaw, double & pitch)\n'}
+[25.713641] (auto_buff) StderrLine: {'line': b'      |   ~~~~~~~~~~~^~~~~~\n'}
+[25.756043] (-) TimerEvent: {}
+[25.856241] (-) TimerEvent: {}
+[25.956399] (-) TimerEvent: {}
+[26.056632] (-) TimerEvent: {}
+[26.156864] (-) TimerEvent: {}
+[26.257101] (-) TimerEvent: {}
+[26.357364] (-) TimerEvent: {}
+[26.457601] (-) TimerEvent: {}
+[26.557852] (-) TimerEvent: {}
+[26.658011] (-) TimerEvent: {}
+[26.758293] (-) TimerEvent: {}
+[26.858488] (-) TimerEvent: {}
+[26.958752] (-) TimerEvent: {}
+[27.059009] (-) TimerEvent: {}
+[27.159315] (-) TimerEvent: {}
+[27.168032] (auto_buff) StderrLine: {'line': b'gmake[2]: *** [CMakeFiles/auto_buff_aimer.dir/build.make:76\xef\xbc\x9aCMakeFiles/auto_buff_aimer.dir/buff_aimer/src/buff_aimer.cpp.o] \xe9\x94\x99\xe8\xaf\xaf 1\n'}
+[27.168474] (auto_buff) StderrLine: {'line': b'gmake[1]: *** [CMakeFiles/Makefile2:254\xef\xbc\x9aCMakeFiles/auto_buff_aimer.dir/all] \xe9\x94\x99\xe8\xaf\xaf 2\n'}
+[27.168764] (auto_buff) StderrLine: {'line': b'gmake: *** [Makefile:146\xef\xbc\x9aall] \xe9\x94\x99\xe8\xaf\xaf 2\n'}
+[27.170394] (auto_buff) CommandEnded: {'returncode': 2}
+[27.179372] (auto_buff) JobEnded: {'identifier': 'auto_buff', 'rc': 2}
+[27.189577] (-) EventReactorShutdown: {}

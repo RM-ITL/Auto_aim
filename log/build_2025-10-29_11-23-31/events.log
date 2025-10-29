@@ -1,0 +1,262 @@
+[0.000000] (-) TimerEvent: {}
+[0.000295] (-) JobUnselected: {'identifier': 'auto_aim'}
+[0.000702] (-) JobUnselected: {'identifier': 'auto_buff'}
+[0.000849] (-) JobUnselected: {'identifier': 'autoaim_msgs'}
+[0.000913] (-) JobUnselected: {'identifier': 'deveice'}
+[0.000936] (-) JobUnselected: {'identifier': 'launch_node'}
+[0.000998] (-) JobUnselected: {'identifier': 'pipeline'}
+[0.001020] (-) JobUnselected: {'identifier': 'serial'}
+[0.001044] (utils) JobQueued: {'identifier': 'utils', 'dependencies': OrderedDict()}
+[0.001073] (utils) JobStarted: {'identifier': 'utils'}
+[0.005627] (utils) JobProgress: {'identifier': 'utils', 'progress': 'cmake'}
+[0.006039] (utils) Command: {'cmd': ['/usr/local/bin/cmake', '/home/guo/ITL_sentry_auto_new/src/utils', '-DCMAKE_BUILD_TYPE=Release', '-DCMAKE_INSTALL_PREFIX=/home/guo/ITL_sentry_auto_new/install/utils'], 'cwd': '/home/guo/ITL_sentry_auto_new/build/utils', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('C_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:'), ('LANGUAGE', 'zh_CN:zh'), ('USER', 'guo'), ('CLAUDE_CODE_ENTRYPOINT', 'cli'), ('GIT_EDITOR', 'true'), ('XDG_SESSION_TYPE', 'x11'), ('ALLUSERSPROFILE', '/opt/MVS/MVFG'), ('SHLVL', '2'), ('LD_LIBRARY_PATH', '/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32:'), ('HOME', '/home/guo'), ('OLDPWD', '/home/guo'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '3158'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('CPLUS_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:'), ('IM_CONFIG_PHASE', '1'), ('ROS_DISTRO', 'rolling'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'guo'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'guo'), ('ANTHROPIC_BASE_URL', 'https://anyrouter.top'), ('TERM', 'xterm-256color'), ('OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE', 'delta'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('MVCAM_SDK_PATH', '/opt/MVS'), ('PATH', '/usr/local/cuda/bin:/usr/local/cuda/bin:/usr/local/cuda/bin:/opt/ros/rolling/bin:/usr/local/cuda/bin:/home/guo/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:@/tmp/.ICE-unix/3136,unix/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:/tmp/.ICE-unix/3136'), ('MVCAM_GENICAM_CLPROTOCOL', '/opt/MVS/lib/CLProtocol'), ('COREPACK_ENABLE_AUTO_PIN', '0'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/80103eaf_480a_4a1c_8377_58ac06fcea62'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('NoDefaultCurrentDirectoryInExePath', '1'), ('LANG', 'zh_CN.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.173'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('ROSDISTRO_INDEX_URL', 'https://mirrors.tuna.tsinghua.edu.cn/rosdistro/index-v4.yaml'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/rolling'), ('SHELL', '/bin/bash'), ('ANTHROPIC_AUTH_TOKEN', 'sk-E6f0jQRYwYa7LtKa4J2ijee9Ip1AeiVXx7eAjSAikgpC38pq'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CLAUDECODE', '1'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('ROS_AUTOMATIC_DISCOVERY_RANGE', 'SUBNET'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/guo/ITL_sentry_auto_new/build/utils'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/guo/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/rolling/lib/python3.10/site-packages'), ('CPATH', '/usr/local/cuda/include:/usr/local/cuda/include:/usr/local/cuda/include:/usr/local/cuda/include:'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('MVCAM_COMMON_RUNENV', '/opt/MVS/lib'), ('CMAKE_PREFIX_PATH', '/opt/ros/rolling')]), 'shell': False}
+[0.017833] (utils) StdoutLine: {'line': b'-- Found ament_cmake: 2.3.2 (/opt/ros/rolling/share/ament_cmake/cmake)\n'}
+[0.099938] (-) TimerEvent: {}
+[0.200157] (-) TimerEvent: {}
+[0.207704] (utils) StdoutLine: {'line': b'-- Found rclcpp: 27.0.0 (/opt/ros/rolling/share/rclcpp/cmake)\n'}
+[0.236603] (utils) StdoutLine: {'line': b'-- Found rosidl_generator_c: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)\n'}
+[0.245050] (utils) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 4.5.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)\n'}
+[0.258206] (utils) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.274304] (utils) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[0.300303] (-) TimerEvent: {}
+[0.400465] (-) TimerEvent: {}
+[0.421152] (utils) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 7.3.0 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)\n'}
+[0.422729] (utils) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 8.2.0 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)\n'}
+[0.500568] (-) TimerEvent: {}
+[0.520087] (utils) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[0.600751] (-) TimerEvent: {}
+[0.700980] (-) TimerEvent: {}
+[0.737316] (utils) StdoutLine: {'line': b'-- Configuring done (0.7s)\n'}
+[0.750159] (utils) StdoutLine: {'line': b'-- Generating done (0.0s)\n'}
+[0.752252] (utils) StdoutLine: {'line': b'-- Build files have been written to: /home/guo/ITL_sentry_auto_new/build/utils\n'}
+[0.758484] (utils) CommandEnded: {'returncode': 0}
+[0.758713] (utils) JobProgress: {'identifier': 'utils', 'progress': 'build'}
+[0.758728] (utils) Command: {'cmd': ['/usr/local/bin/cmake', '--build', '/home/guo/ITL_sentry_auto_new/build/utils', '--', '-j24', '-l24'], 'cwd': '/home/guo/ITL_sentry_auto_new/build/utils', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('C_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:'), ('LANGUAGE', 'zh_CN:zh'), ('USER', 'guo'), ('CLAUDE_CODE_ENTRYPOINT', 'cli'), ('GIT_EDITOR', 'true'), ('XDG_SESSION_TYPE', 'x11'), ('ALLUSERSPROFILE', '/opt/MVS/MVFG'), ('SHLVL', '2'), ('LD_LIBRARY_PATH', '/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32:'), ('HOME', '/home/guo'), ('OLDPWD', '/home/guo'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '3158'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('CPLUS_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:'), ('IM_CONFIG_PHASE', '1'), ('ROS_DISTRO', 'rolling'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'guo'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'guo'), ('ANTHROPIC_BASE_URL', 'https://anyrouter.top'), ('TERM', 'xterm-256color'), ('OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE', 'delta'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('MVCAM_SDK_PATH', '/opt/MVS'), ('PATH', '/usr/local/cuda/bin:/usr/local/cuda/bin:/usr/local/cuda/bin:/opt/ros/rolling/bin:/usr/local/cuda/bin:/home/guo/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:@/tmp/.ICE-unix/3136,unix/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:/tmp/.ICE-unix/3136'), ('MVCAM_GENICAM_CLPROTOCOL', '/opt/MVS/lib/CLProtocol'), ('COREPACK_ENABLE_AUTO_PIN', '0'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/80103eaf_480a_4a1c_8377_58ac06fcea62'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('NoDefaultCurrentDirectoryInExePath', '1'), ('LANG', 'zh_CN.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.173'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('ROSDISTRO_INDEX_URL', 'https://mirrors.tuna.tsinghua.edu.cn/rosdistro/index-v4.yaml'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/rolling'), ('SHELL', '/bin/bash'), ('ANTHROPIC_AUTH_TOKEN', 'sk-E6f0jQRYwYa7LtKa4J2ijee9Ip1AeiVXx7eAjSAikgpC38pq'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CLAUDECODE', '1'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('ROS_AUTOMATIC_DISCOVERY_RANGE', 'SUBNET'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/guo/ITL_sentry_auto_new/build/utils'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/guo/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/rolling/lib/python3.10/site-packages'), ('CPATH', '/usr/local/cuda/include:/usr/local/cuda/include:/usr/local/cuda/include:/usr/local/cuda/include:'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('MVCAM_COMMON_RUNENV', '/opt/MVS/lib'), ('CMAKE_PREFIX_PATH', '/opt/ros/rolling')]), 'shell': False}
+[0.801176] (-) TimerEvent: {}
+[0.803107] (utils) StdoutLine: {'line': b'[ 12%] Building CXX object CMakeFiles/utils.dir/src/math_tools.cpp.o\n'}
+[0.804107] (utils) StdoutLine: {'line': b'[ 25%] Building CXX object CMakeFiles/utils.dir/src/logger.cpp.o\n'}
+[0.804650] (utils) StdoutLine: {'line': b'[ 37%] Building CXX object CMakeFiles/utils.dir/src/trajectory.cpp.o\n'}
+[0.805203] (utils) StdoutLine: {'line': b'[ 50%] Building CXX object CMakeFiles/utils.dir/src/crc.cpp.o\n'}
+[0.805931] (utils) StdoutLine: {'line': b'[ 62%] Building CXX object CMakeFiles/utils.dir/src/video.cpp.o\n'}
+[0.807006] (utils) StdoutLine: {'line': b'[ 75%] Building CXX object CMakeFiles/utils.dir/src/ransac_sine_fitter.cpp.o\n'}
+[0.808340] (utils) StdoutLine: {'line': b'[ 87%] Building CXX object CMakeFiles/utils.dir/src/extended_kalman_filter.cpp.o\n'}
+[0.901339] (-) TimerEvent: {}
+[1.001697] (-) TimerEvent: {}
+[1.102033] (-) TimerEvent: {}
+[1.202414] (-) TimerEvent: {}
+[1.302668] (-) TimerEvent: {}
+[1.402923] (-) TimerEvent: {}
+[1.503327] (-) TimerEvent: {}
+[1.603722] (-) TimerEvent: {}
+[1.704031] (-) TimerEvent: {}
+[1.804498] (-) TimerEvent: {}
+[1.904719] (-) TimerEvent: {}
+[2.004912] (-) TimerEvent: {}
+[2.105208] (-) TimerEvent: {}
+[2.205584] (-) TimerEvent: {}
+[2.305876] (-) TimerEvent: {}
+[2.406177] (-) TimerEvent: {}
+[2.506527] (-) TimerEvent: {}
+[2.606844] (-) TimerEvent: {}
+[2.707211] (-) TimerEvent: {}
+[2.807451] (-) TimerEvent: {}
+[2.907678] (-) TimerEvent: {}
+[3.008043] (-) TimerEvent: {}
+[3.108282] (-) TimerEvent: {}
+[3.208489] (-) TimerEvent: {}
+[3.308734] (-) TimerEvent: {}
+[3.408951] (-) TimerEvent: {}
+[3.509345] (-) TimerEvent: {}
+[3.609579] (-) TimerEvent: {}
+[3.709922] (-) TimerEvent: {}
+[3.810251] (-) TimerEvent: {}
+[3.910602] (-) TimerEvent: {}
+[4.010936] (-) TimerEvent: {}
+[4.111385] (-) TimerEvent: {}
+[4.211559] (-) TimerEvent: {}
+[4.311726] (-) TimerEvent: {}
+[4.411968] (-) TimerEvent: {}
+[4.512131] (-) TimerEvent: {}
+[4.612321] (-) TimerEvent: {}
+[4.712640] (-) TimerEvent: {}
+[4.812988] (-) TimerEvent: {}
+[4.913278] (-) TimerEvent: {}
+[5.013494] (-) TimerEvent: {}
+[5.113850] (-) TimerEvent: {}
+[5.214181] (-) TimerEvent: {}
+[5.314400] (-) TimerEvent: {}
+[5.414629] (-) TimerEvent: {}
+[5.514987] (-) TimerEvent: {}
+[5.615277] (-) TimerEvent: {}
+[5.715484] (-) TimerEvent: {}
+[5.815729] (-) TimerEvent: {}
+[5.916040] (-) TimerEvent: {}
+[6.016279] (-) TimerEvent: {}
+[6.116496] (-) TimerEvent: {}
+[6.216769] (-) TimerEvent: {}
+[6.317118] (-) TimerEvent: {}
+[6.417451] (-) TimerEvent: {}
+[6.517720] (-) TimerEvent: {}
+[6.618039] (-) TimerEvent: {}
+[6.718360] (-) TimerEvent: {}
+[6.818644] (-) TimerEvent: {}
+[6.918960] (-) TimerEvent: {}
+[7.019262] (-) TimerEvent: {}
+[7.119465] (-) TimerEvent: {}
+[7.219771] (-) TimerEvent: {}
+[7.320075] (-) TimerEvent: {}
+[7.420277] (-) TimerEvent: {}
+[7.520481] (-) TimerEvent: {}
+[7.620755] (-) TimerEvent: {}
+[7.720986] (-) TimerEvent: {}
+[7.821191] (-) TimerEvent: {}
+[7.921387] (-) TimerEvent: {}
+[8.021582] (-) TimerEvent: {}
+[8.121869] (-) TimerEvent: {}
+[8.222119] (-) TimerEvent: {}
+[8.322313] (-) TimerEvent: {}
+[8.422565] (-) TimerEvent: {}
+[8.522829] (-) TimerEvent: {}
+[8.623022] (-) TimerEvent: {}
+[8.723224] (-) TimerEvent: {}
+[8.823431] (-) TimerEvent: {}
+[8.923650] (-) TimerEvent: {}
+[9.023860] (-) TimerEvent: {}
+[9.124153] (-) TimerEvent: {}
+[9.224352] (-) TimerEvent: {}
+[9.324573] (-) TimerEvent: {}
+[9.424856] (-) TimerEvent: {}
+[9.525101] (-) TimerEvent: {}
+[9.625296] (-) TimerEvent: {}
+[9.725501] (-) TimerEvent: {}
+[9.825795] (-) TimerEvent: {}
+[9.926105] (-) TimerEvent: {}
+[10.026318] (-) TimerEvent: {}
+[10.126557] (-) TimerEvent: {}
+[10.226851] (-) TimerEvent: {}
+[10.327168] (-) TimerEvent: {}
+[10.427348] (-) TimerEvent: {}
+[10.527527] (-) TimerEvent: {}
+[10.627775] (-) TimerEvent: {}
+[10.728016] (-) TimerEvent: {}
+[10.828190] (-) TimerEvent: {}
+[10.928426] (-) TimerEvent: {}
+[11.028615] (-) TimerEvent: {}
+[11.075843] (utils) StderrLine: {'line': b'In file included from /usr/include/eigen3/Eigen/Core:341,\n'}
+[11.076038] (utils) StderrLine: {'line': b'                 from /usr/include/eigen3/Eigen/Dense:1,\n'}
+[11.076114] (utils) StderrLine: {'line': b'                 from /home/guo/ITL_sentry_auto_new/src/utils/include/ransac_sine_fitter.hpp:3,\n'}
+[11.076171] (utils) StderrLine: {'line': b'                 from /home/guo/ITL_sentry_auto_new/src/utils/src/ransac_sine_fitter.cpp:1:\n'}
+[11.076204] (utils) StderrLine: {'line': b'/usr/include/eigen3/Eigen/src/Core/products/TriangularMatrixVector.h: In function \xe2\x80\x98static void Eigen::internal::trmv_selector<Mode, 1>::run(const Lhs&, const Rhs&, Dest&, const typename Dest::Scalar&) [with Lhs = Eigen::Transpose<const Eigen::Block<const Eigen::Block<Eigen::Matrix<double, -1, -1>, -1, -1, false>, -1, -1, false> >; Rhs = Eigen::Transpose<const Eigen::CwiseBinaryOp<Eigen::internal::scalar_product_op<double, double>, const Eigen::CwiseNullaryOp<Eigen::internal::scalar_constant_op<double>, const Eigen::Matrix<double, 1, -1> >, const Eigen::Transpose<const Eigen::Block<const Eigen::Block<const Eigen::Block<Eigen::Matrix<double, -1, -1>, -1, -1, false>, -1, 1, true>, -1, 1, false> > > >; Dest = Eigen::Transpose<Eigen::Block<Eigen::Block<Eigen::Matrix<double, -1, -1, 1, -1, -1>, 1, -1, true>, 1, -1, false> >; int Mode = 6]\xe2\x80\x99:\n'}
+[11.076241] (utils) StderrLine: {'line': b'/usr/include/eigen3/Eigen/src/Core/products/TriangularMatrixVector.h:332:12: warning: \xe2\x80\x98result\xe2\x80\x99 may be used uninitialized [-Wmaybe-uninitialized]\n'}
+[11.076274] (utils) StderrLine: {'line': b'  327 |     internal::triangular_matrix_vector_product\n'}
+[11.076302] (utils) StderrLine: {'line': b'      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'}
+[11.076328] (utils) StderrLine: {'line': b'  328 |       <Index,Mode,\n'}
+[11.076355] (utils) StderrLine: {'line': b'      |       ~~~~~~~~~~~~\n'}
+[11.076381] (utils) StderrLine: {'line': b'  329 |        LhsScalar, LhsBlasTraits::NeedToConjugate,\n'}
+[11.076407] (utils) StderrLine: {'line': b'      |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'}
+[11.076436] (utils) StderrLine: {'line': b'  330 |        RhsScalar, RhsBlasTraits::NeedToConjugate,\n'}
+[11.076461] (utils) StderrLine: {'line': b'      |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'}
+[11.076489] (utils) StderrLine: {'line': b'  331 |        RowMajor>\n'}
+[11.076515] (utils) StderrLine: {'line': b'      |        ~~~~~~~~~\n'}
+[11.076540] (utils) StderrLine: {'line': b'  332 |       ::run(actualLhs.rows(),actualLhs.cols(),\n'}
+[11.076564] (utils) StderrLine: {'line': b'      |       ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'}
+[11.076589] (utils) StderrLine: {'line': b'  333 |             actualLhs.data(),actualLhs.outerStride(),\n'}
+[11.076614] (utils) StderrLine: {'line': b'      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'}
+[11.076638] (utils) StderrLine: {'line': b'  334 |             actualRhsPtr,1,\n'}
+[11.076663] (utils) StderrLine: {'line': b'      |             ~~~~~~~~~~~~~~~\n'}
+[11.076688] (utils) StderrLine: {'line': b'  335 |             dest.data(),dest.innerStride(),\n'}
+[11.076712] (utils) StderrLine: {'line': b'      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'}
+[11.076737] (utils) StderrLine: {'line': b'  336 |             actualAlpha);\n'}
+[11.076761] (utils) StderrLine: {'line': b'      |             ~~~~~~~~~~~~\n'}
+[11.076785] (utils) StderrLine: {'line': b'/usr/include/eigen3/Eigen/src/Core/products/TriangularMatrixVector.h:105:24: note: by argument 5 of type \xe2\x80\x98const double*\xe2\x80\x99 to \xe2\x80\x98static void Eigen::internal::triangular_matrix_vector_product<Index, Mode, LhsScalar, ConjLhs, RhsScalar, ConjRhs, 1, Version>::run(Index, Index, const LhsScalar*, Index, const RhsScalar*, Index, Eigen::internal::triangular_matrix_vector_product<Index, Mode, LhsScalar, ConjLhs, RhsScalar, ConjRhs, 1, Version>::ResScalar*, Index, const ResScalar&) [with Index = long int; int Mode = 6; LhsScalar = double; bool ConjLhs = false; RhsScalar = double; bool ConjRhs = false; int Version = 0]\xe2\x80\x99 declared here\n'}
+[11.076817] (utils) StderrLine: {'line': b'  105 | EIGEN_DONT_INLINE void triangular_matrix_vector_product<Index,Mode,LhsScalar,ConjLhs,RhsScalar,ConjRhs,RowMajor,Version>\n'}
+[11.076843] (utils) StderrLine: {'line': b'      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'}
+[11.128726] (-) TimerEvent: {}
+[11.228954] (-) TimerEvent: {}
+[11.329199] (-) TimerEvent: {}
+[11.429352] (-) TimerEvent: {}
+[11.529530] (-) TimerEvent: {}
+[11.629762] (-) TimerEvent: {}
+[11.729998] (-) TimerEvent: {}
+[11.830219] (-) TimerEvent: {}
+[11.930375] (-) TimerEvent: {}
+[12.030631] (-) TimerEvent: {}
+[12.130886] (-) TimerEvent: {}
+[12.231145] (-) TimerEvent: {}
+[12.331401] (-) TimerEvent: {}
+[12.431635] (-) TimerEvent: {}
+[12.531863] (-) TimerEvent: {}
+[12.632122] (-) TimerEvent: {}
+[12.732283] (-) TimerEvent: {}
+[12.832515] (-) TimerEvent: {}
+[12.932769] (-) TimerEvent: {}
+[13.033025] (-) TimerEvent: {}
+[13.133206] (-) TimerEvent: {}
+[13.233438] (-) TimerEvent: {}
+[13.333667] (-) TimerEvent: {}
+[13.433916] (-) TimerEvent: {}
+[13.534168] (-) TimerEvent: {}
+[13.634321] (-) TimerEvent: {}
+[13.734492] (-) TimerEvent: {}
+[13.834724] (-) TimerEvent: {}
+[13.934968] (-) TimerEvent: {}
+[14.035224] (-) TimerEvent: {}
+[14.135479] (-) TimerEvent: {}
+[14.235720] (-) TimerEvent: {}
+[14.335953] (-) TimerEvent: {}
+[14.436188] (-) TimerEvent: {}
+[14.536342] (-) TimerEvent: {}
+[14.636519] (-) TimerEvent: {}
+[14.736754] (-) TimerEvent: {}
+[14.836995] (-) TimerEvent: {}
+[14.937237] (-) TimerEvent: {}
+[14.950363] (utils) StdoutLine: {'line': b'[100%] Linking CXX static library libutils.a\n'}
+[14.980248] (utils) StdoutLine: {'line': b'[100%] Built target utils\n'}
+[14.983980] (utils) CommandEnded: {'returncode': 0}
+[14.984292] (utils) JobProgress: {'identifier': 'utils', 'progress': 'install'}
+[14.986041] (utils) Command: {'cmd': ['/usr/local/bin/cmake', '--install', '/home/guo/ITL_sentry_auto_new/build/utils'], 'cwd': '/home/guo/ITL_sentry_auto_new/build/utils', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('C_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:'), ('LANGUAGE', 'zh_CN:zh'), ('USER', 'guo'), ('CLAUDE_CODE_ENTRYPOINT', 'cli'), ('GIT_EDITOR', 'true'), ('XDG_SESSION_TYPE', 'x11'), ('ALLUSERSPROFILE', '/opt/MVS/MVFG'), ('SHLVL', '2'), ('LD_LIBRARY_PATH', '/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32:'), ('HOME', '/home/guo'), ('OLDPWD', '/home/guo'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '3158'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('CPLUS_INCLUDE_PATH', '/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:/usr/local/TensorRT.10.7.0.23/include:'), ('IM_CONFIG_PHASE', '1'), ('ROS_DISTRO', 'rolling'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'guo'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'guo'), ('ANTHROPIC_BASE_URL', 'https://anyrouter.top'), ('TERM', 'xterm-256color'), ('OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE', 'delta'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('MVCAM_SDK_PATH', '/opt/MVS'), ('PATH', '/usr/local/cuda/bin:/usr/local/cuda/bin:/usr/local/cuda/bin:/opt/ros/rolling/bin:/usr/local/cuda/bin:/home/guo/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:@/tmp/.ICE-unix/3136,unix/guo-Victus-by-HP-Gaming-Laptop-16-r0xxx:/tmp/.ICE-unix/3136'), ('MVCAM_GENICAM_CLPROTOCOL', '/opt/MVS/lib/CLProtocol'), ('COREPACK_ENABLE_AUTO_PIN', '0'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/80103eaf_480a_4a1c_8377_58ac06fcea62'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('NoDefaultCurrentDirectoryInExePath', '1'), ('LANG', 'zh_CN.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.173'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('ROSDISTRO_INDEX_URL', 'https://mirrors.tuna.tsinghua.edu.cn/rosdistro/index-v4.yaml'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/rolling'), ('SHELL', '/bin/bash'), ('ANTHROPIC_AUTH_TOKEN', 'sk-E6f0jQRYwYa7LtKa4J2ijee9Ip1AeiVXx7eAjSAikgpC38pq'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('CLAUDECODE', '1'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('ROS_AUTOMATIC_DISCOVERY_RANGE', 'SUBNET'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/guo/ITL_sentry_auto_new/build/utils'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/home/guo/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/rolling/lib/python3.10/site-packages'), ('CPATH', '/usr/local/cuda/include:/usr/local/cuda/include:/usr/local/cuda/include:/usr/local/cuda/include:'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('MVCAM_COMMON_RUNENV', '/opt/MVS/lib'), ('CMAKE_PREFIX_PATH', '/opt/ros/rolling')]), 'shell': False}
+[14.988747] (utils) StdoutLine: {'line': b'-- Install configuration: "Release"\n'}
+[14.989098] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/environment/library_path.sh\n'}
+[14.989134] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/environment/library_path.dsv\n'}
+[14.989163] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include\n'}
+[14.989190] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/draw_tools.hpp\n'}
+[14.989217] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/thread_safe_queue.hpp\n'}
+[14.989245] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/math_tools.hpp\n'}
+[14.989272] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/video.hpp\n'}
+[14.989298] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/yaml.hpp\n'}
+[14.989323] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/detector_tools.hpp\n'}
+[14.989347] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/trajectory.hpp\n'}
+[14.989372] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/performance_monitor.hpp\n'}
+[14.989397] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/extended_kalman_filter.hpp\n'}
+[14.989422] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/logger.hpp\n'}
+[14.989446] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/crc.hpp\n'}
+[14.989471] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/blocking_queue.hpp\n'}
+[14.989496] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/ransac_sine_fitter.hpp\n'}
+[14.989522] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/include/roi_tools.hpp\n'}
+[14.989546] (utils) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/lib/libutils.a\n'}
+[14.992888] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/utilsTargets.cmake\n'}
+[14.992924] (utils) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/utilsTargets-release.cmake\n'}
+[14.992951] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/ament_index/resource_index/package_run_dependencies/utils\n'}
+[14.992980] (utils) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/ament_index/resource_index/parent_prefix_path/utils\n'}
+[14.993420] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/environment/ament_prefix_path.sh\n'}
+[14.993452] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/environment/ament_prefix_path.dsv\n'}
+[14.993479] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/environment/path.sh\n'}
+[14.993505] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/environment/path.dsv\n'}
+[14.993558] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/local_setup.bash\n'}
+[14.993588] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/local_setup.sh\n'}
+[14.993616] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/local_setup.zsh\n'}
+[14.993753] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/local_setup.dsv\n'}
+[14.993780] (utils) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/package.dsv\n'}
+[14.993807] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/ament_index/resource_index/packages/utils\n'}
+[14.993833] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/utilsTargetsExport.cmake\n'}
+[14.993859] (utils) StdoutLine: {'line': b'-- Installing: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/utilsTargetsExport-release.cmake\n'}
+[14.993886] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[14.993912] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[14.993937] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[14.993963] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/ament_cmake_export_targets-extras.cmake\n'}
+[14.993992] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/utilsConfig.cmake\n'}
+[14.994018] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/cmake/utilsConfig-version.cmake\n'}
+[14.994045] (utils) StdoutLine: {'line': b'-- Up-to-date: /home/guo/ITL_sentry_auto_new/install/utils/share/utils/package.xml\n'}
+[14.994674] (utils) CommandEnded: {'returncode': 0}
+[15.010593] (utils) JobEnded: {'identifier': 'utils', 'rc': 0}
+[15.010975] (-) EventReactorShutdown: {}

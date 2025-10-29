@@ -16,6 +16,9 @@ find_package(OpenVINO REQUIRED)
 find_package(yaml-cpp REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(utils REQUIRED)
+find_package(serial REQUIRED)
+find_package(deveice REQUIRED)
+find_package(auto_aim REQUIRED)
 
 # ====================================================================================
 # auto_buff_data_type
@@ -77,11 +80,109 @@ ament_target_dependencies(auto_buff_detect
 )
 
 # ====================================================================================
+# auto_buff_solver
+# ====================================================================================
+set(AUTO_BUFF_SOLVER_SOURCES
+  buff_solver/src/buff_solver.cpp
+)
+
+add_library(auto_buff_solver STATIC ${AUTO_BUFF_SOLVER_SOURCES})
+add_library(auto_buff::solver ALIAS auto_buff_solver)
+
+target_include_directories(auto_buff_solver
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/buff_solver/include>
+    $<INSTALL_INTERFACE:include>
+)
+
+target_link_libraries(auto_buff_solver
+  PUBLIC
+    ${OpenCV_LIBS}
+    Eigen3::Eigen
+    yaml-cpp
+    utils::utils
+    auto_buff_data_type
+)
+
+ament_target_dependencies(auto_buff_solver
+  PUBLIC
+    utils
+)
+
+# ====================================================================================
+# auto_buff_tagret
+# ====================================================================================
+set(AUTO_BUFF_TAGRET_SOURCES
+  buff_tagret/src/buff_target.cpp
+)
+
+add_library(auto_buff_tagret STATIC ${AUTO_BUFF_TAGRET_SOURCES})
+add_library(auto_buff::tagret ALIAS auto_buff_tagret)
+
+target_include_directories(auto_buff_tagret
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/buff_tagret/include>
+    $<INSTALL_INTERFACE:include>
+)
+
+target_link_libraries(auto_buff_tagret
+  PUBLIC
+    ${OpenCV_LIBS}
+    Eigen3::Eigen
+    utils::utils
+    auto_buff_data_type
+    auto_buff_detect
+)
+
+ament_target_dependencies(auto_buff_tagret
+  PUBLIC
+    utils
+)
+
+# ====================================================================================
+# auto_buff_aimer
+# ====================================================================================
+set(AUTO_BUFF_AIMER_SOURCES
+  buff_aimer/src/buff_aimer.cpp
+)
+
+add_library(auto_buff_aimer STATIC ${AUTO_BUFF_AIMER_SOURCES})
+add_library(auto_buff::aimer ALIAS auto_buff_aimer)
+
+target_include_directories(auto_buff_aimer
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/buff_aimer/include>
+    $<INSTALL_INTERFACE:include>
+)
+
+target_link_libraries(auto_buff_aimer
+  PUBLIC
+    Eigen3::Eigen
+    yaml-cpp
+    utils::utils
+    auto_buff_data_type
+    auto_buff_detect
+    auto_buff_tagret
+    auto_aim::auto_aim
+    deveice::deveice
+)
+
+ament_target_dependencies(auto_buff_aimer
+  PUBLIC
+    utils
+    auto_aim
+    deveice
+)
+
+# ====================================================================================
 # 集成共享库
 # ====================================================================================
 set(AUTO_BUFF_PUBLIC_INCLUDE_DIRS
   ${CMAKE_CURRENT_SOURCE_DIR}/buff_data_type/include
   ${CMAKE_CURRENT_SOURCE_DIR}/buff_detect/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/buff_solver/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/buff_tagret/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/buff_aimer/include
 )
 
 set(AUTO_BUFF_DUMMY_SRC ${CMAKE_CURRENT_BINARY_DIR}/auto_buff_force_link.cpp)
@@ -99,6 +200,9 @@ add_library(auto_buff::auto_buff ALIAS auto_buff)
 set(AUTO_BUFF_MODULE_LIBS
   auto_buff_data_type
   auto_buff_detect
+  auto_buff_solver
+  auto_buff_tagret
+  auto_buff_aimer
 )
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -129,6 +233,9 @@ install(
     auto_buff
     auto_buff_data_type
     auto_buff_detect
+    auto_buff_solver
+    auto_buff_tagret
+    auto_buff_aimer
   EXPORT auto_buffTargets
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
@@ -136,7 +243,7 @@ install(
   INCLUDES DESTINATION include
 )
 
-foreach(dir IN ITEMS buff_data_type buff_detect)
+foreach(dir IN ITEMS buff_data_type buff_detect buff_solver buff_tagret buff_aimer)
   install(
     DIRECTORY ${dir}/include/
     DESTINATION include
@@ -151,6 +258,8 @@ ament_export_dependencies(
   Eigen3
   yaml-cpp
   utils
+  auto_aim
+  deveice
 )
 
 install(

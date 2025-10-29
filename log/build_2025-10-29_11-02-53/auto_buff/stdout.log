@@ -1,0 +1,4 @@
+[ 15%] Built target auto_buff_data_type
+[ 38%] Built target auto_buff_detect
+[ 46%] [32mBuilding CXX object CMakeFiles/auto_buff_solver.dir/buff_solver/src/buff_solver.cpp.o[0m
+[ 53%] [32mBuilding CXX object CMakeFiles/auto_buff_tagret.dir/buff_tagret/src/buff_target.cpp.o[0m

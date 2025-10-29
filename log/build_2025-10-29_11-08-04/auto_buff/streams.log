@@ -1,0 +1,39 @@
+[0.019s] Invoking command in '/home/guo/ITL_sentry_auto_new/build/auto_buff': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/auto_aim:/home/guo/ITL_sentry_auto_new/install/deveice:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/auto_buff:/home/guo/ITL_sentry_auto_new/install/launch_node:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/auto_aim/lib:/home/guo/ITL_sentry_auto_new/install/deveice/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/auto_buff/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/auto_buff -- -j24 -l24
+[0.043s] [ 15%] Built target auto_buff_data_type
+[0.056s] [ 38%] Built target auto_buff_detect
+[0.062s] [ 46%] [32mBuilding CXX object CMakeFiles/auto_buff_solver.dir/buff_solver/src/buff_solver.cpp.o[0m
+[0.065s] [ 53%] [32mBuilding CXX object CMakeFiles/auto_buff_tagret.dir/buff_tagret/src/buff_target.cpp.o[0m
+[2.527s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_tagret/src/buff_target.cpp:[m[K In member function ‘[01m[Kvirtual void auto_buff::BigTarget::predict(double)[m[K’:
+[2.527s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_tagret/src/buff_target.cpp:408:10:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kspd[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+[2.527s]   408 |   double [01;35m[Kspd[m[K = fit_spd_;
+[2.527s]       |          [01;35m[K^~~[m[K
+[5.928s] [ 61%] [32m[1mLinking CXX static library libauto_buff_solver.a[0m
+[6.038s] [ 61%] Built target auto_buff_solver
+[7.379s] [ 69%] [32m[1mLinking CXX static library libauto_buff_tagret.a[0m
+[7.464s] [ 69%] Built target auto_buff_tagret
+[7.472s] [ 76%] [32mBuilding CXX object CMakeFiles/auto_buff_aimer.dir/buff_aimer/src/buff_aimer.cpp.o[0m
+[10.003s] In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/include/buff_aimer.hpp:12[m[K,
+[10.004s]                  from [01m[K/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp:1[m[K:
+[10.004s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_tagret/include/buff_target.hpp:62:10:[m[K [01;31m[Kerror: [m[K‘[01m[KExtendedKalmanFilter[m[K’ in namespace ‘[01m[Kutils[m[K’ does not name a type
+[10.004s]    62 |   utils::[01;31m[KExtendedKalmanFilter[m[K ekf_;
+[10.004s]       |          [01;31m[K^~~~~~~~~~~~~~~~~~~~[m[K
+[10.014s] In file included from [01m[K/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp:1[m[K:
+[10.014s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/include/buff_aimer.hpp:28:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kauto_aim[m[K’ does not name a type
+[10.014s]    28 |   [01;31m[Kauto_aim[m[K::Plan mpc_aim(
+[10.014s]       |   [01;31m[K^~~~~~~~[m[K
+[10.015s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp:[m[K In member function ‘[01m[Kio::Command auto_buff::Aimer::aim(auto_buff::Target&, std::chrono::_V2::steady_clock::time_point&, double, bool)[m[K’:
+[10.015s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp:36:8:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kangle_changed[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+[10.015s]    36 |   bool [01;35m[Kangle_changed[m[K =
+[10.015s]       |        [01;35m[K^~~~~~~~~~~~~[m[K
+[10.017s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp:[m[K At global scope:
+[10.017s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp:69:1:[m[K [01;31m[Kerror: [m[K‘[01m[Kauto_aim[m[K’ does not name a type
+[10.017s]    69 | [01;31m[Kauto_aim[m[K::Plan Aimer::mpc_aim(
+[10.017s]       | [01;31m[K^~~~~~~~[m[K
+[10.018s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp:[m[K In member function ‘[01m[Kbool auto_buff::Aimer::get_send_angle(auto_buff::Target&, double, double, bool, double&, double&)[m[K’:
+[10.018s] [01m[K/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp:152:14:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kto_now[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+[10.018s]   152 |   [01;35m[Kconst bool to_now[m[K, double & yaw, double & pitch)
+[10.018s]       |   [01;35m[K~~~~~~~~~~~^~~~~~[m[K
+[11.438s] gmake[2]: *** [CMakeFiles/auto_buff_aimer.dir/build.make:76：CMakeFiles/auto_buff_aimer.dir/buff_aimer/src/buff_aimer.cpp.o] 错误 1
+[11.438s] gmake[1]: *** [CMakeFiles/Makefile2:254：CMakeFiles/auto_buff_aimer.dir/all] 错误 2
+[11.438s] gmake: *** [Makefile:146：all] 错误 2
+[11.440s] Invoked command in '/home/guo/ITL_sentry_auto_new/build/auto_buff' returned '2': CMAKE_PREFIX_PATH=/home/guo/ITL_sentry_auto_new/install/auto_aim:/home/guo/ITL_sentry_auto_new/install/deveice:/home/guo/ITL_sentry_auto_new/install/serial:/home/guo/ITL_sentry_auto_new/install/utils:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs:/home/guo/ITL_sentry_auto_new/install/pipeline:/home/guo/ITL_sentry_auto_new/install/auto_buff:/home/guo/ITL_sentry_auto_new/install/launch_node:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_sentry_auto_new/install/auto_aim/lib:/home/guo/ITL_sentry_auto_new/install/deveice/lib:/home/guo/ITL_sentry_auto_new/install/serial/lib:/home/guo/ITL_sentry_auto_new/install/autoaim_msgs/lib:/home/guo/ITL_sentry_auto_new/install/auto_buff/lib:/home/guo/ITL_sentry_auto_new/install/utils/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/auto_buff -- -j24 -l24

@@ -25,6 +25,8 @@ add_library(${PROJECT_NAME} STATIC
   src/trajectory.cpp
   src/crc.cpp
   src/video.cpp
+  src/ransac_sine_fitter.cpp
+  src/extended_kalman_filter.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC

@@ -1,0 +1,29 @@
+[ 15%] Built target auto_buff_data_type
+[ 30%] Built target auto_buff_solver
+[ 53%] Built target auto_buff_detect
+[ 69%] Built target auto_buff_tagret
+[ 76%] Building CXX object CMakeFiles/auto_buff_aimer.dir/buff_aimer/src/buff_aimer.cpp.o
+In file included from /home/guo/ITL_sentry_auto_new/install/auto_aim/include/planner.hpp:8,
+                 from /home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/include/buff_aimer.hpp:12,
+                 from /home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp:1:
+/home/guo/ITL_sentry_auto_new/install/auto_aim/include/target.hpp:46:9: error: ‘motion_model’ does not name a type
+   46 |   const motion_model::ExtendedKalmanFilter & ekf() const;
+      |         ^~~~~~~~~~~~
+/home/guo/ITL_sentry_auto_new/install/auto_aim/include/target.hpp:61:3: error: ‘motion_model’ does not name a type
+   61 |   motion_model::ExtendedKalmanFilter ekf_;
+      |   ^~~~~~~~~~~~
+/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp: In member function ‘io::Command auto_buff::Aimer::aim(auto_buff::Target&, std::chrono::_V2::steady_clock::time_point&, double, bool)’:
+/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp:36:8: warning: unused variable ‘angle_changed’ [-Wunused-variable]
+   36 |   bool angle_changed =
+      |        ^~~~~~~~~~~~~
+/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp: In member function ‘plan::Plan auto_buff::Aimer::mpc_aim(auto_buff::Target&, std::chrono::_V2::steady_clock::time_point&, io::GimbalState, bool)’:
+/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp:89:8: warning: unused variable ‘angle_changed’ [-Wunused-variable]
+   89 |   bool angle_changed =
+      |        ^~~~~~~~~~~~~
+/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp: In member function ‘bool auto_buff::Aimer::get_send_angle(auto_buff::Target&, double, double, bool, double&, double&)’:
+/home/guo/ITL_sentry_auto_new/src/core/auto_buff/buff_aimer/src/buff_aimer.cpp:152:14: warning: unused parameter ‘to_now’ [-Wunused-parameter]
+  152 |   const bool to_now, double & yaw, double & pitch)
+      |   ~~~~~~~~~~~^~~~~~
+gmake[2]: *** [CMakeFiles/auto_buff_aimer.dir/build.make:76：CMakeFiles/auto_buff_aimer.dir/buff_aimer/src/buff_aimer.cpp.o] 错误 1
+gmake[1]: *** [CMakeFiles/Makefile2:254：CMakeFiles/auto_buff_aimer.dir/all] 错误 2
+gmake: *** [Makefile:146：all] 错误 2
