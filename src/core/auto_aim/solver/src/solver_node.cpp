@@ -218,9 +218,9 @@ Armor_pose Solver::processArmor(Armors armor,
 
     // utils::logger()->debug(
     //     "解算得到的世界坐标系下目标的位置为x:{:.2f}, y:{:.2f}, z:{:.2f}",
-    //     armor_pose.world_position[0],
-    //     armor_pose.world_position[1],
-    //     armor_pose.world_position[2]
+    //     armor_pose.gimbal_position[0],
+    //     armor_pose.gimbal_position[1],
+    //     armor_pose.gimbal_position[2]
     // );
     
 

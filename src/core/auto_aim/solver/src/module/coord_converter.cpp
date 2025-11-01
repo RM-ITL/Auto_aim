@@ -7,11 +7,11 @@
 
 namespace solver {
 
-CoordConverter::CoordConverter(const std::string& yaml_config_path) 
+CoordConverter::CoordConverter(const std::string& yaml_config_path)
     : is_initialized_(false),
       current_timestamp_(0.0),
       current_imu_angles_(0.0, 0.0, 0.0) {
-    
+
     camera_matrix_ = cv::Mat();
     dist_coeffs_ = cv::Mat();
     current_q_abs_ = Eigen::Quaterniond::Identity();
@@ -19,7 +19,8 @@ CoordConverter::CoordConverter(const std::string& yaml_config_path)
     R_gimbal_to_world = Eigen::Matrix3d::Identity();
     R_camera_to_gimbal = Eigen::Matrix3d::Identity();
     R_gimbal_to_imu = Eigen::Matrix3d::Identity();
-    
+    t_camera_to_gimbal_ = Eigen::Vector3d::Zero();  // 初始化平移向量
+
     if (!loadCalibrationFromYAML(yaml_config_path)) {
         throw std::runtime_error("Cannot load calibration file: " + yaml_config_path);
     }
@@ -186,7 +187,8 @@ YawPitch CoordConverter::getCurrentAngles() const {
 // 坐标系变换函数
 
 Eigen::Vector3d CoordConverter::cameraToGimbal(const Eigen::Vector3d& point_camera) const {
-    return R_camera_to_gimbal * point_camera;
+    // 相机到云台的变换：p_gimbal = R * p_camera + t
+    return R_camera_to_gimbal * point_camera + t_camera_to_gimbal_;
 }
 
 Eigen::Vector3d CoordConverter::cameraToWorld(const Eigen::Vector3d& point_camera) const {
@@ -200,7 +202,8 @@ Eigen::Vector3d CoordConverter::GimbalToWorld(const Eigen::Vector3d& point_gimba
 }
 
 Eigen::Vector3d CoordConverter::GimbalToCamera(const Eigen::Vector3d& point_gimbal) const {
-    return R_camera_to_gimbal.transpose() * point_gimbal;
+    // 云台到相机的变换：p_camera = R^T * (p_gimbal - t)
+    return R_camera_to_gimbal.transpose() * (point_gimbal - t_camera_to_gimbal_);
 }
 
 Eigen::Vector3d CoordConverter::WorldToGimbal(const Eigen::Vector3d& point_world) const {
@@ -208,8 +211,9 @@ Eigen::Vector3d CoordConverter::WorldToGimbal(const Eigen::Vector3d& point_world
 }
 
 Eigen::Vector3d CoordConverter::WorldToCamera(const Eigen::Vector3d& point_world) const {
-
-    return  R_camera_to_gimbal.transpose() * WorldToGimbal(point_world);
+    Eigen::Vector3d point_in_gimbal = WorldToGimbal(point_world);
+    // 云台到相机的变换：p_camera = R^T * (p_gimbal - t)
+    return R_camera_to_gimbal.transpose() * (point_in_gimbal - t_camera_to_gimbal_);
 }
 
 
@@ -307,7 +311,17 @@ bool CoordConverter::loadCalibrationFromYAML(const std::string& yaml_path) {
                             matrix_data[3], matrix_data[4], matrix_data[5],
                             matrix_data[6], matrix_data[7], matrix_data[8];
         }
-        
+
+        // 读取相机到云台的平移向量
+        if(config["t_camera_to_gimbal"]) {
+            std::vector<double> translation_data = config["t_camera_to_gimbal"].as<std::vector<double>>();
+            if(translation_data.size() == 3) {
+                t_camera_to_gimbal_ << translation_data[0], translation_data[1], translation_data[2];
+                utils::logger()->info("成功加载相机到云台平移向量: [{:.3f}, {:.3f}, {:.3f}]",
+                    t_camera_to_gimbal_(0), t_camera_to_gimbal_(1), t_camera_to_gimbal_(2));
+            }
+        }
+
         return true;
         
     } catch (const std::exception& e) {

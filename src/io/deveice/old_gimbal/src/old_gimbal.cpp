@@ -125,4 +125,63 @@ void OldGimbal::send(const OldVisionToGimbal & data)
   }
 }
 
+void OldGimbal::send(const SimpleVisionToGimbal & data)
+{
+  std::lock_guard<std::mutex> lock(mutex_);
+  simple_tx_data_ = data;
+
+  try {
+    size_t bytes_written = serial_.write(
+      reinterpret_cast<const uint8_t*>(&simple_tx_data_),
+      SimpleVisionToGimbal::FRAME_SIZE);
+
+    if (bytes_written == SimpleVisionToGimbal::FRAME_SIZE) {
+      sent_count_++;
+    } else {
+      utils::logger()->warn(
+        "[OldGimbal] Incomplete write - Expected: {}, Actual: {}",
+        SimpleVisionToGimbal::FRAME_SIZE, bytes_written);
+      error_count_++;
+    }
+  } catch (const std::exception & e) {
+    utils::logger()->warn("[OldGimbal] Failed to write serial: {}", e.what());
+    error_count_++;
+  }
+}
+
+void OldGimbal::send_simple(bool control, bool fire, float yaw, float yaw_vel, float pitch, float pitch_vel)
+{
+  std::lock_guard<std::mutex> lock(mutex_);
+
+  simple_tx_data_.mode = control ? (fire ? 2 : 1) : 0;
+  simple_tx_data_.yaw = yaw;
+  simple_tx_data_.yaw_vel = yaw_vel;
+  simple_tx_data_.pitch = pitch;
+  simple_tx_data_.pitch_vel = pitch_vel;
+
+  try {
+    size_t bytes_written = serial_.write(
+      reinterpret_cast<const uint8_t*>(&simple_tx_data_),
+      SimpleVisionToGimbal::FRAME_SIZE);
+
+    if (bytes_written == SimpleVisionToGimbal::FRAME_SIZE) {
+      sent_count_++;
+
+      if (sent_count_ % 100 == 0) {
+        utils::logger()->debug(
+          "[OldGimbal] Sent {} frames - Latest: Yaw={:.3f}rad, Pitch={:.3f}rad",
+          sent_count_.load(), yaw, pitch);
+      }
+    } else {
+      utils::logger()->warn(
+        "[OldGimbal] Incomplete write - Expected: {}, Actual: {}",
+        SimpleVisionToGimbal::FRAME_SIZE, bytes_written);
+      error_count_++;
+    }
+  } catch (const std::exception & e) {
+    utils::logger()->warn("[OldGimbal] Failed to write serial: {}", e.what());
+    error_count_++;
+  }
+}
+
 }  // namespace io

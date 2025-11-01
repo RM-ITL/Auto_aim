@@ -330,7 +330,7 @@ int main(int argc, char ** argv)
     return 0;
   }
 
-  std::string config_path = "/home/guo/ITL_sentry_auto_new/src/config/coord_converter.yaml";
+  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/config.yaml";
   if (cli.has("@config-path")) {
     config_path = cli.get<std::string>("@config-path");
   }

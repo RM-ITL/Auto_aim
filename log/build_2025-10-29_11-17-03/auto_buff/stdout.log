@@ -1,5 +1,0 @@
-[ 15%] Built target auto_buff_data_type
-[ 38%] Built target auto_buff_detect
-[ 53%] Built target auto_buff_solver
-[ 69%] Built target auto_buff_tagret
-[ 76%] [32mBuilding CXX object CMakeFiles/auto_buff_aimer.dir/buff_aimer/src/buff_aimer.cpp.o[0m

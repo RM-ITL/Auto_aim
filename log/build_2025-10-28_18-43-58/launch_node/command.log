@@ -1,4 +1,0 @@
-Invoking command in '/home/guo/ITL_sentry_auto_new/build/launch_node': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/launch_node -- -j24 -l24
-Invoked command in '/home/guo/ITL_sentry_auto_new/build/launch_node' returned '0': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_sentry_auto_new/build/launch_node -- -j24 -l24
-Invoking command in '/home/guo/ITL_sentry_auto_new/build/launch_node': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/launch_node
-Invoked command in '/home/guo/ITL_sentry_auto_new/build/launch_node' returned '0': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --install /home/guo/ITL_sentry_auto_new/build/launch_node

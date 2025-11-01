@@ -81,10 +81,11 @@ private:
     Eigen::Matrix3d R_gimbal_to_imu;
     Eigen::Matrix3d R_camera_to_gimbal;
 
+    Eigen::Vector3d t_camera_to_gimbal_;   // 相机到云台的平移向量
 
     Eigen::Quaterniond current_q_abs_;     // 当前时刻的四元数
     double current_timestamp_;
-    
+
     YawPitch current_imu_angles_;          // 当前时刻的云台角度
 };
 

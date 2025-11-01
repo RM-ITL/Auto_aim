@@ -1,0 +1,718 @@
+[0.110s] [34mcolcon[0m [1;30mDEBUG[0m [32mCommand line arguments: ['/usr/bin/colcon', 'build'][0m
+[0.110s] [34mcolcon[0m [1;30mDEBUG[0m [32mParsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=24, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x702a0d315cc0>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x702a0d4070d0>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x702a0d4070d0>>)[0m
+[0.306s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(colcon_meta) check parameters
+[0.306s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(recursive) check parameters
+[0.306s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(ignore) check parameters
+[0.306s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(path) check parameters
+[0.306s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(colcon_meta) discover
+[0.306s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(recursive) discover
+[0.306s] [34mcolcon.colcon_core.package_discovery[0m [1;30mINFO[0m Crawling recursively for packages in '/home/guo/ITL_Auto_aim'
+[0.306s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.306s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'ignore'
+[0.306s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'ignore_ament_install'
+[0.306s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['colcon_pkg']
+[0.306s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'colcon_pkg'
+[0.306s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['colcon_meta']
+[0.306s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'colcon_meta'
+[0.306s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['ros']
+[0.306s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'ros'
+[0.321s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['cmake', 'python']
+[0.321s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'cmake'
+[0.321s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'python'
+[0.321s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['python_setup_py']
+[0.321s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'python_setup_py'
+[0.321s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(build) by extension 'ignore'
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(build) ignored
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(install) by extension 'ignore'
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(install) ignored
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(log) by extension 'ignore'
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(log) ignored
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(logs) by extensions ['ignore', 'ignore_ament_install']
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(logs) by extension 'ignore'
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(logs) by extension 'ignore_ament_install'
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(logs) by extensions ['colcon_pkg']
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(logs) by extension 'colcon_pkg'
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(logs) by extensions ['colcon_meta']
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(logs) by extension 'colcon_meta'
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(logs) by extensions ['ros']
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(logs) by extension 'ros'
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(logs) by extensions ['cmake', 'python']
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(logs) by extension 'cmake'
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(logs) by extension 'python'
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(logs) by extensions ['python_setup_py']
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(logs) by extension 'python_setup_py'
+[0.322s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['ignore', 'ignore_ament_install']
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'ignore'
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'ignore_ament_install'
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['colcon_pkg']
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'colcon_pkg'
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['colcon_meta']
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'colcon_meta'
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['ros']
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'ros'
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['cmake', 'python']
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'cmake'
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'python'
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['python_setup_py']
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'python_setup_py'
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/Messages) by extensions ['ignore', 'ignore_ament_install']
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/Messages) by extension 'ignore'
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/Messages) by extension 'ignore_ament_install'
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/Messages) by extensions ['colcon_pkg']
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/Messages) by extension 'colcon_pkg'
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/Messages) by extensions ['colcon_meta']
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/Messages) by extension 'colcon_meta'
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/Messages) by extensions ['ros']
+[0.323s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/Messages) by extension 'ros'
+[0.325s] [34mcolcon.colcon_core.package_identification[0m [1;30mDEBUG[0m [32mPackage 'src/Messages' with type 'ros.ament_cmake' and name 'autoaim_msgs'[0m
+[0.325s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/config) by extensions ['ignore', 'ignore_ament_install']
+[0.325s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/config) by extension 'ignore'
+[0.325s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/config) by extension 'ignore_ament_install'
+[0.325s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/config) by extensions ['colcon_pkg']
+[0.325s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/config) by extension 'colcon_pkg'
+[0.325s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/config) by extensions ['colcon_meta']
+[0.325s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/config) by extension 'colcon_meta'
+[0.325s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/config) by extensions ['ros']
+[0.325s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/config) by extension 'ros'
+[0.325s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/config) by extensions ['cmake', 'python']
+[0.325s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/config) by extension 'cmake'
+[0.325s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/config) by extension 'python'
+[0.325s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/config) by extensions ['python_setup_py']
+[0.325s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/config) by extension 'python_setup_py'
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core) by extensions ['ignore', 'ignore_ament_install']
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core) by extension 'ignore'
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core) by extension 'ignore_ament_install'
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core) by extensions ['colcon_pkg']
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core) by extension 'colcon_pkg'
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core) by extensions ['colcon_meta']
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core) by extension 'colcon_meta'
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core) by extensions ['ros']
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core) by extension 'ros'
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core) by extensions ['cmake', 'python']
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core) by extension 'cmake'
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core) by extension 'python'
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core) by extensions ['python_setup_py']
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core) by extension 'python_setup_py'
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core/auto_aim) by extensions ['ignore', 'ignore_ament_install']
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core/auto_aim) by extension 'ignore'
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core/auto_aim) by extension 'ignore_ament_install'
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core/auto_aim) by extensions ['colcon_pkg']
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core/auto_aim) by extension 'colcon_pkg'
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core/auto_aim) by extensions ['colcon_meta']
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core/auto_aim) by extension 'colcon_meta'
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core/auto_aim) by extensions ['ros']
+[0.326s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core/auto_aim) by extension 'ros'
+[0.327s] [34mcolcon.colcon_core.package_identification[0m [1;30mDEBUG[0m [32mPackage 'src/core/auto_aim' with type 'ros.ament_cmake' and name 'auto_aim'[0m
+[0.327s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core/auto_buff) by extensions ['ignore', 'ignore_ament_install']
+[0.327s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core/auto_buff) by extension 'ignore'
+[0.327s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core/auto_buff) by extension 'ignore_ament_install'
+[0.327s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core/auto_buff) by extensions ['colcon_pkg']
+[0.327s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core/auto_buff) by extension 'colcon_pkg'
+[0.327s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core/auto_buff) by extensions ['colcon_meta']
+[0.327s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core/auto_buff) by extension 'colcon_meta'
+[0.327s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core/auto_buff) by extensions ['ros']
+[0.327s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/core/auto_buff) by extension 'ros'
+[0.328s] [34mcolcon.colcon_core.package_identification[0m [1;30mDEBUG[0m [32mPackage 'src/core/auto_buff' with type 'ros.ament_cmake' and name 'auto_buff'[0m
+[0.328s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io) by extensions ['ignore', 'ignore_ament_install']
+[0.328s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io) by extension 'ignore'
+[0.328s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io) by extension 'ignore_ament_install'
+[0.328s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io) by extensions ['colcon_pkg']
+[0.328s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io) by extension 'colcon_pkg'
+[0.328s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io) by extensions ['colcon_meta']
+[0.328s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io) by extension 'colcon_meta'
+[0.329s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io) by extensions ['ros']
+[0.329s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io) by extension 'ros'
+[0.329s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io) by extensions ['cmake', 'python']
+[0.329s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io) by extension 'cmake'
+[0.329s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io) by extension 'python'
+[0.329s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io) by extensions ['python_setup_py']
+[0.329s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io) by extension 'python_setup_py'
+[0.329s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io/deveice) by extensions ['ignore', 'ignore_ament_install']
+[0.329s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io/deveice) by extension 'ignore'
+[0.329s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io/deveice) by extension 'ignore_ament_install'
+[0.329s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io/deveice) by extensions ['colcon_pkg']
+[0.329s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io/deveice) by extension 'colcon_pkg'
+[0.329s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io/deveice) by extensions ['colcon_meta']
+[0.329s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io/deveice) by extension 'colcon_meta'
+[0.329s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io/deveice) by extensions ['ros']
+[0.329s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io/deveice) by extension 'ros'
+[0.329s] [34mcolcon.colcon_core.package_identification[0m [1;30mDEBUG[0m [32mPackage 'src/io/deveice' with type 'ros.ament_cmake' and name 'deveice'[0m
+[0.330s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io/serial) by extensions ['ignore', 'ignore_ament_install']
+[0.330s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io/serial) by extension 'ignore'
+[0.330s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io/serial) by extension 'ignore_ament_install'
+[0.330s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io/serial) by extensions ['colcon_pkg']
+[0.330s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io/serial) by extension 'colcon_pkg'
+[0.330s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io/serial) by extensions ['colcon_meta']
+[0.330s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io/serial) by extension 'colcon_meta'
+[0.330s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io/serial) by extensions ['ros']
+[0.330s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/io/serial) by extension 'ros'
+[0.330s] [34mcolcon.colcon_core.package_identification[0m [1;30mDEBUG[0m [32mPackage 'src/io/serial' with type 'ros.ament_cmake' and name 'serial'[0m
+[0.330s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/launch) by extensions ['ignore', 'ignore_ament_install']
+[0.330s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/launch) by extension 'ignore'
+[0.330s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/launch) by extension 'ignore_ament_install'
+[0.330s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/launch) by extensions ['colcon_pkg']
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/launch) by extension 'colcon_pkg'
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/launch) by extensions ['colcon_meta']
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/launch) by extension 'colcon_meta'
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/launch) by extensions ['ros']
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/launch) by extension 'ros'
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mDEBUG[0m [32mPackage 'src/launch' with type 'ros.ament_cmake' and name 'launch_node'[0m
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/model) by extensions ['ignore', 'ignore_ament_install']
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/model) by extension 'ignore'
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/model) by extension 'ignore_ament_install'
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/model) by extensions ['colcon_pkg']
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/model) by extension 'colcon_pkg'
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/model) by extensions ['colcon_meta']
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/model) by extension 'colcon_meta'
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/model) by extensions ['ros']
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/model) by extension 'ros'
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/model) by extensions ['cmake', 'python']
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/model) by extension 'cmake'
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/model) by extension 'python'
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/model) by extensions ['python_setup_py']
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/model) by extension 'python_setup_py'
+[0.331s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/node) by extensions ['ignore', 'ignore_ament_install']
+[0.332s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/node) by extension 'ignore'
+[0.332s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/node) by extension 'ignore_ament_install'
+[0.332s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/node) by extensions ['colcon_pkg']
+[0.332s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/node) by extension 'colcon_pkg'
+[0.332s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/node) by extensions ['colcon_meta']
+[0.332s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/node) by extension 'colcon_meta'
+[0.332s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/node) by extensions ['ros']
+[0.332s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/node) by extension 'ros'
+[0.332s] [34mcolcon.colcon_core.package_identification[0m [1;30mDEBUG[0m [32mPackage 'src/node' with type 'ros.ament_cmake' and name 'pipeline'[0m
+[0.332s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/utils) by extensions ['ignore', 'ignore_ament_install']
+[0.333s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/utils) by extension 'ignore'
+[0.333s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/utils) by extension 'ignore_ament_install'
+[0.333s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/utils) by extensions ['colcon_pkg']
+[0.333s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/utils) by extension 'colcon_pkg'
+[0.333s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/utils) by extensions ['colcon_meta']
+[0.333s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/utils) by extension 'colcon_meta'
+[0.333s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/utils) by extensions ['ros']
+[0.333s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/utils) by extension 'ros'
+[0.333s] [34mcolcon.colcon_core.package_identification[0m [1;30mDEBUG[0m [32mPackage 'src/utils' with type 'ros.ament_cmake' and name 'utils'[0m
+[0.333s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(test) by extensions ['ignore', 'ignore_ament_install']
+[0.333s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(test) by extension 'ignore'
+[0.333s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(test) by extension 'ignore_ament_install'
+[0.333s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(test) by extensions ['colcon_pkg']
+[0.333s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(test) by extension 'colcon_pkg'
+[0.333s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(test) by extensions ['colcon_meta']
+[0.333s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(test) by extension 'colcon_meta'
+[0.333s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(test) by extensions ['ros']
+[0.333s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(test) by extension 'ros'
+[0.333s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(test) by extensions ['cmake', 'python']
+[0.333s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(test) by extension 'cmake'
+[0.334s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(test) by extension 'python'
+[0.334s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(test) by extensions ['python_setup_py']
+[0.334s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(test) by extension 'python_setup_py'
+[0.334s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(recursive) using defaults
+[0.334s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(ignore) discover
+[0.334s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(ignore) using defaults
+[0.334s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(path) discover
+[0.334s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(path) using defaults
+[0.349s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(prefix_path) check parameters
+[0.349s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(prefix_path) discover
+[0.351s] [34mcolcon.colcon_installed_package_information.package_discovery[0m [1;30mDEBUG[0m [32mFound 267 installed packages in /opt/ros/rolling[0m
+[0.352s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(prefix_path) using defaults
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'autoaim_msgs' build argument 'cmake_args' from command line to 'None'
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'autoaim_msgs' build argument 'cmake_target' from command line to 'None'
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'autoaim_msgs' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'autoaim_msgs' build argument 'cmake_clean_cache' from command line to 'False'
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'autoaim_msgs' build argument 'cmake_clean_first' from command line to 'False'
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'autoaim_msgs' build argument 'cmake_force_configure' from command line to 'False'
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'autoaim_msgs' build argument 'ament_cmake_args' from command line to 'None'
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'autoaim_msgs' build argument 'catkin_cmake_args' from command line to 'None'
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'autoaim_msgs' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mDEBUG[0m [32mBuilding package 'autoaim_msgs' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/guo/ITL_Auto_aim/build/autoaim_msgs', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/guo/ITL_Auto_aim/install/autoaim_msgs', 'merge_install': False, 'path': '/home/guo/ITL_Auto_aim/src/Messages', 'symlink_install': False, 'test_result_base': None}[0m
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'launch_node' build argument 'cmake_args' from command line to 'None'
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'launch_node' build argument 'cmake_target' from command line to 'None'
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'launch_node' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'launch_node' build argument 'cmake_clean_cache' from command line to 'False'
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'launch_node' build argument 'cmake_clean_first' from command line to 'False'
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'launch_node' build argument 'cmake_force_configure' from command line to 'False'
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'launch_node' build argument 'ament_cmake_args' from command line to 'None'
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'launch_node' build argument 'catkin_cmake_args' from command line to 'None'
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'launch_node' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mDEBUG[0m [32mBuilding package 'launch_node' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/guo/ITL_Auto_aim/build/launch_node', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/guo/ITL_Auto_aim/install/launch_node', 'merge_install': False, 'path': '/home/guo/ITL_Auto_aim/src/launch', 'symlink_install': False, 'test_result_base': None}[0m
+[0.379s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'utils' build argument 'cmake_args' from command line to 'None'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'utils' build argument 'cmake_target' from command line to 'None'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'utils' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'utils' build argument 'cmake_clean_cache' from command line to 'False'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'utils' build argument 'cmake_clean_first' from command line to 'False'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'utils' build argument 'cmake_force_configure' from command line to 'False'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'utils' build argument 'ament_cmake_args' from command line to 'None'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'utils' build argument 'catkin_cmake_args' from command line to 'None'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'utils' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mDEBUG[0m [32mBuilding package 'utils' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/guo/ITL_Auto_aim/build/utils', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/guo/ITL_Auto_aim/install/utils', 'merge_install': False, 'path': '/home/guo/ITL_Auto_aim/src/utils', 'symlink_install': False, 'test_result_base': None}[0m
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'serial' build argument 'cmake_args' from command line to 'None'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'serial' build argument 'cmake_target' from command line to 'None'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'serial' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'serial' build argument 'cmake_clean_cache' from command line to 'False'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'serial' build argument 'cmake_clean_first' from command line to 'False'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'serial' build argument 'cmake_force_configure' from command line to 'False'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'serial' build argument 'ament_cmake_args' from command line to 'None'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'serial' build argument 'catkin_cmake_args' from command line to 'None'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'serial' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mDEBUG[0m [32mBuilding package 'serial' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/guo/ITL_Auto_aim/build/serial', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/guo/ITL_Auto_aim/install/serial', 'merge_install': False, 'path': '/home/guo/ITL_Auto_aim/src/io/serial', 'symlink_install': False, 'test_result_base': None}[0m
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'deveice' build argument 'cmake_args' from command line to 'None'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'deveice' build argument 'cmake_target' from command line to 'None'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'deveice' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'deveice' build argument 'cmake_clean_cache' from command line to 'False'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'deveice' build argument 'cmake_clean_first' from command line to 'False'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'deveice' build argument 'cmake_force_configure' from command line to 'False'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'deveice' build argument 'ament_cmake_args' from command line to 'None'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'deveice' build argument 'catkin_cmake_args' from command line to 'None'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'deveice' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.380s] [34mcolcon.colcon_core.verb[0m [1;30mDEBUG[0m [32mBuilding package 'deveice' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/guo/ITL_Auto_aim/build/deveice', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/guo/ITL_Auto_aim/install/deveice', 'merge_install': False, 'path': '/home/guo/ITL_Auto_aim/src/io/deveice', 'symlink_install': False, 'test_result_base': None}[0m
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'auto_aim' build argument 'cmake_args' from command line to 'None'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'auto_aim' build argument 'cmake_target' from command line to 'None'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'auto_aim' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'auto_aim' build argument 'cmake_clean_cache' from command line to 'False'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'auto_aim' build argument 'cmake_clean_first' from command line to 'False'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'auto_aim' build argument 'cmake_force_configure' from command line to 'False'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'auto_aim' build argument 'ament_cmake_args' from command line to 'None'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'auto_aim' build argument 'catkin_cmake_args' from command line to 'None'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'auto_aim' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mDEBUG[0m [32mBuilding package 'auto_aim' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/guo/ITL_Auto_aim/build/auto_aim', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/guo/ITL_Auto_aim/install/auto_aim', 'merge_install': False, 'path': '/home/guo/ITL_Auto_aim/src/core/auto_aim', 'symlink_install': False, 'test_result_base': None}[0m
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'auto_buff' build argument 'cmake_args' from command line to 'None'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'auto_buff' build argument 'cmake_target' from command line to 'None'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'auto_buff' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'auto_buff' build argument 'cmake_clean_cache' from command line to 'False'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'auto_buff' build argument 'cmake_clean_first' from command line to 'False'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'auto_buff' build argument 'cmake_force_configure' from command line to 'False'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'auto_buff' build argument 'ament_cmake_args' from command line to 'None'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'auto_buff' build argument 'catkin_cmake_args' from command line to 'None'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'auto_buff' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mDEBUG[0m [32mBuilding package 'auto_buff' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/guo/ITL_Auto_aim/build/auto_buff', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/guo/ITL_Auto_aim/install/auto_buff', 'merge_install': False, 'path': '/home/guo/ITL_Auto_aim/src/core/auto_buff', 'symlink_install': False, 'test_result_base': None}[0m
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'pipeline' build argument 'cmake_args' from command line to 'None'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'pipeline' build argument 'cmake_target' from command line to 'None'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'pipeline' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.381s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'pipeline' build argument 'cmake_clean_cache' from command line to 'False'
+[0.382s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'pipeline' build argument 'cmake_clean_first' from command line to 'False'
+[0.382s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'pipeline' build argument 'cmake_force_configure' from command line to 'False'
+[0.382s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'pipeline' build argument 'ament_cmake_args' from command line to 'None'
+[0.382s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'pipeline' build argument 'catkin_cmake_args' from command line to 'None'
+[0.382s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'pipeline' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.382s] [34mcolcon.colcon_core.verb[0m [1;30mDEBUG[0m [32mBuilding package 'pipeline' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/guo/ITL_Auto_aim/build/pipeline', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/guo/ITL_Auto_aim/install/pipeline', 'merge_install': False, 'path': '/home/guo/ITL_Auto_aim/src/node', 'symlink_install': False, 'test_result_base': None}[0m
+[0.382s] [34mcolcon.colcon_core.executor[0m [1;30mINFO[0m Executing jobs using 'parallel' executor
+[0.383s] [34mcolcon.colcon_parallel_executor.executor.parallel[0m [1;30mDEBUG[0m [32mrun_until_complete[0m
+[0.383s] [34mcolcon.colcon_ros.task.ament_cmake.build[0m [1;30mINFO[0m Building ROS package in '/home/guo/ITL_Auto_aim/src/Messages' with build type 'ament_cmake'
+[0.383s] [34mcolcon.colcon_cmake.task.cmake.build[0m [1;30mINFO[0m Building CMake package in '/home/guo/ITL_Auto_aim/src/Messages'
+[0.385s] [34mcolcon.colcon_core.plugin_system[0m [1;30mINFO[0m Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.385s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.386s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[0.388s] [34mcolcon.colcon_ros.task.ament_cmake.build[0m [1;30mINFO[0m Building ROS package in '/home/guo/ITL_Auto_aim/src/utils' with build type 'ament_cmake'
+[0.388s] [34mcolcon.colcon_cmake.task.cmake.build[0m [1;30mINFO[0m Building CMake package in '/home/guo/ITL_Auto_aim/src/utils'
+[0.388s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.388s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[0.390s] [34mcolcon.colcon_ros.task.ament_cmake.build[0m [1;30mINFO[0m Building ROS package in '/home/guo/ITL_Auto_aim/src/launch' with build type 'ament_cmake'
+[0.390s] [34mcolcon.colcon_cmake.task.cmake.build[0m [1;30mINFO[0m Building CMake package in '/home/guo/ITL_Auto_aim/src/launch'
+[0.391s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.391s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[0.396s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/guo/ITL_Auto_aim/build/autoaim_msgs': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_Auto_aim/build/autoaim_msgs -- -j24 -l24[0m
+[0.399s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/guo/ITL_Auto_aim/build/utils': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_Auto_aim/build/utils -- -j24 -l24[0m
+[0.402s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/guo/ITL_Auto_aim/build/launch_node': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_Auto_aim/build/launch_node -- -j24 -l24[0m
+[0.423s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/guo/ITL_Auto_aim/build/launch_node' returned '0': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_Auto_aim/build/launch_node -- -j24 -l24[0m
+[0.431s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/guo/ITL_Auto_aim/build/launch_node': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --install /home/guo/ITL_Auto_aim/build/launch_node[0m
+[0.439s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/guo/ITL_Auto_aim/build/utils' returned '0': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_Auto_aim/build/utils -- -j24 -l24[0m
+[0.443s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/guo/ITL_Auto_aim/build/utils': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --install /home/guo/ITL_Auto_aim/build/utils[0m
+[0.444s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(launch_node)
+[0.445s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/guo/ITL_Auto_aim/build/launch_node' returned '0': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --install /home/guo/ITL_Auto_aim/build/launch_node[0m
+[0.455s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/launch_node' for CMake module files
+[0.455s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/launch_node' for CMake config files
+[0.456s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('launch_node', 'cmake_prefix_path')
+[0.456s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/launch_node/share/launch_node/hook/cmake_prefix_path.ps1'
+[0.457s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/launch_node/share/launch_node/hook/cmake_prefix_path.dsv'
+[0.457s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/launch_node/share/launch_node/hook/cmake_prefix_path.sh'
+[0.458s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/launch_node/bin'
+[0.458s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/launch_node/lib/pkgconfig/launch_node.pc'
+[0.458s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/launch_node/lib/python3.10/site-packages'
+[0.458s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/launch_node/bin'
+[0.459s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/launch_node/share/launch_node/package.ps1'
+[0.459s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/guo/ITL_Auto_aim/install/launch_node/share/launch_node/package.dsv'
+[0.460s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/launch_node/share/launch_node/package.sh'
+[0.460s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/launch_node/share/launch_node/package.bash'
+[0.461s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/launch_node/share/launch_node/package.zsh'
+[0.461s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/guo/ITL_Auto_aim/install/launch_node/share/colcon-core/packages/launch_node)
+[0.462s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(launch_node)
+[0.462s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/launch_node' for CMake module files
+[0.462s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/launch_node' for CMake config files
+[0.462s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('launch_node', 'cmake_prefix_path')
+[0.462s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/launch_node/share/launch_node/hook/cmake_prefix_path.ps1'
+[0.463s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/launch_node/share/launch_node/hook/cmake_prefix_path.dsv'
+[0.463s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/launch_node/share/launch_node/hook/cmake_prefix_path.sh'
+[0.464s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/launch_node/bin'
+[0.464s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/launch_node/lib/pkgconfig/launch_node.pc'
+[0.464s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/launch_node/lib/python3.10/site-packages'
+[0.464s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/launch_node/bin'
+[0.464s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/launch_node/share/launch_node/package.ps1'
+[0.465s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/guo/ITL_Auto_aim/install/launch_node/share/launch_node/package.dsv'
+[0.465s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/launch_node/share/launch_node/package.sh'
+[0.465s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/launch_node/share/launch_node/package.bash'
+[0.465s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/launch_node/share/launch_node/package.zsh'
+[0.466s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/guo/ITL_Auto_aim/install/launch_node/share/colcon-core/packages/launch_node)
+[0.467s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(utils)
+[0.467s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/utils' for CMake module files
+[0.468s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/utils' for CMake config files
+[0.470s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/guo/ITL_Auto_aim/build/utils' returned '0': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --install /home/guo/ITL_Auto_aim/build/utils[0m
+[0.470s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('utils', 'cmake_prefix_path')
+[0.471s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/utils/share/utils/hook/cmake_prefix_path.ps1'
+[0.471s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/utils/share/utils/hook/cmake_prefix_path.dsv'
+[0.471s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/utils/share/utils/hook/cmake_prefix_path.sh'
+[0.472s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/utils/lib'
+[0.472s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/utils/bin'
+[0.472s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/utils/lib/pkgconfig/utils.pc'
+[0.472s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/utils/lib/python3.10/site-packages'
+[0.472s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/utils/bin'
+[0.472s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/utils/share/utils/package.ps1'
+[0.473s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/guo/ITL_Auto_aim/install/utils/share/utils/package.dsv'
+[0.473s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/utils/share/utils/package.sh'
+[0.473s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/utils/share/utils/package.bash'
+[0.473s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/utils/share/utils/package.zsh'
+[0.474s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/guo/ITL_Auto_aim/install/utils/share/colcon-core/packages/utils)
+[0.474s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(utils)
+[0.474s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/utils' for CMake module files
+[0.475s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/utils' for CMake config files
+[0.475s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('utils', 'cmake_prefix_path')
+[0.475s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/utils/share/utils/hook/cmake_prefix_path.ps1'
+[0.475s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/utils/share/utils/hook/cmake_prefix_path.dsv'
+[0.475s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/utils/share/utils/hook/cmake_prefix_path.sh'
+[0.476s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/utils/lib'
+[0.476s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/utils/bin'
+[0.476s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/utils/lib/pkgconfig/utils.pc'
+[0.476s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/utils/lib/python3.10/site-packages'
+[0.476s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/utils/bin'
+[0.476s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/utils/share/utils/package.ps1'
+[0.477s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/guo/ITL_Auto_aim/install/utils/share/utils/package.dsv'
+[0.478s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/utils/share/utils/package.sh'
+[0.478s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/utils/share/utils/package.bash'
+[0.479s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/utils/share/utils/package.zsh'
+[0.479s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/guo/ITL_Auto_aim/install/utils/share/colcon-core/packages/utils)
+[0.628s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/guo/ITL_Auto_aim/build/autoaim_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_Auto_aim/build/autoaim_msgs -- -j24 -l24[0m
+[0.630s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/guo/ITL_Auto_aim/build/autoaim_msgs': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --install /home/guo/ITL_Auto_aim/build/autoaim_msgs[0m
+[0.663s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(autoaim_msgs)
+[0.664s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/autoaim_msgs' for CMake module files
+[0.664s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/guo/ITL_Auto_aim/build/autoaim_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --install /home/guo/ITL_Auto_aim/build/autoaim_msgs[0m
+[0.665s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/autoaim_msgs' for CMake config files
+[0.666s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('autoaim_msgs', 'cmake_prefix_path')
+[0.666s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/hook/cmake_prefix_path.ps1'
+[0.667s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/hook/cmake_prefix_path.dsv'
+[0.667s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/hook/cmake_prefix_path.sh'
+[0.668s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib'
+[0.668s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('autoaim_msgs', 'ld_library_path_lib')
+[0.668s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/hook/ld_library_path_lib.ps1'
+[0.668s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/hook/ld_library_path_lib.dsv'
+[0.668s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/hook/ld_library_path_lib.sh'
+[0.669s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/autoaim_msgs/bin'
+[0.669s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/pkgconfig/autoaim_msgs.pc'
+[0.669s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages'
+[0.669s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('autoaim_msgs', 'pythonpath')
+[0.669s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/hook/pythonpath.ps1'
+[0.670s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/hook/pythonpath.dsv'
+[0.670s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/hook/pythonpath.sh'
+[0.670s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/autoaim_msgs/bin'
+[0.670s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/package.ps1'
+[0.671s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/package.dsv'
+[0.671s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/package.sh'
+[0.672s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/package.bash'
+[0.672s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/package.zsh'
+[0.672s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/colcon-core/packages/autoaim_msgs)
+[0.673s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(autoaim_msgs)
+[0.673s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/autoaim_msgs' for CMake module files
+[0.673s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/autoaim_msgs' for CMake config files
+[0.674s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('autoaim_msgs', 'cmake_prefix_path')
+[0.674s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/hook/cmake_prefix_path.ps1'
+[0.675s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/hook/cmake_prefix_path.dsv'
+[0.675s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/hook/cmake_prefix_path.sh'
+[0.675s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib'
+[0.676s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('autoaim_msgs', 'ld_library_path_lib')
+[0.676s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/hook/ld_library_path_lib.ps1'
+[0.676s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/hook/ld_library_path_lib.dsv'
+[0.676s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/hook/ld_library_path_lib.sh'
+[0.677s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/autoaim_msgs/bin'
+[0.677s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/pkgconfig/autoaim_msgs.pc'
+[0.677s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages'
+[0.677s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('autoaim_msgs', 'pythonpath')
+[0.677s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/hook/pythonpath.ps1'
+[0.678s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/hook/pythonpath.dsv'
+[0.678s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/hook/pythonpath.sh'
+[0.679s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/autoaim_msgs/bin'
+[0.679s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/package.ps1'
+[0.679s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/package.dsv'
+[0.680s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/package.sh'
+[0.680s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/package.bash'
+[0.680s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/autoaim_msgs/package.zsh'
+[0.681s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/guo/ITL_Auto_aim/install/autoaim_msgs/share/colcon-core/packages/autoaim_msgs)
+[0.681s] [34mcolcon.colcon_ros.task.ament_cmake.build[0m [1;30mINFO[0m Building ROS package in '/home/guo/ITL_Auto_aim/src/io/serial' with build type 'ament_cmake'
+[0.681s] [34mcolcon.colcon_cmake.task.cmake.build[0m [1;30mINFO[0m Building CMake package in '/home/guo/ITL_Auto_aim/src/io/serial'
+[0.681s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.681s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[0.692s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/guo/ITL_Auto_aim/build/serial': AMENT_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --build /home/guo/ITL_Auto_aim/build/serial -- -j24 -l24[0m
+[0.717s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/guo/ITL_Auto_aim/build/serial' returned '0': AMENT_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --build /home/guo/ITL_Auto_aim/build/serial -- -j24 -l24[0m
+[0.718s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/guo/ITL_Auto_aim/build/serial': AMENT_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --install /home/guo/ITL_Auto_aim/build/serial[0m
+[0.721s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(serial)
+[0.721s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/guo/ITL_Auto_aim/build/serial' returned '0': AMENT_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --install /home/guo/ITL_Auto_aim/build/serial[0m
+[0.722s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/serial' for CMake module files
+[0.722s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/serial' for CMake config files
+[0.722s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('serial', 'cmake_prefix_path')
+[0.722s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/serial/share/serial/hook/cmake_prefix_path.ps1'
+[0.723s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/serial/share/serial/hook/cmake_prefix_path.dsv'
+[0.723s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/serial/share/serial/hook/cmake_prefix_path.sh'
+[0.723s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/serial/lib'
+[0.723s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('serial', 'ld_library_path_lib')
+[0.724s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/serial/share/serial/hook/ld_library_path_lib.ps1'
+[0.724s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/serial/share/serial/hook/ld_library_path_lib.dsv'
+[0.724s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/serial/share/serial/hook/ld_library_path_lib.sh'
+[0.724s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/serial/bin'
+[0.724s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/serial/lib/pkgconfig/serial.pc'
+[0.725s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/serial/lib/python3.10/site-packages'
+[0.725s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/serial/bin'
+[0.725s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/serial/share/serial/package.ps1'
+[0.725s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/guo/ITL_Auto_aim/install/serial/share/serial/package.dsv'
+[0.726s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/serial/share/serial/package.sh'
+[0.726s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/serial/share/serial/package.bash'
+[0.726s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/serial/share/serial/package.zsh'
+[0.726s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/guo/ITL_Auto_aim/install/serial/share/colcon-core/packages/serial)
+[0.727s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(serial)
+[0.727s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/serial' for CMake module files
+[0.727s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/serial' for CMake config files
+[0.728s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('serial', 'cmake_prefix_path')
+[0.728s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/serial/share/serial/hook/cmake_prefix_path.ps1'
+[0.728s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/serial/share/serial/hook/cmake_prefix_path.dsv'
+[0.729s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/serial/share/serial/hook/cmake_prefix_path.sh'
+[0.729s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/serial/lib'
+[0.729s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('serial', 'ld_library_path_lib')
+[0.729s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/serial/share/serial/hook/ld_library_path_lib.ps1'
+[0.730s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/serial/share/serial/hook/ld_library_path_lib.dsv'
+[0.730s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/serial/share/serial/hook/ld_library_path_lib.sh'
+[0.730s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/serial/bin'
+[0.730s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/serial/lib/pkgconfig/serial.pc'
+[0.731s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/serial/lib/python3.10/site-packages'
+[0.731s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/serial/bin'
+[0.731s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/serial/share/serial/package.ps1'
+[0.732s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/guo/ITL_Auto_aim/install/serial/share/serial/package.dsv'
+[0.732s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/serial/share/serial/package.sh'
+[0.733s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/serial/share/serial/package.bash'
+[0.733s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/serial/share/serial/package.zsh'
+[0.733s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/guo/ITL_Auto_aim/install/serial/share/colcon-core/packages/serial)
+[0.734s] [34mcolcon.colcon_ros.task.ament_cmake.build[0m [1;30mINFO[0m Building ROS package in '/home/guo/ITL_Auto_aim/src/io/deveice' with build type 'ament_cmake'
+[0.734s] [34mcolcon.colcon_cmake.task.cmake.build[0m [1;30mINFO[0m Building CMake package in '/home/guo/ITL_Auto_aim/src/io/deveice'
+[0.734s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.734s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[0.757s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/guo/ITL_Auto_aim/build/deveice': AMENT_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_Auto_aim/install/serial/lib:/home/guo/ITL_Auto_aim/install/utils/lib:/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --build /home/guo/ITL_Auto_aim/build/deveice -- -j24 -l24[0m
+[0.831s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/guo/ITL_Auto_aim/build/deveice' returned '0': AMENT_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_Auto_aim/install/serial/lib:/home/guo/ITL_Auto_aim/install/utils/lib:/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --build /home/guo/ITL_Auto_aim/build/deveice -- -j24 -l24[0m
+[0.834s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/guo/ITL_Auto_aim/build/deveice': AMENT_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_Auto_aim/install/serial/lib:/home/guo/ITL_Auto_aim/install/utils/lib:/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --install /home/guo/ITL_Auto_aim/build/deveice[0m
+[0.844s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(deveice)
+[0.844s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/deveice' for CMake module files
+[0.845s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/guo/ITL_Auto_aim/build/deveice' returned '0': AMENT_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_Auto_aim/install/serial/lib:/home/guo/ITL_Auto_aim/install/utils/lib:/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --install /home/guo/ITL_Auto_aim/build/deveice[0m
+[0.846s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/deveice' for CMake config files
+[0.846s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('deveice', 'cmake_prefix_path')
+[0.846s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/hook/cmake_prefix_path.ps1'
+[0.847s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/hook/cmake_prefix_path.dsv'
+[0.847s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/hook/cmake_prefix_path.sh'
+[0.848s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/deveice/lib'
+[0.848s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('deveice', 'ld_library_path_lib')
+[0.849s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/hook/ld_library_path_lib.ps1'
+[0.849s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/hook/ld_library_path_lib.dsv'
+[0.849s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/hook/ld_library_path_lib.sh'
+[0.850s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/deveice/bin'
+[0.850s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/deveice/lib/pkgconfig/deveice.pc'
+[0.850s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/deveice/lib/python3.10/site-packages'
+[0.850s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/deveice/bin'
+[0.851s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/package.ps1'
+[0.851s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/package.dsv'
+[0.852s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/package.sh'
+[0.852s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/package.bash'
+[0.852s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/package.zsh'
+[0.852s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/guo/ITL_Auto_aim/install/deveice/share/colcon-core/packages/deveice)
+[0.853s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(deveice)
+[0.853s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/deveice' for CMake module files
+[0.853s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/deveice' for CMake config files
+[0.854s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('deveice', 'cmake_prefix_path')
+[0.854s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/hook/cmake_prefix_path.ps1'
+[0.854s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/hook/cmake_prefix_path.dsv'
+[0.854s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/hook/cmake_prefix_path.sh'
+[0.855s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/deveice/lib'
+[0.855s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('deveice', 'ld_library_path_lib')
+[0.855s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/hook/ld_library_path_lib.ps1'
+[0.855s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/hook/ld_library_path_lib.dsv'
+[0.856s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/hook/ld_library_path_lib.sh'
+[0.856s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/deveice/bin'
+[0.856s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/deveice/lib/pkgconfig/deveice.pc'
+[0.856s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/deveice/lib/python3.10/site-packages'
+[0.857s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/deveice/bin'
+[0.857s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/package.ps1'
+[0.857s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/package.dsv'
+[0.858s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/package.sh'
+[0.858s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/package.bash'
+[0.858s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/deveice/share/deveice/package.zsh'
+[0.859s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/guo/ITL_Auto_aim/install/deveice/share/colcon-core/packages/deveice)
+[0.859s] [34mcolcon.colcon_ros.task.ament_cmake.build[0m [1;30mINFO[0m Building ROS package in '/home/guo/ITL_Auto_aim/src/core/auto_aim' with build type 'ament_cmake'
+[0.859s] [34mcolcon.colcon_cmake.task.cmake.build[0m [1;30mINFO[0m Building CMake package in '/home/guo/ITL_Auto_aim/src/core/auto_aim'
+[0.859s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.859s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[0.882s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/guo/ITL_Auto_aim/build/auto_aim': AMENT_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_Auto_aim/install/deveice/lib:/home/guo/ITL_Auto_aim/install/serial/lib:/home/guo/ITL_Auto_aim/install/utils/lib:/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --build /home/guo/ITL_Auto_aim/build/auto_aim -- -j24 -l24[0m
+[1.044s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/guo/ITL_Auto_aim/build/auto_aim' returned '0': AMENT_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_Auto_aim/install/deveice/lib:/home/guo/ITL_Auto_aim/install/serial/lib:/home/guo/ITL_Auto_aim/install/utils/lib:/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --build /home/guo/ITL_Auto_aim/build/auto_aim -- -j24 -l24[0m
+[1.047s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/guo/ITL_Auto_aim/build/auto_aim': AMENT_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_Auto_aim/install/deveice/lib:/home/guo/ITL_Auto_aim/install/serial/lib:/home/guo/ITL_Auto_aim/install/utils/lib:/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --install /home/guo/ITL_Auto_aim/build/auto_aim[0m
+[1.059s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(auto_aim)
+[1.059s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_aim' for CMake module files
+[1.060s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/guo/ITL_Auto_aim/build/auto_aim' returned '0': AMENT_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_Auto_aim/install/deveice/lib:/home/guo/ITL_Auto_aim/install/serial/lib:/home/guo/ITL_Auto_aim/install/utils/lib:/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --install /home/guo/ITL_Auto_aim/build/auto_aim[0m
+[1.060s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_aim' for CMake config files
+[1.061s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('auto_aim', 'cmake_prefix_path')
+[1.061s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/hook/cmake_prefix_path.ps1'
+[1.062s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/hook/cmake_prefix_path.dsv'
+[1.062s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/hook/cmake_prefix_path.sh'
+[1.063s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_aim/lib'
+[1.063s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('auto_aim', 'ld_library_path_lib')
+[1.063s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/hook/ld_library_path_lib.ps1'
+[1.063s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/hook/ld_library_path_lib.dsv'
+[1.064s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/hook/ld_library_path_lib.sh'
+[1.064s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_aim/bin'
+[1.064s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_aim/lib/pkgconfig/auto_aim.pc'
+[1.064s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_aim/lib/python3.10/site-packages'
+[1.065s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_aim/bin'
+[1.065s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/package.ps1'
+[1.065s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/package.dsv'
+[1.066s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/package.sh'
+[1.066s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/package.bash'
+[1.066s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/package.zsh'
+[1.067s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/guo/ITL_Auto_aim/install/auto_aim/share/colcon-core/packages/auto_aim)
+[1.067s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(auto_aim)
+[1.067s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_aim' for CMake module files
+[1.067s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_aim' for CMake config files
+[1.068s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('auto_aim', 'cmake_prefix_path')
+[1.068s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/hook/cmake_prefix_path.ps1'
+[1.068s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/hook/cmake_prefix_path.dsv'
+[1.068s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/hook/cmake_prefix_path.sh'
+[1.068s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_aim/lib'
+[1.069s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('auto_aim', 'ld_library_path_lib')
+[1.069s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/hook/ld_library_path_lib.ps1'
+[1.069s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/hook/ld_library_path_lib.dsv'
+[1.069s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/hook/ld_library_path_lib.sh'
+[1.070s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_aim/bin'
+[1.070s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_aim/lib/pkgconfig/auto_aim.pc'
+[1.070s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_aim/lib/python3.10/site-packages'
+[1.070s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_aim/bin'
+[1.070s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/package.ps1'
+[1.070s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/package.dsv'
+[1.071s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/package.sh'
+[1.071s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/package.bash'
+[1.071s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/auto_aim/share/auto_aim/package.zsh'
+[1.071s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/guo/ITL_Auto_aim/install/auto_aim/share/colcon-core/packages/auto_aim)
+[1.072s] [34mcolcon.colcon_ros.task.ament_cmake.build[0m [1;30mINFO[0m Building ROS package in '/home/guo/ITL_Auto_aim/src/core/auto_buff' with build type 'ament_cmake'
+[1.072s] [34mcolcon.colcon_cmake.task.cmake.build[0m [1;30mINFO[0m Building CMake package in '/home/guo/ITL_Auto_aim/src/core/auto_buff'
+[1.072s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.072s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[1.101s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/guo/ITL_Auto_aim/build/auto_buff': AMENT_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/auto_aim:/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/auto_aim:/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_Auto_aim/install/auto_aim/lib:/home/guo/ITL_Auto_aim/install/deveice/lib:/home/guo/ITL_Auto_aim/install/serial/lib:/home/guo/ITL_Auto_aim/install/utils/lib:/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --build /home/guo/ITL_Auto_aim/build/auto_buff -- -j24 -l24[0m
+[1.226s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/guo/ITL_Auto_aim/build/auto_buff' returned '0': AMENT_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/auto_aim:/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/auto_aim:/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_Auto_aim/install/auto_aim/lib:/home/guo/ITL_Auto_aim/install/deveice/lib:/home/guo/ITL_Auto_aim/install/serial/lib:/home/guo/ITL_Auto_aim/install/utils/lib:/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --build /home/guo/ITL_Auto_aim/build/auto_buff -- -j24 -l24[0m
+[1.227s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/guo/ITL_Auto_aim/build/auto_buff': AMENT_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/auto_aim:/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/auto_aim:/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_Auto_aim/install/auto_aim/lib:/home/guo/ITL_Auto_aim/install/deveice/lib:/home/guo/ITL_Auto_aim/install/serial/lib:/home/guo/ITL_Auto_aim/install/utils/lib:/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --install /home/guo/ITL_Auto_aim/build/auto_buff[0m
+[1.231s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(auto_buff)
+[1.231s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_buff' for CMake module files
+[1.231s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/guo/ITL_Auto_aim/build/auto_buff' returned '0': AMENT_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/auto_aim:/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/auto_aim:/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_Auto_aim/install/auto_aim/lib:/home/guo/ITL_Auto_aim/install/deveice/lib:/home/guo/ITL_Auto_aim/install/serial/lib:/home/guo/ITL_Auto_aim/install/utils/lib:/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --install /home/guo/ITL_Auto_aim/build/auto_buff[0m
+[1.231s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_buff' for CMake config files
+[1.232s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('auto_buff', 'cmake_prefix_path')
+[1.232s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/hook/cmake_prefix_path.ps1'
+[1.232s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/hook/cmake_prefix_path.dsv'
+[1.232s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/hook/cmake_prefix_path.sh'
+[1.233s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_buff/lib'
+[1.233s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('auto_buff', 'ld_library_path_lib')
+[1.233s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/hook/ld_library_path_lib.ps1'
+[1.233s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/hook/ld_library_path_lib.dsv'
+[1.233s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/hook/ld_library_path_lib.sh'
+[1.233s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_buff/bin'
+[1.234s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_buff/lib/pkgconfig/auto_buff.pc'
+[1.234s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_buff/lib/python3.10/site-packages'
+[1.234s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_buff/bin'
+[1.234s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/package.ps1'
+[1.234s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/package.dsv'
+[1.235s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/package.sh'
+[1.235s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/package.bash'
+[1.235s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/package.zsh'
+[1.235s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/guo/ITL_Auto_aim/install/auto_buff/share/colcon-core/packages/auto_buff)
+[1.235s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(auto_buff)
+[1.236s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_buff' for CMake module files
+[1.236s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_buff' for CMake config files
+[1.236s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('auto_buff', 'cmake_prefix_path')
+[1.236s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/hook/cmake_prefix_path.ps1'
+[1.236s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/hook/cmake_prefix_path.dsv'
+[1.237s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/hook/cmake_prefix_path.sh'
+[1.237s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_buff/lib'
+[1.237s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('auto_buff', 'ld_library_path_lib')
+[1.237s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/hook/ld_library_path_lib.ps1'
+[1.238s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/hook/ld_library_path_lib.dsv'
+[1.238s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/hook/ld_library_path_lib.sh'
+[1.238s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_buff/bin'
+[1.238s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_buff/lib/pkgconfig/auto_buff.pc'
+[1.238s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_buff/lib/python3.10/site-packages'
+[1.238s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/auto_buff/bin'
+[1.239s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/package.ps1'
+[1.239s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/package.dsv'
+[1.239s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/package.sh'
+[1.240s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/package.bash'
+[1.240s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/auto_buff/share/auto_buff/package.zsh'
+[1.240s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/guo/ITL_Auto_aim/install/auto_buff/share/colcon-core/packages/auto_buff)
+[1.240s] [34mcolcon.colcon_ros.task.ament_cmake.build[0m [1;30mINFO[0m Building ROS package in '/home/guo/ITL_Auto_aim/src/node' with build type 'ament_cmake'
+[1.240s] [34mcolcon.colcon_cmake.task.cmake.build[0m [1;30mINFO[0m Building CMake package in '/home/guo/ITL_Auto_aim/src/node'
+[1.240s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.241s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[1.266s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/guo/ITL_Auto_aim/build/pipeline': AMENT_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/auto_buff:/home/guo/ITL_Auto_aim/install/auto_aim:/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/auto_buff:/home/guo/ITL_Auto_aim/install/auto_aim:/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_Auto_aim/install/auto_buff/lib:/home/guo/ITL_Auto_aim/install/auto_aim/lib:/home/guo/ITL_Auto_aim/install/deveice/lib:/home/guo/ITL_Auto_aim/install/serial/lib:/home/guo/ITL_Auto_aim/install/utils/lib:/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --build /home/guo/ITL_Auto_aim/build/pipeline -- -j24 -l24[0m
+[1.328s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/guo/ITL_Auto_aim/build/pipeline' returned '0': AMENT_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/auto_buff:/home/guo/ITL_Auto_aim/install/auto_aim:/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/auto_buff:/home/guo/ITL_Auto_aim/install/auto_aim:/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_Auto_aim/install/auto_buff/lib:/home/guo/ITL_Auto_aim/install/auto_aim/lib:/home/guo/ITL_Auto_aim/install/deveice/lib:/home/guo/ITL_Auto_aim/install/serial/lib:/home/guo/ITL_Auto_aim/install/utils/lib:/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --build /home/guo/ITL_Auto_aim/build/pipeline -- -j24 -l24[0m
+[1.329s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/guo/ITL_Auto_aim/build/pipeline': AMENT_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/auto_buff:/home/guo/ITL_Auto_aim/install/auto_aim:/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/auto_buff:/home/guo/ITL_Auto_aim/install/auto_aim:/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_Auto_aim/install/auto_buff/lib:/home/guo/ITL_Auto_aim/install/auto_aim/lib:/home/guo/ITL_Auto_aim/install/deveice/lib:/home/guo/ITL_Auto_aim/install/serial/lib:/home/guo/ITL_Auto_aim/install/utils/lib:/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --install /home/guo/ITL_Auto_aim/build/pipeline[0m
+[1.332s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(pipeline)
+[1.333s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/guo/ITL_Auto_aim/build/pipeline' returned '0': AMENT_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/auto_buff:/home/guo/ITL_Auto_aim/install/auto_aim:/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guo/ITL_Auto_aim/install/auto_buff:/home/guo/ITL_Auto_aim/install/auto_aim:/home/guo/ITL_Auto_aim/install/deveice:/home/guo/ITL_Auto_aim/install/serial:/home/guo/ITL_Auto_aim/install/utils:/home/guo/ITL_Auto_aim/install/autoaim_msgs:/opt/ros/rolling LD_LIBRARY_PATH=/home/guo/ITL_Auto_aim/install/auto_buff/lib:/home/guo/ITL_Auto_aim/install/auto_aim/lib:/home/guo/ITL_Auto_aim/install/deveice/lib:/home/guo/ITL_Auto_aim/install/serial/lib:/home/guo/ITL_Auto_aim/install/utils/lib:/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib:/usr/lib/x86_64-linux-gnu:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/x86_64-linux-gnu:/opt/ros/rolling/lib:/opt/MVS/lib/64:/opt/MVS/lib/32:/usr/local/TensorRT.10.7.0.23/lib:/usr/lib/x86_64-linux-gnu:/usr/local/cuda/lib64:/opt/MVS/lib/64:/opt/MVS/lib/32:/opt/MVS/lib/64:/opt/MVS/lib/32 PYTHONPATH=/home/guo/ITL_Auto_aim/install/autoaim_msgs/lib/python3.10/site-packages:${PYTHONPATH} /usr/local/bin/cmake --install /home/guo/ITL_Auto_aim/build/pipeline[0m
+[1.333s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/pipeline' for CMake module files
+[1.333s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/pipeline' for CMake config files
+[1.333s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('pipeline', 'cmake_prefix_path')
+[1.333s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/pipeline/share/pipeline/hook/cmake_prefix_path.ps1'
+[1.334s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/pipeline/share/pipeline/hook/cmake_prefix_path.dsv'
+[1.334s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/pipeline/share/pipeline/hook/cmake_prefix_path.sh'
+[1.334s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/pipeline/lib'
+[1.334s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/pipeline/bin'
+[1.334s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/pipeline/lib/pkgconfig/pipeline.pc'
+[1.335s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/pipeline/lib/python3.10/site-packages'
+[1.335s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/pipeline/bin'
+[1.335s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/pipeline/share/pipeline/package.ps1'
+[1.335s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/guo/ITL_Auto_aim/install/pipeline/share/pipeline/package.dsv'
+[1.335s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/pipeline/share/pipeline/package.sh'
+[1.336s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/pipeline/share/pipeline/package.bash'
+[1.336s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/pipeline/share/pipeline/package.zsh'
+[1.336s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/guo/ITL_Auto_aim/install/pipeline/share/colcon-core/packages/pipeline)
+[1.336s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(pipeline)
+[1.336s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/pipeline' for CMake module files
+[1.337s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/pipeline' for CMake config files
+[1.337s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('pipeline', 'cmake_prefix_path')
+[1.337s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/pipeline/share/pipeline/hook/cmake_prefix_path.ps1'
+[1.337s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/guo/ITL_Auto_aim/install/pipeline/share/pipeline/hook/cmake_prefix_path.dsv'
+[1.338s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/guo/ITL_Auto_aim/install/pipeline/share/pipeline/hook/cmake_prefix_path.sh'
+[1.338s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/pipeline/lib'
+[1.338s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/pipeline/bin'
+[1.338s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/pipeline/lib/pkgconfig/pipeline.pc'
+[1.338s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/pipeline/lib/python3.10/site-packages'
+[1.338s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/guo/ITL_Auto_aim/install/pipeline/bin'
+[1.339s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/pipeline/share/pipeline/package.ps1'
+[1.339s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/guo/ITL_Auto_aim/install/pipeline/share/pipeline/package.dsv'
+[1.339s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/pipeline/share/pipeline/package.sh'
+[1.339s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/pipeline/share/pipeline/package.bash'
+[1.340s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/guo/ITL_Auto_aim/install/pipeline/share/pipeline/package.zsh'
+[1.340s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/guo/ITL_Auto_aim/install/pipeline/share/colcon-core/packages/pipeline)
+[1.340s] [34mcolcon.colcon_parallel_executor.executor.parallel[0m [1;30mDEBUG[0m [32mclosing loop[0m
+[1.340s] [34mcolcon.colcon_parallel_executor.executor.parallel[0m [1;30mDEBUG[0m [32mloop closed[0m
+[1.340s] [34mcolcon.colcon_parallel_executor.executor.parallel[0m [1;30mDEBUG[0m [32mrun_until_complete finished with '0'[0m
+[1.340s] [34mcolcon.colcon_core.event_reactor[0m [1;30mDEBUG[0m [32mjoining thread[0m
+[1.344s] [34mcolcon.colcon_core.plugin_system[0m [1;30mINFO[0m Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[1.344s] [34mcolcon.colcon_core.plugin_system[0m [1;30mINFO[0m Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[1.344s] [34mcolcon.colcon_notification.desktop_notification[0m [1;30mINFO[0m Sending desktop notification using 'notify2'
+[1.354s] [34mcolcon.colcon_core.event_reactor[0m [1;30mDEBUG[0m [32mjoined thread[0m
+[1.354s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix script '/home/guo/ITL_Auto_aim/install/local_setup.ps1'
+[1.355s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix util module '/home/guo/ITL_Auto_aim/install/_local_setup_util_ps1.py'
+[1.355s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix chain script '/home/guo/ITL_Auto_aim/install/setup.ps1'
+[1.356s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix script '/home/guo/ITL_Auto_aim/install/local_setup.sh'
+[1.356s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix util module '/home/guo/ITL_Auto_aim/install/_local_setup_util_sh.py'
+[1.357s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix chain script '/home/guo/ITL_Auto_aim/install/setup.sh'
+[1.357s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix script '/home/guo/ITL_Auto_aim/install/local_setup.bash'
+[1.358s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix chain script '/home/guo/ITL_Auto_aim/install/setup.bash'
+[1.358s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix script '/home/guo/ITL_Auto_aim/install/local_setup.zsh'
+[1.358s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix chain script '/home/guo/ITL_Auto_aim/install/setup.zsh'
