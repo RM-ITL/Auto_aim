@@ -243,7 +243,7 @@ low_speed_delay_time: 0.0 # s planner use this value
 
 
 Gimbal:
-enable_serial: false
+enable_serial: true
 com_port: "/dev/ttyACM0"
 
 Video:
@@ -261,3 +261,11 @@ predict_time: 0.120     # s
   #   x: 0.0
   #   y: 100.0                        # 相机在枪管上方
   #   z: 0.0
+
+Base_Hit:
+  Openvino_XML: /home/guo/ITL_Auto_aim/src/model/Katrin.xml
+  Openvino_Deveice: "CPU"
+  input_width: 640
+  input_height: 384
+  score_threshold: 0.6
+  nms_threshold: 0.3

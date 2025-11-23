@@ -1,6 +1,0 @@
-Invoking command in '/home/guo/ITL_Auto_aim/build/utils': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake /home/guo/ITL_Auto_aim/src/utils -DCMAKE_INSTALL_PREFIX=/home/guo/ITL_Auto_aim/install/utils
-Invoked command in '/home/guo/ITL_Auto_aim/build/utils' returned '0': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake /home/guo/ITL_Auto_aim/src/utils -DCMAKE_INSTALL_PREFIX=/home/guo/ITL_Auto_aim/install/utils
-Invoking command in '/home/guo/ITL_Auto_aim/build/utils': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_Auto_aim/build/utils -- -j24 -l24
-Invoked command in '/home/guo/ITL_Auto_aim/build/utils' returned '0': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --build /home/guo/ITL_Auto_aim/build/utils -- -j24 -l24
-Invoking command in '/home/guo/ITL_Auto_aim/build/utils': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --install /home/guo/ITL_Auto_aim/build/utils
-Invoked command in '/home/guo/ITL_Auto_aim/build/utils' returned '0': CMAKE_PREFIX_PATH=/opt/ros/rolling /usr/local/bin/cmake --install /home/guo/ITL_Auto_aim/build/utils

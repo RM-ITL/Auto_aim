@@ -1,0 +1,10 @@
+# IDE和编辑器配置
+.claude/
+.vscode/
+
+# 构建输出
+build/
+install/
+
+# 日志文件
+log/

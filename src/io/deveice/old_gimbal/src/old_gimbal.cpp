@@ -149,15 +149,15 @@ void OldGimbal::send(const SimpleVisionToGimbal & data)
   }
 }
 
-void OldGimbal::send_simple(bool control, bool fire, float yaw, float yaw_vel, float pitch, float pitch_vel)
+void OldGimbal::send_simple(bool control, bool fire, float yaw, float pitch)
 {
   std::lock_guard<std::mutex> lock(mutex_);
 
   simple_tx_data_.mode = control ? (fire ? 2 : 1) : 0;
   simple_tx_data_.yaw = yaw;
-  simple_tx_data_.yaw_vel = yaw_vel;
+  // simple_tx_data_.yaw_vel = yaw_vel;
   simple_tx_data_.pitch = pitch;
-  simple_tx_data_.pitch_vel = pitch_vel;
+  // simple_tx_data_.pitch_vel = pitch_vel;
 
   try {
     size_t bytes_written = serial_.write(

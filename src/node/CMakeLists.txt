@@ -18,6 +18,7 @@ find_package(autoaim_msgs REQUIRED)
 find_package(deveice REQUIRED)
 find_package(auto_aim REQUIRED)
 find_package(auto_buff REQUIRED)
+find_package(base_hit REQUIRED)
 
 add_executable(pipeline_node
   src/test_node.cpp
@@ -27,11 +28,19 @@ add_executable(video_node
   src/video_node.cpp
 )
 
+add_executable(base_hit_node
+  src/base_hit_node.cpp
+)
+
 target_include_directories(pipeline_node PRIVATE
   include
 )
 
 target_include_directories(video_node PRIVATE
+  include
+)
+
+target_include_directories(base_hit_node PRIVATE
   include
 )
 
@@ -53,6 +62,12 @@ ament_target_dependencies(video_node
   auto_buff
 )
 
+ament_target_dependencies(base_hit_node
+  utils
+  deveice
+  base_hit
+)
+
 target_link_libraries(pipeline_node
   ${OpenCV_LIBS}
   deveice::deveice
@@ -66,9 +81,16 @@ target_link_libraries(video_node
   auto_buff::auto_buff
 )
 
+target_link_libraries(base_hit_node
+  ${OpenCV_LIBS}
+  deveice::deveice
+  base_hit::base_hit
+)
+
 install(TARGETS
   pipeline_node
   video_node
+  base_hit_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

@@ -81,30 +81,28 @@ static_assert(sizeof(OldVisionToGimbal) == 12, "OldVisionToGimbal must be 12 byt
 // 简化版数据结构（19字节，单向发送）
 struct __attribute__((packed)) SimpleVisionToGimbal
 {
-  static constexpr size_t FRAME_SIZE = 19;
+  static constexpr size_t FRAME_SIZE = 11;
   static constexpr uint8_t FRAME_HEADER = 0xFF;
   static constexpr uint8_t FRAME_TAIL = 0xFE;
 
   uint8_t head;      // [0] 帧头 0xFF
   uint8_t mode;      // [1] 0: 不控制, 1: 控制云台但不开火, 2: 控制云台且开火
   float yaw;         // [2-5] 绝对弧度值
-  float yaw_vel;     // [6-9] 执行速度
+  // float yaw_vel;     // [6-9] 执行速度
   float pitch;       // [10-13] 绝对弧度值
-  float pitch_vel;   // [14-17] 执行速度
+  // float pitch_vel;   // [14-17] 执行速度
   uint8_t tail;      // [18] 帧尾 0xFE
 
   SimpleVisionToGimbal()
   : head(FRAME_HEADER),
     mode(0),
     yaw(0.0f),
-    yaw_vel(0.0f),
     pitch(0.0f),
-    pitch_vel(0.0f),
     tail(FRAME_TAIL)
   {}
 };
 
-static_assert(sizeof(SimpleVisionToGimbal) == 19, "SimpleVisionToGimbal must be 19 bytes");
+static_assert(sizeof(SimpleVisionToGimbal) == 11, "SimpleVisionToGimbal must be 19 bytes");
 
 // 简化版老云台类（只发送，不接收）
 class OldGimbal
@@ -123,7 +121,7 @@ public:
   void send(const SimpleVisionToGimbal & data);
 
   // 发送简化格式（便捷函数）
-  void send_simple(bool control, bool fire, float yaw, float yaw_vel, float pitch, float pitch_vel);
+  void send_simple(bool control, bool fire, float yaw, float pitch);
 
 private:
   serial::Serial serial_;
