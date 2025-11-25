@@ -245,6 +245,7 @@ low_speed_delay_time: 0.0 # s planner use this value
 Gimbal:
 enable_serial: true
 com_port: "/dev/ttyACM0"
+com_port_1: "/dev/ttyACM2"
 
 Video:
 video_path: "/home/guo/ITL_Auto_aim/test/31313561759-1-192.mp4"

@@ -2,6 +2,7 @@
 #define IO_OLD_GIMBAL_HPP
 
 #include <atomic>
+#include <chrono>
 #include <cmath>
 #include <mutex>
 #include <string>
@@ -124,6 +125,9 @@ public:
   void send_simple(bool control, bool fire, float yaw, float pitch);
 
 private:
+  // 尝试重新连接串口
+  bool try_reconnect();
+
   serial::Serial serial_;
   mutable std::mutex mutex_;
   OldVisionToGimbal tx_data_;
@@ -131,6 +135,17 @@ private:
 
   std::atomic<uint64_t> sent_count_{0};
   std::atomic<uint64_t> error_count_{0};
+  std::atomic<uint64_t> reconnect_count_{0};
+
+  // 端口配置
+  std::string primary_port_;
+  std::string backup_port_;
+  std::string current_port_;
+
+  // 重连控制
+  std::atomic<bool> need_reconnect_{false};
+  std::chrono::steady_clock::time_point last_reconnect_attempt_;
+  static constexpr int RECONNECT_INTERVAL_MS = 1000;  // 重连间隔1秒
 };
 
 }  // namespace io

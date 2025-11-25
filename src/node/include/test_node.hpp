@@ -65,6 +65,7 @@ private:
   solver::YawOptimizer* yaw_optimizer_;
   std::unique_ptr<tracker::Tracker> tracker_;
   std::unique_ptr<plan::Planner> planner_;
+  // std::unique_ptr<io::Gimbal> gimbal_;
   std::unique_ptr<io::Gimbal> gimbal_;
   rclcpp::Node::SharedPtr ros_node_;
   rclcpp::Publisher<autoaim_msgs::msg::Debug>::SharedPtr debug_pub_;

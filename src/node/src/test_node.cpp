@@ -243,6 +243,7 @@ void PipelineApp::planner_loop()
       gimbal_->send(
         plan_result.control, plan_result.fire, plan_result.yaw, plan_result.yaw_vel,
         plan_result.yaw_acc, plan_result.pitch, plan_result.pitch_vel, plan_result.pitch_acc);
+        // gimbal_->send_simple(plan_result.control, plan_result.fire, plan_result.yaw, plan_result.pitch);
     } else {
       gimbal_->send(false, false, 0, 0, 0, 0, 0, 0);
     }

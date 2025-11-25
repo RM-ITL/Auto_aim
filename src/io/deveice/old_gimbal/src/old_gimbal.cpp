@@ -1,5 +1,7 @@
 #include "old_gimbal.hpp"
 
+#include <vector>
+
 #include "logger.hpp"
 #include "yaml.hpp"
 
@@ -9,23 +11,51 @@ namespace io
 OldGimbal::OldGimbal(const std::string & config_path)
 {
   auto yaml = utils::load(config_path);
-  auto com_port = utils::read<std::string>(yaml, "com_port");
+  primary_port_ = utils::read<std::string>(yaml, "com_port");
+  backup_port_ = utils::read<std::string>(yaml, "com_port_1");
 
+  bool port_opened = false;
+
+  // 首先尝试打开主端口
   try {
-    serial_.setPort(com_port);
+    serial_.setPort(primary_port_);
     serial_.setBaudrate(115200);  // 老接口默认波特率
     serial_.setTimeout(serial::Timeout::max(), 1000, 0, 1000, 0);
     serial_.open();
-    utils::logger()->info("[OldGimbal] Serial port opened: {}", com_port);
+    current_port_ = primary_port_;
+    port_opened = true;
+    utils::logger()->info("[OldGimbal] Serial port opened: {}", primary_port_);
   } catch (const std::exception & e) {
-    utils::logger()->error("[OldGimbal] Failed to open serial port {}: {}", com_port, e.what());
-    throw;
+    utils::logger()->warn("[OldGimbal] Failed to open primary port {}: {}", primary_port_, e.what());
+
+    // 尝试打开备用端口
+    try {
+      utils::logger()->info("[OldGimbal] Trying backup port: {}", backup_port_);
+      serial_.setPort(backup_port_);
+      serial_.setBaudrate(115200);
+      serial_.setTimeout(serial::Timeout::max(), 1000, 0, 1000, 0);
+      serial_.open();
+      current_port_ = backup_port_;
+      port_opened = true;
+      utils::logger()->info("[OldGimbal] Backup serial port opened: {}", backup_port_);
+    } catch (const std::exception & backup_error) {
+      utils::logger()->error(
+        "[OldGimbal] Failed to open backup port {}: {}", backup_port_, backup_error.what());
+    }
   }
 
+  if (!port_opened) {
+    utils::logger()->error("[OldGimbal] All serial ports failed to open");
+    throw std::runtime_error("Failed to open any serial port");
+  }
+
+  last_reconnect_attempt_ = std::chrono::steady_clock::now();
+
   utils::logger()->info(
-    "[OldGimbal] Initialized with frame size: {} bytes, angle scale: {}",
+    "[OldGimbal] Initialized with frame size: {} bytes, angle scale: {}, active port: {}",
     OldVisionToGimbal::FRAME_SIZE,
-    OldVisionToGimbal::ANGLE_SCALE);
+    OldVisionToGimbal::ANGLE_SCALE,
+    current_port_);
 }
 
 OldGimbal::~OldGimbal()
@@ -44,13 +74,22 @@ OldGimbal::~OldGimbal()
       ? (static_cast<double>(sent_count_) / (sent_count_ + error_count_)) * 100.0
       : 0.0;
     utils::logger()->info(
-      "[OldGimbal] Statistics - Sent: {}, Errors: {}, Success rate: {:.1f}%",
-      sent_count_.load(), error_count_.load(), success_rate);
+      "[OldGimbal] Statistics - Sent: {}, Errors: {}, Reconnects: {}, Success rate: {:.1f}%",
+      sent_count_.load(), error_count_.load(), reconnect_count_.load(), success_rate);
   }
 }
 
 void OldGimbal::send_delta_angle(float delta_yaw_deg, float delta_pitch_deg)
 {
+  // 如果需要重连，先尝试重连
+  if (need_reconnect_.load()) {
+    if (try_reconnect()) {
+      utils::logger()->info("[OldGimbal] Reconnection successful, resuming data transmission");
+    } else {
+      return;  // 重连失败，跳过本次发送
+    }
+  }
+
   // 数据验证
   if (std::isnan(delta_yaw_deg) || std::isnan(delta_pitch_deg)) {
     utils::logger()->warn(
@@ -94,15 +133,26 @@ void OldGimbal::send_delta_angle(float delta_yaw_deg, float delta_pitch_deg)
         "[OldGimbal] Incomplete write - Expected: {}, Actual: {}",
         OldVisionToGimbal::FRAME_SIZE, bytes_written);
       error_count_++;
+      need_reconnect_ = true;
     }
   } catch (const std::exception & e) {
     utils::logger()->warn("[OldGimbal] Failed to write serial: {}", e.what());
     error_count_++;
+    need_reconnect_ = true;
   }
 }
 
 void OldGimbal::send(const OldVisionToGimbal & data)
 {
+  // 如果需要重连，先尝试重连
+  if (need_reconnect_.load()) {
+    if (try_reconnect()) {
+      utils::logger()->info("[OldGimbal] Reconnection successful, resuming data transmission");
+    } else {
+      return;  // 重连失败，跳过本次发送
+    }
+  }
+
   std::lock_guard<std::mutex> lock(mutex_);
   tx_data_ = data;
 
@@ -118,15 +168,26 @@ void OldGimbal::send(const OldVisionToGimbal & data)
         "[OldGimbal] Incomplete write - Expected: {}, Actual: {}",
         OldVisionToGimbal::FRAME_SIZE, bytes_written);
       error_count_++;
+      need_reconnect_ = true;
     }
   } catch (const std::exception & e) {
     utils::logger()->warn("[OldGimbal] Failed to write serial: {}", e.what());
     error_count_++;
+    need_reconnect_ = true;
   }
 }
 
 void OldGimbal::send(const SimpleVisionToGimbal & data)
 {
+  // 如果需要重连，先尝试重连
+  if (need_reconnect_.load()) {
+    if (try_reconnect()) {
+      utils::logger()->info("[OldGimbal] Reconnection successful, resuming data transmission");
+    } else {
+      return;  // 重连失败，跳过本次发送
+    }
+  }
+
   std::lock_guard<std::mutex> lock(mutex_);
   simple_tx_data_ = data;
 
@@ -142,15 +203,26 @@ void OldGimbal::send(const SimpleVisionToGimbal & data)
         "[OldGimbal] Incomplete write - Expected: {}, Actual: {}",
         SimpleVisionToGimbal::FRAME_SIZE, bytes_written);
       error_count_++;
+      need_reconnect_ = true;
     }
   } catch (const std::exception & e) {
     utils::logger()->warn("[OldGimbal] Failed to write serial: {}", e.what());
     error_count_++;
+    need_reconnect_ = true;
   }
 }
 
 void OldGimbal::send_simple(bool control, bool fire, float yaw, float pitch)
 {
+  // 如果需要重连，先尝试重连
+  if (need_reconnect_.load()) {
+    if (try_reconnect()) {
+      utils::logger()->info("[OldGimbal] Reconnection successful, resuming data transmission");
+    } else {
+      return;  // 重连失败，跳过本次发送
+    }
+  }
+
   std::lock_guard<std::mutex> lock(mutex_);
 
   simple_tx_data_.mode = control ? (fire ? 2 : 1) : 0;
@@ -177,11 +249,70 @@ void OldGimbal::send_simple(bool control, bool fire, float yaw, float pitch)
         "[OldGimbal] Incomplete write - Expected: {}, Actual: {}",
         SimpleVisionToGimbal::FRAME_SIZE, bytes_written);
       error_count_++;
+      need_reconnect_ = true;
     }
   } catch (const std::exception & e) {
     utils::logger()->warn("[OldGimbal] Failed to write serial: {}", e.what());
     error_count_++;
+    need_reconnect_ = true;
   }
+}
+
+bool OldGimbal::try_reconnect()
+{
+  // 检查重连间隔，避免频繁重连
+  auto now = std::chrono::steady_clock::now();
+  auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+    now - last_reconnect_attempt_).count();
+
+  if (elapsed < RECONNECT_INTERVAL_MS) {
+    return false;  // 还没到重连时间
+  }
+
+  last_reconnect_attempt_ = now;
+
+  // 尝试关闭旧连接
+  try {
+    if (serial_.isOpen()) {
+      serial_.close();
+    }
+  } catch (const std::exception & e) {
+    utils::logger()->debug("[OldGimbal] Error closing port during reconnect: {}", e.what());
+  }
+
+  // 尝试按顺序重连：先尝试主端口，再尝试备用端口
+  std::vector<std::string> ports_to_try;
+
+  // 如果当前用的是备用端口，先尝试主端口（可能设备重新插回了）
+  if (current_port_ == backup_port_) {
+    ports_to_try = {primary_port_, backup_port_};
+  } else {
+    ports_to_try = {backup_port_, primary_port_};
+  }
+
+  for (const auto & port : ports_to_try) {
+    try {
+      utils::logger()->info("[OldGimbal] Attempting to reconnect to port: {}", port);
+      serial_.setPort(port);
+      serial_.setBaudrate(115200);
+      serial_.setTimeout(serial::Timeout::max(), 1000, 0, 1000, 0);
+      serial_.open();
+
+      current_port_ = port;
+      reconnect_count_++;
+      need_reconnect_ = false;
+
+      utils::logger()->info(
+        "[OldGimbal] Reconnected successfully to port: {} (reconnect #{})",
+        port, reconnect_count_.load());
+      return true;
+    } catch (const std::exception & e) {
+      utils::logger()->debug("[OldGimbal] Failed to reconnect to {}: {}", port, e.what());
+    }
+  }
+
+  utils::logger()->warn("[OldGimbal] All reconnect attempts failed");
+  return false;
 }
 
 }  // namespace io
