@@ -1732,6 +1732,63 @@ IMU的X轴与云台的X轴相反，Y轴也相反，但是Z轴相同
 # 然后就是需要为未来英雄吊射，哨兵全向感知，无人机的自瞄留出接口
 
 
+
+# 12月3日：
+
+1.
+[Target]模块的流程:
+
+在Tracker中调用Target的构造函数之后，传入了经过solver模块填充之后的Armor_pose之后构造Target对象初始化：
+
+  Eigen::VectorXd P0_dig(11);
+  P0_dig << 1, 64, 1, 64, 1, 64, 0.4, 100, 1, 1, 1;
+  target_ = predict::Target(armor_pose, t, 0.24, 4, P0_dig);
+  RCLCPP_INFO(rclcpp::get_logger("Tracker"), 
+              "初始化标准步兵目标 (ID: %d)", static_cast<int>(armor_pose.id));
+
+在构造函数内部初始化了状态变量，状态变量如下：
+  - x[0], x[1]：旋转中心的 x 坐标和 x 方向速度
+  - x[2], x[3]：旋转中心的 y 坐标和 y 方向速度
+  - x[4], x[5]：旋转中心的 z 坐标和 z 方向速度
+  - x[6]：当前角度 a (angle)
+  - x[7]：角速度 w (angular velocity)
+  - x[8]：基础半径 r (radius)
+  - x[9]：长短轴差 l = r2 - r1
+  - x[10]：高度差 h = z2 - z1
+
+在Tracker的upate_target内部调用了Target的upate函数，在update函数内部：
+
+  调用 target.cpp:136-187 的 update() 函数：
+  1. 装甲板匹配（138-169行）：找出当前观测到的装甲板对应预测的哪个 ID
+  2. EKF 更新（184行）：调用 update_ypda(armor_pose, id)
+
+  target.cpp:189-269 update_ypda() 函数：
+  - 构造观测向量 z = [yaw, pitch, distance, angle]
+  - 使用 非线性观测函数 h(x) 和 雅可比矩阵 H 进行 EKF 更新
+  - 更新后的状态向量 x 包含了最新的 r、l、h 估计值
+
+在update_ypda()的函数内部：
+  则是h_armor_xyz()和h_jacobian()函数，
+  前者是通过估计出l和h来确定4个装甲板的精确位置，其中l是长短轴差，在估计出的r的基础上，使用l+r来作为长轴，然后使用h来进行高低板的判断，h+z为高板，z为低板
+  后者则是构造雅可比矩阵，链式法则：先从状态到 xyz，再从 xyz 到 ypd
+
+[完整的调用链]：
+  1. Tracker.track(armors, t)
+     ↓
+  2. set_target() 或 update_target()
+     ↓
+  3. solver_.processArmor(armor) → Armor_pose
+     ↓
+  4. Target(armor_pose, ...) 或 target_.update(armor_pose)
+     ↓
+  5. EKF 预测和更新
+     ↓  使用
+  6. h_armor_xyz(x, id) ← 这里根据 id 使用 l 和 h
+     ↓  计算每个装甲板的精确 xyz 坐标
+  7. 返回 target 对象（包含 4 个装甲板的预测位置）
+
+
+
 ## 经验记录：
 [来自交的Readme]:
 1. 即使接收 shoot_latency 也无法很好解决处理延迟问题，因为处理延迟包含相机图像传输、神经网络 detect、预测器预测、发送给电控的的延迟、电控到机械的延迟。可行的方案：统一采用 STM32 时间，采集图像时记录时刻和序号，一张图对应一个序号，对应一个预测，对应一个Shoot，对应一个发射指令，对应一个子弹飞出侦测。子弹飞出侦测记录的时间减去采集图像的时间就是延迟。

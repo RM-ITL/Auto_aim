@@ -61,6 +61,8 @@ private:
   motion_model::ExtendedKalmanFilter ekf_;
   std::chrono::steady_clock::time_point t_;
 
+  bool is_parameter_reliable(int param_idx, double threshold) const;  // 置信度检查，来进行l和h状态变量的可用性判断
+
   void update_ypda(const solver::Armor_pose & armor_pose, int id);  // yaw pitch distance angle
 
   Eigen::Vector3d h_armor_xyz(const Eigen::VectorXd & x, int id) const;

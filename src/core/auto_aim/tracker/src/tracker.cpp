@@ -288,7 +288,7 @@ bool Tracker::set_target(std::list<Armors> & armors,
     // 标准步兵：4块装甲板，半径约0.2m
     Eigen::VectorXd P0_dig(11);
     P0_dig << 1, 64, 1, 64, 1, 64, 0.4, 100, 1, 1, 1;
-    target_ = predict::Target(armor_pose, t, 0.2, 4, P0_dig);
+    target_ = predict::Target(armor_pose, t, 0.24, 4, P0_dig);
     RCLCPP_INFO(rclcpp::get_logger("Tracker"), 
                 "初始化标准步兵目标 (ID: %d)", static_cast<int>(armor_pose.id));
   }

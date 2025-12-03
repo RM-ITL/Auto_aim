@@ -218,7 +218,7 @@ void Target::update_ypda(const solver::Armor_pose & armor_pose, int id)
     return c;
   };
 
-  // 使用 world_spherical 和 world_orientation
+  // 定义观测值，即实际解算得到的ypda
   Eigen::VectorXd z(4);
   z << armor_pose.world_spherical.yaw,
        armor_pose.world_spherical.pitch,
@@ -227,8 +227,9 @@ void Target::update_ypda(const solver::Armor_pose & armor_pose, int id)
 
   ekf_.update(z, H, R, h, z_subtract);
 
-  // Eigen::Vector4d z_pred = h(ekf_.x);
-  // Eigen::Vector4d innovation = z_subtract(z, z_pred);
+  // 非线性转换函数得到预测的ypda
+  Eigen::Vector4d z_pred = h(ekf_.x);
+  Eigen::Vector4d innovation = z_subtract(z, z_pred);
   
   // // 计算新息协方差 S = H * P * H^T + R
   // Eigen::MatrixXd S = H * ekf_.P * H.transpose() + R;
@@ -296,13 +297,13 @@ bool Target::diverged() const
   double vx = ekf_.x[1];
   double vy = ekf_.x[3]; 
   double vz = ekf_.x[5];
-  [[maybe_unused]] double speed = std::sqrt(vx * vx + vy * vy + vz * vz);
+  double speed = std::sqrt(vx * vx + vy * vy + vz * vz);
   
   // 原始的判定逻辑
-  [[maybe_unused]] auto r_ok = r > 0.05 && r < 0.5;
-  [[maybe_unused]] auto l_ok = r_plus_l > 0.05 && r_plus_l < 0.5;
+  auto r_ok = r > 0.15 && r < 0.45;
+  auto l_ok = r_plus_l > 0.15 && r_plus_l < 0.55;
   
-  // 详细记录各项检查结果，这是理解问题的关键
+  // 检查结果
   // utils::logger()->debug(
   //   "发散检测详情 - [更新次数:{}] "
   //   "r:{:.3f}(ok:{}), r+l:{:.3f}(ok:{}), "
@@ -316,25 +317,25 @@ bool Target::diverged() const
   //   (name == armor_auto_aim::ArmorName::base ? "基地" : "步兵")
   // );
   
-  // // 如果判定为发散，详细说明原因
-  // if (!r_ok || !l_ok) {
-  //   utils::logger()->warn(
-  //     "目标发散! 原因: {} "
-  //     "[r={:.3f}(范围:0.05-0.5), r+l={:.3f}(范围:0.05-0.5)]",
-  //     !r_ok ? "半径超范围" : "长轴超范围",
-  //     r, r_plus_l
-  //   );
+  // 如果判定为发散，详细说明原因
+  if (!r_ok || !l_ok) {
+    // utils::logger()->warn(
+    //   "目标发散! 原因: {} "
+    //   "[r={:.3f}(范围:0.15-0.45), r+l={:.3f}(范围:0.15-0.55)]",
+    //   !r_ok ? "半径超范围" : "长轴超范围",
+    //   r, r_plus_l
+    // );
     
-  //   // 输出更多诊断信息帮助分析
-  //   utils::logger()->warn(
-  //     "发散时的状态向量: x={:.2f}, vx={:.2f}, y={:.2f}, vy={:.2f}, "
-  //     "z={:.2f}, vz={:.2f}, angle={:.2f}, w={:.2f}",
-  //     ekf_.x[0], ekf_.x[1], ekf_.x[2], ekf_.x[3],
-  //     ekf_.x[4], ekf_.x[5], ekf_.x[6], ekf_.x[7]
-  //   );
+    // 输出更多诊断信息帮助分析
+    // utils::logger()->warn(
+    //   "发散时的状态向量: x={:.2f}, vx={:.2f}, y={:.2f}, vy={:.2f}, "
+    //   "z={:.2f}, vz={:.2f}, angle={:.2f}, w={:.2f}",
+    //   ekf_.x[0], ekf_.x[1], ekf_.x[2], ekf_.x[3],
+    //   ekf_.x[4], ekf_.x[5], ekf_.x[6], ekf_.x[7]
+    // );
     
-  //   return true;
-  // }
+    return true;
+  }
   
   return false;
 }
@@ -352,6 +353,16 @@ bool Target::convergened()
   return is_converged_;
 }
 
+
+// 置信度检查
+bool Target::is_parameter_reliable(int param_idx, double threshold) const 
+{
+  // 检查协方差矩阵对应位置的不确定度
+  return ekf_.P(param_idx, param_idx) < threshold;
+}
+
+
+
 // 计算出装甲板中心的坐标（考虑长短轴）
 Eigen::Vector3d Target::h_armor_xyz(const Eigen::VectorXd & x, int id) const
 {
@@ -365,6 +376,26 @@ Eigen::Vector3d Target::h_armor_xyz(const Eigen::VectorXd & x, int id) const
 
   return Eigen::Vector3d(armor_x, armor_y, armor_z);
 }
+
+// Eigen::Vector3d Target::h_armor_xyz(const Eigen::VectorXd & x, int id) const 
+// {
+//     auto angle = utils::limit_rad(x[6] + id * 2 * CV_PI / armor_num_);
+//     auto use_l_h = (armor_num_ == 4) && (id == 1 || id == 3);
+
+//     // 关键改进：检查参数的可信度
+//     double r = x[8];
+//     double l = is_parameter_reliable(9, 0.01) ? x[9] : 0.0;  // l不可信时用0
+//     double h = is_parameter_reliable(10, 0.005) ? x[10] : 0.00; // h不可信时用0
+
+//     auto actual_r = (use_l_h && is_parameter_reliable(9, 0.01)) ? r + l : r;
+//     auto armor_x = x[0] - actual_r * std::cos(angle);
+//     auto armor_y = x[2] - actual_r * std::sin(angle);
+//     auto armor_z = (use_l_h && is_parameter_reliable(10, 0.005)) ? x[4] + h
+//   : x[4];
+
+//     return Eigen::Vector3d(armor_x, armor_y, armor_z);
+// }
+
 
 Eigen::MatrixXd Target::h_jacobian(const Eigen::VectorXd & x, int id) const
 {

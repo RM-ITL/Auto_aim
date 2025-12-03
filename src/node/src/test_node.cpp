@@ -106,6 +106,7 @@ int PipelineApp::run()
       debug_packet.reprojected_armors.reserve(targets.size() * 4);
     }
 
+    bool is_first_target = true;
     for (const auto & target : targets) {
       const auto armor_xyza_list = target.armor_xyza_list();
 
@@ -114,15 +115,33 @@ int PipelineApp::run()
         auto image_points =
           yaw_optimizer_->reproject_armor_out(world_point, xyza[3], target.armor_type, target.name);
 
-        if (image_points.size() == 4 && enable_visualization_) {
-          Visualization vis_armor;
-          std::copy(image_points.begin(), image_points.end(), vis_armor.corners.begin());
-          vis_armor.name = target.name;
-          vis_armor.type = target.armor_type;
-          debug_packet.reprojected_armors.push_back(vis_armor);
+        if (image_points.size() == 4) {
+          // 如果是第一个target（即queue的front），计算并打印中心点
+          if (is_first_target) {
+            cv::Point2f center(0, 0);
+            for (const auto& pt : image_points) {
+              center += pt;
+            }
+            center.x /= 4.0f;
+            center.y /= 4.0f;
+
+            utils::logger()->debug(
+              "[Pipeline] Target queue front 重投影中心点: ({:.2f}, {:.2f})",
+              center.x, center.y);
+            is_first_target = false;
+          }
+
+          if (enable_visualization_) {
+            Visualization vis_armor;
+            std::copy(image_points.begin(), image_points.end(), vis_armor.corners.begin());
+            vis_armor.name = target.name;
+            vis_armor.type = target.armor_type;
+            debug_packet.reprojected_armors.push_back(vis_armor);
+          }
         }
       }
     }
+
 
     debug_packet.tracker_state = tracker_->state();
     debug_packet.valid = true;
@@ -238,7 +257,11 @@ void PipelineApp::planner_loop()
     }
 
     auto target = target_queue.front();
+
+
+
     auto plan_result = planner_->plan(target, bullet_speed_);
+    auto gs = gimbal_->state();
     if (plan_result.control) {
       gimbal_->send(
         plan_result.control, plan_result.fire, plan_result.yaw, plan_result.yaw_vel,
@@ -289,11 +312,9 @@ void PipelineApp::planner_loop()
       msg.target_yaw = plan_result.target_yaw;
       msg.target_pitch = plan_result.target_pitch;
       msg.yaw = plan_result.yaw;
-      msg.yaw_vel = plan_result.yaw_vel;
-      msg.yaw_acc = plan_result.yaw_acc;
       msg.pitch = plan_result.pitch;
-      msg.pitch_vel = plan_result.pitch_vel;
-      msg.pitch_acc = plan_result.pitch_acc;
+      msg.yaw_gimbal = gs.yaw;
+      msg.pitch_gimbal = gs.pitch;
       debug_pub_->publish(msg);
     }
 
@@ -303,11 +324,9 @@ void PipelineApp::planner_loop()
       std::chrono::milliseconds(200)) {
       utils::logger()->debug(
         "[Pipeline] 规划输出: yaw={:.3f} pitch={:.3f} fire={} "
-        "target_yaw={:.3f} target_pitch={:.3f} "
-        "yaw_vel={:.3f} pitch_vel={:.3f} "
-        "yaw_acc={:.3f} pitch_acc={:.3f}",
-        plan_result.yaw, plan_result.pitch, plan_result.fire, plan_result.target_yaw, plan_result.target_pitch,
-        plan_result.yaw_vel, plan_result.pitch_vel, plan_result.yaw_acc, plan_result.pitch_acc);
+        "target_yaw={:.3f} target_pitch={:.3f} ",
+        "Gimbal_yaw={:3f} Gimbal_pitch={:.3f}",
+        plan_result.yaw, plan_result.pitch, plan_result.fire, plan_result.target_yaw, plan_result.target_pitch, gs.yaw, gs.pitch);
       last_log_time = now;
     }
 

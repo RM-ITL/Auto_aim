@@ -87,6 +87,8 @@ public:
 
 private:
   serial::Serial serial_;
+  std::mutex serial_mutex_;  // 保护串口读写操作
+  std::atomic<bool> reconnecting_ = false;  // 重连标志
 
   std::thread thread_;
   std::atomic<bool> quit_ = false;

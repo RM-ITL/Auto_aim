@@ -19,7 +19,7 @@ Gimbal::Gimbal(const std::string & config_path)
     exit(1);
   }
 
-  // thread_ = std::thread(&Gimbal::read_thread, this);
+  thread_ = std::thread(&Gimbal::read_thread, this);
   utils::logger()->info("[Gimbal] Gimbal initialized.");
 }
 
@@ -95,6 +95,9 @@ void Gimbal::send(io::VisionToGimbal VisionToGimbal)
   tx_data_.pitch_vel = VisionToGimbal.pitch_vel;
   tx_data_.pitch_acc = VisionToGimbal.pitch_acc;
 
+  if (reconnecting_ || !serial_.isOpen()) return;  // 重连中或串口未打开时直接返回
+
+  std::lock_guard<std::mutex> lock(serial_mutex_);  // 加锁保护串口写
   try {
     serial_.write(reinterpret_cast<uint8_t *>(&tx_data_), sizeof(tx_data_));
   } catch (const std::exception & e) {
@@ -114,6 +117,9 @@ void Gimbal::send(
   tx_data_.pitch_vel = pitch_vel;
   tx_data_.pitch_acc = pitch_acc;
 
+  if (reconnecting_ || !serial_.isOpen()) return;  // 重连中或串口未打开时直接返回
+
+  std::lock_guard<std::mutex> lock(serial_mutex_);  // 加锁保护串口写
   try {
     serial_.write(reinterpret_cast<uint8_t *>(&tx_data_), sizeof(tx_data_));
   } catch (const std::exception & e) {
@@ -123,6 +129,7 @@ void Gimbal::send(
 
 bool Gimbal::read_serial(uint8_t * buffer, size_t size)
 {
+  std::lock_guard<std::mutex> lock(serial_mutex_);  // 加锁保护串口读
   try {
     return serial_.read(buffer, size) == size;
   } catch (const std::exception & e) {
@@ -136,7 +143,7 @@ void Gimbal::read_thread()
   int error_count = 0;
 
   while (!quit_) {
-    if (error_count > 5000) {
+    if (error_count > 100) {  // 降低阈值，只有真正的错误才累加
       error_count = 0;
       utils::logger()->warn("[Gimbal] Too many errors, attempting to reconnect...");
       reconnect();
@@ -145,24 +152,36 @@ void Gimbal::read_thread()
 
     // 读取帧头
     if (!read_serial(reinterpret_cast<uint8_t *>(&rx_data_), sizeof(rx_data_.head))) {
-      error_count++;
+      // 读不到数据是正常的（电控未发送），不累加错误
+      std::this_thread::sleep_for(std::chrono::milliseconds(1));  // 等待数据
       continue;
     }
 
     // 验证帧头为 'G', 'V'
-    if (rx_data_.head[0] != 'G' || rx_data_.head[1] != 'V') continue;
+    if (rx_data_.head[0] != 'G' || rx_data_.head[1] != 'V') {
+      error_count++;  // 收到错误数据，累加错误
+      continue;
+    }
 
     // 读取除帧头外的剩余数据
     if (!read_serial(
           reinterpret_cast<uint8_t *>(&rx_data_) + sizeof(rx_data_.head),
           sizeof(rx_data_) - sizeof(rx_data_.head))) {
-      error_count++;
+      error_count++;  // 帧头对了但读不到后续数据，累加错误
       continue;
     }
 
     // 验证帧尾为 'G'
     if (rx_data_.tail != 'G') {
-      utils::logger()->debug("[Gimbal] Frame tail check failed.");
+      error_count++;  // 帧尾校验失败，累加错误
+      // 由于 packed 结构体，需要先复制到临时变量
+      float yaw_tmp = rx_data_.yaw;
+      float pitch_tmp = rx_data_.pitch;
+      utils::logger()->debug(
+        "[Gimbal] Frame tail check failed. Expected 'G'(0x47), got 0x{:02X}. "
+        "Received data size: {} bytes. Data: mode={}, yaw={:.3f}, pitch={:.3f}",
+        static_cast<unsigned char>(rx_data_.tail), sizeof(rx_data_),
+        rx_data_.mode, yaw_tmp, pitch_tmp);
       continue;
     }
 
@@ -178,6 +197,12 @@ void Gimbal::read_thread()
     state_.pitch_vel = rx_data_.pitch_vel;
     state_.bullet_speed = rx_data_.bullet_speed;
     state_.bullet_count = rx_data_.bullet_count;
+
+    // utils::logger()->debug(
+    //     "[Gimbal] 收到的数据是 "
+    //     "Received data size:yaw={:.3f}, pitch={:.3f}",
+    //     state_.yaw, state_.pitch);
+    
 
     switch (rx_data_.mode) {
       case 0:
@@ -204,17 +229,24 @@ void Gimbal::read_thread()
 
 void Gimbal::reconnect()
 {
+  reconnecting_ = true;  // 设置重连标志
   int max_retry_count = 10;
   for (int i = 0; i < max_retry_count && !quit_; ++i) {
     utils::logger()->warn("[Gimbal] Reconnecting serial, attempt {}/{}...", i + 1, max_retry_count);
     try {
-      serial_.close();
+      {
+        std::lock_guard<std::mutex> lock(serial_mutex_);
+        serial_.close();
+      }
       std::this_thread::sleep_for(std::chrono::seconds(1));
     } catch (...) {
     }
 
     try {
-      serial_.open();
+      {
+        std::lock_guard<std::mutex> lock(serial_mutex_);
+        serial_.open();
+      }
       utils::logger()->info("[Gimbal] Reconnected serial successfully.");
       break;
     } catch (const std::exception & e) {
@@ -222,6 +254,7 @@ void Gimbal::reconnect()
       std::this_thread::sleep_for(std::chrono::seconds(1));
     }
   }
+  reconnecting_ = false;  // 清除重连标志
 }
 
 }  // namespace Gimbal
