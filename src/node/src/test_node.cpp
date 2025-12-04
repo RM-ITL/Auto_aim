@@ -125,10 +125,10 @@ int PipelineApp::run()
             center.x /= 4.0f;
             center.y /= 4.0f;
 
-            utils::logger()->debug(
-              "[Pipeline] Target queue front 重投影中心点: ({:.2f}, {:.2f})",
-              center.x, center.y);
-            is_first_target = false;
+            // utils::logger()->debug(
+            //   "[Pipeline] Target queue front 重投影中心点: ({:.2f}, {:.2f})",
+            //   center.x, center.y);
+            // is_first_target = false;
           }
 
           if (enable_visualization_) {
@@ -309,7 +309,7 @@ void PipelineApp::planner_loop()
       auto msg = autoaim_msgs::msg::Debug{};
       msg.enable_control = plan_result.control;
       msg.fire = plan_result.fire;
-      msg.target_yaw = plan_result.target_yaw;
+      msg.yaw_offest = plan_result.yaw - gs.yaw;
       msg.target_pitch = plan_result.target_pitch;
       msg.yaw = plan_result.yaw;
       msg.pitch = plan_result.pitch;
@@ -322,11 +322,14 @@ void PipelineApp::planner_loop()
     if (
       plan_result.control && now - last_log_time >
       std::chrono::milliseconds(200)) {
+      auto  yaw_offest = plan_result.target_yaw - gs.yaw;
       utils::logger()->debug(
         "[Pipeline] 规划输出: yaw={:.3f} pitch={:.3f} fire={} "
-        "target_yaw={:.3f} target_pitch={:.3f} ",
-        "Gimbal_yaw={:3f} Gimbal_pitch={:.3f}",
-        plan_result.yaw, plan_result.pitch, plan_result.fire, plan_result.target_yaw, plan_result.target_pitch, gs.yaw, gs.pitch);
+        "上下位机yaw偏差={:.3f} target_pitch={:.3f} "
+        "Gimbal_yaw={:.3f} Gimbal_pitch={:.3f}",
+        plan_result.yaw, plan_result.pitch, plan_result.fire,
+        yaw_offest,
+        plan_result.target_pitch, gs.yaw, gs.pitch);
       last_log_time = now;
     }
 

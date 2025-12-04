@@ -12,7 +12,7 @@ Target::Target(
   double radius, 
   int armor_num,
   Eigen::VectorXd P0_dig)
-: name(armor_pose.id),        // 注意: Armor_pose 中的字段是 id, 不是 name
+: name(armor_pose.id),       
   armor_type(armor_pose.type),
   priority(armor_auto_aim::ArmorPriority::fifth),
   armor_num_(armor_num),
@@ -28,14 +28,16 @@ Target::Target(
   auto center_y = xyz[1] + r * std::sin(yaw);
   auto center_z = xyz[2];
 
+  // 前哨站：假设首先观测到上部装甲板，调整中心到中部高度
+  double h_init = 0.0;
+  if (armor_num == 3 && armor_pose.id == armor_auto_aim::ArmorName::outpost) {
+    h_init = 0.100;
+    center_z = xyz[2] - h_init;  // 上部高度 = center_z + h，所以 center_z = 上部 - h
+  }
 
   // x vx y vy z vz a w r l h
-  // a: angle
-  // w: angular velocity
-  // l: r2 - r1
-  // h: z2 - z1
   Eigen::VectorXd x0(11);
-  x0 << center_x, 0, center_y, 0, center_z, 0, yaw, 0, r, 0, 0;
+  x0 << center_x, 0, center_y, 0, center_z, 0, yaw, 0, r, 0, h_init;
   
   Eigen::MatrixXd P0 = P0_dig.asDiagonal();
 
@@ -46,7 +48,7 @@ Target::Target(
     return c;
   };
 
-  ekf_ = motion_model::ExtendedKalmanFilter(x0, P0, x_add);  // 初始化滤波器（预测量、预测量协方差）
+  ekf_ = motion_model::ExtendedKalmanFilter(x0, P0, x_add);
 }
 
 Target::Target(double x, double vyaw, double radius, double h) : armor_num_(4)
@@ -363,38 +365,41 @@ bool Target::is_parameter_reliable(int param_idx, double threshold) const
 
 
 
-// 计算出装甲板中心的坐标（考虑长短轴）
+// 计算出装甲板中心的坐标（考虑长短轴和高度差）
 Eigen::Vector3d Target::h_armor_xyz(const Eigen::VectorXd & x, int id) const
 {
   auto angle = utils::limit_rad(x[6] + id * 2 * CV_PI / armor_num_);
-  auto use_l_h = (armor_num_ == 4) && (id == 1 || id == 3);
 
-  auto r = (use_l_h) ? x[8] + x[9] : x[8];
+  double r;
+  double armor_z;
+
+  if (armor_num_ == 4) {
+    auto use_l_h = (id == 1 || id == 3);
+    r = (use_l_h) ? x[8] + x[9] : x[8];
+    armor_z = (use_l_h) ? x[4] + x[10] : x[4];
+  }
+  else if (armor_num_ == 3 && name == armor_auto_aim::ArmorName::outpost) {
+    // 前哨站：ID 0=上部, ID 1=中部, ID 2=下部，使用 EKF 估计的 h
+    r = x[8];
+    if (id == 0) {
+      armor_z = x[4] + x[10];  // 上部
+    } else if (id == 1) {
+      armor_z = x[4];          // 中部
+    } else {
+      armor_z = x[4] - x[10];  // 下部
+    }
+  }
+  else {
+    // 基地与早期平步
+    r = x[8];
+    armor_z = x[4];
+  }
+
   auto armor_x = x[0] - r * std::cos(angle);
   auto armor_y = x[2] - r * std::sin(angle);
-  auto armor_z = (use_l_h) ? x[4] + x[10] : x[4];
 
   return Eigen::Vector3d(armor_x, armor_y, armor_z);
 }
-
-// Eigen::Vector3d Target::h_armor_xyz(const Eigen::VectorXd & x, int id) const 
-// {
-//     auto angle = utils::limit_rad(x[6] + id * 2 * CV_PI / armor_num_);
-//     auto use_l_h = (armor_num_ == 4) && (id == 1 || id == 3);
-
-//     // 关键改进：检查参数的可信度
-//     double r = x[8];
-//     double l = is_parameter_reliable(9, 0.01) ? x[9] : 0.0;  // l不可信时用0
-//     double h = is_parameter_reliable(10, 0.005) ? x[10] : 0.00; // h不可信时用0
-
-//     auto actual_r = (use_l_h && is_parameter_reliable(9, 0.01)) ? r + l : r;
-//     auto armor_x = x[0] - actual_r * std::cos(angle);
-//     auto armor_y = x[2] - actual_r * std::sin(angle);
-//     auto armor_z = (use_l_h && is_parameter_reliable(10, 0.005)) ? x[4] + h
-//   : x[4];
-
-//     return Eigen::Vector3d(armor_x, armor_y, armor_z);
-// }
 
 
 Eigen::MatrixXd Target::h_jacobian(const Eigen::VectorXd & x, int id) const
@@ -411,7 +416,18 @@ Eigen::MatrixXd Target::h_jacobian(const Eigen::VectorXd & x, int id) const
   auto dx_dl = (use_l_h) ? -std::cos(angle) : 0.0;
   auto dy_dl = (use_l_h) ? -std::sin(angle) : 0.0;
 
-  auto dz_dh = (use_l_h) ? 1.0 : 0.0;
+  // dz/dh 计算
+  double dz_dh;
+  if (armor_num_ == 4) {
+    dz_dh = (id == 1 || id == 3) ? 1.0 : 0.0;
+  } else if (armor_num_ == 3 && name == armor_auto_aim::ArmorName::outpost) {
+    // 前哨站：ID 0=上部(+1), ID 1=中部(0), ID 2=下部(-1)
+    if (id == 0) dz_dh = 1.0;
+    else if (id == 1) dz_dh = 0.0;
+    else dz_dh = -1.0;
+  } else {
+    dz_dh = 0.0;
+  }
 
   Eigen::MatrixXd H_armor_xyza(4, 11);
   H_armor_xyza << 1, 0, 0, 0, 0, 0, dx_da, 0, dx_dr, dx_dl,     0,

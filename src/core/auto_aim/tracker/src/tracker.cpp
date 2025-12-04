@@ -271,9 +271,9 @@ bool Tracker::set_target(std::list<Armors> & armors,
                 "初始化平衡步兵目标 (ID: %d)", static_cast<int>(armor_pose.id));
   }
   else if (armor_pose.id == armor_auto_aim::ArmorName::outpost) {
-    // 前哨站：3块装甲板，半径约0.2765m，不旋转或慢速旋转
+    // 前哨站：3块装甲板，半径约0.2765m，允许估计高度偏移h
     Eigen::VectorXd P0_dig(11);
-    P0_dig << 1, 64, 1, 64, 1, 81, 0.4, 100, 1e-4, 0, 0;
+    P0_dig << 1, 64, 1, 64, 1, 81, 0.4, 100, 1e-4, 0, 0.01;
     target_ = predict::Target(armor_pose, t, 0.2765, 3, P0_dig);
     RCLCPP_INFO(rclcpp::get_logger("Tracker"), "初始化前哨站目标");
   }
