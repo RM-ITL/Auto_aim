@@ -300,42 +300,42 @@ bool Target::diverged() const
   double speed = std::sqrt(vx * vx + vy * vy + vz * vz);
   
   // 原始的判定逻辑
-  auto r_ok = r > 0.15 && r < 0.45;
-  auto l_ok = r_plus_l > 0.15 && r_plus_l < 0.55;
+  // auto r_ok = r > 0.15 && r < 0.45;
+  // auto l_ok = r_plus_l > 0.15 && r_plus_l < 0.55;
   
-  // 检查结果
-  // utils::logger()->debug(
-  //   "发散检测详情 - [更新次数:{}] "
-  //   "r:{:.3f}(ok:{}), r+l:{:.3f}(ok:{}), "
-  //   "速度:{:.3f}m/s, 协方差迹:{:.3f}, "
-  //   "目标类型:{}",
-  //   update_count_,
-  //   r, r_ok ? "是" : "否",
-  //   r_plus_l, l_ok ? "是" : "否",
-  //   speed, cov_trace,
-  //   name == armor_auto_aim::ArmorName::outpost ? "前哨站" : 
-  //   (name == armor_auto_aim::ArmorName::base ? "基地" : "步兵")
-  // );
+  // // 检查结果
+  // // utils::logger()->debug(
+  // //   "发散检测详情 - [更新次数:{}] "
+  // //   "r:{:.3f}(ok:{}), r+l:{:.3f}(ok:{}), "
+  // //   "速度:{:.3f}m/s, 协方差迹:{:.3f}, "
+  // //   "目标类型:{}",
+  // //   update_count_,
+  // //   r, r_ok ? "是" : "否",
+  // //   r_plus_l, l_ok ? "是" : "否",
+  // //   speed, cov_trace,
+  // //   name == armor_auto_aim::ArmorName::outpost ? "前哨站" : 
+  // //   (name == armor_auto_aim::ArmorName::base ? "基地" : "步兵")
+  // // );
   
-  // 如果判定为发散，详细说明原因
-  if (!r_ok || !l_ok) {
-    // utils::logger()->warn(
-    //   "目标发散! 原因: {} "
-    //   "[r={:.3f}(范围:0.15-0.45), r+l={:.3f}(范围:0.15-0.55)]",
-    //   !r_ok ? "半径超范围" : "长轴超范围",
-    //   r, r_plus_l
-    // );
+  // // 如果判定为发散，详细说明原因
+  // if (!r_ok || !l_ok) {
+  //   // utils::logger()->warn(
+  //   //   "目标发散! 原因: {} "
+  //   //   "[r={:.3f}(范围:0.15-0.45), r+l={:.3f}(范围:0.15-0.55)]",
+  //   //   !r_ok ? "半径超范围" : "长轴超范围",
+  //   //   r, r_plus_l
+  //   // );
     
-    // 输出更多诊断信息帮助分析
-    // utils::logger()->warn(
-    //   "发散时的状态向量: x={:.2f}, vx={:.2f}, y={:.2f}, vy={:.2f}, "
-    //   "z={:.2f}, vz={:.2f}, angle={:.2f}, w={:.2f}",
-    //   ekf_.x[0], ekf_.x[1], ekf_.x[2], ekf_.x[3],
-    //   ekf_.x[4], ekf_.x[5], ekf_.x[6], ekf_.x[7]
-    // );
+  //   // 输出更多诊断信息帮助分析
+  //   // utils::logger()->warn(
+  //   //   "发散时的状态向量: x={:.2f}, vx={:.2f}, y={:.2f}, vy={:.2f}, "
+  //   //   "z={:.2f}, vz={:.2f}, angle={:.2f}, w={:.2f}",
+  //   //   ekf_.x[0], ekf_.x[1], ekf_.x[2], ekf_.x[3],
+  //   //   ekf_.x[4], ekf_.x[5], ekf_.x[6], ekf_.x[7]
+  //   // );
     
-    return true;
-  }
+  //   return true;
+  // }
   
   return false;
 }
