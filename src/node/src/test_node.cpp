@@ -39,7 +39,7 @@ PipelineApp::PipelineApp(const std::string & config_path)
     "debug", rclcpp::QoS(10));
 
   camera_ = std::make_unique<camera::HikCamera>(config_path_);
-  dm_imu_ = std::make_unique<io::DmImu>(config_path_);
+  // dm_imu_ = std::make_unique<io::DmImu>(config_path_);
   detector_ = std::make_unique<armor_auto_aim::Detector>(config_path_);
   solver_ = std::make_unique<solver::Solver>(config_path_);
   yaw_optimizer_ = solver_->getYawOptimizer();
@@ -88,7 +88,11 @@ int PipelineApp::run()
 
     cv::cvtColor(img, debug_packet.rgb_image, cv::COLOR_BGR2RGB);
 
-    orientation = dm_imu_->imu_at(timestamp);
+    // orientation = dm_imu_->imu_at(timestamp);
+    orientation = gimbal_->q(timestamp);
+    utils::logger()->debug(
+      "[Pipeline] IMU四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
+      orientation.w(), orientation.x(), orientation.y(), orientation.z());
 
     solver_->updateIMU(orientation, timestamp_sec);
 
@@ -323,13 +327,13 @@ void PipelineApp::planner_loop()
       plan_result.control && now - last_log_time >
       std::chrono::milliseconds(200)) {
       auto  yaw_offest = plan_result.target_yaw - gs.yaw;
-      utils::logger()->debug(
-        "[Pipeline] 规划输出: yaw={:.3f} pitch={:.3f} fire={} "
-        "上下位机yaw偏差={:.3f} target_pitch={:.3f} "
-        "Gimbal_yaw={:.3f} Gimbal_pitch={:.3f}",
-        plan_result.yaw, plan_result.pitch, plan_result.fire,
-        yaw_offest,
-        plan_result.target_pitch, gs.yaw, gs.pitch);
+      // utils::logger()->debug(
+      //   "[Pipeline] 规划输出: yaw={:.3f} pitch={:.3f} fire={} "
+      //   "上下位机yaw偏差={:.3f} target_pitch={:.3f} "
+      //   "Gimbal_yaw={:.3f} Gimbal_pitch={:.3f}",
+      //   plan_result.yaw, plan_result.pitch, plan_result.fire,
+      //   yaw_offest,
+      //   plan_result.target_pitch, gs.yaw, gs.pitch);
       last_log_time = now;
     }
 

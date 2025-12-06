@@ -49,6 +49,10 @@ Plan Planner::plan(predict::Target target, double bullet_speed)
   Trajectory traj;
   try {
     yaw0 = aim(target, bullet_speed)(0);
+    // utils::logger()->debug(
+    //   "yaw0为:{:.3f}",
+    //   yaw0
+    // );
     traj = get_trajectory(target, yaw0, bullet_speed);
   } catch (const std::exception & e) {
     utils::logger()->warn("Unsolvable target {:.2f}", bullet_speed);

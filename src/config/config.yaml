@@ -148,7 +148,7 @@ outpost_max_temp_lost_count: 20  # 前哨站的最大临时丢失容忍度
 
 camera:
   parameters:
-    exposure_ms: 3.0  
+    exposure_ms: 5.0 
     gain: 12.0 
     fps: 120.0
     target_width: 1280
@@ -209,7 +209,7 @@ Solver:
 # - z: 相机相对云台在上下方向的偏移
 
 t_camera_to_gimbal:
-[0.00, 0.00, 0.00]
+[0.00, 0.00, 0.08]
 # [0.115, -0.065, 0.015]
 
 
@@ -268,11 +268,6 @@ buff_model: "/home/guo/ITL_Auto_aim/src/model/yolo11_buff_int8.xml"
 fire_gap_time: 0.700   # s
 predict_time: 0.120     # s
   
-  # # 相机到枪管偏移（毫米）
-  # camera_to_barrel_offset:
-  #   x: 0.0
-  #   y: 100.0                        # 相机在枪管上方
-  #   z: 0.0
 
 Base_Hit:
   Openvino_XML: /home/guo/ITL_Auto_aim/src/model/Katrin.xml

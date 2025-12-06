@@ -177,11 +177,11 @@ void Gimbal::read_thread()
       // 由于 packed 结构体，需要先复制到临时变量
       float yaw_tmp = rx_data_.yaw;
       float pitch_tmp = rx_data_.pitch;
-      utils::logger()->debug(
-        "[Gimbal] Frame tail check failed. Expected 'G'(0x47), got 0x{:02X}. "
-        "Received data size: {} bytes. Data: mode={}, yaw={:.3f}, pitch={:.3f}",
-        static_cast<unsigned char>(rx_data_.tail), sizeof(rx_data_),
-        rx_data_.mode, yaw_tmp, pitch_tmp);
+      // utils::logger()->debug(
+      //   "[Gimbal] Frame tail check failed. Expected 'G'(0x47), got 0x{:02X}. "
+      //   "Received data size: {} bytes. Data: mode={}, yaw={:.3f}, pitch={:.3f}",
+      //   static_cast<unsigned char>(rx_data_.tail), sizeof(rx_data_),
+      //   rx_data_.mode, yaw_tmp, pitch_tmp);
       continue;
     }
 
@@ -198,10 +198,29 @@ void Gimbal::read_thread()
     state_.bullet_speed = rx_data_.bullet_speed;
     state_.bullet_count = rx_data_.bullet_count;
 
-    // utils::logger()->debug(
-    //     "[Gimbal] 收到的数据是 "
-    //     "Received data size:yaw={:.3f}, pitch={:.3f}",
-    //     state_.yaw, state_.pitch);
+    // 读取四元数 (wxyz顺序)
+    float q0 = rx_data_.q[0];  // w
+    float q1 = rx_data_.q[1];  // x
+    float q2 = rx_data_.q[2];  // y
+    float q3 = rx_data_.q[3];  // z
+
+    // 坐标系转换：Gimbal IMU -> Pipeline IMU
+    // X轴和Y轴方向相反，Z轴相同
+    Eigen::Quaterniond q_converted(
+        q0,      // w不变
+        -q1,     // x取负
+        -q2,     // y取负
+        q3       // z不变
+    );
+
+    // 推入队列供 q() 方法使用
+    queue_.push({q_converted.normalized(), std::chrono::steady_clock::now()});
+
+    utils::logger()->debug(
+        "[Gimbal] 原始四元数 w:{:.3f}, x:{:.3f}, y:{:.3f}, z:{:.3f} -> "
+        "转换后 w:{:.3f}, x:{:.3f}, y:{:.3f}, z:{:.3f}",
+        q0, q1, q2, q3,
+        q_converted.w(), q_converted.x(), q_converted.y(), q_converted.z());
     
 
     switch (rx_data_.mode) {

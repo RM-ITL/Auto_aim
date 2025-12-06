@@ -59,13 +59,12 @@ private:
   // 组件与配置
   std::string config_path_;
   std::unique_ptr<camera::HikCamera> camera_;
-  std::unique_ptr<io::DmImu> dm_imu_;
+  // std::unique_ptr<io::DmImu> dm_imu_;
   std::unique_ptr<armor_auto_aim::Detector> detector_;
   std::unique_ptr<solver::Solver> solver_;
   solver::YawOptimizer* yaw_optimizer_;
   std::unique_ptr<tracker::Tracker> tracker_;
   std::unique_ptr<plan::Planner> planner_;
-  // std::unique_ptr<io::Gimbal> gimbal_;
   std::unique_ptr<io::Gimbal> gimbal_;
   rclcpp::Node::SharedPtr ros_node_;
   rclcpp::Publisher<autoaim_msgs::msg::Debug>::SharedPtr debug_pub_;
