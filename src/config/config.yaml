@@ -1,90 +1,6 @@
-CalibParam:
-  # 外参校准参数（保持不变）
-  EXTRI:
-    SO3_BiToBr:
-      - key: /imu/data
-        value:
-          qx: 0
-          qy: 0
-          qz: 0
-          qw: 1
-    POS_BiInBr:
-      - key: /imu/data
-        value:
-          r0c0: 0
-          r1c0: 0
-          r2c0: 0
-    SO3_CmToBr:
-      - key: /image_topic
-        value:
-          qx: 0.5000
-          qy: -0.5000
-          qz: 0.5000
-          qw: -0.5000
-    POS_CmInBr:
-      - key: /image_topic
-        value:
-          r0c0: 0.0
-          r1c0: 0.0      
-          r2c0: 0.03
-  
-  # 时间同步参数（保持不变）
-  TEMPORAL:
-    TO_BiToBr:
-      - key: /imu/data
-        value: 0
-    TO_RjToBr:
-      []
-    TO_LkToBr:      
-      []
-    TO_CmToBr:
-      - key: /image_topic
-        value: -0.003308117713373338
-    TO_DnToBr:
-      []
-    TO_EsToBr:
-      []
-    RS_READOUT:
-      - key: /image_topic
-        value: 0
-  
+CalibParam:  
   # 内参校准参数（已更新）
   INTRI:
-    IMU:
-      - key: /imu/data
-        value:
-          ptr_wrapper:
-            id: 2147483649
-            data:
-              ACCE:
-                BIAS:
-                  r0c0: -2.304013762502108
-                  r1c0: -0.6613550174646946
-                  r2c0: 0.2228910137641298
-                MAP_COEFF:
-                  r0c0: 1.004088323785791
-                  r1c0: 1.004244396612517
-                  r2c0: 1.004195687965688
-                  r3c0: 0.0002990784587541946
-                  r4c0: -0.002883393638668129
-                  r5c0: -0.000435143857068258
-              GYRO:
-                BIAS:
-                  r0c0: 0.03148866871892756
-                  r1c0: -0.106053755353517
-                  r2c0: 0.01210119625873641
-                MAP_COEFF:
-                  r0c0: 1
-                  r1c0: 1
-                  r2c0: 1
-                  r3c0: 0
-                  r4c0: 0
-                  r5c0: 0
-              SO3_AtoG:
-                qx: 0
-                qy: 0
-                qz: 0
-                qw: 1
     Camera:
       - key: /image_topic
         value:
@@ -132,20 +48,9 @@ CalibParam:
               #   - 0.002876545526120485
               #   - -0.594006385480322
   
-  # 重力向量（保持不变）
-  GRAVITY:
-    r0c0: -4.996003610813204e-15
-    r1c0: -2.42861286636753e-15
-    r2c0: -9.810000000000004
 
-# 敌方颜色配置
-enemy_color: "red"  # 或 "blue"
 
-# 跟踪状态机参数
-min_detect_count: 3              # 最小检测次数
-max_temp_lost_count: 10          # 普通目标的最大临时丢失容忍度  
-outpost_max_temp_lost_count: 20  # 前哨站的最大临时丢失容忍度
-
+# 相机参数
 camera:
   parameters:
     exposure_ms: 5.0 
@@ -156,6 +61,7 @@ camera:
     image_topic: "image_topic"
     debug: false
 
+# 神经网络识别参数
 yolo11:
   yolo11_model_path: "/home/guo/ITL_Auto_aim/src/model/yolo11.xml"
   # 推理设备
@@ -166,10 +72,23 @@ yolo11:
   min_confidence: 0.8
   score_threshold: 0.7
   nms_threshold: 0.3
-  
 
 
-# IMU相关配置
+# 传统方法识别参数：
+classify_model: "/home/guo/ITL_Auto_aim/src/model/tiny_resnet.onnx"
+threshold: 150
+max_angle_error: 45 # degree
+min_lightbar_ratio: 1.5
+max_lightbar_ratio: 20
+min_lightbar_length: 8
+min_armor_ratio: 1
+max_armor_ratio: 5
+max_side_ratio: 1.5
+max_rectangular_error: 25 # degree
+min_confidence: 0.8
+
+
+# DM_IMU相关配置
 DM_IMU:
 # 串口配置
 imu_com_port: "/dev/ttyACM1"
@@ -213,6 +132,7 @@ t_camera_to_gimbal:
 # [0.115, -0.065, 0.015]
 
 
+# Tracker参数
 Tracker:
   enemy_color: "red"  # 或 "blue"
   # 跟踪状态机参数
@@ -220,7 +140,13 @@ Tracker:
   max_temp_lost_count: 10          # 普通目标的最大临时丢失容忍度  
   outpost_max_temp_lost_count: 20  # 前哨站的最大临时丢失容忍度
 
+enemy_color: "red"  # 或 "blue"
+# 跟踪状态机参数
+min_detect_count: 3              # 最小检测次数
+max_temp_lost_count: 10          # 普通目标的最大临时丢失容忍度  
+outpost_max_temp_lost_count: 20  # 前哨站的最大临时丢失容忍度
 
+# 瞄准器Aimer参数
 Aimer:
   #####-----aimer参数-----#####
   yaw_offset: -0.8 # degree -2.5
@@ -252,12 +178,14 @@ decision_speed: 7 # rad/s
 high_speed_delay_time: 0.0 # s
 low_speed_delay_time: 0.0 # s planner use this value
 
-
+# Gimbal通讯参数
 Gimbal:
 enable_serial: true
 com_port: "/dev/ttyACM0"
 com_port_1: "/dev/ttyACM2"
 
+
+# video视频测试参数
 Video:
 video_path: "/home/guo/ITL_Auto_aim/test/31313561759-1-192.mp4"
 
@@ -268,7 +196,7 @@ buff_model: "/home/guo/ITL_Auto_aim/src/model/yolo11_buff_int8.xml"
 fire_gap_time: 0.700   # s
 predict_time: 0.120     # s
   
-
+# 基地Base识别参数
 Base_Hit:
   Openvino_XML: /home/guo/ITL_Auto_aim/src/model/Katrin.xml
   Openvino_Deveice: "CPU"

@@ -6,7 +6,7 @@
 #include "module/optimize_yaw.hpp"
 #include "module/solver.hpp"
 #include "math_tools.hpp"
-#include "common/armor.hpp"
+#include "armor.hpp"
 #include <memory>
 #include "logger.hpp"
 

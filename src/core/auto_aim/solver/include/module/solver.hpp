@@ -3,7 +3,7 @@
 #include <opencv2/core.hpp>
 #include <array>
 #include <Eigen/Dense>
-#include "common/armor.hpp"  // 使用实际的armor.hpp
+#include "armor.hpp"  // 使用实际的armor.hpp
 #include "math_tools.hpp"
 #include "logger.hpp"
 

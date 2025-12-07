@@ -1,5 +1,5 @@
-#ifndef TEST_NODE_HPP_
-#define TEST_NODE_HPP_
+#ifndef TEST_NODE_CV_HPP_
+#define TEST_NODE_CV_HPP_
 
 #include <array>
 #include <atomic>
@@ -17,7 +17,7 @@
 
 #include "hikcamera.hpp"
 #include "imu_driver.h"
-#include "detect_node.hpp"
+#include "detector.hpp"
 #include "solver_node.hpp"
 #include "thread_safe_queue.hpp"
 #include "tracker.hpp"
@@ -59,8 +59,8 @@ private:
   // 组件与配置
   std::string config_path_;
   std::unique_ptr<camera::HikCamera> camera_;
-  // std::unique_ptr<io::DmImu> dm_imu_;
-  std::unique_ptr<armor_auto_aim::Detector> detector_;
+  std::unique_ptr<io::DmImu> dm_imu_;
+  std::unique_ptr<armor_auto_aim::Traditional_Detector> detector_;  // 使用传统检测器
   std::unique_ptr<solver::Solver> solver_;
   solver::YawOptimizer* yaw_optimizer_;
   std::unique_ptr<tracker::Tracker> tracker_;
@@ -85,6 +85,6 @@ private:
   const double bullet_speed_{22.0};
 };
 
-}  // namespace pipeline
+}  // namespace Application
 
-#endif  // TEST_NODE_HPP_
+#endif  // TEST_NODE_CV_HPP_

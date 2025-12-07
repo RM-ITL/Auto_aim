@@ -11,7 +11,7 @@
 #include "module/solver.hpp"
 #include "solver_node.hpp"
 #include "full_model.hpp"
-#include "common/armor.hpp"
+#include "armor.hpp"
 #include "logger.hpp"
 namespace predict
 {

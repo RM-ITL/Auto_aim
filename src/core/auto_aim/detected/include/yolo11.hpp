@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "common/armor.hpp"
+#include "armor.hpp"
 
 namespace armor_auto_aim
 {
@@ -31,8 +31,8 @@ private:
     
     // 检测参数 - 现在从配置文件读取
     const int class_num_ = 38;
-    float nms_threshold_ = 0.3f;      // 不再是const，可从配置读取
-    float score_threshold_ = 0.7f;    // 不再是const，可从配置读取
+    float nms_threshold_ = 0.3f;      
+    float score_threshold_ = 0.7f;    
     double min_confidence_ = 0.8;
     
     // 核心处理函数

@@ -1,4 +1,4 @@
-#include "node/armor_detector_node.hpp"
+#include "detect_node.hpp"
 #include "logger.hpp"
 
 #include <algorithm>
@@ -8,31 +8,8 @@
 
 namespace armor_auto_aim {
 
-// Detector::Config Detector::Config::from_yaml(const YAML::Node& node) {
-//     Config config;
-
-//     if (node["yolo"]) {
-//         const auto& yolo_node = node["yolo"];
-
-//         if (yolo_node["data_inspection"]) {
-//             const auto& inspection = yolo_node["data_inspection"];
-//             config.enable_visualization = inspection["publish_annotated_image"].as<bool>(config.enable_visualization);
-//         }
-
-//         if (yolo_node["visualization"] && yolo_node["visualization"]["center_point"]) {
-//             const auto& center = yolo_node["visualization"]["center_point"];
-//             config.center_point.x = center["x"].as<int>(config.center_point.x);
-//             config.center_point.y = center["y"].as<int>(config.center_point.y);
-//         }
-//     }
-
-//     return config;
-// }
-
 Detector::Detector(const std::string& config_path){
     try {
-        // YAML::Node yaml_config = YAML::LoadFile(config_file_path_);
-        // config_ = Config::from_yaml(yaml_config);
 
         detector_ = std::make_unique<YOLO11Detector>(config_path, debug_);
         initialized_ = true;
@@ -86,29 +63,6 @@ std::vector<Armor> Detector::detect(const cv::Mat& image, [[maybe_unused]] cv::M
     return armors;
 }
 
-// void Detector::visualize_results(cv::Mat& canvas, const std::vector<Armor>& armors) const {
-//     for (const auto& armor : armors) {
-//         if (armor.points.size() == 4) {
-//             utils::draw_quadrangle_with_corners(canvas, armor.points, utils::colors::GREEN, 2, 3);
-
-//             cv::Point2f label_pos;
-//             label_pos.x = (armor.points[0].x + armor.points[1].x) / 2.0f;
-//             label_pos.y = std::min(armor.points[0].y, armor.points[1].y);
-
-//             std::ostringstream label;
-//             label << std::fixed << std::setprecision(2)
-//                   << armor.detection_confidence << " "
-//                   << COLORS[armor.color] << ", "
-//                   << armor.getNameString() << " ,"
-//                   << (armor.type == small ? "small" : "big");
-
-//             utils::draw_detection_label(canvas, label.str(), label_pos, utils::colors::GREEN, 0.7, 2);
-//         }
-//     }
-
-//     utils::draw_crosshair(canvas, config_.center_point, 15, utils::colors::YELLOW, 1);
-//     utils::draw_frame_number(canvas, frame_count_);
-// }
 
 void  Detector::visualize_results(
   cv::Mat & canvas, const std::vector<Visualization> & armors,
@@ -136,4 +90,4 @@ void  Detector::visualize_results(
   }
 }
 
-}  // namespace armor_auto_aim
+}  

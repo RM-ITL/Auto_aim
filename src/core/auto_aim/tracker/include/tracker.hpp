@@ -6,7 +6,7 @@
 #include <list>
 #include <string>
 
-#include "common/armor.hpp"
+#include "armor.hpp"
 #include "module/solver.hpp"
 #include "solver_node.hpp" 
 #include "target.hpp"

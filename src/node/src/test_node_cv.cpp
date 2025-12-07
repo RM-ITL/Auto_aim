@@ -1,4 +1,4 @@
-#include "test_node.hpp"
+#include "test_node_cv.hpp"
 
 #include <csignal>
 #include <algorithm>
@@ -39,10 +39,18 @@ PipelineApp::PipelineApp(const std::string & config_path)
     "debug", rclcpp::QoS(10));
 
   camera_ = std::make_unique<camera::HikCamera>(config_path_);
-  // dm_imu_ = std::make_unique<io::DmImu>(config_path_);
-  detector_ = std::make_unique<armor_auto_aim::Detector>(config_path_);
+  dm_imu_ = std::make_unique<io::DmImu>(config_path_);
+  detector_ = std::make_unique<armor_auto_aim::Traditional_Detector>(config_path_, true);  // 使用传统检测器，启用debug
   solver_ = std::make_unique<solver::Solver>(config_path_);
   yaw_optimizer_ = solver_->getYawOptimizer();
+
+  // 安全检查：验证yaw_optimizer_是否有效
+  if (!yaw_optimizer_) {
+    utils::logger()->error("[Pipeline] yaw_optimizer_初始化失败！");
+    throw std::runtime_error("yaw_optimizer_为空指针");
+  }
+  utils::logger()->info("[Pipeline] yaw_optimizer_初始化成功");
+
   tracker_ = std::make_unique<tracker::Tracker>(config_path_, *solver_);
   planner_ = std::make_unique<plan::Planner>(config_path_);
   gimbal_ = std::make_unique<io::Gimbal>(config_path_);
@@ -70,6 +78,7 @@ int PipelineApp::run()
 {
   start_threads();
   std::string last_state = tracker_->state();
+  int frame_count = 0;  // 添加帧计数器
 
   while (!quit_.load()) {
     if (g_stop_requested.load()) {
@@ -88,15 +97,15 @@ int PipelineApp::run()
 
     cv::cvtColor(img, debug_packet.rgb_image, cv::COLOR_BGR2RGB);
 
-    // orientation = dm_imu_->imu_at(timestamp);
-    orientation = gimbal_->q(timestamp);
+    orientation = dm_imu_->imu_at(timestamp);
+    // orientation = gimbal_->q(timestamp);
     // utils::logger()->debug(
     //   "[Pipeline] IMU四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
     //   orientation.w(), orientation.x(), orientation.y(), orientation.z());
 
     solver_->updateIMU(orientation, timestamp_sec);
 
-    auto armor = detector_->detect(debug_packet.rgb_image);
+    auto armor = detector_->detect(debug_packet.rgb_image, frame_count++);
 
     std::list<armor_auto_aim::Armor> armor_list(
       armor.begin(), armor.end());
@@ -114,8 +123,21 @@ int PipelineApp::run()
     for (const auto & target : targets) {
       const auto armor_xyza_list = target.armor_xyza_list();
 
+      // 安全检查：验证armor_xyza_list不为空
+      if (armor_xyza_list.empty()) {
+        utils::logger()->warn("[Pipeline] armor_xyza_list为空，跳过该target");
+        continue;
+      }
+
       for (const Eigen::Vector4d & xyza : armor_xyza_list) {
         Eigen::Vector3d world_point(xyza.x(), xyza.y(), xyza.z());
+
+        // 安全检查：确保yaw_optimizer_仍然有效
+        if (!yaw_optimizer_) {
+          utils::logger()->error("[Pipeline] yaw_optimizer_在运行时变为空指针！");
+          break;
+        }
+
         auto image_points =
           yaw_optimizer_->reproject_armor_out(world_point, xyza[3], target.armor_type, target.name);
 
@@ -129,10 +151,10 @@ int PipelineApp::run()
             center.x /= 4.0f;
             center.y /= 4.0f;
 
-            utils::logger()->debug(
-              "[Pipeline] Target queue front 重投影中心点: ({:.2f}, {:.2f})",
-              center.x, center.y);
-            is_first_target = false;
+            // utils::logger()->debug(
+            //   "[Pipeline] Target queue front 重投影中心点: ({:.2f}, {:.2f})",
+            //   center.x, center.y);
+            // is_first_target = false;
           }
 
           if (enable_visualization_) {
@@ -220,7 +242,20 @@ void PipelineApp::visualization_loop()
     }
 
     try {
+      // 安全检查：验证rgb_image有效
+      if (packet.rgb_image.empty()) {
+        utils::logger()->warn("[Pipeline] 可视化：rgb_image为空，跳过本帧");
+        continue;
+      }
+
       cv::Mat canvas = packet.rgb_image.clone();
+
+      // 安全检查：验证clone成功
+      if (canvas.empty()) {
+        utils::logger()->error("[Pipeline] 可视化：canvas clone失败！");
+        continue;
+      }
+
       const int frame_index = visualization_frame_counter_.fetch_add(1) + 1;
       detector_->visualize_results(canvas, packet.reprojected_armors, visualization_center_point_, frame_index);
 

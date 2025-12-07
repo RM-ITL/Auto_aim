@@ -9,7 +9,7 @@
 
 #include <opencv2/core.hpp>
 
-#include "common/armor.hpp"
+#include "armor.hpp"
 #include "buff_detector.hpp"
 #include "video.hpp"
 

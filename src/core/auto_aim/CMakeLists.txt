@@ -32,11 +32,11 @@ find_package(fmt REQUIRED)
 # auto_aim_detected
 # ====================================================================================
 set(AUTO_AIM_DETECTED_SOURCES
-  detected/src/common/armor.cpp
-  detected/src/detector/common_detector.cpp
-  detected/src/detector/yolo11.cpp
-  detected/src/classifier/armor_classifier.cpp
-  detected/src/node/armor_detector_node.cpp
+  detected/src/armor.cpp
+  detected/src/detector.cpp
+  detected/src/yolo11.cpp
+  detected/src/classifier.cpp
+  detected/src/detect_node.cpp
 )
 
 add_library(auto_aim_detected STATIC ${AUTO_AIM_DETECTED_SOURCES})

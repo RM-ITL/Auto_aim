@@ -8,7 +8,7 @@
 #include "cboard.hpp"
 #include "command.hpp"
 #include "target.hpp"
-#include "common/armor.hpp"
+#include "armor.hpp"
 
 namespace aimer
 {

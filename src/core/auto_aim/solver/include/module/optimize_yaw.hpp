@@ -5,7 +5,7 @@
 #include <opencv2/opencv.hpp>
 #include "solver.hpp"
 #include "coord_converter.hpp"
-#include "common/armor.hpp"
+#include "armor.hpp"
 #include "math_tools.hpp"
 #include "logger.hpp"
 

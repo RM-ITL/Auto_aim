@@ -1,4 +1,4 @@
-#include "detector/yolo11.hpp"
+#include "yolo11.hpp"
 #include "draw_tools.hpp"
 #include <yaml-cpp/yaml.h>
 #include <filesystem>
@@ -214,7 +214,7 @@ bool YOLO11Detector::check_name(const Armor& armor) const
 {
     // 原始的名称检查逻辑
     auto name_ok = armor.name != ArmorName::not_armor;
-    auto confidence_ok = armor.detection_confidence > min_confidence_;
+    auto confidence_ok = armor.confidence > min_confidence_;
     
     return name_ok && confidence_ok;
 }
@@ -255,7 +255,7 @@ void YOLO11Detector::draw_detections(
         }
         
         // 构建标签
-        std::string info = std::to_string(armor.detection_confidence) + " " +
+        std::string info = std::to_string(armor.confidence) + " " +
                           COLORS[armor.color] + " " +
                           armor.getNameString() + " " +
                           ARMOR_TYPES[armor.type];

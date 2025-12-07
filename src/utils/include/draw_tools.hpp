@@ -159,14 +159,25 @@ inline void draw_fps(cv::Mat& img, double fps, int detections = -1,
 }
 
 
+// 绘制文本（简单版本）
+inline void draw_text(cv::Mat& img, const std::string& text,
+                     const cv::Point2f& position,
+                     const cv::Scalar& color = colors::WHITE,
+                     double font_scale = 0.5, int thickness = 1)
+{
+    cv::putText(img, text,
+                cv::Point(static_cast<int>(position.x), static_cast<int>(position.y)),
+                cv::FONT_HERSHEY_SIMPLEX, font_scale, color, thickness, cv::LINE_AA);
+}
+
 inline void draw_points(cv::Mat& img, const std::vector<cv::Point2f>& points,
                         const cv::Scalar& color = colors::GREEN, int thickness = 2)
 {
     if (points.size() < 2) return;
-    
+
     for (size_t i = 0; i < points.size(); ++i) {
         size_t next = (i + 1) % points.size();
-        cv::line(img, 
+        cv::line(img,
                 cv::Point(static_cast<int>(points[i].x), static_cast<int>(points[i].y)),
                 cv::Point(static_cast<int>(points[next].x), static_cast<int>(points[next].y)),
                 color, thickness, cv::LINE_AA);

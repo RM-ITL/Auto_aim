@@ -75,19 +75,44 @@ struct Visualization
   ArmorType type{ArmorType::small};
 };
 
+struct Lightbar
+{
+  std::size_t id;
+  Color color;
+  cv::Point2f center, top, bottom, top2bottom;
+  std::vector<cv::Point2f> points;
+  double angle, angle_error, length, width, ratio;
+  cv::RotatedRect rotated_rect;
+
+  Lightbar(const cv::RotatedRect & rotated_rect, std::size_t id);
+  Lightbar()
+    : id(0),
+      color(red),  // 或者其他合理的默认值
+      center(0, 0),
+      top(0, 0),
+      bottom(0, 0),
+      top2bottom(0, 0),
+      angle(0.0),
+      angle_error(0.0),
+      length(0.0),
+      width(0.0),
+      ratio(0.0) {}
+
+};
+
 struct Armor
 {
     int class_id;              // YOLO原始输出ID (0-37)
     int color_class_id;        // 颜色类别ID
     int classify_class_id;     // 分类器输出ID
-    
-    float detection_confidence;
-    float classify_confidence;
-    
+
+    float confidence;
+
     Color color;
     ArmorName name;
     ArmorType type;
     int32_t rank;              // 使用int32_t存储优先级，通过rank_map映射获取
+    Lightbar left, right;
 
     ArmorPriority priority;
     
@@ -97,10 +122,11 @@ struct Armor
     cv::Point2f center_norm;
     std::vector<cv::Point2f> points;
     
-    float ratio;
-    float rectangular_error;
+    double ratio;              // 两灯条的中点连线与长灯条的长度之比
+    double side_ratio;         // 长灯条与短灯条的长度之比
+    double rectangular_error;  // 灯条和中点连线所成夹角与π/2的差值
     
-    cv::Mat roi_image;
+    cv::Mat pattern;
     
     bool is_valid;
     bool duplicated;
@@ -115,12 +141,11 @@ struct Armor
     }
     
     // 默认构造函数
-    Armor() 
-        : class_id(-1),
-          color_class_id(-1),
-          classify_class_id(-1),
-          detection_confidence(0.0f),
-          classify_confidence(0.0f),
+    Armor()
+        : class_id(0),
+          color_class_id(0),
+          classify_class_id(0),
+          confidence(0.0f),
           color(red),
           name(not_armor),
           type(small),
@@ -130,53 +155,13 @@ struct Armor
           is_valid(false),
           duplicated(false) {}
     
-    // 传统检测器构造函数
-    // 用于先检测颜色，后分类数字的传统方法
-    Armor(const cv::Rect& b, float det_conf, int color_id)
-        : class_id(-1),  // 传统方法没有YOLO的class_id
-          color_class_id(color_id),
-          classify_class_id(-1),
-          detection_confidence(det_conf),
-          classify_confidence(0.0f),
-          color(red),
-          name(not_armor),
-          type(small),
-          rank(getRankFromName(not_armor)),  // 初始化为默认值，后续可通过setName更新
-          box(b),
-          ratio(0.0f),
-          rectangular_error(0.0f),
-          is_valid(true),
-          duplicated(false) {
-        // 根据color_class_id设置颜色枚举
-        if (color_class_id == 0) {
-            color = blue;
-        } else if (color_class_id == 1) {
-            color = red;
-        } else if (color_class_id == 2) {
-            color = extinguish;
-        } else if (color_class_id == 3) {
-            color = purple;
-        }
-        
-        // 计算中心点
-        center.x = box.x + box.width / 2.0f;
-        center.y = box.y + box.height / 2.0f;
-    }
-    
+    // 用于传统的灯条检测方法
+    Armor(const Lightbar& left_bar, const Lightbar& right_bar);
+
+
     // YOLO11构造函数 - 在cpp文件中实现
-    Armor(int yolo_class_id, float confidence, const cv::Rect& box, 
+    Armor(int yolo_class_id, float confidence, const cv::Rect& box,
           const std::vector<cv::Point2f>& keypoints);
-    
-    // 设置装甲板名称并自动更新rank
-    void setName(ArmorName armor_name) {
-        name = armor_name;
-        rank = getRankFromName(armor_name);
-    }
-    
-    // 辅助方法
-    float getCombinedConfidence() const { 
-        return detection_confidence * classify_confidence; 
-    }
     
     std::string getNameString() const {
         if (name >= one && name <= base) {
@@ -185,22 +170,7 @@ struct Armor
         return "not_armor";
     }
     
-    int getClassNumber() const {
-        if (name >= one && name <= five) {
-            return static_cast<int>(name);
-        }
-        return -1;
-    }
     
-    // 获取优先级值（数值越小，优先级越高）
-    int32_t getPriority() const {
-        return rank;
-    }
-    
-    // 比较两个装甲板的优先级
-    bool hasHigherPriorityThan(const Armor& other) const {
-        return rank < other.rank;  // rank值越小，优先级越高
-    }
 };
 
 inline std::string armor_name_to_string(ArmorName name)
