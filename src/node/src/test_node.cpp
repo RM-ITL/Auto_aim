@@ -88,11 +88,11 @@ int PipelineApp::run()
 
     cv::cvtColor(img, debug_packet.rgb_image, cv::COLOR_BGR2RGB);
 
-    // orientation = dm_imu_->imu_at(timestamp);
+    orientation = dm_imu_->imu_at(timestamp);
     orientation = gimbal_->q(timestamp);
-    utils::logger()->debug(
-      "[Pipeline] IMU四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
-      orientation.w(), orientation.x(), orientation.y(), orientation.z());
+    // utils::logger()->debug(
+    //   "[Pipeline] IMU四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
+    //   orientation.w(), orientation.x(), orientation.y(), orientation.z());
 
     solver_->updateIMU(orientation, timestamp_sec);
 
@@ -129,10 +129,10 @@ int PipelineApp::run()
             center.x /= 4.0f;
             center.y /= 4.0f;
 
-            // utils::logger()->debug(
-            //   "[Pipeline] Target queue front 重投影中心点: ({:.2f}, {:.2f})",
-            //   center.x, center.y);
-            // is_first_target = false;
+            utils::logger()->debug(
+              "[Pipeline] Target queue front 重投影中心点: ({:.2f}, {:.2f})",
+              center.x, center.y);
+            is_first_target = false;
           }
 
           if (enable_visualization_) {
