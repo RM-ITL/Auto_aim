@@ -208,19 +208,17 @@ void Gimbal::read_thread()
     // X轴和Y轴方向相反，Z轴相同
     Eigen::Quaterniond q_converted(
         q0,      // w不变
-        -q1,     // x取负
-        -q2,     // y取负
+        q1,     // x取负
+        q2,     // y取负
         q3       // z不变
     );
 
     // 推入队列供 q() 方法使用
     queue_.push({q_converted.normalized(), std::chrono::steady_clock::now()});
 
-    utils::logger()->debug(
-        "[Gimbal] 原始四元数 w:{:.3f}, x:{:.3f}, y:{:.3f}, z:{:.3f} -> "
-        "转换后 w:{:.3f}, x:{:.3f}, y:{:.3f}, z:{:.3f}",
-        q0, q1, q2, q3,
-        q_converted.w(), q_converted.x(), q_converted.y(), q_converted.z());
+    // utils::logger()->debug(
+    //     "[Gimbal] 原始四元数 w:{:.3f}, x:{:.3f}, y:{:.3f}, z:{:.3f}",
+    //     q0, q1, q2, q3);
     
 
     switch (rx_data_.mode) {

@@ -39,7 +39,7 @@ PipelineApp::PipelineApp(const std::string & config_path)
     "debug", rclcpp::QoS(10));
 
   camera_ = std::make_unique<camera::HikCamera>(config_path_);
-  dm_imu_ = std::make_unique<io::DmImu>(config_path_);
+  // dm_imu_ = std::make_unique<io::DmImu>(config_path_);
   detector_ = std::make_unique<armor_auto_aim::Traditional_Detector>(config_path_, true);  // 使用传统检测器，启用debug
   solver_ = std::make_unique<solver::Solver>(config_path_);
   yaw_optimizer_ = solver_->getYawOptimizer();
@@ -97,8 +97,8 @@ int PipelineApp::run()
 
     cv::cvtColor(img, debug_packet.rgb_image, cv::COLOR_BGR2RGB);
 
-    orientation = dm_imu_->imu_at(timestamp);
-    // orientation = gimbal_->q(timestamp);
+    // orientation = dm_imu_->imu_at(timestamp);
+    orientation = gimbal_->q(timestamp);
     // utils::logger()->debug(
     //   "[Pipeline] IMU四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
     //   orientation.w(), orientation.x(), orientation.y(), orientation.z());

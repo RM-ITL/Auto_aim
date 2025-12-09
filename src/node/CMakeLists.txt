@@ -36,6 +36,10 @@ add_executable(test_node_cv
   src/test_node_cv.cpp
 )
 
+add_executable(capture_node
+  src/capture_node.cpp
+)
+
 target_include_directories(pipeline_node PRIVATE
   include
 )
@@ -49,6 +53,10 @@ target_include_directories(base_hit_node PRIVATE
 )
 
 target_include_directories(test_node_cv PRIVATE
+  include
+)
+
+target_include_directories(capture_node PRIVATE
   include
 )
 
@@ -86,6 +94,14 @@ ament_target_dependencies(test_node_cv
   autoaim_msgs
 )
 
+ament_target_dependencies(capture_node
+  rclcpp
+  Eigen3
+  deveice
+  utils
+  serial
+)
+
 target_link_libraries(pipeline_node
   ${OpenCV_LIBS}
   deveice::deveice
@@ -111,11 +127,17 @@ target_link_libraries(test_node_cv
   auto_aim::auto_aim
 )
 
+target_link_libraries(capture_node
+  ${OpenCV_LIBS}
+  deveice::deveice
+)
+
 install(TARGETS
   pipeline_node
   video_node
   base_hit_node
   test_node_cv
+  capture_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

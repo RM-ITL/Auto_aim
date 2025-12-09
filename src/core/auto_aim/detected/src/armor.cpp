@@ -79,7 +79,7 @@ Armor::Armor(int yolo_class_id, float confidence, const cv::Rect& box,
     : class_id(yolo_class_id),
       color_class_id(-1),
       classify_class_id(-1),
-      confidence(0.0f),  // 初始化引用
+      confidence(confidence),  // 初始化引用
       color(red),
       name(not_armor),
       type(small),

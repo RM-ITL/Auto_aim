@@ -145,7 +145,7 @@ struct Armor
         : class_id(0),
           color_class_id(0),
           classify_class_id(0),
-          confidence(0.0f),
+          confidence(confidence),
           color(red),
           name(not_armor),
           type(small),
