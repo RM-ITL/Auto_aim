@@ -59,7 +59,7 @@ private:
   // 组件与配置
   std::string config_path_;
   std::unique_ptr<camera::HikCamera> camera_;
-  // std::unique_ptr<io::DmImu> dm_imu_;
+  std::unique_ptr<io::DmImu> dm_imu_;
   std::unique_ptr<armor_auto_aim::Traditional_Detector> detector_;  // 使用传统检测器
   std::unique_ptr<solver::Solver> solver_;
   solver::YawOptimizer* yaw_optimizer_;

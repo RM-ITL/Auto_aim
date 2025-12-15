@@ -53,8 +53,8 @@ CalibParam:
 # 相机参数
 camera:
   parameters:
-    exposure_ms: 5.0 
-    gain: 12.0 
+    exposure_ms: 6.0 
+    gain: 10.0 
     fps: 120.0
     target_width: 1280
     target_height: 1024
@@ -75,17 +75,18 @@ yolo11:
 
 
 # 传统方法识别参数：
+# 参数解析
 classify_model: "/home/guo/ITL_Auto_aim/src/model/tiny_resnet.onnx"
-threshold: 150
-max_angle_error: 45 # degree
-min_lightbar_ratio: 1.5
-max_lightbar_ratio: 20
-min_lightbar_length: 8
-min_armor_ratio: 1
-max_armor_ratio: 5
-max_side_ratio: 1.5
-max_rectangular_error: 25 # degree
-min_confidence: 0.8
+threshold: 150  # 固定阈值二值化的阈值
+max_angle_error: 45 # degree，灯条最大角度误差
+min_lightbar_ratio: 1.5 # 灯条最小宽高比
+max_lightbar_ratio: 20  # 灯条最大宽高比
+min_lightbar_length: 8  # 灯条的最小长度像素
+min_armor_ratio: 1      # 装甲板最小宽高比
+max_armor_ratio: 3      # 装甲板的最大宽高比
+max_side_ratio: 1.5     # 左右灯条的长度比上限
+max_rectangular_error: 25 # degree，最大灯条的长度比上限
+min_confidence: 0.8     # 分类器的最小置信度
 
 
 # DM_IMU相关配置
@@ -123,14 +124,13 @@ Solver:
       data: [1, 0, 0,
             0, 1, 0,
             0, 0, 1]
-
 # 陀螺仪与相机放置在同一位置
 # - x: 相机相对云台在前后方向的偏移
 # - y: 相机相对云台在左右方向的偏移
 # - z: 相机相对云台在上下方向的偏移
 
 t_camera_to_gimbal:
-[0.00, -0.09, -0.27]
+[0.00, 0.00, -0.05]
 # [0.115, -0.065, 0.015]
 
 
@@ -185,7 +185,18 @@ Gimbal:
 enable_serial: true
 com_port: "/dev/ttyACM0"
 com_port_1: "/dev/ttyACM2"
+# 校正下位机的四元数 [x, y, z, w], q_corrected = q_calib * q_lower
+q_calib:
+  x: 0.01168210
+  y: 0.06258915
+  z: -0.02122380
+  w: 0.99774530
 
+# q_calib:
+#   x: 1.0000
+#   y: 1.0000
+#   z: 1.0000
+#   w: 1.0000
 
 # video视频测试参数
 Video:

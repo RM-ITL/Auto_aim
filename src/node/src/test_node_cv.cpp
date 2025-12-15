@@ -151,10 +151,10 @@ int PipelineApp::run()
             center.x /= 4.0f;
             center.y /= 4.0f;
 
-            // utils::logger()->debug(
-            //   "[Pipeline] Target queue front 重投影中心点: ({:.2f}, {:.2f})",
-            //   center.x, center.y);
-            // is_first_target = false;
+            utils::logger()->debug(
+              "[Pipeline] Target queue front 重投影中心点: ({:.2f}, {:.2f})",
+              center.x, center.y);
+            is_first_target = false;
           }
 
           if (enable_visualization_) {

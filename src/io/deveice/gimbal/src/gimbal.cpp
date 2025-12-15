@@ -11,6 +11,22 @@ Gimbal::Gimbal(const std::string & config_path)
   auto yaml = utils::load(config_path);
   auto com_port = utils::read<std::string>(yaml, "com_port");
 
+  // 读取IMU外参标定四元数（注意：q_calib是顶级节点，在Gimbal同级）
+  auto q_calib_node = yaml["q_calib"];
+  if (q_calib_node) {
+    double qx = q_calib_node["x"].as<double>();
+    double qy = q_calib_node["y"].as<double>();
+    double qz = q_calib_node["z"].as<double>();
+    double qw = q_calib_node["w"].as<double>();
+    q_calib_ = Eigen::Quaterniond(qw, qx, qy, qz).normalized();
+    utils::logger()->info("[Gimbal] Loaded q_calib: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
+                          q_calib_.w(), q_calib_.x(), q_calib_.y(), q_calib_.z());
+  } else {
+    // 默认单位四元数（不校正）
+    q_calib_ = Eigen::Quaterniond::Identity();
+    utils::logger()->warn("[Gimbal] q_calib not found, using identity quaternion.");
+  }
+
   try {
     serial_.setPort(com_port);
     serial_.open();
@@ -204,21 +220,23 @@ void Gimbal::read_thread()
     float q2 = rx_data_.q[2];  // y
     float q3 = rx_data_.q[3];  // z
 
-    // 坐标系转换：Gimbal IMU -> Pipeline IMU
-    // X轴和Y轴方向相反，Z轴相同
     Eigen::Quaterniond q_converted(
-        q0,      // w不变
-        q1,     // x取负
-        q2,     // y取负
-        q3       // z不变
+        q0,
+        q1,
+        q2,
+        q3
     );
 
-    // 推入队列供 q() 方法使用
-    queue_.push({q_converted.normalized(), std::chrono::steady_clock::now()});
+    // 使用标定四元数校正下位机IMU四元数: q_corrected = q_lower * q_calib^(-1)
+    Eigen::Quaterniond q_corrected = (q_calib_ * q_converted).normalized();
+
+    // 推入校正后的四元数供 q() 方法使用
+    queue_.push({q_corrected, std::chrono::steady_clock::now()});
 
     // utils::logger()->debug(
-    //     "[Gimbal] 原始四元数 w:{:.3f}, x:{:.3f}, y:{:.3f}, z:{:.3f}",
-    //     q0, q1, q2, q3);
+    //     "[Gimbal] 原始: w:{:.3f}, x:{:.3f}, y:{:.3f}, z:{:.3f} -> 校正后: w:{:.3f}, x:{:.3f}, y:{:.3f}, z:{:.3f}",
+    //     q0, q1, q2, q3,
+    //     q_corrected.w(), q_corrected.x(), q_corrected.y(), q_corrected.z());
     
 
     switch (rx_data_.mode) {

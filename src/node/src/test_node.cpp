@@ -89,14 +89,14 @@ int PipelineApp::run()
 
     cv::cvtColor(img, debug_packet.rgb_image, cv::COLOR_BGR2RGB);
 
-    // dm_orientation = dm_imu_->imu_at(timestamp);
+    // orientation = dm_imu_->imu_at(timestamp);
     orientation = gimbal_->q(timestamp);
     // utils::logger()->debug(
     //   "[Pipeline] DM_IMU四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
     //   dm_orientation.w(), dm_orientation.x(), dm_orientation.y(), dm_orientation.z());
-    // utils::logger()->debug(
-    // "[Pipeline] 下位机转换过坐标系且插值之后的四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
-    // orientation.w(), orientation.x(), orientation.y(), orientation.z());
+    utils::logger()->debug(
+    "[Pipeline] 下位机的四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
+    orientation.w(), orientation.x(), orientation.y(), orientation.z());
 
 
     solver_->updateIMU(orientation, timestamp_sec);

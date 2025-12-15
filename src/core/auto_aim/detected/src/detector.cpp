@@ -36,9 +36,10 @@ std::list<Armor> Traditional_Detector::detect(const cv::Mat & bgr_img, int frame
   cv::Mat gray_img;
   cv::cvtColor(bgr_img, gray_img, cv::COLOR_BGR2GRAY);
 
-  // 进行二值化
+  // 进行二值化，采用固定阈值
   cv::Mat binary_img;
-  cv::threshold(gray_img, binary_img, threshold_, 255, cv::THRESH_BINARY);
+  // cv::threshold(gray_img, binary_img, 0, 255, cv::THRESH_BINARY | cv::THRESH_OTSU); // 采用OTSU阈值
+  cv::threshold(gray_img, binary_img, threshold_, 255, cv::THRESH_BINARY);   // 常规阈值
   cv::imshow("binary_img", binary_img);
 
   // 获取轮廓点
@@ -54,7 +55,7 @@ std::list<Armor> Traditional_Detector::detect(const cv::Mat & bgr_img, int frame
 
     if (!check_geometry(lightbar)) continue;
 
-    lightbar.color = get_color(bgr_img, contour);
+    lightbar.color = get_color(bgr_img, contour);   // 这里进行判断颜色可以改进
     lightbars.emplace_back(lightbar);
     lightbar_id += 1;
   }
@@ -76,7 +77,7 @@ std::list<Armor> Traditional_Detector::detect(const cv::Mat & bgr_img, int frame
       if (!check_name(armor)) continue;
 
       armor.type = get_type(armor);
-      if (!check_type(armor)) continue;
+      if (!check_type(armor)) continue;   // 这里可以改进，根据图案进行判断
 
       armor.center_norm = get_center_norm(bgr_img, armor.center);
       armors.emplace_back(armor);
@@ -288,6 +289,29 @@ Color Traditional_Detector::get_color(const cv::Mat & bgr_img, const std::vector
   return blue_sum > red_sum ? Color::blue : Color::red;
 }
 
+// Color Traditional_Detector::get_color(const cv::Mat & bgr_img, const std::vector<cv::Point> & contour) const
+// {
+//   int red_sum = 0, green_sum =0, blue_sum = 0;
+
+//   for (const auto & point : contour) {
+//     red_sum += bgr_img.at<cv::Vec3b>(point)[2];
+//     green_sum += bgr_img.at<cv::Vec3b>(point)[1];
+//     blue_sum += bgr_img.at<cv::Vec3b>(point)[0];
+//   }
+
+//   double total = red_sum + green_sum + blue_sum;
+//   double r_ratio = red_sum / total;
+//   double b_ratio = blue_sum / total;
+
+//   double diff_threshold = 0.15;  // 可调参数
+
+//   if (std::abs(r_ratio - b_ratio) < diff_threshold) {
+//       return Color::unknown;  // 白色或无法判断
+//   }
+
+//   return b_ratio > r_ratio ? Color::blue : Color::red;
+// }
+
 cv::Mat Traditional_Detector::get_pattern(const cv::Mat & bgr_img, const Armor & armor) const
 {
   // 延长灯条获得装甲板角点
@@ -311,19 +335,20 @@ cv::Mat Traditional_Detector::get_pattern(const cv::Mat & bgr_img, const Armor &
 ArmorType Traditional_Detector::get_type(const Armor & armor)
 {
   /// 优先根据当前armor.ratio判断
-  /// TODO: 25赛季是否还需要根据比例判断大小装甲？能否根据图案直接判断？
+  /// TODO: 25赛季是否还需要根据比例判断大小装甲？能否根据图案直接判断？、
+  /// 修改：直接根据图案直接给定armor_type
 
-  if (armor.ratio > 3.0) {
-    // tools::logger()->debug(
-    //   "[Traditional_Detector] get armor type by ratio: BIG {} {:.2f}", ARMOR_NAMES[armor.name], armor.ratio);
-    return ArmorType::big;
-  }
+  // if (armor.ratio > 3.0) {
+  //   // tools::logger()->debug(
+  //   //   "[Traditional_Detector] get armor type by ratio: BIG {} {:.2f}", ARMOR_NAMES[armor.name], armor.ratio);
+  //   return ArmorType::big;
+  // }
 
-  if (armor.ratio < 2.5) {
-    // tools::logger()->debug(
-    //   "[Traditional_Detector] get armor type by ratio: SMALL {} {:.2f}", ARMOR_NAMES[armor.name], armor.ratio);
-    return ArmorType::small;
-  }
+  // if (armor.ratio < 2.5) {
+  //   // tools::logger()->debug(
+  //   //   "[Traditional_Detector] get armor type by ratio: SMALL {} {:.2f}", ARMOR_NAMES[armor.name], armor.ratio);
+  //   return ArmorType::small;
+  // }
 
   // tools::logger()->debug("[Traditional_Detector] get armor type by name: {}", ARMOR_NAMES[armor.name]);
 
