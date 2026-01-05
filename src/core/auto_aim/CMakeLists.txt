@@ -123,6 +123,7 @@ ament_target_dependencies(auto_aim_solver
 # ====================================================================================
 add_library(auto_aim_predictor STATIC
   target/predictor/src/target.cpp
+  target/predictor/src/outpost_target.cpp
 )
 add_library(auto_aim::predictor ALIAS auto_aim_predictor)
 

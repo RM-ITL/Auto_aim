@@ -4,8 +4,10 @@
 #include <Eigen/Dense>
 #include <list>
 #include <optional>
+#include <variant>
 
 #include "target.hpp"
+#include "outpost_target.hpp"
 #include "tinympc/tiny_api.hpp"
 
 namespace plan
@@ -15,6 +17,7 @@ constexpr int HALF_HORIZON = 50;
 constexpr int HORIZON = HALF_HORIZON * 2;
 
 using Trajectory = Eigen::Matrix<double, 4, HORIZON>;  // yaw, yaw_vel, pitch, pitch_vel
+using TargetVariant = std::variant<predict::Target, predict::OutpostTarget>;
 
 struct Plan
 {
@@ -36,8 +39,16 @@ public:
   Eigen::Vector4d debug_xyza;
   Planner(const std::string & config_path);
 
+  // 原有接口保留
   Plan plan(predict::Target target, double bullet_speed);
   Plan plan(std::optional<predict::Target> target, double bullet_speed);
+
+  // OutpostTarget 接口
+  Plan plan(predict::OutpostTarget target, double bullet_speed);
+
+  // 新增 TargetVariant 接口
+  Plan plan(TargetVariant target, double bullet_speed);
+  Plan plan(std::optional<TargetVariant> target, double bullet_speed);
 
 private:
   double yaw_offset_;
@@ -53,6 +64,10 @@ private:
 
   Eigen::Matrix<double, 2, 1> aim(const predict::Target & target, double bullet_speed);
   Trajectory get_trajectory(predict::Target & target, double yaw0, double bullet_speed);
+
+  // OutpostTarget 版本
+  Eigen::Matrix<double, 2, 1> aim(const predict::OutpostTarget & target, double bullet_speed);
+  Trajectory get_trajectory(predict::OutpostTarget & target, double yaw0, double bullet_speed);
 };
 
 }  // namespace auto_aim

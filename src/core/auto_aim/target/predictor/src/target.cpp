@@ -28,16 +28,9 @@ Target::Target(
   auto center_y = xyz[1] + r * std::sin(yaw);
   auto center_z = xyz[2];
 
-  // 前哨站：假设首先观测到上部装甲板，调整中心到中部高度
-  double h_init = 0.0;
-  if (armor_num == 3 && armor_pose.id == armor_auto_aim::ArmorName::outpost) {
-    h_init = 0.100;
-    center_z = xyz[2] - h_init;  // 上部高度 = center_z + h，所以 center_z = 上部 - h
-  }
-
   // x vx y vy z vz a w r l h
   Eigen::VectorXd x0(11);
-  x0 << center_x, 0, center_y, 0, center_z, 0, yaw, 0, r, 0, h_init;
+  x0 << center_x, 0, center_y, 0, center_z, 0, yaw, 0, r, 0, 0;
   
   Eigen::MatrixXd P0 = P0_dig.asDiagonal();
 
@@ -94,14 +87,8 @@ void Target::predict(double dt)
        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1;
 
   // Piecewise White Noise Model
-  double v1, v2;
-  if (name == armor_auto_aim::ArmorName::outpost) {
-    v1 = 10;   // 前哨站加速度方差
-    v2 = 0.1;  // 前哨站角加速度方差
-  } else {
-    v1 = 100;  // 加速度方差
-    v2 = 400;  // 角加速度方差
-  }
+  double v1 = 100;  // 加速度方差
+  double v2 = 400;  // 角加速度方差
   
   auto a = dt * dt * dt * dt / 4;
   auto b = dt * dt * dt / 2;
@@ -128,10 +115,6 @@ void Target::predict(double dt)
     return x_prior;
   };
 
-  // 前哨站转速特判
-  if (this->convergened() && this->name == armor_auto_aim::ArmorName::outpost && std::abs(this->ekf_.x[7]) > 2)
-    this->ekf_.x[7] = this->ekf_.x[7] > 0 ? 2.51 : -2.51;
-
   ekf_.predict(F, Q, f);
 }
 
@@ -139,7 +122,7 @@ void Target::update(const solver::Armor_pose & armor_pose)
 {
   // 装甲板匹配
   int id;
-  auto min_angle_error = 1e10;
+  auto min_error = 1e10;
   const std::vector<Eigen::Vector4d> & xyza_list = armor_xyza_list();
 
   std::vector<std::pair<Eigen::Vector4d, int>> xyza_i_list;
@@ -159,14 +142,16 @@ void Target::update(const solver::Armor_pose & armor_pose)
   for (int i = 0; i < 3 && i < static_cast<int>(xyza_i_list.size()); i++) {
     const auto & xyza = xyza_i_list[i].first;
     Eigen::Vector3d ypd = utils::xyz2ypd(xyza.head(3));
-    
-    // 使用 world_spherical 和 world_orientation
-    auto angle_error = std::abs(utils::limit_rad(armor_pose.world_orientation.yaw - xyza[3])) +
-                       std::abs(utils::limit_rad(armor_pose.world_spherical.yaw - ypd[0]));
 
-    if (std::abs(angle_error) < std::abs(min_angle_error)) {
+    // 计算角度误差
+    double angle_error = std::abs(utils::limit_rad(armor_pose.world_orientation.yaw - xyza[3])) +
+                         std::abs(utils::limit_rad(armor_pose.world_spherical.yaw - ypd[0]));
+
+    double total_error = angle_error;
+
+    if (std::abs(total_error) < std::abs(min_error)) {
       id = xyza_i_list[i].second;
-      min_angle_error = angle_error;
+      min_error = total_error;
     }
   }
 
@@ -343,12 +328,7 @@ bool Target::diverged() const
 }
 bool Target::convergened()
 {
-  if (this->name != armor_auto_aim::ArmorName::outpost && update_count_ > 3 && !this->diverged()) {
-    is_converged_ = true;
-  }
-
-  // 前哨站特殊判断
-  if (this->name == armor_auto_aim::ArmorName::outpost && update_count_ > 10 && !this->diverged()) {
+  if (update_count_ > 3 && !this->diverged()) {
     is_converged_ = true;
   }
 
@@ -378,19 +358,8 @@ Eigen::Vector3d Target::h_armor_xyz(const Eigen::VectorXd & x, int id) const
     r = (use_l_h) ? x[8] + x[9] : x[8];
     armor_z = (use_l_h) ? x[4] + x[10] : x[4];
   }
-  else if (armor_num_ == 3 && name == armor_auto_aim::ArmorName::outpost) {
-    // 前哨站：ID 0=上部, ID 1=中部, ID 2=下部，使用 EKF 估计的 h
-    r = x[8];
-    if (id == 0) {
-      armor_z = x[4] + x[10];  // 上部
-    } else if (id == 1) {
-      armor_z = x[4];          // 中部
-    } else {
-      armor_z = x[4] - x[10];  // 下部
-    }
-  }
   else {
-    // 基地与早期平步
+    // 基地与平衡步兵
     r = x[8];
     armor_z = x[4];
   }
@@ -417,17 +386,7 @@ Eigen::MatrixXd Target::h_jacobian(const Eigen::VectorXd & x, int id) const
   auto dy_dl = (use_l_h) ? -std::sin(angle) : 0.0;
 
   // dz/dh 计算
-  double dz_dh;
-  if (armor_num_ == 4) {
-    dz_dh = (id == 1 || id == 3) ? 1.0 : 0.0;
-  } else if (armor_num_ == 3 && name == armor_auto_aim::ArmorName::outpost) {
-    // 前哨站：ID 0=上部(+1), ID 1=中部(0), ID 2=下部(-1)
-    if (id == 0) dz_dh = 1.0;
-    else if (id == 1) dz_dh = 0.0;
-    else dz_dh = -1.0;
-  } else {
-    dz_dh = 0.0;
-  }
+  double dz_dh = (armor_num_ == 4 && (id == 1 || id == 3)) ? 1.0 : 0.0;
 
   Eigen::MatrixXd H_armor_xyza(4, 11);
   H_armor_xyza << 1, 0, 0, 0, 0, 0, dx_da, 0, dx_dr, dx_dl,     0,

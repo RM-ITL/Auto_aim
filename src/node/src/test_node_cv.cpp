@@ -39,7 +39,7 @@ PipelineApp::PipelineApp(const std::string & config_path)
     "debug", rclcpp::QoS(10));
 
   camera_ = std::make_unique<camera::HikCamera>(config_path_);
-  // dm_imu_ = std::make_unique<io::DmImu>(config_path_);
+  dm_imu_ = std::make_unique<io::DmImu>(config_path_);
   detector_ = std::make_unique<armor_auto_aim::Traditional_Detector>(config_path_, true);  // 使用传统检测器，启用debug
   solver_ = std::make_unique<solver::Solver>(config_path_);
   yaw_optimizer_ = solver_->getYawOptimizer();
@@ -97,8 +97,8 @@ int PipelineApp::run()
 
     cv::cvtColor(img, debug_packet.rgb_image, cv::COLOR_BGR2RGB);
 
-    // orientation = dm_imu_->imu_at(timestamp);
-    orientation = gimbal_->q(timestamp);
+    orientation = dm_imu_->imu_at(timestamp);
+    // orientation = gimbal_->q(timestamp);
     // utils::logger()->debug(
     //   "[Pipeline] IMU四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
     //   orientation.w(), orientation.x(), orientation.y(), orientation.z());
@@ -121,7 +121,13 @@ int PipelineApp::run()
 
     bool is_first_target = true;
     for (const auto & target : targets) {
-      const auto armor_xyza_list = target.armor_xyza_list();
+      // 使用 std::visit 访问 variant 成员
+      const auto armor_xyza_list = std::visit(
+        [](const auto & t) { return t.armor_xyza_list(); }, target);
+      const auto armor_type = std::visit(
+        [](const auto & t) { return t.armor_type; }, target);
+      const auto target_name = std::visit(
+        [](const auto & t) { return t.name; }, target);
 
       // 安全检查：验证armor_xyza_list不为空
       if (armor_xyza_list.empty()) {
@@ -139,7 +145,12 @@ int PipelineApp::run()
         }
 
         auto image_points =
-          yaw_optimizer_->reproject_armor_out(world_point, xyza[3], target.armor_type, target.name);
+          yaw_optimizer_->reproject_armor_out(world_point, xyza[3], armor_type, target_name);
+        
+        // utils::logger()->debug(
+        //   "识别到的当前目标的yaw姿态是:{:.2f}",
+        //   xyza[3]
+        // );
 
         if (image_points.size() == 4) {
           // 如果是第一个target（即queue的front），计算并打印中心点
@@ -151,17 +162,17 @@ int PipelineApp::run()
             center.x /= 4.0f;
             center.y /= 4.0f;
 
-            utils::logger()->debug(
-              "[Pipeline] Target queue front 重投影中心点: ({:.2f}, {:.2f})",
-              center.x, center.y);
-            is_first_target = false;
+            // utils::logger()->debug(
+            //   "[Pipeline] Target queue front 重投影中心点: ({:.2f}, {:.2f})",
+            //   center.x, center.y);
+            // is_first_target = false;
           }
 
           if (enable_visualization_) {
             Visualization vis_armor;
             std::copy(image_points.begin(), image_points.end(), vis_armor.corners.begin());
-            vis_armor.name = target.name;
-            vis_armor.type = target.armor_type;
+            vis_armor.name = target_name;
+            vis_armor.type = armor_type;
             debug_packet.reprojected_armors.push_back(vis_armor);
           }
         }

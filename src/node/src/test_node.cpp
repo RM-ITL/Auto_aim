@@ -39,7 +39,7 @@ PipelineApp::PipelineApp(const std::string & config_path)
     "debug", rclcpp::QoS(10));
 
   camera_ = std::make_unique<camera::HikCamera>(config_path_);
-  // dm_imu_ = std::make_unique<io::DmImu>(config_path_);
+  dm_imu_ = std::make_unique<io::DmImu>(config_path_);
   detector_ = std::make_unique<armor_auto_aim::Detector>(config_path_);
   solver_ = std::make_unique<solver::Solver>(config_path_);
   yaw_optimizer_ = solver_->getYawOptimizer();
@@ -89,14 +89,14 @@ int PipelineApp::run()
 
     cv::cvtColor(img, debug_packet.rgb_image, cv::COLOR_BGR2RGB);
 
-    // orientation = dm_imu_->imu_at(timestamp);
-    orientation = gimbal_->q(timestamp);
+    orientation = dm_imu_->imu_at(timestamp);
+    // orientation = gimbal_->q(timestamp);
     // utils::logger()->debug(
     //   "[Pipeline] DM_IMU四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
     //   dm_orientation.w(), dm_orientation.x(), dm_orientation.y(), dm_orientation.z());
-    utils::logger()->debug(
-    "[Pipeline] 下位机的四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
-    orientation.w(), orientation.x(), orientation.y(), orientation.z());
+    // utils::logger()->debug(
+    // "[Pipeline] 下位机的四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
+    // orientation.w(), orientation.x(), orientation.y(), orientation.z());
 
 
     solver_->updateIMU(orientation, timestamp_sec);
@@ -117,13 +117,41 @@ int PipelineApp::run()
 
     bool is_first_target = true;
     for (const auto & target : targets) {
-      const auto armor_xyza_list = target.armor_xyza_list();
+      // 使用 std::visit 访问 variant 成员
+      const auto armor_xyza_list = std::visit(
+        [](const auto & t) { return t.armor_xyza_list(); }, target);
+      const auto armor_type = std::visit(
+        [](const auto & t) { return t.armor_type; }, target);
+      const auto target_name = std::visit(
+        [](const auto & t) { return t.name; }, target);
+
+      // 【前哨站估计诊断】输出三个装甲板的估计位置
+      if (target_name == armor_auto_aim::ArmorName::outpost && armor_xyza_list.size() == 3) {
+        const auto & ekf_x = std::visit([](const auto & t) { return t.ekf_x(); }, target);
+        double h1 = ekf_x[9];
+        double h2 = ekf_x[10];
+        double omega = ekf_x[7];
+
+        utils::logger()->info(
+          "[前哨站估计] h1={:.3f}, h2={:.3f}, ω={:.3f} | "
+          "A0:[{:.2f},{:.2f},{:.2f}] A1:[{:.2f},{:.2f},{:.2f}] A2:[{:.2f},{:.2f},{:.2f}]",
+          h1, h2, omega,
+          armor_xyza_list[0][0], armor_xyza_list[0][1], armor_xyza_list[0][2],
+          armor_xyza_list[1][0], armor_xyza_list[1][1], armor_xyza_list[1][2],
+          armor_xyza_list[2][0], armor_xyza_list[2][1], armor_xyza_list[2][2]
+        );
+      }
 
       for (const Eigen::Vector4d & xyza : armor_xyza_list) {
         Eigen::Vector3d world_point(xyza.x(), xyza.y(), xyza.z());
         auto image_points =
-          yaw_optimizer_->reproject_armor_out(world_point, xyza[3], target.armor_type, target.name);
+          yaw_optimizer_->reproject_armor_out(world_point, xyza[3], armor_type, target_name);
 
+        utils::logger()->debug(
+          "当前识别到的目标的yaw姿态为:{:.2f}",
+          xyza[3]
+        );
+        
         if (image_points.size() == 4) {
           // 如果是第一个target（即queue的front），计算并打印中心点
           if (is_first_target) {
@@ -134,17 +162,17 @@ int PipelineApp::run()
             center.x /= 4.0f;
             center.y /= 4.0f;
 
-            utils::logger()->debug(
-              "[Pipeline] Target queue front 重投影中心点: ({:.2f}, {:.2f})",
-              center.x, center.y);
+            // utils::logger()->debug(
+            //   "[Pipeline] Target queue front 重投影中心点: ({:.2f}, {:.2f})",
+            //   center.x, center.y);
             is_first_target = false;
           }
 
           if (enable_visualization_) {
             Visualization vis_armor;
             std::copy(image_points.begin(), image_points.end(), vis_armor.corners.begin());
-            vis_armor.name = target.name;
-            vis_armor.type = target.armor_type;
+            vis_armor.name = target_name;
+            vis_armor.type = armor_type;
             debug_packet.reprojected_armors.push_back(vis_armor);
           }
         }

@@ -53,7 +53,7 @@ CalibParam:
 # 相机参数
 camera:
   parameters:
-    exposure_ms: 6.0 
+    exposure_ms: 4.0 
     gain: 10.0 
     fps: 120.0
     target_width: 1280
@@ -130,7 +130,7 @@ Solver:
 # - z: 相机相对云台在上下方向的偏移
 
 t_camera_to_gimbal:
-[0.00, 0.00, -0.05]
+[0.00, 0.00, 0.00]
 # [0.115, -0.065, 0.015]
 
 
@@ -139,14 +139,17 @@ Tracker:
   enemy_color: "red"  # 或 "blue"
   # 跟踪状态机参数
   min_detect_count: 3              # 最小检测次数
-  max_temp_lost_count: 10          # 普通目标的最大临时丢失容忍度  
-  outpost_max_temp_lost_count: 20  # 前哨站的最大临时丢失容忍度
+  max_temp_lost_count: 10          # 普通目标的最大临时丢失容忍度
+  outpost_max_temp_lost_count: 100  # 前哨站的最大临时丢失容忍度
+  # 前哨站特化参数
+  outpost_min_detect_count: 3      # 前哨站的最小检测次数（更快进入tracking）
+  outpost_detect_fail_tolerance: 8  # 前哨站在detecting状态允许的连续失败帧数
 
-enemy_color: "red"  # 或 "blue"
-# 跟踪状态机参数
-min_detect_count: 3              # 最小检测次数
-max_temp_lost_count: 10          # 普通目标的最大临时丢失容忍度  
-outpost_max_temp_lost_count: 20  # 前哨站的最大临时丢失容忍度
+# enemy_color: "red"  # 或 "blue"
+# # 跟踪状态机参数
+# min_detect_count: 3              # 最小检测次数
+# max_temp_lost_count: 10          # 普通目标的最大临时丢失容忍度  
+# outpost_max_temp_lost_count: 20  # 前哨站的最大临时丢失容忍度
 
 # 瞄准器Aimer参数
 Aimer:
@@ -186,11 +189,11 @@ enable_serial: true
 com_port: "/dev/ttyACM0"
 com_port_1: "/dev/ttyACM2"
 # 校正下位机的四元数 [x, y, z, w], q_corrected = q_calib * q_lower
-q_calib:
-  x: 0.01168210
-  y: 0.06258915
-  z: -0.02122380
-  w: 0.99774530
+# q_calib:
+#   x: 0.01168210
+#   y: 0.06258915
+#   z: -0.02122380
+#   w: 0.99774530
 
 # q_calib:
 #   x: 1.0000
