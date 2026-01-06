@@ -33,7 +33,7 @@ VideoApp::VideoApp(const std::string & config_path)
 {
   video_reader_ = std::make_unique<utils::Video>(config_path_);
   // dm_imu_ = std::make_unique<io::DmImu>(config_path_);
-  detector_ = std::make_unique<auto_buff::Buff_Detector>(config_path_);
+  detector_ = std::make_unique<armor_auto_aim::Detector>(config_path_);
   // solver_ = std::make_unique<solver::Solver>(config_path_);
   // yaw_optimizer_ = solver_->getYawOptimizer();
   // tracker_ = std::make_unique<tracker::Tracker>(config_path_, *solver_);
@@ -79,15 +79,22 @@ int VideoApp::run()
         "[VideoPipeline] 处理第{}帧, 尺寸={}x{}", frame_index, frame.cols, frame.rows);
     }
 
-    utils::logger()->debug("[VideoPipeline] 进入能量机关检测");
+    // utils::logger()->debug("[VideoPipeline] 进入能量机关检测");
 
-    const auto detection = detector_->detect(frame);
-    if (detection) {
-      utils::logger()->debug(
-        "[VideoPipeline] 检测成功, r_center=({}, {})", detection->r_center.x,
-        detection->r_center.y);
+    const auto armors = detector_->detect(frame);
+
+    // 输出检测到的装甲板信息
+    if (!armors.empty()) {
+      utils::logger()->info("[VideoPipeline] 第{}帧检测到{}个装甲板:", frame_index, armors.size());
+        const auto& armor = armors.front();
+        utils::logger()->info(
+          "name={}, confidence={:.2f}, center=({:.1f}, {:.1f})",
+          armor.getNameString(),
+          armor.confidence,
+          armor.center.x,
+          armor.center.y);
     } else {
-      utils::logger()->debug("[VideoPipeline] 未检测到目标");
+      utils::logger()->debug("[VideoPipeline] 第{}帧未检测到装甲板", frame_index);
     }
 
     VideoDebugPacket packet;
@@ -95,9 +102,9 @@ int VideoApp::run()
     cv::cvtColor(frame, packet.rgb_image, cv::COLOR_BGR2RGB);
     packet.valid = true;
 
-    if (enable_visualization_ && detection) {
-      cv::circle(packet.rgb_image, detection->r_center, 5, cv::Scalar(0, 255, 0), 2);
-    }
+    // if (enable_visualization_) {
+    //   cv::circle(packet.rgb_image, detection->r_center, 5, cv::Scalar(0, 255, 0), 2);
+    // }
 
     // double timestamp_sec = utils::delta_time(timestamp, start_time_);
     // solver_->updateIMU(orientation, timestamp_sec);

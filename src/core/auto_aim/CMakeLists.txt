@@ -35,6 +35,7 @@ set(AUTO_AIM_DETECTED_SOURCES
   detected/src/armor.cpp
   detected/src/detector.cpp
   detected/src/yolo11.cpp
+  detected/src/yolov5.cpp
   detected/src/classifier.cpp
   detected/src/detect_node.cpp
 )

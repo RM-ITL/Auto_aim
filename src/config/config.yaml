@@ -54,7 +54,7 @@ CalibParam:
 camera:
   parameters:
     exposure_ms: 4.0 
-    gain: 10.0 
+    gain: 12.0 
     fps: 120.0
     target_width: 1280
     target_height: 1024
@@ -62,8 +62,10 @@ camera:
     debug: false
 
 # 神经网络识别参数
-yolo11:
+yolo:
+  yolo_name: "yolov5"  # 可选: "yolo11", "yolov5"
   yolo11_model_path: "/home/guo/ITL_Auto_aim/src/model/yolo11.xml"
+  yolov5_model_path: "/home/guo/ITL_Auto_aim/src/model/yolov5.xml"
   # 推理设备
   device: "CPU"  # 可选: CPU, GPU, MYRIAD
   enemy_color: "red"
@@ -72,6 +74,7 @@ yolo11:
   min_confidence: 0.8
   score_threshold: 0.7
   nms_threshold: 0.3
+  use_traditional: false
 
 
 # 传统方法识别参数：
@@ -83,9 +86,9 @@ min_lightbar_ratio: 1.5 # 灯条最小宽高比
 max_lightbar_ratio: 20  # 灯条最大宽高比
 min_lightbar_length: 8  # 灯条的最小长度像素
 min_armor_ratio: 1      # 装甲板最小宽高比
-max_armor_ratio: 3      # 装甲板的最大宽高比
+max_armor_ratio: 5      # 装甲板的最大宽高比
 max_side_ratio: 1.5     # 左右灯条的长度比上限
-max_rectangular_error: 25 # degree，最大灯条的长度比上限
+max_rectangular_error: 20 # degree，最大灯条的长度比上限
 min_confidence: 0.8     # 分类器的最小置信度
 
 
@@ -203,7 +206,7 @@ com_port_1: "/dev/ttyACM2"
 
 # video视频测试参数
 Video:
-video_path: "/home/guo/ITL_Auto_aim/test/31313561759-1-192.mp4"
+video_path: "/home/guo/ITL_Auto_aim/test/demo.mp4"
 
 #####-----buff_detector参数-----#####
 buff_model: "/home/guo/ITL_Auto_aim/src/model/yolo11_buff_int8.xml"

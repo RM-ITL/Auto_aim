@@ -104,8 +104,8 @@ struct Lightbar
 struct Armor
 {
     int class_id;              // YOLO原始输出ID (0-37)
-    int color_class_id;        // 颜色类别ID
-    int classify_class_id;     // 分类器输出ID
+    int color_id;             // 颜色类别ID
+    int num_id;               // 分类器输出ID
 
     float confidence;
 
@@ -144,9 +144,9 @@ struct Armor
     // 默认构造函数
     Armor()
         : class_id(0),
-          color_class_id(0),
-          classify_class_id(0),
-          confidence(confidence),
+          color_id(0),
+          num_id(0),
+          confidence(0.0f),
           color(red),
           name(not_armor),
           type(small),
@@ -163,6 +163,10 @@ struct Armor
     // YOLO11构造函数 - 在cpp文件中实现
     Armor(int yolo_class_id, float confidence, const cv::Rect& box,
           const std::vector<cv::Point2f>& keypoints);
+    // YOLOv5的构造函数
+    Armor(
+    int color_id, int num_id, float confidence, const cv::Rect & box,
+    std::vector<cv::Point2f> armor_keypoints);
     
     std::string getNameString() const {
         if (name >= one && name <= base) {

@@ -1,9 +1,26 @@
 #include "classifier.hpp"
 
 #include <yaml-cpp/yaml.h>
+#include <array>
 
 namespace armor_auto_aim
 {
+
+// 分类器输出label_id到ArmorName的映射表
+// 分类器输出0-8，对应one到not_armor
+const std::array<ArmorName, 9> LABEL_TO_NAME = {
+    ArmorName::one,       // 0
+    ArmorName::two,       // 1
+    ArmorName::three,     // 2
+    ArmorName::four,      // 3
+    ArmorName::five,      // 4
+    ArmorName::sentry,    // 5
+    ArmorName::outpost,   // 6
+    ArmorName::base,      // 7
+    ArmorName::not_armor  // 8
+};
+
+
 Classifier::Classifier(const std::string & config_path)
 {
   auto yaml = YAML::LoadFile(config_path);
@@ -55,7 +72,7 @@ void Classifier::classify(Armor & armor)
   int label_id = label_point.x;
 
   armor.confidence = confidence;
-  armor.name = static_cast<ArmorName>(label_id + 1);
+  armor.name = (label_id >= 0 && label_id < 9) ? LABEL_TO_NAME[label_id] : ArmorName::not_armor;
 }
 
 void Classifier::ovclassify(Armor & armor)
@@ -108,7 +125,7 @@ void Classifier::ovclassify(Armor & armor)
   int label_id = label_point.x;
 
   armor.confidence = confidence;
-  armor.name = static_cast<ArmorName>(label_id + 1);
+  armor.name = (label_id >= 0 && label_id < 9) ? LABEL_TO_NAME[label_id] : ArmorName::not_armor;
 }
 
 }  // namespace armor_auto_aim

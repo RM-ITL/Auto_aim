@@ -14,11 +14,11 @@ YOLO11Detector::YOLO11Detector(const std::string& config_path, bool debug)
     auto yaml = YAML::LoadFile(config_path);
     
     // 从yolo11节点下读取配置参数
-    if (!yaml["yolo11"]) {
+    if (!yaml["yolo"]) {
         throw std::runtime_error("配置文件中缺少'yolo11'节点");
     }
     
-    const auto& yolo11_config = yaml["yolo11"];
+    const auto& yolo11_config = yaml["yolo"];
     
     // 读取模型路径和设备配置
     model_path_ = yolo11_config["yolo11_model_path"].as<std::string>();
@@ -62,7 +62,7 @@ YOLO11Detector::YOLO11Detector(const std::string& config_path, bool debug)
         model, device_, ov::hint::performance_mode(ov::hint::PerformanceMode::LATENCY));
 }
 
-std::vector<Armor> YOLO11Detector::detect(const cv::Mat& raw_img)
+std::vector<Armor> YOLO11Detector::detect(const cv::Mat& raw_img, int frame_count)
 {
     if (raw_img.empty()) {
         if (debug_) {
@@ -70,56 +70,56 @@ std::vector<Armor> YOLO11Detector::detect(const cv::Mat& raw_img)
         }
         return std::vector<Armor>();
     }
-    
+
     // 预处理 - 与原始逻辑完全相同
     auto x_scale = static_cast<double>(640) / raw_img.rows;
     auto y_scale = static_cast<double>(640) / raw_img.cols;
     auto scale = std::min(x_scale, y_scale);
     auto h = static_cast<int>(raw_img.rows * scale);
     auto w = static_cast<int>(raw_img.cols * scale);
-    
+
     auto input = cv::Mat(640, 640, CV_8UC3, cv::Scalar(0, 0, 0));
     auto roi = cv::Rect(0, 0, w, h);
     cv::resize(raw_img, input(roi), {w, h});
     ov::Tensor input_tensor(ov::element::u8, {1, 640, 640, 3}, input.data);
-    
+
     // 推理 - 与原始逻辑完全相同
     auto infer_request = compiled_model_.create_infer_request();
     infer_request.set_input_tensor(input_tensor);
     infer_request.infer();
-    
+
     // 后处理 - 与原始逻辑完全相同
     auto output_tensor = infer_request.get_output_tensor();
     auto output_shape = output_tensor.get_shape();
     cv::Mat output(output_shape[1], output_shape[2], CV_32F, output_tensor.data());
-    
-    return parse(scale, output, raw_img);
+
+    return parse(scale, output, raw_img, frame_count);
 }
 
 std::vector<Armor> YOLO11Detector::parse(
-    double scale, cv::Mat& output, const cv::Mat& bgr_img)
+    double scale, cv::Mat& output, const cv::Mat& bgr_img, int frame_count)
 {
     // 转置输出 - 原始逻辑
     cv::transpose(output, output);
-    
+
     std::vector<int> ids;
     std::vector<float> confidences;
     std::vector<cv::Rect> boxes;
     std::vector<std::vector<cv::Point2f>> armors_key_points;
-    
+
     for (int r = 0; r < output.rows; r++) {
         auto xywh = output.row(r).colRange(0, 4);
         auto scores = output.row(r).colRange(4, 4 + class_num_);
         auto one_key_points = output.row(r).colRange(4 + class_num_, 50);
-        
+
         std::vector<cv::Point2f> armor_key_points;
-        
+
         double score;
         cv::Point max_point;
         cv::minMaxLoc(scores, nullptr, &score, nullptr, &max_point);
-        
+
         if (score < score_threshold_) continue;
-        
+
         auto x = xywh.at<float>(0);
         auto y = xywh.at<float>(1);
         auto w = xywh.at<float>(2);
@@ -128,24 +128,24 @@ std::vector<Armor> YOLO11Detector::parse(
         auto top = static_cast<int>((y - 0.5 * h) / scale);
         auto width = static_cast<int>(w / scale);
         auto height = static_cast<int>(h / scale);
-        
+
         for (int i = 0; i < 4; i++) {
             float x = one_key_points.at<float>(0, i * 2 + 0) / scale;
             float y = one_key_points.at<float>(0, i * 2 + 1) / scale;
             cv::Point2f kp = {x, y};
             armor_key_points.push_back(kp);
         }
-        
+
         ids.emplace_back(max_point.x);
         confidences.emplace_back(score);
         boxes.emplace_back(left, top, width, height);
         armors_key_points.emplace_back(armor_key_points);
     }
-    
+
     // NMS - 原始逻辑
     std::vector<int> indices;
     cv::dnn::NMSBoxes(boxes, confidences, score_threshold_, nms_threshold_, indices);
-    
+
     std::vector<Armor> armors;
     for (const auto& i : indices) {
         sort_keypoints(armors_key_points[i]);
@@ -153,7 +153,7 @@ std::vector<Armor> YOLO11Detector::parse(
         Armor armor(ids[i], confidences[i], boxes[i], armors_key_points[i]);
         armors.push_back(armor);
     }
-    
+
     // 验证和过滤 - 原始逻辑
     auto it = armors.begin();
     while (it != armors.end()) {
@@ -161,20 +161,20 @@ std::vector<Armor> YOLO11Detector::parse(
             it = armors.erase(it);
             continue;
         }
-        
+
         if (!check_type(*it)) {
             it = armors.erase(it);
             continue;
         }
-        
+
         it->center_norm = get_center_norm(bgr_img, it->center);
         ++it;
     }
-    
+
     if (debug_) {
-        draw_detections(bgr_img, armors);
+        draw_detections(bgr_img, armors, frame_count);
     }
-    
+
     return armors;
 }
 
@@ -239,11 +239,16 @@ cv::Point2f YOLO11Detector::get_center_norm(const cv::Mat& bgr_img, const cv::Po
 }
 
 void YOLO11Detector::draw_detections(
-    const cv::Mat& img, const std::vector<Armor>& armors) const
+    const cv::Mat& img, const std::vector<Armor>& armors, int frame_count) const
 {
     // 使用新的绘图工具，但保持相同的可视化效果
     auto detection = img.clone();
-    
+
+    // 显示帧号
+    if (frame_count >= 0) {
+        utils::draw_text(detection, std::to_string(frame_count), {10, 30}, {255, 255, 255});
+    }
+
     for (const auto& armor : armors) {
         // 根据颜色设置绘制颜色
         cv::Scalar color;
@@ -253,17 +258,17 @@ void YOLO11Detector::draw_detections(
             case purple: color = cv::Scalar(255, 0, 255); break;
             default: color = cv::Scalar(128, 128, 128); break;
         }
-        
+
         // 构建标签
         std::string info = std::to_string(armor.confidence) + " " +
                           COLORS[armor.color] + " " +
                           armor.getNameString() + " " +
                           ARMOR_TYPES[armor.type];
-        
+
         utils::draw_points(detection, armor.points, color);
         utils::draw_label(detection, info, cv::Point(armor.center.x, armor.center.y), color);
     }
-    
+
 }
 
 } // namespace armor_auto_aim

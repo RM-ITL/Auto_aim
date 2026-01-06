@@ -147,10 +147,10 @@ int PipelineApp::run()
         auto image_points =
           yaw_optimizer_->reproject_armor_out(world_point, xyza[3], armor_type, target_name);
 
-        utils::logger()->debug(
-          "当前识别到的目标的yaw姿态为:{:.2f}",
-          xyza[3]
-        );
+        // utils::logger()->debug(
+        //   "当前识别到的目标的yaw姿态为:{:.2f}",
+        //   xyza[3]
+        // );
         
         if (image_points.size() == 4) {
           // 如果是第一个target（即queue的front），计算并打印中心点

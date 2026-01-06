@@ -77,8 +77,8 @@ Armor::Armor(const Lightbar & left, const Lightbar & right)
 Armor::Armor(int yolo_class_id, float confidence, const cv::Rect& box,
              const std::vector<cv::Point2f>& keypoints)
     : class_id(yolo_class_id),
-      color_class_id(-1),
-      classify_class_id(-1),
+      color_id(-1),
+      num_id(-1),
       confidence(confidence),  // 初始化引用
       color(red),
       name(not_armor),
@@ -145,16 +145,16 @@ Armor::Armor(int yolo_class_id, float confidence, const cv::Rect& box,
         // rank值由装甲板名称决定，实现了动态优先级分配
         this->rank = getRankFromName(parsed_name);
         
-        // 为了兼容性，生成color_class_id
+        // 为了兼容性，生成color_id
         // 注意：这里的映射可能与传统检测器使用的不同
         if (parsed_color == blue) {
-            this->color_class_id = 0;
+            this->color_id = 0;
         } else if (parsed_color == red) {
-            this->color_class_id = 1;
+            this->color_id = 1;
         } else if (parsed_color == extinguish) {
-            this->color_class_id = 2;
+            this->color_id = 2;
         } else if (parsed_color == purple) {
-            this->color_class_id = 3;
+            this->color_id = 3;
         }
     } else {
         // 无效的class_id，保持默认的not_armor和对应的rank值
@@ -162,5 +162,92 @@ Armor::Armor(int yolo_class_id, float confidence, const cv::Rect& box,
         this->rank = getRankFromName(not_armor);
     }
 }
+
+// yolov5构造函数
+// YOLOv5输出格式：color_id (0=blue, 1=red, 2=extinguish), num_id (0=sentry, 1-5=数字, 6=outpost, 7=base)
+Armor::Armor(
+  int color_id, int num_id, float confidence, const cv::Rect & box,
+  std::vector<cv::Point2f> armor_keypoints)
+: class_id(-1),            // YOLOv5不使用统一的class_id，设为-1
+  color_id(color_id),      // 保存颜色ID
+  num_id(num_id),          // 保存数字ID
+  confidence(confidence),
+  color(red),              // 默认值，后续会被覆盖
+  name(not_armor),         // 默认值，后续会被覆盖
+  type(small),             // 默认值，后续会被覆盖
+  rank(getRankFromName(not_armor)),
+  box(box),
+  points(armor_keypoints),
+  ratio(0.0),
+  side_ratio(0.0),
+  rectangular_error(0.0),
+  is_valid(true),
+  duplicated(false)
+{
+  // 验证关键点数量
+  if (armor_keypoints.size() != 4) {
+    is_valid = false;
+    return;
+  }
+
+  center = (armor_keypoints[0] + armor_keypoints[1] + armor_keypoints[2] + armor_keypoints[3]) / 4;
+  auto left_width = cv::norm(armor_keypoints[0] - armor_keypoints[3]);
+  auto right_width = cv::norm(armor_keypoints[1] - armor_keypoints[2]);
+  auto max_width = std::max(left_width, right_width);
+  auto top_length = cv::norm(armor_keypoints[0] - armor_keypoints[1]);
+  auto bottom_length = cv::norm(armor_keypoints[3] - armor_keypoints[2]);
+  auto max_length = std::max(top_length, bottom_length);
+  auto left_center = (armor_keypoints[0] + armor_keypoints[3]) / 2;
+  auto right_center = (armor_keypoints[1] + armor_keypoints[2]) / 2;
+  auto left2right = right_center - left_center;
+  auto roll = std::atan2(left2right.y, left2right.x);
+  auto left_rectangular_error = std::abs(
+    std::atan2(
+      (armor_keypoints[3] - armor_keypoints[0]).y, (armor_keypoints[3] - armor_keypoints[0]).x) -
+    roll - CV_PI / 2);
+  auto right_rectangular_error = std::abs(
+    std::atan2(
+      (armor_keypoints[2] - armor_keypoints[1]).y, (armor_keypoints[2] - armor_keypoints[1]).x) -
+    roll - CV_PI / 2);
+  rectangular_error = std::max(left_rectangular_error, right_rectangular_error);
+
+  // 计算宽高比
+  if (max_width > 0) {
+    ratio = max_length / max_width;
+  }
+
+  // 解析颜色
+  switch (color_id) {
+    case 0: color = Color::blue; break;
+    case 1: color = Color::red; break;
+    case 2: color = Color::extinguish; break;
+    case 3: color = Color::purple; break;
+    default: color = Color::unknown; break;
+  }
+
+  // 解析装甲板名称
+  // YOLOv5的num_id映射：0=sentry, 1=英雄(one), 2=工程(two), 3=步兵3(three),
+  //                    4=步兵4(four), 5=步兵5(five), 6=outpost, 7=base, 8=base大
+  switch (num_id) {
+    case 0: name = ArmorName::sentry; break;
+    case 1: name = ArmorName::one; break;
+    case 2: name = ArmorName::two; break;
+    case 3: name = ArmorName::three; break;
+    case 4: name = ArmorName::four; break;
+    case 5: name = ArmorName::five; break;
+    case 6: name = ArmorName::outpost; break;
+    case 7: name = ArmorName::base; break;
+    case 8: name = ArmorName::base; break;  // 基地大装甲板
+    default: name = ArmorName::not_armor; is_valid = false; break;
+  }
+
+  // 解析装甲板类型
+  // 英雄(1)和基地大(8)是大装甲板，其他是小装甲板
+  type = (num_id == 1 || num_id == 8) ? ArmorType::big : ArmorType::small;
+
+  // 设置优先级
+  rank = getRankFromName(name);
+}
+
 
 }  // namespace armor_auto_aim
