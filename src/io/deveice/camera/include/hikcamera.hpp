@@ -58,7 +58,7 @@ private:
   std::atomic<bool> capturing_{false};
   std::atomic<bool> shutdown_{false};
 
-  utils::ThreadSafeQueue<CameraData> queue_;
+  tools::ThreadSafeQueue<CameraData> queue_;
   utils::PerformanceMonitor perf_monitor_;
 
   double exposure_us_ = 0.0;

@@ -1,5 +1,6 @@
 #include "target.hpp"
 
+#include <cmath>
 #include <numeric>
 
 #include "math_tools.hpp"
@@ -107,6 +108,8 @@ void Target::predict(double dt)
             0,      0,      0,      0,      0,      0,      0,      0, 0, 0, 0,
             0,      0,      0,      0,      0,      0,      0,      0, 0, 0, 0,
             0,      0,      0,      0,      0,      0,      0,      0, 0, 0, 0;
+  
+  // Q(10, 10) = 0.005;  // h高低差的过程噪声，允许缓慢的纠正
 
   // 防止夹角求和出现异常值
   auto f = [&](const Eigen::VectorXd & x) -> Eigen::VectorXd {
@@ -139,6 +142,9 @@ void Target::update(const solver::Armor_pose & armor_pose)
     });
 
   // 取前3个distance最小的装甲板
+  double P_h = ekf_.P(10, 10);  // h的协方差
+  double R_z = 0.01;            // z观测噪声方差
+
   for (int i = 0; i < 3 && i < static_cast<int>(xyza_i_list.size()); i++) {
     const auto & xyza = xyza_i_list[i].first;
     Eigen::Vector3d ypd = utils::xyz2ypd(xyza.head(3));
@@ -146,6 +152,10 @@ void Target::update(const solver::Armor_pose & armor_pose)
     // 计算角度误差
     double angle_error = std::abs(utils::limit_rad(armor_pose.world_orientation.yaw - xyza[3])) +
                          std::abs(utils::limit_rad(armor_pose.world_spherical.yaw - ypd[0]));
+
+    // // 计算z坐标误差（简化马氏距离：P_h大时权重小，P_h小时权重大）
+    // double z_error = std::abs(armor_pose.world_position[2] - xyza[2]);
+    // double z_error_normalized = z_error / std::sqrt(P_h + R_z);
 
     double total_error = angle_error;
 
@@ -170,7 +180,24 @@ void Target::update(const solver::Armor_pose & armor_pose)
 
   update_ypda(armor_pose, id);
 
-  
+  // 每30帧输出一次h可观测性诊断 (约1秒一次)
+  if (armor_num_ == 4 && update_count_ % 30 == 0) {
+    double obs = h_observability();
+    double w = omega();
+    double rate = id_switch_rate();
+    double h = ekf_.x[10];
+    double P_h = ekf_.P(10, 10);
+
+    if (obs < 0.5) {
+      utils::logger()->warn(
+        "[Target] h可观测性低! ω={:.2f}rad/s, 可观测性={:.1f}%, ID切换率={:.1f}%, h={:.3f}m, P_h={:.3f}",
+        w, obs * 100, rate * 100, h, P_h);
+    } else {
+      utils::logger()->debug(
+        "[Target] h诊断: ω={:.2f}rad/s, 可观测性={:.1f}%, ID切换率={:.1f}%, h={:.3f}m, P_h={:.3f}",
+        w, obs * 100, rate * 100, h, P_h);
+    }
+  }
 }
 
 void Target::update_ypda(const solver::Armor_pose & armor_pose, int id)
@@ -181,6 +208,7 @@ void Target::update_ypda(const solver::Armor_pose & armor_pose, int id)
   auto center_yaw = std::atan2(armor_pose.world_position[1], armor_pose.world_position[0]);
   auto delta_angle = utils::limit_rad(armor_pose.world_orientation.yaw - center_yaw);
   
+  // 观测噪声，对应的是四个观测向量ypda，这里调节之后
   Eigen::VectorXd R_dig(4);
   R_dig << 4e-3, 4e-3, log(std::abs(delta_angle) + 1) + 1,
            log(std::abs(armor_pose.world_spherical.distance) + 1) / 200 + 9e-2;
@@ -407,5 +435,24 @@ Eigen::MatrixXd Target::h_jacobian(const Eigen::VectorXd & x, int id) const
 }
 
 bool Target::checkinit() { return isinit; }
+
+// ID切换率: 切换次数 / 总更新次数
+double Target::id_switch_rate() const {
+  if (update_count_ == 0) return 0.0;
+  return static_cast<double>(switch_count_) / update_count_;
+}
+
+// 角速度绝对值
+double Target::omega() const {
+  return std::abs(ekf_.x[7]);
+}
+
+// h可观测性评分 (基于角速度，转速越高可观测性越好)
+// 经验阈值: |ω| < 0.5 rad/s 时可观测性差
+double Target::h_observability() const {
+  double w = omega();
+  // 使用sigmoid函数平滑映射: 0.5 rad/s为中点
+  return 1.0 / (1.0 + std::exp(-10.0 * (w - 0.5)));
+}
 
 }  // namespace predict

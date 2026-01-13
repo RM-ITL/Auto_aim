@@ -275,7 +275,7 @@ bool Tracker::set_target(std::list<Armors> & armors,
 
   if (is_balance) {
     Eigen::VectorXd P0_dig(11);
-    P0_dig << 1, 64, 1, 64, 1, 64, 0.4, 100, 1, 1, 1;
+    P0_dig << 1, 64, 1, 64, 1, 64, 0.4, 100, 1, 2, 2;
     target_ = predict::Target(armor_pose, t, 0.2, 2, P0_dig);
     is_tracking_outpost_ = false;
     RCLCPP_INFO(rclcpp::get_logger("Tracker"),
@@ -285,7 +285,7 @@ bool Tracker::set_target(std::list<Armors> & armors,
     // 前哨站：使用 OutpostTarget
     Eigen::VectorXd P0_dig(11);
     // cx vx cy vy cz vz θ ω r h1 h2
-    P0_dig << 1, 8, 1, 8, 1, 4, 0.4, 50, 1e-4, 0.2, 0.2;
+    P0_dig << 1, 8, 1, 8, 1, 4, 0.4, 50, 1e-4, 2, 2;
     target_ = predict::OutpostTarget(armor_pose, t, 0.2765, P0_dig);
     is_tracking_outpost_ = true;
     RCLCPP_INFO(rclcpp::get_logger("Tracker"), "初始化前哨站目标 (OutpostTarget)");
@@ -299,7 +299,7 @@ bool Tracker::set_target(std::list<Armors> & armors,
   }
   else {
     Eigen::VectorXd P0_dig(11);
-    P0_dig << 1, 64, 1, 64, 1, 64, 0.4, 100, 1, 1, 1;
+    P0_dig << 1, 64, 1, 64, 1, 64, 0.4, 100, 1, 2, 3;
     target_ = predict::Target(armor_pose, t, 0.24, 4, P0_dig);
     is_tracking_outpost_ = false;
     RCLCPP_INFO(rclcpp::get_logger("Tracker"),

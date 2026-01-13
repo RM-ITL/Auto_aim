@@ -30,11 +30,22 @@ if(NOT EXISTS "${MV_CAMERA_LIB_DIR}/libMvCameraControl.so")
   message(FATAL_ERROR "Hikvision camera library not found at: ${MV_CAMERA_LIB_DIR}/libMvCameraControl.so")
 endif()
 
+# MindVision SDK 路径配置
+set(MINDVISION_SDK_PATH "/home/guo/linux_sdk" CACHE PATH "Path to MindVision SDK")
+set(MINDVISION_INCLUDE_DIR "${MINDVISION_SDK_PATH}/include")
+set(MINDVISION_LIB_DIR "${MINDVISION_SDK_PATH}/lib/x64")
+
+if(NOT EXISTS "${MINDVISION_LIB_DIR}/libMVSDK.so")
+  message(WARNING "MindVision camera library not found at: ${MINDVISION_LIB_DIR}/libMVSDK.so")
+endif()
+
 # ====================================================================================
 # deveice_camera
 # ====================================================================================
 set(deveice_CAMERA_SOURCES
   camera/src/hikcamera.cpp
+  camera/src/mindvision.cpp
+  camera/src/camera.cpp
 )
 
 add_library(deveice_camera STATIC ${deveice_CAMERA_SOURCES})
@@ -46,6 +57,7 @@ target_include_directories(deveice_camera
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/camera/include>
     $<INSTALL_INTERFACE:include>
     ${MV_CAMERA_INCLUDE_DIR}
+    ${MINDVISION_INCLUDE_DIR}
     ${LIBUSB_INCLUDE_DIRS}
 )
 
@@ -58,6 +70,7 @@ target_link_libraries(deveice_camera
     ${LIBUSB_LIBRARIES}
     ${MV_CAMERA_LIB_DIR}/libMvCameraControl.so
     ${MV_CAMERA_LIB_DIR}/libMvCameraControlWrapper.so
+    ${MINDVISION_LIB_DIR}/libMVSDK.so
 )
 
 target_compile_options(deveice_camera PRIVATE ${LIBUSB_CFLAGS_OTHER})
@@ -197,6 +210,7 @@ set(deveice_PUBLIC_INCLUDE_DIRS
   ${CMAKE_CURRENT_SOURCE_DIR}/imu/include
   ${CMAKE_CURRENT_SOURCE_DIR}/old_gimbal/include
   ${MV_CAMERA_INCLUDE_DIR}
+  ${MINDVISION_INCLUDE_DIR}
   ${LIBUSB_INCLUDE_DIRS}
   ${LIBSERIAL_INCLUDE_DIRS}
 )
@@ -242,8 +256,8 @@ target_include_directories(deveice
 )
 
 set_target_properties(deveice PROPERTIES
-  BUILD_RPATH "${MV_CAMERA_LIB_DIR}"
-  INSTALL_RPATH "${MV_CAMERA_LIB_DIR}"
+  BUILD_RPATH "${MV_CAMERA_LIB_DIR};${MINDVISION_LIB_DIR}"
+  INSTALL_RPATH "${MV_CAMERA_LIB_DIR};${MINDVISION_LIB_DIR}"
 )
 
 # ====================================================================================
@@ -284,7 +298,7 @@ install(
   DESTINATION share/${PROJECT_NAME}/cmake
 )
 
-ament_export_include_directories(include ${MV_CAMERA_INCLUDE_DIR} ${LIBUSB_INCLUDE_DIRS} ${LIBSERIAL_INCLUDE_DIRS})
+ament_export_include_directories(include ${MV_CAMERA_INCLUDE_DIR} ${MINDVISION_INCLUDE_DIR} ${LIBUSB_INCLUDE_DIRS} ${LIBSERIAL_INCLUDE_DIRS})
 ament_export_targets(deveiceTargets HAS_LIBRARY_TARGET)
 ament_export_dependencies(
   rclcpp

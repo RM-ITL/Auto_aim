@@ -3,6 +3,7 @@
 
 #include <Eigen/Dense>
 #include <chrono>
+#include <deque>
 #include <list>
 #include <string>
 #include <variant>
@@ -27,6 +28,9 @@ public:
   Tracker(const std::string & config_path, solver::Solver & solver);
 
   std::string state() const;
+
+  // // 获取最近1秒的识别率 (0.0 ~ 1.0)
+  // double detection_rate() const;
 
   std::list<TargetVariant> track(
     std::list<Armors> & armors,
@@ -57,6 +61,10 @@ private:
   TargetVariant target_;
   bool is_tracking_outpost_ = false;
   std::chrono::steady_clock::time_point last_timestamp_;
+
+  // // 识别率统计 (滑动窗口)
+  // std::deque<bool> detection_history_;
+  // static constexpr int DETECTION_WINDOW_SIZE = 120;  // 约1秒 (假设30fps)
 
   // 内部方法
   void state_machine(bool found);

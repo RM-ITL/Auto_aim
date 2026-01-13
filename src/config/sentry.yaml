@@ -49,19 +49,20 @@ CalibParam:
               #   - -0.594006385480322
   
 
+
 # 相机参数
 camera:
-  type: "hik"  # 可选: "hik", "mindvision"
+  type: "mindvision"  # 可选: "hik", "mindvision"
   parameters:
-    exposure_ms: 4.0
+    exposure_ms: 5.0
     gain: 12.0
-    gamma: 100.0
+    gamma: 0.5
     fps: 120.0
     target_width: 1280
     target_height: 1024
     image_topic: "image_topic"
-    vid_pid: "2bdf:0283"  # MindVision相机的VID:PID
-    debug: fals
+    vid_pid: "f622:d13a"  # MindVision相机的VID:PID
+    debug: false
 
 # 神经网络识别参数
 yolo:
@@ -98,7 +99,7 @@ min_confidence: 0.8     # 分类器的最小置信度
 DM_IMU:
 # 串口配置
 imu_com_port: "/dev/ttyACM1"
-baud: 115200
+baud: 921600
 
 # 发布频率相关
 publish_rate: 1000  # Hz
@@ -183,20 +184,28 @@ Aimer:
 
 ###planner参数###
 fire_thresh: 0.0015 # 允许开火阈值，值越小要求精度越高，代表着实际角度和规划角度之间的误差
-max_yaw_acc: 50 # 最大Yaw加速度上限
-Q_yaw: [5e6, 0] # 状态权重矩阵Q的对角线元素：[位置权重, 速度权重]。
-# 9e6的高位置权重意味着强调精确跟踪目标角度，速度权重为0表示不惩罚速度偏差 
+max_yaw_acc: 30 # 最大Yaw加速度上限
+Q_yaw: [3e6, 0] # 状态权重矩阵Q的对角线元素：[位置权重, 速度权重]。
+# 9e6的高位置权重意味着强调精确跟踪目标角度，速度权重为0表示不惩罚速度偏差
 R_yaw: [1]
 max_pitch_acc: 100  # 最大pitch加速度上限
 Q_pitch: [5e6, 0]
 R_pitch: [1]
-yaw_offset: 1 # degree，相机光心与枪管中心的yaw偏差
-pitch_offset: 7.5 # degree，pitch相对枪管的中心补偿参数
+yaw_offset: 0.8 # degree，相机光心与枪管中心的yaw偏差
+pitch_offset: 9.0 # degree，pitch相对枪管的中心补偿参数
 comming_angle: 55 # degree，来袭角度阈值，这里是55度(没用)
 leaving_angle: 20 # degree, 离开角度阈值，这里是20度(没用)
 decision_speed: 7 # rad/s， 高低速的判断阈值，大于此值的为高速目标
 high_speed_delay_time: 0.0 # s，高速目标的额外时间补偿
 low_speed_delay_time: 0.0 # s，低速目标的额外时间补偿
+
+###GuardPlanner参数（守株待兔模式）###
+# 策略说明：对高速旋转的小陀螺目标，云台保持指向旋转中心，
+# 等待装甲板转入射击窗口（正对枪口）时才开火
+guard_window_angle: 15        # degree，射击窗口半角，装甲板朝向角在此范围内视为可射击
+guard_spin_threshold: 0.8     # rad/s，角速度阈值，超过此值启用守株待兔模式
+guard_fire_angle_thresh: 10   # degree，射击时装甲板预测朝向角的最大允许值
+guard_require_approaching: true  # 是否要求装甲板正在转入（facing_angle在减小）
 
 # Gimbal通讯参数
 Gimbal:
@@ -205,10 +214,10 @@ com_port: "/dev/ttyACM0"
 com_port_1: "/dev/ttyACM2"
 # 校正下位机的四元数 [x, y, z, w], q_corrected = q_calib * q_lower
 # q_calib:
-#   x: 0.01168210
-#   y: 0.06258915
-#   z: -0.02122380
-#   w: 0.99774530
+#   x: -0.00211896
+#   y: -0.00492025
+#   z: -0.09980744
+#   w: 0.99499235
 
 # q_calib:
 #   x: 1.0000

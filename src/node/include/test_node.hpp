@@ -15,7 +15,7 @@
 
 #include <rclcpp/rclcpp.hpp>
 
-#include "hikcamera.hpp"
+#include "camera.hpp"
 #include "imu_driver.h"
 #include "detect_node.hpp"
 #include "solver_node.hpp"
@@ -23,6 +23,7 @@
 #include "tracker.hpp"
 #include "armor.hpp"
 #include "planner.hpp"
+#include "guard_planner.hpp"
 #include "autoaim_msgs/msg/debug.hpp"
 #include "gimbal.hpp"
 
@@ -58,19 +59,20 @@ private:
 
   // 组件与配置
   std::string config_path_;
-  std::unique_ptr<camera::HikCamera> camera_;
+  std::unique_ptr<camera::Camera> camera_;
   std::unique_ptr<io::DmImu> dm_imu_;
   std::unique_ptr<armor_auto_aim::Detector> detector_;
   std::unique_ptr<solver::Solver> solver_;
   solver::YawOptimizer* yaw_optimizer_;
   std::unique_ptr<tracker::Tracker> tracker_;
   std::unique_ptr<plan::Planner> planner_;
+  std::unique_ptr<guard::GuardPlanner> guard_planner_;
   std::unique_ptr<io::Gimbal> gimbal_;
   rclcpp::Node::SharedPtr ros_node_;
   rclcpp::Publisher<autoaim_msgs::msg::Debug>::SharedPtr debug_pub_;
 
-  utils::ThreadSafeQueue<DebugPacket, true> visualization_queue{2};
-  utils::ThreadSafeQueue<std::optional<tracker::TargetVariant>, true> target_queue{1};
+  tools::ThreadSafeQueue<DebugPacket, true> visualization_queue{2};
+  tools::ThreadSafeQueue<std::optional<tracker::TargetVariant>, true> target_queue{1};
 
   std::atomic<bool> quit_{false};
   std::thread visualization_thread_;

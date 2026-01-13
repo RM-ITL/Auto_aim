@@ -74,15 +74,14 @@ private:
 
   std::set<int> observed_ids_;  // 已观测到的ID
 
-  // 用于角度跳变检测
-  double last_obs_yaw_ = 0.0;   // 上一次观测的yaw角
-  int current_id_ = 0;          // 当前跟踪的装甲板ID
+  // 当前跟踪的装甲板ID
+  int current_id_ = 0;
 
-  // ID确定逻辑（分阶段）
-  int determine_armor_id(double obs_z, double obs_yaw);
-  int match_by_height(double obs_z) const;
-  int match_by_yaw_jump(double yaw_jump) const;
-  double get_predicted_z(int id) const;
+  // 马氏距离匹配
+  int match_by_mahalanobis(const solver::Armor_pose & armor_pose);
+  Eigen::VectorXd predict_observation(const Eigen::VectorXd & x, int id) const;
+  Eigen::MatrixXd compute_R(const solver::Armor_pose & armor_pose) const;
+  double get_predicted_z(int id) const;  // 保留用于调试
 
   // 5维观测更新 [yaw, pitch, distance, angle, z_armor]
   void update_ypdaz(const solver::Armor_pose & armor_pose, int id);

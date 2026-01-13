@@ -69,8 +69,8 @@ private:
   rclcpp::Node::SharedPtr ros_node_;
   rclcpp::Publisher<autoaim_msgs::msg::Debug>::SharedPtr debug_pub_;
 
-  utils::ThreadSafeQueue<DebugPacket, true> visualization_queue{2};
-  utils::ThreadSafeQueue<std::optional<tracker::TargetVariant>, true> target_queue{1};
+  tools::ThreadSafeQueue<DebugPacket, true> visualization_queue{2};
+  tools::ThreadSafeQueue<std::optional<tracker::TargetVariant>, true> target_queue{1};
 
   std::atomic<bool> quit_{false};
   std::thread visualization_thread_;

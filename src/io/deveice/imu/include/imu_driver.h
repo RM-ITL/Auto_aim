@@ -60,7 +60,7 @@ private:
   serial::Serial serial_;
   std::string imu_serial_port_;
   int imu_seial_baud_;
-  utils::ThreadSafeQueue<QuaterniondData> queue_;
+  tools::ThreadSafeQueue<QuaterniondData> queue_;
   std::vector<uint8_t> pending_bytes_;
   
   // 线程相关

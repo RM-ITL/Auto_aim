@@ -15,7 +15,6 @@ OutpostTarget::OutpostTarget(
   Eigen::VectorXd P0_dig)
 : armor_type(armor_pose.type),
   t_(t),
-  last_obs_yaw_(armor_pose.world_orientation.yaw),
   current_id_(0)
 {
   auto r = radius;
@@ -82,7 +81,7 @@ void OutpostTarget::predict(double dt)
   auto c = dt * dt;
 
   // h1和h2是常量，过程噪声设小
-  double v_h = 0.003;
+  double v_h = 0.01;
 
   Eigen::MatrixXd Q(11, 11);
   Q << a * v1, b * v1,      0,      0,      0,      0,      0,      0,   0,   0,   0,
@@ -121,125 +120,105 @@ double OutpostTarget::get_predicted_z(int id) const
   return center_z;
 }
 
-// 纯高度匹配（三个ID都观测过后使用）
-int OutpostTarget::match_by_height(double obs_z) const
+// 计算给定ID下的5维预测观测 [yaw, pitch, distance, angle, z_armor]
+Eigen::VectorXd OutpostTarget::predict_observation(const Eigen::VectorXd & x, int id) const
 {
-  double errors[3] = {
-    std::abs(obs_z - get_predicted_z(0)),
-    std::abs(obs_z - get_predicted_z(1)),
-    std::abs(obs_z - get_predicted_z(2))
-  };
+  Eigen::Vector3d xyz = h_armor_xyz(x, id);
+  Eigen::VectorXd ypd = utils::xyz2ypd(xyz);
+  auto angle = utils::limit_rad(x[6] + id * 2 * CV_PI / ARMOR_NUM);
+  double z_armor = xyz[2];
 
-  int best_id = 0;
-  for (int i = 1; i < 3; i++) {
-    if (errors[i] < errors[best_id]) {
-      best_id = i;
+  Eigen::VectorXd result(5);
+  result << ypd[0], ypd[1], ypd[2], angle, z_armor;
+  return result;
+}
+
+// 计算观测噪声矩阵R
+Eigen::MatrixXd OutpostTarget::compute_R(const solver::Armor_pose & armor_pose) const
+{
+  auto center_yaw = std::atan2(armor_pose.world_position[1], armor_pose.world_position[0]);
+  auto delta_angle = utils::limit_rad(armor_pose.world_orientation.yaw - center_yaw);
+
+  Eigen::VectorXd R_dig(5);
+  R_dig << 4e-3,   // yaw噪声
+           4e-3,   // pitch噪声
+           std::log(std::abs(delta_angle) + 1) + 1,  // distance噪声
+           std::log(std::abs(armor_pose.world_spherical.distance) + 1) / 200 + 9e-2,  // angle噪声
+           1e-2;   // z_armor噪声
+
+  return R_dig.asDiagonal();
+}
+
+// 马氏距离匹配
+int OutpostTarget::match_by_mahalanobis(const solver::Armor_pose & armor_pose)
+{
+  // 构建5维观测向量
+  Eigen::VectorXd z_obs(5);
+  z_obs << armor_pose.world_spherical.yaw,
+           armor_pose.world_spherical.pitch,
+           armor_pose.world_spherical.distance,
+           armor_pose.world_orientation.yaw,
+           armor_pose.world_position[2];
+
+  // 计算观测噪声
+  Eigen::MatrixXd R = compute_R(armor_pose);
+
+  double min_d2 = std::numeric_limits<double>::max();
+  int best_id = current_id_;
+
+  // 5维观测的χ²门限（99%置信度，自由度5）
+  const double CHI2_GATE = 15.09;
+
+  // 记录每个ID的马氏距离用于调试
+  double d2_list[3] = {0, 0, 0};
+
+  for (int id = 0; id < ARMOR_NUM; id++) {
+    // 计算预测观测
+    Eigen::VectorXd z_pred = predict_observation(ekf_.x, id);
+
+    // 计算残差（角度归一化）
+    Eigen::VectorXd nu = z_obs - z_pred;
+    nu[0] = utils::limit_rad(nu[0]);  // yaw
+    nu[1] = utils::limit_rad(nu[1]);  // pitch
+    nu[3] = utils::limit_rad(nu[3]);  // angle
+
+    // 计算雅可比和残差协方差
+    Eigen::MatrixXd H = h_jacobian(ekf_.x, id);
+    Eigen::MatrixXd S = H * ekf_.P * H.transpose() + R;
+
+    // 计算马氏距离
+    double d2 = nu.transpose() * S.inverse() * nu;
+    d2_list[id] = d2;
+
+    if (d2 < min_d2) {
+      min_d2 = d2;
+      best_id = id;
     }
   }
 
+  // 记录匹配结果（调试用）
   utils::logger()->debug(
-    "[OutpostTarget] 高度匹配: obs_z={:.3f}, errors=[{:.3f},{:.3f},{:.3f}] → ID={}",
-    obs_z, errors[0], errors[1], errors[2], best_id
+    "[OutpostTarget] 马氏距离: d2=[{:.2f},{:.2f},{:.2f}], best_id={}, min_d2={:.2f}",
+    d2_list[0], d2_list[1], d2_list[2], best_id, min_d2
   );
+
+  if (min_d2 > CHI2_GATE) {
+    utils::logger()->warn(
+      "[OutpostTarget] 马氏距离超过门限: {:.2f} > {:.2f}, 保持ID={}",
+      min_d2, CHI2_GATE, current_id_
+    );
+    // 超过门限时，仍使用最小距离的ID（而不是拒绝更新）
+  }
 
   return best_id;
 }
 
-// 分阶段ID确定逻辑
-int OutpostTarget::determine_armor_id(double obs_z, double obs_yaw)
-{
-  double yaw_jump = utils::limit_rad(obs_yaw - last_obs_yaw_);
-  const double JUMP_THRESHOLD = 0.6;  // 约70°
-  bool is_jump = std::abs(yaw_jump) > JUMP_THRESHOLD;
-
-  // ========== 阶段1：h尚未收敛，主要依赖角度跳变 ==========
-  if (!h_converged()) {
-    if (!is_jump) {
-      // 没有跳变，保持当前ID
-      last_obs_yaw_ = obs_yaw;
-      return current_id_;
-    }
-
-    // 发生跳变，根据方向确定新ID
-    int new_id = match_by_yaw_jump(yaw_jump);
-
-    utils::logger()->debug(
-      "[OutpostTarget] h未收敛，角度跳变检测: {:.3f}rad, {} → {}",
-      yaw_jump, current_id_, new_id
-    );
-
-    last_obs_yaw_ = obs_yaw;
-    return new_id;
-  }
-
-  // ========== 阶段2：h已收敛，使用高度匹配+角度跳变联合判断 ==========
-  int height_id = match_by_height(obs_z);
-
-  if (!is_jump) {
-    // 没有跳变，高度匹配结果应该与当前ID一致
-    if (height_id != current_id_) {
-      // 高度匹配结果与当前ID不一致，可能是测量噪声
-      // 检查高度误差是否过大
-      double height_error = std::abs(obs_z - get_predicted_z(current_id_));
-      double alt_error = std::abs(obs_z - get_predicted_z(height_id));
-
-      if (alt_error < height_error * 0.5) {
-        // 高度匹配结果明显更好，可能是漏检了跳变
-        utils::logger()->info(
-          "[OutpostTarget] h收敛，高度匹配修正: {} → {} (误差: {:.3f} vs {:.3f})",
-          current_id_, height_id, alt_error, height_error
-        );
-        last_obs_yaw_ = obs_yaw;
-        return height_id;
-      }
-
-      // 否则保持当前ID
-      last_obs_yaw_ = obs_yaw;
-      return current_id_;
-    }
-
-    last_obs_yaw_ = obs_yaw;
-    return current_id_;
-  }
-
-  // 发生跳变，用高度匹配确认
-  int jump_id = match_by_yaw_jump(yaw_jump);
-
-  // 如果角度跳变和高度匹配结果一致，直接使用
-  if (jump_id == height_id) {
-    utils::logger()->debug(
-      "[OutpostTarget] h收敛，跳变+高度一致: {} → {}",
-      current_id_, jump_id
-    );
-    last_obs_yaw_ = obs_yaw;
-    return jump_id;
-  }
-
-  // 不一致时，以高度匹配为准（因为h已收敛，高度匹配更可靠）
-  utils::logger()->info(
-    "[OutpostTarget] h收敛，跳变({})与高度({})不一致，使用高度匹配",
-    jump_id, height_id
-  );
-  last_obs_yaw_ = obs_yaw;
-  return height_id;
-}
-
-// match_by_yaw_jump: 根据角度跳变方向确定新ID
-int OutpostTarget::match_by_yaw_jump(double yaw_jump) const
-{
-  int direction = (yaw_jump > 0) ? 1 : -1;
-  return (current_id_ + direction + 3) % 3;
-}
-
 void OutpostTarget::update(const solver::Armor_pose & armor_pose)
 {
-  double obs_z = armor_pose.world_position[2];
-  double obs_yaw = armor_pose.world_orientation.yaw;
+  // 使用马氏距离匹配确定ID
+  int id = match_by_mahalanobis(armor_pose);
 
-  // 使用分阶段的ID确定逻辑
-  int id = determine_armor_id(obs_z, obs_yaw);
-
-  // 记录观测到的ID（不再直接赋值h）
+  // 记录观测到的ID
   observed_ids_.insert(id);
 
   // 更新切换状态

@@ -38,13 +38,14 @@ PipelineApp::PipelineApp(const std::string & config_path)
   debug_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Debug>(
     "debug", rclcpp::QoS(10));
 
-  camera_ = std::make_unique<camera::HikCamera>(config_path_);
+  camera_ = std::make_unique<camera::Camera>(config_path_);
   dm_imu_ = std::make_unique<io::DmImu>(config_path_);
   detector_ = std::make_unique<armor_auto_aim::Detector>(config_path_);
   solver_ = std::make_unique<solver::Solver>(config_path_);
   yaw_optimizer_ = solver_->getYawOptimizer();
   tracker_ = std::make_unique<tracker::Tracker>(config_path_, *solver_);
   planner_ = std::make_unique<plan::Planner>(config_path_);
+  guard_planner_ = std::make_unique<guard::GuardPlanner>(config_path_); // 守株待兔模式的planner
   gimbal_ = std::make_unique<io::Gimbal>(config_path_);
 
   // enable_visualization_ = detector_->config().enable_visualization;
@@ -132,14 +133,14 @@ int PipelineApp::run()
         double h2 = ekf_x[10];
         double omega = ekf_x[7];
 
-        utils::logger()->info(
-          "[前哨站估计] h1={:.3f}, h2={:.3f}, ω={:.3f} | "
-          "A0:[{:.2f},{:.2f},{:.2f}] A1:[{:.2f},{:.2f},{:.2f}] A2:[{:.2f},{:.2f},{:.2f}]",
-          h1, h2, omega,
-          armor_xyza_list[0][0], armor_xyza_list[0][1], armor_xyza_list[0][2],
-          armor_xyza_list[1][0], armor_xyza_list[1][1], armor_xyza_list[1][2],
-          armor_xyza_list[2][0], armor_xyza_list[2][1], armor_xyza_list[2][2]
-        );
+        // utils::logger()->info(
+        //   "[前哨站估计] h1={:.3f}, h2={:.3f}, ω={:.3f} | "
+        //   "A0:[{:.2f},{:.2f},{:.2f}] A1:[{:.2f},{:.2f},{:.2f}] A2:[{:.2f},{:.2f},{:.2f}]",
+        //   h1, h2, omega,
+        //   armor_xyza_list[0][0], armor_xyza_list[0][1], armor_xyza_list[0][2],
+        //   armor_xyza_list[1][0], armor_xyza_list[1][1], armor_xyza_list[1][2],
+        //   armor_xyza_list[2][0], armor_xyza_list[2][1], armor_xyza_list[2][2]
+        // );
       }
 
       for (const Eigen::Vector4d & xyza : armor_xyza_list) {
@@ -297,7 +298,8 @@ void PipelineApp::planner_loop()
 
 
 
-    auto plan_result = planner_->plan(target, bullet_speed_);
+    // auto plan_result = planner_->plan(target, bullet_speed_);
+    auto plan_result = guard_planner_->plan(target, bullet_speed_);
     auto gs = gimbal_->state();
     if (plan_result.control) {
       gimbal_->send(
@@ -390,7 +392,7 @@ int main(int argc, char ** argv)
     return 0;
   }
 
-  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/config.yaml";
+  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/sentry.yaml";
   if (cli.has("@config-path")) {
     config_path = cli.get<std::string>("@config-path");
   }

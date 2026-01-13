@@ -7,7 +7,7 @@
 #include <mutex>
 #include <queue>
 
-namespace utils
+namespace tools
 {
 template <typename T, bool PopWhenFull = false>
 class ThreadSafeQueue

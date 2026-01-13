@@ -34,10 +34,10 @@ const std::vector<cv::Point3f> PW_SMALL = {
 
 
 const std::vector<cv::Point3f> PW_BIG = {
-    cv::Point3f(-115.0f, -27.5f, 0.0f),
-    cv::Point3f(115.0f, -27.5f, 0.0f),
-    cv::Point3f(115.0f, 27.5f, 0.0f),
-    cv::Point3f(-115.0f, 27.5f, 0.0f)
+    cv::Point3f(0, 115.0, 27.5),
+    cv::Point3f(0, -115.0, 27.5),
+    cv::Point3f(0, -115.0, -27.5),
+    cv::Point3f(0, 115.0, -27.5)
 };
 
 enum class CoordinateFrame {

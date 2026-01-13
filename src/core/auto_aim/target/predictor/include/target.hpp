@@ -51,6 +51,11 @@ public:
   bool isinit = false;
   bool checkinit();
 
+  // h可观测性诊断指标
+  double id_switch_rate() const;  // ID切换率 (0~1)
+  double omega() const;           // 角速度绝对值 (rad/s)
+  double h_observability() const; // h可观测性评分 (0~1)
+
 private:
   int armor_num_ = 0;
   int switch_count_ = 0;

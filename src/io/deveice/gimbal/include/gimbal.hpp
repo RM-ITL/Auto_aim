@@ -99,7 +99,7 @@ private:
 
   GimbalMode mode_ ;
   GimbalState state_;
-  utils::ThreadSafeQueue<std::tuple<Eigen::Quaterniond, std::chrono::steady_clock::time_point>>
+  tools::ThreadSafeQueue<std::tuple<Eigen::Quaterniond, std::chrono::steady_clock::time_point>>
     queue_{1000};
 
   // IMU外参标定四元数：q_corrected = q_calib_ * q_lower
