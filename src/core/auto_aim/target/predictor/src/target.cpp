@@ -8,15 +8,21 @@
 namespace predict
 {
 Target::Target(
-  const solver::Armor_pose & armor_pose, 
-  std::chrono::steady_clock::time_point t, 
-  double radius, 
+  const solver::Armor_pose & armor_pose,
+  std::chrono::steady_clock::time_point t,
+  double radius,
   int armor_num,
   Eigen::VectorXd P0_dig)
-: name(armor_pose.id),       
+: name(armor_pose.id),
   armor_type(armor_pose.type),
   priority(armor_auto_aim::ArmorPriority::fifth),
+  jumped(false),
+  last_id(0),
   armor_num_(armor_num),
+  switch_count_(0),
+  update_count_(0),
+  is_switch_(false),
+  is_converged_(false),
   t_(t)
 {
   auto r = radius;
@@ -109,8 +115,8 @@ void Target::predict(double dt)
             0,      0,      0,      0,      0,      0,      0,      0, 0, 0, 0,
             0,      0,      0,      0,      0,      0,      0,      0, 0, 0, 0;
   
-  // Q(10, 10) = 0.005;  // h高低差的过程噪声，允许缓慢的纠正
-
+  Q(10, 10) = 0.001;  // h高低差的过程噪声，允许缓慢的纠正
+  // Q(9, 9) = 0.01;
   // 防止夹角求和出现异常值
   auto f = [&](const Eigen::VectorXd & x) -> Eigen::VectorXd {
     Eigen::VectorXd x_prior = F * x;
@@ -141,9 +147,9 @@ void Target::update(const solver::Armor_pose & armor_pose)
       return ypd1[2] < ypd2[2];
     });
 
-  // 取前3个distance最小的装甲板
-  double P_h = ekf_.P(10, 10);  // h的协方差
-  double R_z = 0.01;            // z观测噪声方差
+  // // 取前3个distance最小的装甲板
+  // double P_h = ekf_.P(10, 10);  // h的协方差
+  // double R_z = 0.01;            // z观测噪声方差
 
   for (int i = 0; i < 3 && i < static_cast<int>(xyza_i_list.size()); i++) {
     const auto & xyza = xyza_i_list[i].first;
@@ -180,24 +186,34 @@ void Target::update(const solver::Armor_pose & armor_pose)
 
   update_ypda(armor_pose, id);
 
-  // 每30帧输出一次h可观测性诊断 (约1秒一次)
-  if (armor_num_ == 4 && update_count_ % 30 == 0) {
-    double obs = h_observability();
-    double w = omega();
-    double rate = id_switch_rate();
-    double h = ekf_.x[10];
-    double P_h = ekf_.P(10, 10);
+  // utils::logger()->info(
+  //   "[Target收敛] 更新:{} | l={:.4f} P_l={:.4f} | h={:.4f} P_h={:.4f} | ω={:.2f}rad/s | r={:.3f}",
+  //   update_count_,
+  //   ekf_.x[9], ekf_.P(9, 9),   // l 及其协方差
+  //   ekf_.x[10], ekf_.P(10, 10), // h 及其协方差
+  //   ekf_.x[7],                  // 角速度
+  //   ekf_.x[8]                   // 半径
+  // );
 
-    if (obs < 0.5) {
-      utils::logger()->warn(
-        "[Target] h可观测性低! ω={:.2f}rad/s, 可观测性={:.1f}%, ID切换率={:.1f}%, h={:.3f}m, P_h={:.3f}",
-        w, obs * 100, rate * 100, h, P_h);
-    } else {
-      utils::logger()->debug(
-        "[Target] h诊断: ω={:.2f}rad/s, 可观测性={:.1f}%, ID切换率={:.1f}%, h={:.3f}m, P_h={:.3f}",
-        w, obs * 100, rate * 100, h, P_h);
-    }
-  }
+
+  // // 每30帧输出一次h可观测性诊断 (约1秒一次)
+  // if (armor_num_ == 4 && update_count_ % 30 == 0) {
+  //   double obs = h_observability();
+  //   double w = omega();
+  //   double rate = id_switch_rate();
+  //   double h = ekf_.x[10];
+  //   double P_h = ekf_.P(10, 10);
+
+  //   if (obs < 0.5) {
+  //     utils::logger()->warn(
+  //       "[Target] h可观测性低! ω={:.2f}rad/s, 可观测性={:.1f}%, ID切换率={:.1f}%, h={:.3f}m, P_h={:.3f}",
+  //       w, obs * 100, rate * 100, h, P_h);
+  //   } else {
+  //     utils::logger()->debug(
+  //       "[Target] h诊断: ω={:.2f}rad/s, 可观测性={:.1f}%, ID切换率={:.1f}%, h={:.3f}m, P_h={:.3f}",
+  //       w, obs * 100, rate * 100, h, P_h);
+  //   }
+  // }
 }
 
 void Target::update_ypda(const solver::Armor_pose & armor_pose, int id)
@@ -306,53 +322,15 @@ bool Target::diverged() const
   double r = ekf_.x[8];           // 半径
   double l = ekf_.x[9];           // 长短轴差
   double r_plus_l = r + l;        // 长轴半径
-  [[maybe_unused]] double cov_trace = ekf_.P.trace();  // 协方差矩阵的迹
-  
-  // 计算速度
-  double vx = ekf_.x[1];
-  double vy = ekf_.x[3]; 
-  double vz = ekf_.x[5];
-  double speed = std::sqrt(vx * vx + vy * vy + vz * vz);
-  
-  // 原始的判定逻辑
-  // auto r_ok = r > 0.15 && r < 0.45;
-  // auto l_ok = r_plus_l > 0.15 && r_plus_l < 0.55;
-  
-  // // 检查结果
-  // // utils::logger()->debug(
-  // //   "发散检测详情 - [更新次数:{}] "
-  // //   "r:{:.3f}(ok:{}), r+l:{:.3f}(ok:{}), "
-  // //   "速度:{:.3f}m/s, 协方差迹:{:.3f}, "
-  // //   "目标类型:{}",
-  // //   update_count_,
-  // //   r, r_ok ? "是" : "否",
-  // //   r_plus_l, l_ok ? "是" : "否",
-  // //   speed, cov_trace,
-  // //   name == armor_auto_aim::ArmorName::outpost ? "前哨站" : 
-  // //   (name == armor_auto_aim::ArmorName::base ? "基地" : "步兵")
-  // // );
-  
-  // // 如果判定为发散，详细说明原因
-  // if (!r_ok || !l_ok) {
-  //   // utils::logger()->warn(
-  //   //   "目标发散! 原因: {} "
-  //   //   "[r={:.3f}(范围:0.15-0.45), r+l={:.3f}(范围:0.15-0.55)]",
-  //   //   !r_ok ? "半径超范围" : "长轴超范围",
-  //   //   r, r_plus_l
-  //   // );
-    
-  //   // 输出更多诊断信息帮助分析
-  //   // utils::logger()->warn(
-  //   //   "发散时的状态向量: x={:.2f}, vx={:.2f}, y={:.2f}, vy={:.2f}, "
-  //   //   "z={:.2f}, vz={:.2f}, angle={:.2f}, w={:.2f}",
-  //   //   ekf_.x[0], ekf_.x[1], ekf_.x[2], ekf_.x[3],
-  //   //   ekf_.x[4], ekf_.x[5], ekf_.x[6], ekf_.x[7]
-  //   // );
-    
-  //   return true;
-  // }
-  
-  return false;
+
+  // 发散判定逻辑（与参考程序一致）
+  auto r_ok = r > 0.05 && r < 0.5;
+  auto l_ok = r_plus_l > 0.05 && r_plus_l < 0.5;
+
+  if (r_ok && l_ok) return false;
+
+  utils::logger()->debug("[Target] 发散检测: r={:.3f}, l={:.3f}", r, l);
+  return true;
 }
 bool Target::convergened()
 {
@@ -434,25 +412,25 @@ Eigen::MatrixXd Target::h_jacobian(const Eigen::VectorXd & x, int id) const
   return H_armor_ypda * H_armor_xyza;
 }
 
-bool Target::checkinit() { return isinit; }
+// bool Target::checkinit() { return isinit; }
 
-// ID切换率: 切换次数 / 总更新次数
-double Target::id_switch_rate() const {
-  if (update_count_ == 0) return 0.0;
-  return static_cast<double>(switch_count_) / update_count_;
-}
+// // ID切换率: 切换次数 / 总更新次数
+// double Target::id_switch_rate() const {
+//   if (update_count_ == 0) return 0.0;
+//   return static_cast<double>(switch_count_) / update_count_;
+// }
 
-// 角速度绝对值
-double Target::omega() const {
-  return std::abs(ekf_.x[7]);
-}
+// // 角速度绝对值
+// double Target::omega() const {
+//   return std::abs(ekf_.x[7]);
+// }
 
-// h可观测性评分 (基于角速度，转速越高可观测性越好)
-// 经验阈值: |ω| < 0.5 rad/s 时可观测性差
-double Target::h_observability() const {
-  double w = omega();
-  // 使用sigmoid函数平滑映射: 0.5 rad/s为中点
-  return 1.0 / (1.0 + std::exp(-10.0 * (w - 0.5)));
-}
+// // h可观测性评分 (基于角速度，转速越高可观测性越好)
+// // 经验阈值: |ω| < 0.5 rad/s 时可观测性差
+// double Target::h_observability() const {
+//   double w = omega();
+//   // 使用sigmoid函数平滑映射: 0.5 rad/s为中点
+//   return 1.0 / (1.0 + std::exp(-10.0 * (w - 0.5)));
+// }
 
 }  // namespace predict

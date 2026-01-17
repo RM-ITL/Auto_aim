@@ -81,7 +81,7 @@ void OutpostTarget::predict(double dt)
   auto c = dt * dt;
 
   // h1和h2是常量，过程噪声设小
-  double v_h = 0.01;
+  double v_h = 0.005;
 
   Eigen::MatrixXd Q(11, 11);
   Q << a * v1, b * v1,      0,      0,      0,      0,      0,      0,   0,   0,   0,
@@ -99,7 +99,7 @@ void OutpostTarget::predict(double dt)
   auto f = [&](const Eigen::VectorXd & x) -> Eigen::VectorXd {
     Eigen::VectorXd x_prior = F * x;
     x_prior[6] = utils::limit_rad(x_prior[6]);
-    return x_prior;
+    return x_prior; 
   };
 
   // 前哨站转速限制
@@ -400,9 +400,9 @@ Eigen::Vector3d OutpostTarget::h_armor_xyz(const Eigen::VectorXd & x, int id) co
   if (id == 0) {
     armor_z = x[4];           // center_z (基准)
   } else if (id == 1) {
-    armor_z = x[4] + x[9];    // center_z + h1
+    armor_z = x[4];    // center_z + h1
   } else {
-    armor_z = x[4] + x[10];   // center_z + h2
+    armor_z = x[4];   // center_z + h2
   }
 
   auto armor_x = x[0] - x[8] * std::cos(angle);
@@ -423,8 +423,8 @@ Eigen::MatrixXd OutpostTarget::h_jacobian(const Eigen::VectorXd & x, int id) con
   auto dy_dr = -std::sin(angle);
 
   // dz/dh1 和 dz/dh2
-  double dz_dh1 = (id == 1) ? 1.0 : 0.0;
-  double dz_dh2 = (id == 2) ? 1.0 : 0.0;
+  double dz_dh1 = 0.0;
+  double dz_dh2 = 0.0;
 
   // H_armor_xyza: 从状态向量到 (armor_x, armor_y, armor_z, angle)
   // 维度: 4 x 11

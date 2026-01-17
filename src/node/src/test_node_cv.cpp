@@ -403,7 +403,7 @@ int main(int argc, char ** argv)
     return 0;
   }
 
-  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/config.yaml";
+  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/sentry.yaml";
   if (cli.has("@config-path")) {
     config_path = cli.get<std::string>("@config-path");
   }

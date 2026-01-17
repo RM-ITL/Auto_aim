@@ -37,6 +37,8 @@ PipelineApp::PipelineApp(const std::string & config_path)
   ros_node_ = std::make_shared<rclcpp::Node>("pipeline_debug_node");
   debug_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Debug>(
     "debug", rclcpp::QoS(10));
+  target_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Target>(
+    "target", rclcpp::QoS(10));
 
   camera_ = std::make_unique<camera::Camera>(config_path_);
   dm_imu_ = std::make_unique<io::DmImu>(config_path_);
@@ -45,7 +47,7 @@ PipelineApp::PipelineApp(const std::string & config_path)
   yaw_optimizer_ = solver_->getYawOptimizer();
   tracker_ = std::make_unique<tracker::Tracker>(config_path_, *solver_);
   planner_ = std::make_unique<plan::Planner>(config_path_);
-  guard_planner_ = std::make_unique<guard::GuardPlanner>(config_path_); // 守株待兔模式的planner
+  // guard_planner_ = std::make_unique<guard::GuardPlanner>(config_path_); // 守株待兔模式的planner
   gimbal_ = std::make_unique<io::Gimbal>(config_path_);
 
   // enable_visualization_ = detector_->config().enable_visualization;
@@ -298,8 +300,8 @@ void PipelineApp::planner_loop()
 
 
 
-    // auto plan_result = planner_->plan(target, bullet_speed_);
-    auto plan_result = guard_planner_->plan(target, bullet_speed_);
+    auto plan_result = planner_->plan(target, bullet_speed_);
+    // auto plan_result = guard_planner_->plan(target, bullet_speed_);
     auto gs = gimbal_->state();
     if (plan_result.control) {
       gimbal_->send(
@@ -357,6 +359,21 @@ void PipelineApp::planner_loop()
       debug_pub_->publish(msg);
     }
 
+   // 发布Target状态消息
+    if (target_pub_ && target.has_value()) {
+      auto target_msg = autoaim_msgs::msg::Target{};
+      std::visit([&target_msg](const auto & t) {
+        const auto & ekf = t.ekf();
+        target_msg.l = static_cast<float>(ekf.x[9]);
+        target_msg.p_l = static_cast<float>(ekf.P(9, 9));
+        target_msg.h = static_cast<float>(ekf.x[10]);
+        target_msg.p_h = static_cast<float>(ekf.P(10, 10));
+        target_msg.w = static_cast<float>(ekf.x[7]);
+        target_msg.r = static_cast<float>(ekf.x[8]);
+      }, target.value());
+      target_pub_->publish(target_msg);
+    }
+
     auto now = std::chrono::steady_clock::now();
     if (
       plan_result.control && now - last_log_time >
@@ -392,7 +409,7 @@ int main(int argc, char ** argv)
     return 0;
   }
 
-  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/sentry.yaml";
+  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/config.yaml";
   if (cli.has("@config-path")) {
     config_path = cli.get<std::string>("@config-path");
   }

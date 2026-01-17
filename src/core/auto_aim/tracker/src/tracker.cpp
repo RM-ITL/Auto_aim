@@ -113,17 +113,11 @@ std::list<TargetVariant> Tracker::track(
         ekf.recent_nis_failures.begin(),
         ekf.recent_nis_failures.end(), 0);
 
-      // 【诊断日志】NIS检测情况
-      if (is_tracking_outpost_) {
-        utils::logger()->debug(
-          "[NIS诊断] 前哨站NIS检测: failures={}/{}, 阈值={}",
-          failures, ekf.window_size, static_cast<int>(0.4 * ekf.window_size));
-      }
-
-      if (failures >= (0.4 * ekf.window_size)) {
-        utils::logger()->warn(
-          "[Tracker] NIS失败率过高 ({}/{}), 重置为lost (前哨站:{})",
-          failures, ekf.window_size, is_tracking_outpost_ ? "是" : "否");
+      // NIS 失败率检测：如果最近 window_size 次更新中失败率超过 40%，则重置目标
+      if (failures >= static_cast<int>(0.4 * ekf.window_size)) {
+        RCLCPP_WARN(rclcpp::get_logger("Tracker"),
+                    "NIS失败率过高 (%d/%zu), 重置为lost",
+                    failures, ekf.window_size);
         state_ = "lost";
         detect_count_ = 0;
         temp_lost_count_ = 0;
@@ -285,7 +279,7 @@ bool Tracker::set_target(std::list<Armors> & armors,
     // 前哨站：使用 OutpostTarget
     Eigen::VectorXd P0_dig(11);
     // cx vx cy vy cz vz θ ω r h1 h2
-    P0_dig << 1, 8, 1, 8, 1, 4, 0.4, 50, 1e-4, 2, 2;
+    P0_dig << 1, 8, 1, 8, 1, 4, 0.4, 50, 1e-4, 1, 1;
     target_ = predict::OutpostTarget(armor_pose, t, 0.2765, P0_dig);
     is_tracking_outpost_ = true;
     RCLCPP_INFO(rclcpp::get_logger("Tracker"), "初始化前哨站目标 (OutpostTarget)");
@@ -299,7 +293,7 @@ bool Tracker::set_target(std::list<Armors> & armors,
   }
   else {
     Eigen::VectorXd P0_dig(11);
-    P0_dig << 1, 64, 1, 64, 1, 64, 0.4, 100, 1, 2, 3;
+    P0_dig << 1, 64, 1, 64, 1, 64, 0.4, 100, 1, 1, 1;
     target_ = predict::Target(armor_pose, t, 0.24, 4, P0_dig);
     is_tracking_outpost_ = false;
     RCLCPP_INFO(rclcpp::get_logger("Tracker"),

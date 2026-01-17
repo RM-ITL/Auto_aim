@@ -16,6 +16,7 @@ find_package(sensor_msgs REQUIRED)
 # 生成消息接口
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Debug.msg"
+  "msg/Target.msg"
   DEPENDENCIES std_msgs geometry_msgs sensor_msgs
 )
 

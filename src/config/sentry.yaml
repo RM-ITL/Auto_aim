@@ -52,9 +52,9 @@ CalibParam:
 
 # 相机参数
 camera:
-  type: "mindvision"  # 可选: "hik", "mindvision"
+  type: "hik"  # 可选: "hik", "mindvision"
   parameters:
-    exposure_ms: 5.0
+    exposure_ms: 4.0
     gain: 12.0
     gamma: 0.5
     fps: 120.0
@@ -183,16 +183,16 @@ Aimer:
 
 
 ###planner参数###
-fire_thresh: 0.0015 # 允许开火阈值，值越小要求精度越高，代表着实际角度和规划角度之间的误差
+fire_thresh: 0.005 #火阈值，值越小要求精度越高，代表着实际角度和规划角度之间的误差
 max_yaw_acc: 30 # 最大Yaw加速度上限
 Q_yaw: [3e6, 0] # 状态权重矩阵Q的对角线元素：[位置权重, 速度权重]。
 # 9e6的高位置权重意味着强调精确跟踪目标角度，速度权重为0表示不惩罚速度偏差
 R_yaw: [1]
-max_pitch_acc: 100  # 最大pitch加速度上限
+max_pitch_acc: 50  # 最大pitch加速度上限
 Q_pitch: [5e6, 0]
 R_pitch: [1]
-yaw_offset: 0.8 # degree，相机光心与枪管中心的yaw偏差
-pitch_offset: 9.0 # degree，pitch相对枪管的中心补偿参数
+yaw_offset: -1.0 # degree，相机光心与枪管中心的yaw偏差
+pitch_offset: 7.0 # degree，pitch相对枪管的中心补偿参数
 comming_angle: 55 # degree，来袭角度阈值，这里是55度(没用)
 leaving_angle: 20 # degree, 离开角度阈值，这里是20度(没用)
 decision_speed: 7 # rad/s， 高低速的判断阈值，大于此值的为高速目标
@@ -202,9 +202,9 @@ low_speed_delay_time: 0.0 # s，低速目标的额外时间补偿
 ###GuardPlanner参数（守株待兔模式）###
 # 策略说明：对高速旋转的小陀螺目标，云台保持指向旋转中心，
 # 等待装甲板转入射击窗口（正对枪口）时才开火
-guard_window_angle: 15        # degree，射击窗口半角，装甲板朝向角在此范围内视为可射击
-guard_spin_threshold: 0.8     # rad/s，角速度阈值，超过此值启用守株待兔模式
-guard_fire_angle_thresh: 10   # degree，射击时装甲板预测朝向角的最大允许值
+guard_window_angle: 20    # degree，射击窗口半角，装甲板朝向角在此范围内视为可射击
+guard_spin_threshold: 0.3     # rad/s，角速度阈值，超过此值启用守株待兔模式
+guard_fire_angle_thresh: 8  # degree，射击时装甲板预测朝向角的最大允许值
 guard_require_approaching: true  # 是否要求装甲板正在转入（facing_angle在减小）
 
 # Gimbal通讯参数

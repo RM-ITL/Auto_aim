@@ -124,7 +124,10 @@ plan::Plan GuardPlanner::plan_impl(TargetType target, double bullet_speed)
       approaching_ok = (best_armor->facing_angle * omega) <= 0;
     }
 
-    result.fire = angle_ok && approaching_ok;
+    // 过滤低处装甲板（ID=0和ID=2不开火，ID=1和ID=3是高处装甲板可以开火）
+    bool height_ok = (best_armor->id == 1 || best_armor->id == 3);
+
+    result.fire = angle_ok && approaching_ok && height_ok;
 
     // 更新调试信息
     debug_best_armor = *best_armor;
@@ -197,7 +200,7 @@ std::vector<ArmorWindow> GuardPlanner::compute_armor_windows(
 
     // 朝向角：法线方向与枪口连线的夹角
     // 如果接近0，说明装甲板正对枪口
-    w.facing_angle = utils::limit_rad(armor_normal - azim);
+    w.facing_angle = utils::limit_rad(armor_normal - azim -M_PI);
 
     // 判断是否在射击窗口内
     w.in_window = std::abs(w.facing_angle) < window_angle_;
