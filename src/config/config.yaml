@@ -53,7 +53,7 @@ CalibParam:
 camera:
   type: "hik"  # 可选: "hik", "mindvision"
   parameters:
-    exposure_ms: 4.0
+    exposure_ms: 5.0
     gain: 12.0
     gamma: 100.0
     fps: 120.0
@@ -111,6 +111,9 @@ publish_rate: 1000  # Hz
 # 电控坐标系定义：向云台方向看
 # 向前为X轴正向，向左为Y轴正向，向上为Z轴，Pitch轴抬头为负数，低头为正数，yaw向左为正数，向右为负数
 
+# 老步兵上车妙板方向规定：
+# 向前为Y轴正向，向右为X轴正向，向上为Z轴正向
+
 # 解算模块所需的参数
 Solver:
   coord_converter:  # 坐标变换所需参数
@@ -122,12 +125,19 @@ Solver:
             -1, 0, 0,
             0, -1, 0]
 
+    # rotation_matrix_gimbal_to_imu:
+    #   rows: 3
+    #   cols: 3
+    #   dt: float
+    #   data: [1, 0, 0,
+    #         0, 1, 0,
+    #         0, 0, 1]
     rotation_matrix_gimbal_to_imu:
       rows: 3
       cols: 3
       dt: float
-      data: [1, 0, 0,
-            0, 1, 0,
+      data: [0, -1, 0,
+            1, 0, 0,
             0, 0, 1]
 # 陀螺仪与相机放置在同一位置
 # - x: 相机相对云台在前后方向的偏移
@@ -201,14 +211,15 @@ low_speed_delay_time: 0.0 # s，低速目标的额外时间补偿
 # Gimbal通讯参数
 Gimbal:
 enable_serial: true
+# com_port: "/dev/ttyUSB0"
 com_port: "/dev/ttyACM0"
 com_port_1: "/dev/ttyACM2"
 # 校正下位机的四元数 [x, y, z, w], q_corrected = q_calib * q_lower
-q_calib:
-  x: 0.01168210
-  y: 0.06258915
-  z: -0.02122380
-  w: 0.99774530
+# q_calib:
+#   x: 0.01168210
+#   y: 0.06258915
+#   z: -0.02122380
+#   w: 0.99774530
 
 # q_calib:
 #   x: 1.0000

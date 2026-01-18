@@ -9,13 +9,6 @@
 
 namespace solver {
 
-// 装甲板世界坐标点定义
-// const std::vector<cv::Point3f> PW_SMALL = {
-//     cv::Point3f(-67.5, -27.5, 0),  // 对应图像左上
-//     cv::Point3f(67.5, -27.5, 0),   // 对应图像右上
-//     cv::Point3f(67.5, 27.5, 0),    // 对应图像右下
-//     cv::Point3f(-67.5, 27.5, 0)    // 对应图像左下
-// };
 
 // 现在这个与IMU的坐标系定义一致
 const std::vector<cv::Point3f> PW_SMALL = {

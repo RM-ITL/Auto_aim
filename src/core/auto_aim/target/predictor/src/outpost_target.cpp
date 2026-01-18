@@ -81,7 +81,7 @@ void OutpostTarget::predict(double dt)
   auto c = dt * dt;
 
   // h1和h2是常量，过程噪声设小
-  double v_h = 0.005;
+  double v_h = 0.00;
 
   Eigen::MatrixXd Q(11, 11);
   Q << a * v1, b * v1,      0,      0,      0,      0,      0,      0,   0,   0,   0,
@@ -120,57 +120,78 @@ double OutpostTarget::get_predicted_z(int id) const
   return center_z;
 }
 
-// 计算给定ID下的5维预测观测 [yaw, pitch, distance, angle, z_armor]
+// 计算给定ID下的4维预测观测 [yaw, pitch, distance, angle]
+// 采用间接耦合方式：h1/h2 通过 pitch 和 distance 的非线性观测间接更新
 Eigen::VectorXd OutpostTarget::predict_observation(const Eigen::VectorXd & x, int id) const
 {
   Eigen::Vector3d xyz = h_armor_xyz(x, id);
   Eigen::VectorXd ypd = utils::xyz2ypd(xyz);
   auto angle = utils::limit_rad(x[6] + id * 2 * CV_PI / ARMOR_NUM);
-  double z_armor = xyz[2];
 
-  Eigen::VectorXd result(5);
-  result << ypd[0], ypd[1], ypd[2], angle, z_armor;
+  Eigen::VectorXd result(4);
+  result << ypd[0], ypd[1], ypd[2], angle;
   return result;
 }
 
-// 计算观测噪声矩阵R
+// 计算观测噪声矩阵R（基于实际观测值）- 4维
 Eigen::MatrixXd OutpostTarget::compute_R(const solver::Armor_pose & armor_pose) const
 {
   auto center_yaw = std::atan2(armor_pose.world_position[1], armor_pose.world_position[0]);
   auto delta_angle = utils::limit_rad(armor_pose.world_orientation.yaw - center_yaw);
 
-  Eigen::VectorXd R_dig(5);
+  Eigen::VectorXd R_dig(4);
   R_dig << 4e-3,   // yaw噪声
            4e-3,   // pitch噪声
            std::log(std::abs(delta_angle) + 1) + 1,  // distance噪声
-           std::log(std::abs(armor_pose.world_spherical.distance) + 1) / 200 + 9e-2,  // angle噪声
-           1e-2;   // z_armor噪声
+           std::log(std::abs(armor_pose.world_spherical.distance) + 1) / 200 + 9e-2;  // angle噪声
 
   return R_dig.asDiagonal();
 }
 
-// 马氏距离匹配
+// 计算观测噪声矩阵R（基于预测观测值，参照 wust_vision 的 computeMeasurementCovariance）
+// z_pred: [yaw, pitch, distance, angle] - 4维
+Eigen::MatrixXd OutpostTarget::compute_R_from_prediction(const Eigen::VectorXd & z_pred) const
+{
+  // 参照 wust_vision 的逻辑：
+  // delta_angle = angles::normalize_angle(z[3] - z[0]); // ori_yaw - ypd_y
+  double delta_angle = utils::limit_rad(z_pred[3] - z_pred[0]);
+  double abs_delta = std::abs(delta_angle);
+  double distance = z_pred[2];
+
+  // 观测噪声参数（参照 wust_vision 的 TargetConfig）
+  // yp_r: yaw/pitch 噪声基础值
+  // dis_r_front/side: 正对/侧对时的距离噪声
+  // dis2_r_ratio: 距离平方噪声系数
+  // yaw_r_base_front/side: 正对/侧对时的角度噪声基础值
+  // yaw_r_log_ratio: 距离对数噪声系数
+
+  Eigen::VectorXd R_dig(4);
+  R_dig << 4e-3,  // yaw 噪声 (yp_r)
+           4e-3,  // pitch 噪声 (yp_r)
+           // distance 噪声: 侧对时增大，并考虑距离平方
+           utils::sin_interp(abs_delta, 0.0, M_PI/2.0, 0.05, 0.07) + distance * distance * 0.01,
+           // angle 噪声: 正对时更准，侧对时增大，考虑距离对数
+           std::log(std::abs(distance) + 1) * 0.005 + utils::sin_interp(M_PI/2.0 - abs_delta, 0.0, M_PI/2.0, 0.09, 0.09);
+
+  return R_dig.asDiagonal();
+}
+
+// 马氏距离匹配（参照 wust_vision 的 Target::match 逻辑）
+// 使用 R^{-1} 而非 S^{-1}，更简单且稳定
+// 4维观测匹配：[yaw, pitch, distance, angle]
 int OutpostTarget::match_by_mahalanobis(const solver::Armor_pose & armor_pose)
 {
-  // 构建5维观测向量
-  Eigen::VectorXd z_obs(5);
+  // 构建4维观测向量
+  Eigen::VectorXd z_obs(4);
   z_obs << armor_pose.world_spherical.yaw,
            armor_pose.world_spherical.pitch,
            armor_pose.world_spherical.distance,
-           armor_pose.world_orientation.yaw,
-           armor_pose.world_position[2];
-
-  // 计算观测噪声
-  Eigen::MatrixXd R = compute_R(armor_pose);
-
-  double min_d2 = std::numeric_limits<double>::max();
-  int best_id = current_id_;
-
-  // 5维观测的χ²门限（99%置信度，自由度5）
-  const double CHI2_GATE = 15.09;
+           armor_pose.world_orientation.yaw;
 
   // 记录每个ID的马氏距离用于调试
   double d2_list[3] = {0, 0, 0};
+  double min_d2 = std::numeric_limits<double>::max();
+  int best_id = -1;  // 初始设为-1，表示未找到有效匹配
 
   for (int id = 0; id < ARMOR_NUM; id++) {
     // 计算预测观测
@@ -178,36 +199,61 @@ int OutpostTarget::match_by_mahalanobis(const solver::Armor_pose & armor_pose)
 
     // 计算残差（角度归一化）
     Eigen::VectorXd nu = z_obs - z_pred;
-    nu[0] = utils::limit_rad(nu[0]);  // yaw
-    nu[1] = utils::limit_rad(nu[1]);  // pitch
-    nu[3] = utils::limit_rad(nu[3]);  // angle
+    nu[0] = utils::limit_rad(nu[0]);  // yaw (YPD_Y)
+    nu[1] = utils::limit_rad(nu[1]);  // pitch (YPD_P)
+    nu[3] = utils::limit_rad(nu[3]);  // angle (ORI_YAW)
 
-    // 计算雅可比和残差协方差
-    Eigen::MatrixXd H = h_jacobian(ekf_.x, id);
-    Eigen::MatrixXd S = H * ekf_.P * H.transpose() + R;
+    // 计算观测噪声 R（使用预测观测值计算，参照 wust_vision）
+    // wust_vision: auto R = computeMeasurementCovariance(z_pred);
+    Eigen::MatrixXd R = compute_R_from_prediction(z_pred);
+    Eigen::MatrixXd R_inv = R.inverse();
 
-    // 计算马氏距离
-    double d2 = nu.transpose() * S.inverse() * nu;
+    // 计算马氏距离（使用 R^{-1}，参照 wust_vision）
+    // wust_vision: double d2 = (nu.transpose() * Rinv * nu)(0, 0);
+    double d2 = (nu.transpose() * R_inv * nu)(0, 0);
     d2_list[id] = d2;
 
-    if (d2 < min_d2) {
-      min_d2 = d2;
-      best_id = id;
+    // 门控检查（参照 wust_vision 的 GATE）
+    if (std::isfinite(d2) && d2 < MATCH_GATE) {
+      if (d2 < min_d2) {
+        min_d2 = d2;
+        best_id = id;
+      }
     }
   }
 
   // 记录匹配结果（调试用）
   utils::logger()->debug(
-    "[OutpostTarget] 马氏距离: d2=[{:.2f},{:.2f},{:.2f}], best_id={}, min_d2={:.2f}",
-    d2_list[0], d2_list[1], d2_list[2], best_id, min_d2
+    "[OutpostTarget] 马氏距离(R^-1, 4D): d2=[{:.2f},{:.2f},{:.2f}], best_id={}, min_d2={:.2f}, gate={:.1f}",
+    d2_list[0], d2_list[1], d2_list[2], best_id, min_d2, MATCH_GATE
   );
 
-  if (min_d2 > CHI2_GATE) {
-    utils::logger()->warn(
-      "[OutpostTarget] 马氏距离超过门限: {:.2f} > {:.2f}, 保持ID={}",
-      min_d2, CHI2_GATE, current_id_
-    );
-    // 超过门限时，仍使用最小距离的ID（而不是拒绝更新）
+  // 如果没有找到有效匹配（所有都超过门控）
+  if (best_id < 0) {
+    // 策略：选择马氏距离最小的有效ID，而不是默认保持当前ID
+    // 这对于 temp_lost 恢复后的 ID 切换非常重要
+    double min_valid_d2 = std::numeric_limits<double>::max();
+    int min_valid_id = -1;
+    for (int id = 0; id < ARMOR_NUM; id++) {
+      if (std::isfinite(d2_list[id]) && d2_list[id] < min_valid_d2) {
+        min_valid_d2 = d2_list[id];
+        min_valid_id = id;
+      }
+    }
+
+    if (min_valid_id >= 0) {
+      utils::logger()->warn(
+        "[OutpostTarget] 所有ID超过门控，选择最小马氏距离的ID={} (d2={:.2f})，而非保持ID={}",
+        min_valid_id, min_valid_d2, current_id_
+      );
+      best_id = min_valid_id;
+    } else {
+      utils::logger()->warn(
+        "[OutpostTarget] 无有效匹配，保持当前ID={}",
+        current_id_
+      );
+      best_id = current_id_;
+    }
   }
 
   return best_id;
@@ -235,36 +281,36 @@ void OutpostTarget::update(const solver::Armor_pose & armor_pose)
   current_id_ = id;
   update_count_++;
 
-  // 使用5维观测更新
-  update_ypdaz(armor_pose, id);
+  // 使用4维观测更新（间接耦合方式）
+  update_ypda(armor_pose, id);
 }
 
-void OutpostTarget::update_ypdaz(const solver::Armor_pose & armor_pose, int id)
+// 4维观测更新 [yaw, pitch, distance, angle]
+// 采用间接耦合方式：h1/h2 通过 pitch 和 distance 的非线性观测间接更新
+void OutpostTarget::update_ypda(const solver::Armor_pose & armor_pose, int id)
 {
   Eigen::MatrixXd H = h_jacobian(ekf_.x, id);
 
   auto center_yaw = std::atan2(armor_pose.world_position[1], armor_pose.world_position[0]);
   auto delta_angle = utils::limit_rad(armor_pose.world_orientation.yaw - center_yaw);
 
-  // 5维观测噪声矩阵 R
-  Eigen::VectorXd R_dig(5);
+  // 4维观测噪声矩阵 R
+  Eigen::VectorXd R_dig(4);
   R_dig << 4e-3,   // yaw噪声
            4e-3,   // pitch噪声
            log(std::abs(delta_angle) + 1) + 1,  // distance噪声
-           log(std::abs(armor_pose.world_spherical.distance) + 1) / 200 + 9e-2,  // angle噪声
-           1e-2;   // z_armor噪声（直接测量，噪声较小）
+           log(std::abs(armor_pose.world_spherical.distance) + 1) / 200 + 9e-2;  // angle噪声
 
   Eigen::MatrixXd R = R_dig.asDiagonal();
 
-  // 观测函数 h(): 状态 -> [yaw, pitch, distance, angle, z_armor]
+  // 观测函数 h(): 状态 -> [yaw, pitch, distance, angle]
   auto h = [&](const Eigen::VectorXd & x) -> Eigen::VectorXd {
     Eigen::Vector3d xyz = h_armor_xyz(x, id);
     Eigen::VectorXd ypd = utils::xyz2ypd(xyz);
     auto angle = utils::limit_rad(x[6] + id * 2 * CV_PI / ARMOR_NUM);
-    double z_armor = xyz[2];
 
-    Eigen::VectorXd result(5);
-    result << ypd[0], ypd[1], ypd[2], angle, z_armor;
+    Eigen::VectorXd result(4);
+    result << ypd[0], ypd[1], ypd[2], angle;
     return result;
   };
 
@@ -277,13 +323,12 @@ void OutpostTarget::update_ypdaz(const solver::Armor_pose & armor_pose, int id)
     return c;
   };
 
-  // 5维观测向量
-  Eigen::VectorXd z(5);
+  // 4维观测向量
+  Eigen::VectorXd z(4);
   z << armor_pose.world_spherical.yaw,
        armor_pose.world_spherical.pitch,
        armor_pose.world_spherical.distance,
-       armor_pose.world_orientation.yaw,
-       armor_pose.world_position[2];  // z_armor
+       armor_pose.world_orientation.yaw;
 
   ekf_.update(z, H, R, h, z_subtract);
 }
@@ -306,16 +351,6 @@ std::vector<Eigen::Vector4d> OutpostTarget::armor_xyza_list() const
 
 bool OutpostTarget::diverged() const
 {
-  // 检查协方差是否发散
-  for (int i = 0; i < 11; i++) {
-    if (ekf_.P(i, i) > P_DIVERGENCE_THRESHOLD) {
-      utils::logger()->warn(
-        "[OutpostTarget] 协方差发散: P({},{})={:.3f} > {:.3f}",
-        i, i, ekf_.P(i, i), P_DIVERGENCE_THRESHOLD
-      );
-      return true;
-    }
-  }
 
   // 检查h1/h2是否超出合理范围
   if (std::abs(ekf_.x[9]) > H_MAX_REASONABLE || std::abs(ekf_.x[10]) > H_MAX_REASONABLE) {
@@ -341,7 +376,7 @@ bool OutpostTarget::h_converged() const
   double P_h1 = ekf_.P(9, 9);
   double P_h2 = ekf_.P(10, 10);
 
-  bool variance_ok = (P_h1 < H_CONVERGENCE_THRESHOLD) && (P_h2 < H_CONVERGENCE_THRESHOLD);
+  bool variance_ok = (P_h1 < 0.05) && (P_h2 < 0.05);
   bool enough_ids = observed_ids_.size() >= 2;
 
   return variance_ok && enough_ids;
@@ -360,7 +395,7 @@ bool OutpostTarget::convergened()
   }
 
   // 条件1：更新次数足够
-  if (update_count_ < 15) {
+  if (update_count_ < 10) {
     return false;
   }
 
@@ -400,9 +435,9 @@ Eigen::Vector3d OutpostTarget::h_armor_xyz(const Eigen::VectorXd & x, int id) co
   if (id == 0) {
     armor_z = x[4];           // center_z (基准)
   } else if (id == 1) {
-    armor_z = x[4];    // center_z + h1
+    armor_z = x[4] + x[9];    // center_z + h1
   } else {
-    armor_z = x[4];   // center_z + h2
+    armor_z = x[4] + x[10];  // center_z + h2
   }
 
   auto armor_x = x[0] - x[8] * std::cos(angle);
@@ -411,6 +446,19 @@ Eigen::Vector3d OutpostTarget::h_armor_xyz(const Eigen::VectorXd & x, int id) co
   return Eigen::Vector3d(armor_x, armor_y, armor_z);
 }
 
+// 4维观测雅可比矩阵 (4x11)
+// 观测 [yaw, pitch, distance, angle] 对状态 [cx, vx, cy, vy, cz, vz, θ, ω, r, h1, h2] 的偏导
+//
+// 间接耦合原理：
+// - pitch = atan2(z_armor, sqrt(x² + y²))
+// - distance = sqrt(x² + y² + z²)
+// - z_armor = cz + h_id (其中 h_id 取决于 ID)
+//
+// 因此 pitch 和 distance 都依赖于 z_armor，而 z_armor 包含 h1/h2
+// 通过链式法则：∂pitch/∂h1 = (∂pitch/∂z) * (∂z/∂h1)
+// 当 id=1 时，∂z/∂h1 = 1，所以 pitch 的残差会更新 h1
+// 当 id=2 时，∂z/∂h2 = 1，所以 pitch 的残差会更新 h2
+// 同理 distance 也会间接更新 h1/h2
 Eigen::MatrixXd OutpostTarget::h_jacobian(const Eigen::VectorXd & x, int id) const
 {
   auto angle = utils::limit_rad(x[6] + id * 2 * CV_PI / ARMOR_NUM);
@@ -422,9 +470,9 @@ Eigen::MatrixXd OutpostTarget::h_jacobian(const Eigen::VectorXd & x, int id) con
   auto dx_dr = -std::cos(angle);
   auto dy_dr = -std::sin(angle);
 
-  // dz/dh1 和 dz/dh2
-  double dz_dh1 = 0.0;
-  double dz_dh2 = 0.0;
+  // dz/dh1 和 dz/dh2：只有对应的 ID 才有非零值
+  double dz_dh1 = (id == 1) ? 1.0 : 0.0;
+  double dz_dh2 = (id == 2) ? 1.0 : 0.0;
 
   // H_armor_xyza: 从状态向量到 (armor_x, armor_y, armor_z, angle)
   // 维度: 4 x 11
@@ -437,17 +485,24 @@ Eigen::MatrixXd OutpostTarget::h_jacobian(const Eigen::VectorXd & x, int id) con
   Eigen::Vector3d armor_xyz = h_armor_xyz(x, id);
   Eigen::MatrixXd H_armor_ypd = utils::xyz2ypd_jacobian(armor_xyz);
 
-  // H_armor_ypdaz: 从 (x, y, z, angle) 到 (yaw, pitch, distance, angle, z_armor)
-  // 维度: 5 x 4
-  Eigen::MatrixXd H_armor_ypdaz(5, 4);
-  H_armor_ypdaz << H_armor_ypd(0, 0), H_armor_ypd(0, 1), H_armor_ypd(0, 2), 0,  // yaw
-                   H_armor_ypd(1, 0), H_armor_ypd(1, 1), H_armor_ypd(1, 2), 0,  // pitch
-                   H_armor_ypd(2, 0), H_armor_ypd(2, 1), H_armor_ypd(2, 2), 0,  // distance
-                                   0,                 0,                 0, 1,  // angle
-                                   0,                 0,                 1, 0;  // z_armor (直接等于z)
+  // H_armor_ypda: 从 (x, y, z, angle) 到 (yaw, pitch, distance, angle)
+  // 维度: 4 x 4
+  //
+  // 关键：H_armor_ypd 已包含 ypd 对 xyz 的偏导
+  // H_armor_ypd(1, 2) = ∂pitch/∂z
+  // H_armor_ypd(2, 2) = ∂distance/∂z
+  //
+  // 通过矩阵乘法，这些偏导会传递到 h1/h2：
+  // ∂pitch/∂h1 = H_armor_ypd(1,2) * dz_dh1
+  // ∂distance/∂h1 = H_armor_ypd(2,2) * dz_dh1
+  Eigen::MatrixXd H_armor_ypda(4, 4);
+  H_armor_ypda << H_armor_ypd(0, 0), H_armor_ypd(0, 1), H_armor_ypd(0, 2), 0,  // yaw
+                  H_armor_ypd(1, 0), H_armor_ypd(1, 1), H_armor_ypd(1, 2), 0,  // pitch
+                  H_armor_ypd(2, 0), H_armor_ypd(2, 1), H_armor_ypd(2, 2), 0,  // distance
+                                  0,                 0,                 0, 1;  // angle
 
-  // 最终雅可比: 5 x 11
-  return H_armor_ypdaz * H_armor_xyza;
+  // 最终雅可比: 4 x 11
+  return H_armor_ypda * H_armor_xyza;
 }
 
 bool OutpostTarget::checkinit() { return isinit; }

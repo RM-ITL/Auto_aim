@@ -63,6 +63,11 @@ T square(T const & a)
 
 double limit_min_max(double input, double min, double max);
 
+// 正弦插值函数
+// 在 [x0, x1] 范围内使用正弦曲线从 y0 平滑过渡到 y1
+// 用于观测噪声等需要平滑过渡的场景
+double sin_interp(double x, double x0, double x1, double y0, double y1);
+
 }  // namespace tools
 
 #endif  // TOOLS__MATH_TOOLS_HPP

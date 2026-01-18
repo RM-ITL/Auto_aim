@@ -56,11 +56,8 @@ public:
 
 private:
   static constexpr int ARMOR_NUM = 3;
-
-  // 收敛阈值
-  static constexpr double H_CONVERGENCE_THRESHOLD = 0.02;  // h1/h2协方差阈值
-  static constexpr double P_DIVERGENCE_THRESHOLD = 100.0;  // 发散协方差阈值
   static constexpr double H_MAX_REASONABLE = 0.25;          // h最大合理值(米)
+  static constexpr double MATCH_GATE = 10.0;                // 匹配门控阈值（参照wust_vision）
 
   int switch_count_ = 0;
   int update_count_ = 0;
@@ -81,10 +78,11 @@ private:
   int match_by_mahalanobis(const solver::Armor_pose & armor_pose);
   Eigen::VectorXd predict_observation(const Eigen::VectorXd & x, int id) const;
   Eigen::MatrixXd compute_R(const solver::Armor_pose & armor_pose) const;
+  Eigen::MatrixXd compute_R_from_prediction(const Eigen::VectorXd & z_pred) const;  // 参照wust_vision
   double get_predicted_z(int id) const;  // 保留用于调试
 
-  // 5维观测更新 [yaw, pitch, distance, angle, z_armor]
-  void update_ypdaz(const solver::Armor_pose & armor_pose, int id);
+  // 4维观测更新 [yaw, pitch, distance, angle]（间接耦合方式）
+  void update_ypda(const solver::Armor_pose & armor_pose, int id);
 
   Eigen::Vector3d h_armor_xyz(const Eigen::VectorXd & x, int id) const;
   Eigen::MatrixXd h_jacobian(const Eigen::VectorXd & x, int id) const;

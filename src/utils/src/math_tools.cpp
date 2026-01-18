@@ -385,6 +385,17 @@ double limit_min_max(double input, double min, double max)
   return input;
 }
 
+double sin_interp(double x, double x0, double x1, double y0, double y1)
+{
+  // 计算归一化参数 t ∈ [0, 1]
+  double t = (x - x0) / (x1 - x0);
+  if (t < 0) t = 0;
+  if (t > 1) t = 1;
+  // 使用正弦曲线实现平滑过渡
+  double s = std::sin(t * CV_PI / 2.0);
+  return y0 + s * (y1 - y0);
+}
+
 
 
 }  // namespace tools

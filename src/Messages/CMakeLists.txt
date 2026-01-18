@@ -17,6 +17,8 @@ find_package(sensor_msgs REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Debug.msg"
   "msg/Target.msg"
+  "msg/Outpost.msg"
+  "msg/Orienta.msg"
   DEPENDENCIES std_msgs geometry_msgs sensor_msgs
 )
 

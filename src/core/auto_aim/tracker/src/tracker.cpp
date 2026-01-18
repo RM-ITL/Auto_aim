@@ -279,7 +279,7 @@ bool Tracker::set_target(std::list<Armors> & armors,
     // 前哨站：使用 OutpostTarget
     Eigen::VectorXd P0_dig(11);
     // cx vx cy vy cz vz θ ω r h1 h2
-    P0_dig << 1, 8, 1, 8, 1, 4, 0.4, 50, 1e-4, 1, 1;
+    P0_dig << 1, 64, 1, 64, 1, 81, 0.4, 100, 1e-4, 0.1, 0.1;
     target_ = predict::OutpostTarget(armor_pose, t, 0.2765, P0_dig);
     is_tracking_outpost_ = true;
     RCLCPP_INFO(rclcpp::get_logger("Tracker"), "初始化前哨站目标 (OutpostTarget)");

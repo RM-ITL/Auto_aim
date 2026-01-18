@@ -37,7 +37,7 @@ PipelineApp::PipelineApp(const std::string & config_path)
   ros_node_ = std::make_shared<rclcpp::Node>("pipeline_debug_node");
   debug_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Debug>(
     "debug", rclcpp::QoS(10));
-  target_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Target>(
+  target_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Outpost>(
     "target", rclcpp::QoS(10));
 
   camera_ = std::make_unique<camera::Camera>(config_path_);
@@ -100,6 +100,15 @@ int PipelineApp::run()
     // utils::logger()->debug(
     // "[Pipeline] 下位机的四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
     // orientation.w(), orientation.x(), orientation.y(), orientation.z());
+
+    // if (orientation_pub_) {
+    //   auto msg = autoaim_msgs::msg::Orienta{};
+    //   msg.w = orientation.w(),
+    //   msg.x = orientation.x(),
+    //   msg.y = orientation.y(),
+    //   msg.z = orientation.z(),
+    //   orientation_pub_->publish(msg);
+    // }
 
 
     solver_->updateIMU(orientation, timestamp_sec);
@@ -361,15 +370,15 @@ void PipelineApp::planner_loop()
 
    // 发布Target状态消息
     if (target_pub_ && target.has_value()) {
-      auto target_msg = autoaim_msgs::msg::Target{};
+      auto target_msg = autoaim_msgs::msg::Outpost{};
       std::visit([&target_msg](const auto & t) {
         const auto & ekf = t.ekf();
-        target_msg.l = static_cast<float>(ekf.x[9]);
-        target_msg.p_l = static_cast<float>(ekf.P(9, 9));
-        target_msg.h = static_cast<float>(ekf.x[10]);
-        target_msg.p_h = static_cast<float>(ekf.P(10, 10));
-        target_msg.w = static_cast<float>(ekf.x[7]);
-        target_msg.r = static_cast<float>(ekf.x[8]);
+        target_msg.h1 = static_cast<float>(ekf.x[9]);
+        target_msg.p_h1 = static_cast<float>(ekf.P(9, 9));
+        target_msg.h2 = static_cast<float>(ekf.x[10]);
+        target_msg.p_h2 = static_cast<float>(ekf.P(10, 10));
+        // target_msg.w = static_cast<float>(ekf.x[7]);
+        // target_msg.r = static_cast<float>(ekf.x[8]);
       }, target.value());
       target_pub_->publish(target_msg);
     }
@@ -380,12 +389,10 @@ void PipelineApp::planner_loop()
       std::chrono::milliseconds(200)) {
       auto  yaw_offest = plan_result.target_yaw - gs.yaw;
       // utils::logger()->debug(
-      //   "[Pipeline] 规划输出: yaw={:.3f} pitch={:.3f} fire={} "
-      //   "上下位机yaw偏差={:.3f} target_pitch={:.3f} "
-      //   "Gimbal_yaw={:.3f} Gimbal_pitch={:.3f}",
+      //   "[Pipeline] 规划输出: yaw={:.3f} pitch={:.3f} fire={}"
+      //   "下位机Gimbal_yaw={:.3f} 下位机Gimbal_pitch={:.3f}",
       //   plan_result.yaw, plan_result.pitch, plan_result.fire,
-      //   yaw_offest,
-      //   plan_result.target_pitch, gs.yaw, gs.pitch);
+      //   gs.yaw, gs.pitch);
       last_log_time = now;
     }
 
