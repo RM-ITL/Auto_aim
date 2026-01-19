@@ -273,15 +273,15 @@ Armor_pose Solver::processArmor(Armors armor,
     return armor_pose;
 }
 
-Gimbal Solver::getCurrentGimbal() const {
-    YawPitch current = coord_converter_->getCurrentAngles();
+// Gimbal Solver::getCurrentGimbal() const {
+//     YawPitch current = coord_converter_->getCurrentAngles();
     
-    if (last_armor_pose_.world_position.norm() > 1e-6) {
-        return Gimbal(current, last_armor_pose_.world_position, current.timestamp);
-    }
+//     if (last_armor_pose_.world_position.norm() > 1e-6) {
+//         return Gimbal(current, last_armor_pose_.world_position, current.timestamp);
+//     }
     
-    return Gimbal(current, current, current.timestamp);
-}
+//     return Gimbal(current, current, current.timestamp);
+// }
 
 ArmorName Solver::parseArmorNumber(int number) const {
     switch(number) {

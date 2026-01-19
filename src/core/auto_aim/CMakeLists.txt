@@ -21,6 +21,7 @@ find_package(std_srvs REQUIRED)
 find_package(autoaim_msgs REQUIRED)
 find_package(utils REQUIRED)
 find_package(deveice REQUIRED)
+find_package(serial REQUIRED)
 
 find_package(Eigen3 REQUIRED)
 find_package(OpenCV REQUIRED)
@@ -228,7 +229,8 @@ target_link_libraries(auto_aim_aimer
     Eigen3::Eigen
     yaml-cpp
     fmt::fmt
-    deveice::cboard
+    deveice::gimbal
+    serial
     auto_aim_predictor
     utils::utils
 )
@@ -237,6 +239,39 @@ ament_target_dependencies(auto_aim_aimer
   PUBLIC
     rclcpp
 )
+
+# ====================================================================================
+# auto_aim_shooter
+# ====================================================================================
+
+add_library(auto_aim_shooter STATIC
+  shooter/src/shooter.cpp
+)
+add_library(auto_aim::shooter ALIAS auto_aim_shooter)
+
+target_include_directories(auto_aim_shooter
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/shooter/include>
+    $<INSTALL_INTERFACE:include>
+)
+
+target_link_libraries(auto_aim_shooter
+  PUBLIC
+    Eigen3::Eigen
+    yaml-cpp
+    fmt::fmt
+    deveice::gimbal
+    serial
+    auto_aim_predictor
+    auto_aim_aimer
+    utils::utils
+)
+
+ament_target_dependencies(auto_aim_shooter
+  PUBLIC
+    rclcpp
+)
+
 
 # ====================================================================================
 # auto_aim_tracker
@@ -279,6 +314,7 @@ set(AUTO_AIM_PUBLIC_INCLUDE_DIRS
   ${CMAKE_CURRENT_SOURCE_DIR}/aimer/include
   ${CMAKE_CURRENT_SOURCE_DIR}/detected/include
   ${CMAKE_CURRENT_SOURCE_DIR}/planner/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/shooter/include
   ${TINYMPC_INCLUDE_SRC_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/pointer/include
   ${CMAKE_CURRENT_SOURCE_DIR}/solver/include
@@ -307,6 +343,7 @@ set(AUTO_AIM_MODULE_LIBS
   auto_aim_motion_model
   auto_aim_predictor
   auto_aim_tracker
+  auto_aim_shooter
 )
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -343,6 +380,7 @@ install(
     auto_aim_motion_model
     auto_aim_predictor
     auto_aim_tracker
+    auto_aim_shooter
   EXPORT auto_aimTargets
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
@@ -350,7 +388,7 @@ install(
   INCLUDES DESTINATION include
 )
 
-foreach(dir IN ITEMS aimer detected planner pointer solver target/predictor target/motion_model tracker)
+foreach(dir IN ITEMS aimer detected planner pointer solver target/predictor target/motion_model tracker shooter)
   install(
     DIRECTORY ${dir}/include/
     DESTINATION include
@@ -379,6 +417,7 @@ ament_export_dependencies(
   Eigen3
   yaml-cpp
   fmt
+  serial
 )
 
 install(

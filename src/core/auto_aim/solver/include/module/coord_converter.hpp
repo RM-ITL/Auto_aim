@@ -36,8 +36,8 @@ public:
                        CoordinateFrame frame,
                        double timestamp = 0.0) const;
     
-    YawPitch getCurrentAngles() const;
-    
+    Orientation getCurrentAngles() const;
+
     // bool isInitialized() const { return is_initialized_; }
 
     // std::vector<cv::Point2f> reproject_armor(const Eigen::Vector3d & xyz_in_world, 
@@ -86,7 +86,7 @@ private:
     Eigen::Quaterniond current_q_abs_;     // 当前时刻的四元数
     double current_timestamp_;
 
-    YawPitch current_imu_angles_;          // 当前时刻的云台角度
+    Orientation current_imu_angles_;       // 当前时刻的云台角度（包含yaw, pitch, roll）
 };
 
 }

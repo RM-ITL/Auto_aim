@@ -1,4 +1,4 @@
-#include "test_node.hpp"
+#include "standard.hpp"
 
 #include <csignal>
 #include <algorithm>
@@ -41,13 +41,13 @@ PipelineApp::PipelineApp(const std::string & config_path)
     "target", rclcpp::QoS(10));
 
   camera_ = std::make_unique<camera::Camera>(config_path_);
-  // dm_imu_ = std::make_unique<io::DmImu>(config_path_);
+  dm_imu_ = std::make_unique<io::DmImu>(config_path_);
   detector_ = std::make_unique<armor_auto_aim::Detector>(config_path_);
   solver_ = std::make_unique<solver::Solver>(config_path_);
   yaw_optimizer_ = solver_->getYawOptimizer();
   tracker_ = std::make_unique<tracker::Tracker>(config_path_, *solver_);
-  planner_ = std::make_unique<plan::Planner>(config_path_);
-  // guard_planner_ = std::make_unique<guard::GuardPlanner>(config_path_); // 守株待兔模式的planner
+  aimer_ = std::make_unique<aimer::Aimer>(config_path_);
+  shooter_ = std::make_unique<shooter::Shooter>(config_path_);
   gimbal_ = std::make_unique<io::Gimbal>(config_path_);
 
   // enable_visualization_ = detector_->config().enable_visualization;
@@ -92,8 +92,8 @@ int PipelineApp::run()
 
     cv::cvtColor(img, debug_packet.rgb_image, cv::COLOR_BGR2RGB);
 
-    // dm_orientation = dm_imu_->imu_at(timestamp);
-    orientation = gimbal_->q(timestamp);
+    orientation = dm_imu_->imu_at(timestamp);
+    // orientation = gimbal_->q(timestamp);
     // utils::logger()->debug(
     //   "[Pipeline] DM_IMU四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
     //   dm_orientation.w(), dm_orientation.x(), dm_orientation.y(), dm_orientation.z());
@@ -113,15 +113,29 @@ int PipelineApp::run()
 
     solver_->updateIMU(orientation, timestamp_sec);
 
+    // 获取gimbal姿态角 (yaw, pitch, roll) - 使用完整的Orientation结构体
+    auto current_angles = solver_->getCurrentAngles();
+    Eigen::Vector3d gimbal_pos(current_angles.yaw, current_angles.pitch, current_angles.roll);
+
     auto armor = detector_->detect(debug_packet.rgb_image);
 
     std::list<armor_auto_aim::Armor> armor_list(
       armor.begin(), armor.end());
     auto targets = tracker_->track(armor_list, timestamp);
-    if (!targets.empty())
-      target_queue.push(targets.front());
-    else
-      target_queue.push(std::nullopt);
+
+    // 打包数据到TargetPacket
+    TargetPacket packet;
+    packet.timestamp = timestamp;
+    packet.gimbal_pos = gimbal_pos;
+    packet.valid = true;
+
+    if (!targets.empty()) {
+      packet.target = targets.front();
+    } else {
+      packet.target = std::nullopt;
+    }
+
+    target_queue.push(packet);
 
     if (enable_visualization_) {
       debug_packet.reprojected_armors.reserve(targets.size() * 4);
@@ -138,11 +152,11 @@ int PipelineApp::run()
         [](const auto & t) { return t.name; }, target);
 
       // 【前哨站估计诊断】输出三个装甲板的估计位置
-      if (target_name == armor_auto_aim::ArmorName::outpost && armor_xyza_list.size() == 3) {
-        const auto & ekf_x = std::visit([](const auto & t) { return t.ekf_x(); }, target);
-        double h1 = ekf_x[9];
-        double h2 = ekf_x[10];
-        double omega = ekf_x[7];
+    //   if (target_name == armor_auto_aim::ArmorName::outpost && armor_xyza_list.size() == 3) {
+    //     const auto & ekf_x = std::visit([](const auto & t) { return t.ekf_x(); }, target);
+    //     double h1 = ekf_x[9];
+    //     double h2 = ekf_x[10];
+    //     double omega = ekf_x[7];
 
         // utils::logger()->info(
         //   "[前哨站估计] h1={:.3f}, h2={:.3f}, ω={:.3f} | "
@@ -152,7 +166,7 @@ int PipelineApp::run()
         //   armor_xyza_list[1][0], armor_xyza_list[1][1], armor_xyza_list[1][2],
         //   armor_xyza_list[2][0], armor_xyza_list[2][1], armor_xyza_list[2][2]
         // );
-      }
+    //   }
 
       for (const Eigen::Vector4d & xyza : armor_xyza_list) {
         Eigen::Vector3d world_point(xyza.x(), xyza.y(), xyza.z());
@@ -224,9 +238,7 @@ void PipelineApp::start_threads()
 {
   quit_.store(false);
   visualization_frame_counter_.store(0);
-  if (planner_) {
-    planner_thread_ = std::thread(&PipelineApp::planner_loop, this);
-  }
+  process_thread_ = std::thread(&PipelineApp::process_loop, this);
   if (enable_visualization_) {
     visualization_thread_ = std::thread(&PipelineApp::visualization_loop, this);
   }
@@ -234,8 +246,8 @@ void PipelineApp::start_threads()
 
 void PipelineApp::join_threads()
 {
-  if (planner_thread_.joinable()) {
-    planner_thread_.join();
+  if (process_thread_.joinable()) {
+    process_thread_.join();
   }
   if (visualization_thread_.joinable()) {
     visualization_thread_.join();
@@ -284,9 +296,9 @@ void PipelineApp::visualization_loop()
   utils::logger()->info("[Pipeline] 可视化线程退出");
 }
 
-void PipelineApp::planner_loop()
+void PipelineApp::process_loop()
 {
-  utils::logger()->info("[Pipeline] 规划线程启动");
+  utils::logger()->info("[Pipeline] 处理线程启动");
 
   auto last_log_time = std::chrono::steady_clock::now();
 
@@ -295,28 +307,37 @@ void PipelineApp::planner_loop()
       break;
     }
 
-    if (!planner_) {
-      std::this_thread::sleep_for(std::chrono::milliseconds(50));
-      continue;
-    }
-
     if (target_queue.empty()) {
+      // 即使没有目标，也发送空命令保持通信
+      gimbal_->send(false, false, 0, 0, 0, 0, 0, 0);
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
       continue;
     }
 
-    auto target = target_queue.front();
+    TargetPacket packet = target_queue.front();
+    if (!packet.valid) {
+      gimbal_->send(false, false, 0, 0, 0, 0, 0, 0);
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));
+      continue;
+    }
 
-
-
-    auto plan_result = planner_->plan(target, bullet_speed_);
-    // auto plan_result = guard_planner_->plan(target, bullet_speed_);
     auto gs = gimbal_->state();
-    if (plan_result.control) {
+
+    // 使用packet中打包好的timestamp和gimbal_pos，确保时间戳对齐
+    auto Command = aimer_->aim(packet.target, packet.timestamp, gs.bullet_speed);
+
+    // shooter需要解包optional并传递aimer的引用
+    if (packet.target.has_value()) {
+      Command.shoot = shooter_->shoot(Command, *aimer_, packet.target.value(), packet.gimbal_pos);
+    } else {
+      Command.shoot = false;
+    }
+
+    if (Command.control) {
       gimbal_->send(
-        plan_result.control, plan_result.fire, plan_result.yaw, plan_result.yaw_vel,
-        plan_result.yaw_acc, plan_result.pitch, plan_result.pitch_vel, plan_result.pitch_acc);
-        // gimbal_->send_simple(plan_result.control, plan_result.fire, plan_result.yaw, plan_result.pitch);
+        Command.control, Command.shoot, Command.yaw, 0,
+        0, Command.pitch, 0, 0);
+        // gimbal_->send_simple(Command.control, Command.fire, Command.yaw, Command.pitch);
     } else {
       gimbal_->send(false, false, 0, 0, 0, 0, 0, 0);
     }
@@ -357,19 +378,19 @@ void PipelineApp::planner_loop()
       
     if (debug_pub_) {
       auto msg = autoaim_msgs::msg::Debug{};
-      msg.enable_control = plan_result.control;
-      msg.fire = plan_result.fire;
-      msg.yaw_offest = plan_result.yaw - gs.yaw;
-      msg.target_pitch = plan_result.target_pitch;
-      msg.yaw = plan_result.yaw;
-      msg.pitch = plan_result.pitch;
-      msg.yaw_gimbal = gs.yaw;
-      msg.pitch_gimbal = gs.pitch;
+      msg.enable_control = Command.control;
+      msg.fire = Command.shoot;
+      msg.yaw_offest = Command.yaw - gs.yaw;
+      msg.target_pitch = 0.0;
+      msg.yaw = Command.yaw;
+      msg.pitch = Command.pitch;
+      msg.yaw_gimbal = packet.gimbal_pos[0];
+      msg.pitch_gimbal = packet.gimbal_pos[1];
       debug_pub_->publish(msg);
     }
 
-   // 发布Target状态消息
-    if (target_pub_ && target.has_value()) {
+    // 发布Target状态消息
+    if (target_pub_ && packet.target.has_value()) {
       auto target_msg = autoaim_msgs::msg::Outpost{};
       std::visit([&target_msg](const auto & t) {
         const auto & ekf = t.ekf();
@@ -379,19 +400,19 @@ void PipelineApp::planner_loop()
         target_msg.p_h2 = static_cast<float>(ekf.P(10, 10));
         // target_msg.w = static_cast<float>(ekf.x[7]);
         // target_msg.r = static_cast<float>(ekf.x[8]);
-      }, target.value());
+      }, packet.target.value());
       target_pub_->publish(target_msg);
     }
 
     auto now = std::chrono::steady_clock::now();
     if (
-      plan_result.control && now - last_log_time >
+      Command.control && now - last_log_time >
       std::chrono::milliseconds(200)) {
-      auto  yaw_offest = plan_result.target_yaw - gs.yaw;
+      auto  yaw_offest = Command.yaw - gs.yaw;
       // utils::logger()->debug(
-      //   "[Pipeline] 规划输出: yaw={:.3f} pitch={:.3f} fire={}"
+      //   "[Pipeline] 规划输出: yaw={:.3f} pitch={:.3f} shoot={}"
       //   "下位机Gimbal_yaw={:.3f} 下位机Gimbal_pitch={:.3f}",
-      //   plan_result.yaw, plan_result.pitch, plan_result.fire,
+      //   Command.yaw, Command.pitch, Command.shoot,
       //   gs.yaw, gs.pitch);
       last_log_time = now;
     }
@@ -402,7 +423,7 @@ void PipelineApp::planner_loop()
   utils::logger()->info("[Pipeline] 规划线程退出");
 }
 
-}  // namespace pipeline
+}  // namespace Application
 
 int main(int argc, char ** argv)
 {

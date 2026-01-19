@@ -10,7 +10,7 @@ namespace solver {
 CoordConverter::CoordConverter(const std::string& yaml_config_path)
     : is_initialized_(false),
       current_timestamp_(0.0),
-      current_imu_angles_(0.0, 0.0, 0.0) {
+      current_imu_angles_(0.0, 0.0, 0.0, 0.0) {
 
     camera_matrix_ = cv::Mat();
     dist_coeffs_ = cv::Mat();
@@ -39,12 +39,18 @@ void CoordConverter::updateIMU(const Eigen::Quaterniond& q_absolute, double time
     // 这是上个版本的变换接口，暂时保留
 
     // R_imu_to_world_ = R_yaw_init_ * R_world_alignment_ * R_imu_current;
-    
+
     // double yaw = std::atan2(R_imu_to_world_(1,0), R_imu_to_world_(0,0)) * 180.0 / M_PI;
     // double pitch = std::asin(-R_imu_to_world_(2,0)) * 180.0 / M_PI;
     // current_imu_angles_ = YawPitch(yaw, pitch, timestamp);
 
     R_gimbal_to_world = R_gimbal_to_imu.transpose() * R_imu_current * R_gimbal_to_imu;
+
+    // 从旋转矩阵提取欧拉角 (ZYX顺序: yaw, pitch, roll)
+    Eigen::Vector3d ypr = utils::eulers(R_gimbal_to_world, 2, 1, 0);
+
+    // 更新当前云台角度（弧度值）
+    current_imu_angles_ = Orientation(ypr[0], ypr[1], ypr[2], timestamp);
 
     // utils::logger()->debug("R_yaw_init旋转矩阵:");
     // for (int i = 0; i < 3; ++i) {
@@ -62,7 +68,7 @@ void CoordConverter::updateIMU(const Eigen::Quaterniond& q_absolute, double time
 }
 
 void CoordConverter::updateIMU(double yaw, double pitch, double timestamp) {
-    current_imu_angles_ = YawPitch(yaw, pitch, timestamp);
+    current_imu_angles_ = Orientation(yaw, pitch, 0.0, timestamp);
     current_timestamp_ = timestamp;
     
     double yaw_rad = yaw * M_PI / 180.0;
@@ -155,10 +161,13 @@ Gimbal CoordConverter::createGimbal(const Eigen::Vector3d& target_position,
                                     CoordinateFrame frame,
                                     double timestamp) const {
     Eigen::Vector3d target_world = transform(target_position, frame, CoordinateFrame::WORLD);
-    return Gimbal(current_imu_angles_, target_world, timestamp);
+
+    // 将 Orientation 转换为 YawPitch 用于 Gimbal 构造
+    YawPitch current_yp(current_imu_angles_.yaw, current_imu_angles_.pitch, current_imu_angles_.timestamp);
+    return Gimbal(current_yp, target_world, timestamp);
 }
 
-YawPitch CoordConverter::getCurrentAngles() const {
+Orientation CoordConverter::getCurrentAngles() const {
     return current_imu_angles_;
 }
 

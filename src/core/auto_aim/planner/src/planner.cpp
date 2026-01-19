@@ -13,12 +13,13 @@ namespace plan
 Planner::Planner(const std::string & config_path)
 {
   auto yaml = utils::load(config_path);
-  yaw_offset_ = utils::read<double>(yaml, "yaw_offset") / 57.3;
-  pitch_offset_ = utils::read<double>(yaml, "pitch_offset") / 57.3;
-  fire_thresh_ = utils::read<double>(yaml, "fire_thresh");
-  decision_speed_ = utils::read<double>(yaml, "decision_speed");
-  high_speed_delay_time_ = utils::read<double>(yaml, "high_speed_delay_time");
-  low_speed_delay_time_ = utils::read<double>(yaml, "low_speed_delay_time");
+  auto planner_yaml = yaml["Planner"];
+  yaw_offset_ = utils::read<double>(planner_yaml, "yaw_offset") / 57.3;
+  pitch_offset_ = utils::read<double>(planner_yaml, "pitch_offset") / 57.3;
+  fire_thresh_ = utils::read<double>(planner_yaml, "fire_thresh");
+  decision_speed_ = utils::read<double>(planner_yaml, "decision_speed");
+  high_speed_delay_time_ = utils::read<double>(planner_yaml, "high_speed_delay_time");
+  low_speed_delay_time_ = utils::read<double>(planner_yaml, "low_speed_delay_time");
 
   setup_yaw_solver(config_path);
   setup_pitch_solver(config_path);
@@ -114,9 +115,10 @@ Plan Planner::plan(std::optional<predict::Target> target, double bullet_speed)
 void Planner::setup_yaw_solver(const std::string & config_path)
 {
   auto yaml = utils::load(config_path);
-  auto max_yaw_acc = utils::read<double>(yaml, "max_yaw_acc");
-  auto Q_yaw = utils::read<std::vector<double>>(yaml, "Q_yaw");
-  auto R_yaw = utils::read<std::vector<double>>(yaml, "R_yaw");
+  auto planner_yaml = yaml["Planner"];
+  auto max_yaw_acc = utils::read<double>(planner_yaml, "max_yaw_acc");
+  auto Q_yaw = utils::read<std::vector<double>>(planner_yaml, "Q_yaw");
+  auto R_yaw = utils::read<std::vector<double>>(planner_yaml, "R_yaw");
 
   Eigen::MatrixXd A{{1, DT}, {0, 1}};
   Eigen::MatrixXd B{{0}, {DT}};
@@ -137,9 +139,10 @@ void Planner::setup_yaw_solver(const std::string & config_path)
 void Planner::setup_pitch_solver(const std::string & config_path)
 {
   auto yaml = utils::load(config_path);
-  auto max_pitch_acc = utils::read<double>(yaml, "max_pitch_acc");
-  auto Q_pitch = utils::read<std::vector<double>>(yaml, "Q_pitch");
-  auto R_pitch = utils::read<std::vector<double>>(yaml, "R_pitch");
+  auto planner_yaml = yaml["Planner"];
+  auto max_pitch_acc = utils::read<double>(planner_yaml, "max_pitch_acc");
+  auto Q_pitch = utils::read<std::vector<double>>(planner_yaml, "Q_pitch");
+  auto R_pitch = utils::read<std::vector<double>>(planner_yaml, "R_pitch");
 
   Eigen::MatrixXd A{{1, DT}, {0, 1}};
   Eigen::MatrixXd B{{0}, {DT}};

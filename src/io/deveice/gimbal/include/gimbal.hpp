@@ -14,6 +14,16 @@
 
 namespace io
 {
+
+struct GimbalCommand
+{
+  bool control;
+  bool shoot;
+  float yaw;
+  float pitch;
+};
+
+
 struct __attribute__((packed)) GimbalToVision
 {
   uint8_t head[2] = {'G', 'V'};

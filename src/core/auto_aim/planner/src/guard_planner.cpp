@@ -15,14 +15,16 @@ GuardPlanner::GuardPlanner(const std::string & config_path)
   auto yaml = utils::load(config_path);
 
   // 复用planner的参数
-  yaw_offset_ = utils::read<double>(yaml, "yaw_offset") / 57.3;
-  pitch_offset_ = utils::read<double>(yaml, "pitch_offset") / 57.3;
+  auto planner_yaml = yaml["Planner"];
+  yaw_offset_ = utils::read<double>(planner_yaml, "yaw_offset") / 57.3;
+  pitch_offset_ = utils::read<double>(planner_yaml, "pitch_offset") / 57.3;
 
   // GuardPlanner专用参数
-  window_angle_ = utils::read<double>(yaml, "guard_window_angle") / 57.3;  // 转为弧度
-  spin_threshold_ = utils::read<double>(yaml, "guard_spin_threshold");
-  fire_angle_thresh_ = utils::read<double>(yaml, "guard_fire_angle_thresh") / 57.3;
-  require_approaching_ = utils::read<bool>(yaml, "guard_require_approaching");
+  auto guard_yaml = yaml["GuardPlanner"];
+  window_angle_ = utils::read<double>(guard_yaml, "guard_window_angle") / 57.3;  // 转为弧度
+  spin_threshold_ = utils::read<double>(guard_yaml, "guard_spin_threshold");
+  fire_angle_thresh_ = utils::read<double>(guard_yaml, "guard_fire_angle_thresh") / 57.3;
+  require_approaching_ = utils::read<bool>(guard_yaml, "guard_require_approaching");
 
   utils::logger()->info(
     "[GuardPlanner] 初始化完成: 射击窗口={:.1f}度, 高速阈值={:.2f}rad/s, 射击角度阈值={:.1f}度",

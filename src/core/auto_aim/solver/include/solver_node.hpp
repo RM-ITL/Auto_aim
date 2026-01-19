@@ -25,10 +25,10 @@ public:
     
     Armor_pose processArmor(Armors armor, double timestamp);
     
-    Gimbal getCurrentGimbal() const;
+    // Gimbal getCurrentGimbal() const;
     
     // bool isInitialized() const { return coord_converter_->isInitialized(); }
-    YawPitch getCurrentAngles() const { return coord_converter_->getCurrentAngles(); }
+    Orientation getCurrentAngles() const { return coord_converter_->getCurrentAngles(); }
     
     PnPResult getLastPnPResult() const { return last_pnp_result_; }
     Armor_pose getLastpose() const { return last_armor_pose_; }

@@ -23,6 +23,7 @@
   <depend>eigen</depend>
   <depend>utils</depend>
   <depend>deveice</depend>
+  <depend>serial</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
