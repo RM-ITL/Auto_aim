@@ -49,6 +49,8 @@ CalibParam:
               #   - -0.594006385480322
   
 
+## 奶龙步兵
+
 # 相机参数
 camera:
   type: "hik"  # 可选: "hik", "mindvision"
@@ -111,8 +113,8 @@ publish_rate: 1000  # Hz
 # 电控坐标系定义：向云台方向看
 # 向前为X轴正向，向左为Y轴正向，向上为Z轴，Pitch轴抬头为负数，低头为正数，yaw向左为正数，向右为负数
 
-# 老步兵上车妙板方向规定：
-# 向前为Y轴正向，向右为X轴正向，向上为Z轴正向
+# 奶龙步兵上车妙板方向规定：
+# 向后为Y轴正向，向左为X轴正向，向上为Z轴正向
 
 # 解算模块所需的参数
 Solver:
@@ -125,19 +127,12 @@ Solver:
             -1, 0, 0,
             0, -1, 0]
 
-    # rotation_matrix_gimbal_to_imu:
-    #   rows: 3
-    #   cols: 3
-    #   dt: float
-    #   data: [1, 0, 0,
-    #         0, 1, 0,
-    #         0, 0, 1]
     rotation_matrix_gimbal_to_imu:
       rows: 3
       cols: 3
       dt: float
-      data: [0, -1, 0,
-            1, 0, 0,
+      data: [0, 1, 0,
+            -1, 0, 0,
             0, 0, 1]
 # 陀螺仪与相机放置在同一位置
 # - x: 相机相对云台在前后方向的偏移
@@ -145,7 +140,7 @@ Solver:
 # - z: 相机相对云台在上下方向的偏移
 
 t_camera_to_gimbal:
-[0.00, 0.00, -0.07]
+[0.00, 0.07, 0.03]
 # [0.115, -0.065, 0.015]cm
 
 
@@ -164,8 +159,8 @@ Tracker:
 # 瞄准器Aimer参数
 Aimer:
   #####-----aimer参数-----#####
-  yaw_offset: -0.8 # degree -2.5
-  pitch_offset: -1  # degree 2
+  yaw_offset: 0.0 # degree -2.5
+  pitch_offset: -1.0  # degree 2
   comming_angle: 60 # degree
   leaving_angle: 20 # degree
   left_yaw_offset: -1
@@ -203,16 +198,16 @@ Planner:
   max_pitch_acc: 100  # 最大pitch加速度上限
   Q_pitch: [5e6, 0]
   R_pitch: [1]
-  yaw_offset: 0 # degree，相机光心与枪管中心的yaw偏差
-  pitch_offset: -2 # degree，pitch相对枪管的中心补偿参数
+  yaw_offset: 0.0 # degree，相机光心与枪管中心的yaw偏差
+  pitch_offset: 0.0 # degree，pitch相对枪管的中心补偿参数
   decision_speed: 7 # rad/s， 高低速的判断阈值，大于此值的为高速目标
   high_speed_delay_time: 0.0 # s，高速目标的额外时间补偿
   low_speed_delay_time: 0.0 # s，低速目标的额外时间补偿
 
 
 GuardPlanner:
-  yaw_offset: 2 # degree，相机光心与枪管中心的yaw偏差
-  pitch_offset: 6.5 # degree，pitch相对枪管的中心补偿参数
+  yaw_offset: 0 # degree，相机光心与枪管中心的yaw偏差
+  pitch_offset: 0 # degree，pitch相对枪管的中心补偿参数
   guard_window_angle: 20    # degree，射击窗口半角，装甲板朝向角在此范围内视为可射击
   guard_spin_threshold: 0.3     # rad/s，角速度阈值，超过此值启用守株待兔模式
   guard_fire_angle_thresh: 8  # degree，射击时装甲板预测朝向角的最大允许值

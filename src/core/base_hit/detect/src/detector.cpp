@@ -11,7 +11,7 @@ Detector::Detector(const std::string & config_path)
   utils::logger()->info("[Detector] 检测器初始化完成");
 }
 
-std::vector<Detector::Detection> Detector::detect(const cv::Mat & img)
+std::vector<Detector::GreenLight> Detector::detect(const cv::Mat & img)
 {
   if (img.empty()) {
     return {};
@@ -20,7 +20,7 @@ std::vector<Detector::Detection> Detector::detect(const cv::Mat & img)
   return infer_->infer(img);
 }
 
-void Detector::visualize(cv::Mat & img, const std::vector<Detection> & detections)
+void Detector::visualize(cv::Mat & img, const std::vector<GreenLight> & detections)
 {
   for (const auto & det : detections) {
     // 绘制边界框

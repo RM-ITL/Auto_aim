@@ -92,7 +92,7 @@ OpenvinoInfer::OpenvinoInfer(const std::string & config_path)
   utils::logger()->info("[OpenvinoInfer] ========================");
 }
 
-std::vector<OpenvinoInfer::Detection> OpenvinoInfer::infer(const cv::Mat & src)
+std::vector<OpenvinoInfer::GreenLight> OpenvinoInfer::infer(const cv::Mat & src)
 {
   if (src.empty()) {
     return {};
@@ -176,7 +176,7 @@ std::vector<OpenvinoInfer::Detection> OpenvinoInfer::infer(const cv::Mat & src)
   std::vector<cv::Rect> boxes;
   std::vector<float> confidences;
   std::vector<int> class_ids;
-  std::vector<Detection> raw_detections;
+  std::vector<GreenLight> raw_detections;
 
   // 输出格式: [1, num_detections, 27]
   // 27 = 4(box: cx,cy,w,h) + 1(objectness) + 9(classes) + 4(colors) + 9(其他)
@@ -231,7 +231,7 @@ std::vector<OpenvinoInfer::Detection> OpenvinoInfer::infer(const cv::Mat & src)
     confidences.emplace_back(confidence);
     class_ids.emplace_back(best_class_id);
 
-    Detection det;
+    GreenLight det;
     det.box = cv::Rect2d(cx - w / 2, cy - h / 2, w, h);
     det.center = cv::Point2d(cx, cy);
     det.score = confidence;
@@ -243,7 +243,7 @@ std::vector<OpenvinoInfer::Detection> OpenvinoInfer::infer(const cv::Mat & src)
   std::vector<int> nms_indices;
   cv::dnn::NMSBoxes(boxes, confidences, score_threshold_, nms_threshold_, nms_indices);
 
-  std::vector<Detection> results;
+  std::vector<GreenLight> results;
   results.reserve(nms_indices.size());
   for (int idx : nms_indices) {
     results.emplace_back(raw_detections[idx]);
@@ -281,7 +281,7 @@ OpenvinoInfer::LetterBoxInfo OpenvinoInfer::letterBox(const cv::Mat & src)
 }
 
 void OpenvinoInfer::restoreCoords(
-  std::vector<Detection> & detections, const LetterBoxInfo & info)
+  std::vector<GreenLight> & detections, const LetterBoxInfo & info)
 {
   for (auto & det : detections) {
     det.box.x = (det.box.x - info.pad_w) / info.scale;

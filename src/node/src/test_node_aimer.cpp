@@ -1,4 +1,4 @@
-#include "standard.hpp"
+#include "test_node_aimer.hpp"
 
 #include <csignal>
 #include <algorithm>
@@ -41,7 +41,7 @@ PipelineApp::PipelineApp(const std::string & config_path)
     "target", rclcpp::QoS(10));
 
   camera_ = std::make_unique<camera::Camera>(config_path_);
-  dm_imu_ = std::make_unique<io::DmImu>(config_path_);
+  // dm_imu_ = std::make_unique<io::DmImu>(config_path_);
   detector_ = std::make_unique<armor_auto_aim::Detector>(config_path_);
   solver_ = std::make_unique<solver::Solver>(config_path_);
   yaw_optimizer_ = solver_->getYawOptimizer();
@@ -92,8 +92,8 @@ int PipelineApp::run()
 
     cv::cvtColor(img, debug_packet.rgb_image, cv::COLOR_BGR2RGB);
 
-    orientation = dm_imu_->imu_at(timestamp);
-    // orientation = gimbal_->q(timestamp);
+    // orientation = dm_imu_->imu_at(timestamp);
+    orientation = gimbal_->q(timestamp);
     // utils::logger()->debug(
     //   "[Pipeline] DM_IMU四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
     //   dm_orientation.w(), dm_orientation.x(), dm_orientation.y(), dm_orientation.z());
@@ -437,7 +437,7 @@ int main(int argc, char ** argv)
     return 0;
   }
 
-  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/config.yaml";
+  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/standard4.yaml";
   if (cli.has("@config-path")) {
     config_path = cli.get<std::string>("@config-path");
   }

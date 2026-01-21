@@ -39,8 +39,9 @@ public:
   Eigen::Vector4d debug_xyza;
   Planner(const std::string & config_path);
 
-  // 原有接口保留
+  // 子弹飞行时间补偿
   Plan plan(predict::Target target, double bullet_speed);
+  // 系统延迟时间的补偿
   Plan plan(std::optional<predict::Target> target, double bullet_speed);
 
   // OutpostTarget 接口
@@ -54,7 +55,7 @@ private:
   double yaw_offset_;
   double pitch_offset_;
   double fire_thresh_;
-  double low_speed_delay_time_, high_speed_delay_time_, decision_speed_;
+  double low_speed_delay_time_, high_speed_delay_time_, decision_speed_;  // 系统延迟时间的补偿
 
   TinySolver * yaw_solver_;
   TinySolver * pitch_solver_;
@@ -63,6 +64,7 @@ private:
   void setup_pitch_solver(const std::string & config_path);
 
   Eigen::Matrix<double, 2, 1> aim(const predict::Target & target, double bullet_speed);
+  // 轨迹生成过程中的连续预测
   Trajectory get_trajectory(predict::Target & target, double yaw0, double bullet_speed);
 
   // OutpostTarget 版本

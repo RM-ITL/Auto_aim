@@ -26,9 +26,21 @@ GuardPlanner::GuardPlanner(const std::string & config_path)
   fire_angle_thresh_ = utils::read<double>(guard_yaml, "guard_fire_angle_thresh") / 57.3;
   require_approaching_ = utils::read<bool>(guard_yaml, "guard_require_approaching");
 
+  // 延迟补偿参数
+  decision_speed_ = utils::read<double>(guard_yaml, "decision_speed");
+  high_speed_delay_time_ = utils::read<double>(guard_yaml, "high_speed_delay_time");
+  low_speed_delay_time_ = utils::read<double>(guard_yaml, "low_speed_delay_time");
+
+  // 迭代收敛参数
+  max_fly_time_iterations_ = utils::read<int>(guard_yaml, "max_fly_time_iterations");
+  fly_time_convergence_thresh_ = utils::read<double>(guard_yaml, "fly_time_convergence_thresh");
+
   utils::logger()->info(
     "[GuardPlanner] 初始化完成: 射击窗口={:.1f}度, 高速阈值={:.2f}rad/s, 射击角度阈值={:.1f}度",
     window_angle_ * 57.3, spin_threshold_, fire_angle_thresh_ * 57.3);
+  utils::logger()->info(
+    "[GuardPlanner] 延迟补偿: 判断阈值={:.1f}rad/s, 高速延迟={:.3f}s, 低速延迟={:.3f}s",
+    decision_speed_, high_speed_delay_time_, low_speed_delay_time_);
 }
 
 // ============ 公共接口 ============
@@ -66,7 +78,13 @@ plan::Plan GuardPlanner::plan_impl(TargetType target, double bullet_speed)
     bullet_speed = 22;
   }
 
-  // 1. 判断是否使用守株待兔模式
+  // 1. 获取系统延迟时间
+  double delay_time = get_delay_time(target);
+
+  // 2. 系统延迟补偿：预测目标状态
+  target.predict(delay_time);
+
+  // 3. 判断是否使用守株待兔模式
   if (!should_use_guard_mode(target)) {
     // 低速目标：简单跟踪最近装甲板
     auto xyza_list = target.armor_xyza_list();
@@ -98,11 +116,11 @@ plan::Plan GuardPlanner::plan_impl(TargetType target, double bullet_speed)
     return result;
   }
 
-  // 2. 高速旋转目标：守株待兔模式
-  auto windows = compute_armor_windows(target, bullet_speed);
+  // 4. 高速旋转目标：守株待兔模式
+  auto windows = compute_armor_windows(target, bullet_speed, delay_time);
   auto best_armor = find_best_armor(windows);
 
-  // 3. 计算云台指向
+  // 5. 计算云台指向
   plan::Plan result;
   result.control = true;
 
@@ -180,7 +198,8 @@ plan::Plan GuardPlanner::plan_impl(TargetType target, double bullet_speed)
 template <typename TargetType>
 std::vector<ArmorWindow> GuardPlanner::compute_armor_windows(
   const TargetType & target,
-  double bullet_speed) const
+  double bullet_speed,
+  double delay_time) const
 {
   std::vector<ArmorWindow> windows;
   auto xyza_list = target.armor_xyza_list();
@@ -202,17 +221,53 @@ std::vector<ArmorWindow> GuardPlanner::compute_armor_windows(
 
     // 朝向角：法线方向与枪口连线的夹角
     // 如果接近0，说明装甲板正对枪口
-    w.facing_angle = utils::limit_rad(armor_normal - azim -M_PI);
+    w.facing_angle = utils::limit_rad(armor_normal - azim - M_PI);
 
     // 判断是否在射击窗口内
     w.in_window = std::abs(w.facing_angle) < window_angle_;
 
-    // 预测子弹到达时的朝向角
+    // 迭代收敛计算飞行时间
     utils::Trajectory bullet_traj(bullet_speed, w.distance, w.position.z());
     if (!bullet_traj.unsolvable) {
       double fly_time = bullet_traj.fly_time;
-      // 预测装甲板转过的角度
-      double delta_angle = omega * fly_time;
+
+      // 飞行时间迭代收敛
+      for (int iter = 0; iter < max_fly_time_iterations_; ++iter) {
+        double total_delay = delay_time + fly_time;
+
+        // 预测装甲板转过的角度后的新位置
+        double predicted_angle_rad = omega * total_delay;
+        // 基于旋转中心计算预测位置（简化：仅影响距离估计）
+        double cx = target.ekf_x()[0];
+        double cy = target.ekf_x()[2];
+        double cz = target.ekf_x()[4];
+        double r = target.ekf_x()[6];  // 旋转半径
+
+        // 预测装甲板的新位置
+        double new_angle = armor_angle + predicted_angle_rad;
+        double new_x = cx + r * std::cos(new_angle);
+        double new_y = cy + r * std::sin(new_angle);
+        double new_z = cz;  // z坐标不变
+
+        double new_dist = std::sqrt(new_x * new_x + new_y * new_y);
+
+        // 重新计算弹道
+        utils::Trajectory new_traj(bullet_speed, new_dist, new_z);
+        if (new_traj.unsolvable) break;
+
+        double new_fly_time = new_traj.fly_time;
+
+        // 检查收敛
+        if (std::abs(new_fly_time - fly_time) < fly_time_convergence_thresh_) {
+          fly_time = new_fly_time;
+          break;
+        }
+        fly_time = new_fly_time;
+      }
+
+      // 使用总延迟计算预测角度
+      double total_delay = delay_time + fly_time;
+      double delta_angle = omega * total_delay;
       w.predicted_angle = utils::limit_rad(w.facing_angle - delta_angle);
       // 注意：facing_angle减小说明在转向正对
     } else {
@@ -286,14 +341,23 @@ bool GuardPlanner::should_use_guard_mode(const TargetType & target) const
   return omega > spin_threshold_;
 }
 
+template <typename TargetType>
+double GuardPlanner::get_delay_time(const TargetType & target) const
+{
+  double omega = std::abs(target.ekf_x()[7]);
+  return omega > decision_speed_ ? high_speed_delay_time_ : low_speed_delay_time_;
+}
+
 // 显式实例化模板
 template plan::Plan GuardPlanner::plan_impl(predict::Target, double);
 template plan::Plan GuardPlanner::plan_impl(predict::OutpostTarget, double);
-template std::vector<ArmorWindow> GuardPlanner::compute_armor_windows(const predict::Target &, double) const;
-template std::vector<ArmorWindow> GuardPlanner::compute_armor_windows(const predict::OutpostTarget &, double) const;
+template std::vector<ArmorWindow> GuardPlanner::compute_armor_windows(const predict::Target &, double, double) const;
+template std::vector<ArmorWindow> GuardPlanner::compute_armor_windows(const predict::OutpostTarget &, double, double) const;
 template Eigen::Vector2d GuardPlanner::compute_center_aim(const predict::Target &, double) const;
 template Eigen::Vector2d GuardPlanner::compute_center_aim(const predict::OutpostTarget &, double) const;
 template bool GuardPlanner::should_use_guard_mode(const predict::Target &) const;
 template bool GuardPlanner::should_use_guard_mode(const predict::OutpostTarget &) const;
+template double GuardPlanner::get_delay_time(const predict::Target &) const;
+template double GuardPlanner::get_delay_time(const predict::OutpostTarget &) const;
 
 }  // namespace guard

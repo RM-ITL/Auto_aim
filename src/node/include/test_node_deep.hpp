@@ -4,6 +4,7 @@
 #include <array>
 #include <atomic>
 #include <chrono>
+#include <deque>
 #include <list>
 #include <memory>
 #include <string>
@@ -25,7 +26,7 @@
 #include "planner.hpp"
 #include "guard_planner.hpp"
 #include "autoaim_msgs/msg/debug.hpp"
-#include "autoaim_msgs/msg/outpost.hpp"
+#include "autoaim_msgs/msg/orienta.hpp"
 #include "gimbal.hpp"
 
 namespace Application
@@ -71,7 +72,7 @@ private:
   std::unique_ptr<io::Gimbal> gimbal_;
   rclcpp::Node::SharedPtr ros_node_;
   rclcpp::Publisher<autoaim_msgs::msg::Debug>::SharedPtr debug_pub_;
-  rclcpp::Publisher<autoaim_msgs::msg::Outpost>::SharedPtr target_pub_;
+  rclcpp::Publisher<autoaim_msgs::msg::Orienta>::SharedPtr orientation_pub_;
 
   tools::ThreadSafeQueue<DebugPacket, true> visualization_queue{2};
   tools::ThreadSafeQueue<std::optional<tracker::TargetVariant>, true> target_queue{1};
@@ -87,6 +88,11 @@ private:
 
   std::chrono::steady_clock::time_point start_time_;
   const double bullet_speed_{22.0};
+
+  // // 系统延迟统计
+  // std::deque<double> delay_window_;
+  // const size_t delay_window_size_{100};
+  // std::chrono::steady_clock::time_point last_delay_log_time_;
 };
 
 }  // namespace pipeline

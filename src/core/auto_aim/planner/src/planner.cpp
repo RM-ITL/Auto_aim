@@ -25,6 +25,7 @@ Planner::Planner(const std::string & config_path)
   setup_pitch_solver(config_path);
 }
 
+// 子弹飞行时间补偿
 Plan Planner::plan(predict::Target target, double bullet_speed)
 {
   // 0. Check bullet speed
@@ -98,6 +99,7 @@ Plan Planner::plan(predict::Target target, double bullet_speed)
   return plan;
 }
 
+// 系统延迟时间的补偿
 Plan Planner::plan(std::optional<predict::Target> target, double bullet_speed)
 {
   if (!target.has_value()) return {false};
@@ -183,6 +185,7 @@ Eigen::Matrix<double, 2, 1> Planner::aim(const predict::Target & target, double 
   return {utils::limit_rad(azim + yaw_offset_), -bullet_traj.pitch - pitch_offset_};
 }
 
+// 轨迹生成中的连续预测
 Trajectory Planner::get_trajectory(predict::Target & target, double yaw0, double bullet_speed)
 {
   Trajectory traj;

@@ -25,7 +25,7 @@ public:
   void request_stop();
 
 private:
-  void visualize(const cv::Mat & img, const std::vector<Detector::Detection> & detections);
+  void visualize(const cv::Mat & img, const std::vector<Detector::GreenLight> & detections);
 
   std::string config_path_;
 

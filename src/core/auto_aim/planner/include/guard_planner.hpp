@@ -47,11 +47,25 @@ private:
   double fire_angle_thresh_;    // 射击时的最大朝向角阈值
   bool require_approaching_;    // 是否要求装甲板正在转入
 
+  // 延迟补偿参数
+  double decision_speed_;           // rad/s，高低速判断阈值
+  double high_speed_delay_time_;    // s，高速目标系统延迟
+  double low_speed_delay_time_;     // s，低速目标系统延迟
+
+  // 迭代收敛参数
+  int max_fly_time_iterations_;         // 飞行时间迭代最大次数
+  double fly_time_convergence_thresh_;  // s，收敛阈值
+
   // 计算装甲板的射击窗口状态
   template <typename TargetType>
   std::vector<ArmorWindow> compute_armor_windows(
     const TargetType & target,
-    double bullet_speed) const;
+    double bullet_speed,
+    double delay_time) const;
+
+  // 获取系统延迟时间（根据目标角速度）
+  template <typename TargetType>
+  double get_delay_time(const TargetType & target) const;
 
   // 找到最佳射击目标（窗口内最近且朝向最正的）
   std::optional<ArmorWindow> find_best_armor(

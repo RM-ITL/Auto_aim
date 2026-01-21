@@ -13,7 +13,7 @@ namespace base_hit
 class OpenvinoInfer
 {
 public:
-  struct Detection
+  struct GreenLight
   {
     cv::Rect2d box;
     cv::Point2d center;
@@ -25,7 +25,7 @@ public:
   ~OpenvinoInfer() = default;
 
   // 推理接口：输入图像，返回检测结果
-  std::vector<Detection> infer(const cv::Mat & src);
+  std::vector<GreenLight> infer(const cv::Mat & src);
 
 private:
   // LetterBox 预处理
@@ -40,7 +40,7 @@ private:
   LetterBoxInfo letterBox(const cv::Mat & src);
 
   // 将检测框坐标还原到原图尺寸
-  void restoreCoords(std::vector<Detection> & detections, const LetterBoxInfo & info);
+  void restoreCoords(std::vector<GreenLight> & detections, const LetterBoxInfo & info);
 
   ov::Core core_;
   ov::CompiledModel compiled_model_;

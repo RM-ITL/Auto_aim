@@ -88,7 +88,7 @@ int BaseHitNode::run()
     }
 
     // 检测
-    std::vector<Detector::Detection> detections;
+    std::vector<Detector::GreenLight> detections;
     {
       auto detect_timer = perf_monitor_.create_timer("detect");
       detections = detector_->detect(img);
@@ -126,7 +126,7 @@ void BaseHitNode::request_stop()
 
 void BaseHitNode::visualize(
   const cv::Mat & img,
-  const std::vector<Detector::Detection> & detections)
+  const std::vector<Detector::GreenLight> & detections)
 {
   try {
     cv::Mat canvas;

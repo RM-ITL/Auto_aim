@@ -20,8 +20,8 @@ find_package(auto_aim REQUIRED)
 find_package(auto_buff REQUIRED)
 find_package(base_hit REQUIRED)
 
-add_executable(pipeline_node
-  src/test_node.cpp
+add_executable(deep_node
+  src/test_node_deep.cpp
 )
 
 add_executable(video_node
@@ -32,19 +32,19 @@ add_executable(base_hit_node
   src/base_hit_node.cpp
 )
 
-add_executable(test_node_cv
+add_executable(cv_node
   src/test_node_cv.cpp
 )
 
-add_executable(standard
-  src/standard.cpp
+add_executable(aimer_node
+  src/test_node_aimer.cpp
 )
 
 add_executable(capture_node
   src/capture_node.cpp
 )
 
-target_include_directories(pipeline_node PRIVATE
+target_include_directories(deep_node PRIVATE
   include
 )
 
@@ -56,7 +56,7 @@ target_include_directories(base_hit_node PRIVATE
   include
 )
 
-target_include_directories(test_node_cv PRIVATE
+target_include_directories(cv_node PRIVATE
   include
 )
 
@@ -64,11 +64,11 @@ target_include_directories(capture_node PRIVATE
   include
 )
 
-target_include_directories(standard  PRIVATE
+target_include_directories(aimer_node  PRIVATE
   include
 )
 
-ament_target_dependencies(pipeline_node
+ament_target_dependencies(deep_node
   rclcpp
   Eigen3
   deveice
@@ -92,7 +92,7 @@ ament_target_dependencies(base_hit_node
   base_hit
 )
 
-ament_target_dependencies(test_node_cv
+ament_target_dependencies(cv_node
   rclcpp
   Eigen3
   deveice
@@ -110,7 +110,7 @@ ament_target_dependencies(capture_node
   serial
 )
 
-ament_target_dependencies(standard
+ament_target_dependencies(aimer_node
   rclcpp
   Eigen3
   deveice
@@ -120,7 +120,7 @@ ament_target_dependencies(standard
   autoaim_msgs
 )
 
-target_link_libraries(pipeline_node
+target_link_libraries(deep_node
   ${OpenCV_LIBS}
   deveice::deveice
   auto_aim::auto_aim
@@ -139,7 +139,7 @@ target_link_libraries(base_hit_node
   base_hit::base_hit
 )
 
-target_link_libraries(test_node_cv
+target_link_libraries(cv_node
   ${OpenCV_LIBS}
   deveice::deveice
   auto_aim::auto_aim
@@ -150,19 +150,19 @@ target_link_libraries(capture_node
   deveice::deveice
 )
 
-target_link_libraries(standard
+target_link_libraries(aimer_node
   ${OpenCV_LIBS}
   deveice::deveice
   auto_aim::auto_aim
 )
 
 install(TARGETS
-  pipeline_node
+  deep_node
   video_node
   base_hit_node
-  test_node_cv
+  cv_node
   capture_node
-  standard
+  aimer_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

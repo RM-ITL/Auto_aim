@@ -15,16 +15,16 @@ namespace base_hit
 class Detector
 {
 public:
-  using Detection = OpenvinoInfer::Detection;
+  using GreenLight = OpenvinoInfer::GreenLight;
 
   explicit Detector(const std::string & config_path);
   ~Detector() = default;
 
   // 检测接口
-  std::vector<Detection> detect(const cv::Mat & img);
+  std::vector<GreenLight> detect(const cv::Mat & img);
 
   // 可视化：在图像上绘制检测结果
-  void visualize(cv::Mat & img, const std::vector<Detection> & detections);
+  void visualize(cv::Mat & img, const std::vector<GreenLight> & detections);
 
 private:
   std::unique_ptr<OpenvinoInfer> infer_;

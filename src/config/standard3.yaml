@@ -49,6 +49,8 @@ CalibParam:
               #   - -0.594006385480322
   
 
+## 老步兵——摆臂
+
 # 相机参数
 camera:
   type: "hik"  # 可选: "hik", "mindvision"
@@ -125,13 +127,6 @@ Solver:
             -1, 0, 0,
             0, -1, 0]
 
-    # rotation_matrix_gimbal_to_imu:
-    #   rows: 3
-    #   cols: 3
-    #   dt: float
-    #   data: [1, 0, 0,
-    #         0, 1, 0,
-    #         0, 0, 1]
     rotation_matrix_gimbal_to_imu:
       rows: 3
       cols: 3
@@ -165,7 +160,7 @@ Tracker:
 Aimer:
   #####-----aimer参数-----#####
   yaw_offset: -0.8 # degree -2.5
-  pitch_offset: -1  # degree 2
+  pitch_offset: 0  # degree 2
   comming_angle: 60 # degree
   leaving_angle: 20 # degree
   left_yaw_offset: -1
@@ -211,8 +206,8 @@ Planner:
 
 
 GuardPlanner:
-  yaw_offset: 2 # degree，相机光心与枪管中心的yaw偏差
-  pitch_offset: 6.5 # degree，pitch相对枪管的中心补偿参数
+  yaw_offset: 0 # degree，相机光心与枪管中心的yaw偏差
+  pitch_offset: 0 # degree，pitch相对枪管的中心补偿参数
   guard_window_angle: 20    # degree，射击窗口半角，装甲板朝向角在此范围内视为可射击
   guard_spin_threshold: 0.3     # rad/s，角速度阈值，超过此值启用守株待兔模式
   guard_fire_angle_thresh: 8  # degree，射击时装甲板预测朝向角的最大允许值

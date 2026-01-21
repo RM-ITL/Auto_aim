@@ -52,7 +52,7 @@ io::GimbalCommand Aimer::aim(
   }
 
   else {
-    auto dt = 0.005 + delay_time;  //detector-aimer耗时0.005+发弹延时0.1
+    auto dt = 0.04 + delay_time;  //detector-aimer耗时0.04(40ms)+发弹延时0.1
     // utils::logger()->info("dt is {:.4f} second", dt);
     future += std::chrono::microseconds(int(dt * 1e6));
     target.predict(future);
@@ -256,7 +256,7 @@ io::GimbalCommand Aimer::aim_single_target(
     future += std::chrono::microseconds(int(dt * 1e6));
     mutable_target.predict(future);
   } else {
-    auto dt = 0.005 + delay_time;
+    auto dt = 0.04 + delay_time;
     future += std::chrono::microseconds(int(dt * 1e6));
     mutable_target.predict(future);
   }
