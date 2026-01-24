@@ -53,8 +53,8 @@ CalibParam:
 camera:
   type: "hik"  # 可选: "hik", "mindvision"
   parameters:
-    exposure_ms: 3.0
-    gain: 12.0
+    exposure_ms: 5.0
+    gain: 15.0
     gamma: 100.0
     fps: 120.0
     target_width: 1280
@@ -136,8 +136,8 @@ Solver:
       rows: 3
       cols: 3
       dt: float
-      data: [0, -1, 0,
-            1, 0, 0,
+      data: [1, 0, 0,
+            0, 1, 0,
             0, 0, 1]
 # 陀螺仪与相机放置在同一位置
 # - x: 相机相对云台在前后方向的偏移

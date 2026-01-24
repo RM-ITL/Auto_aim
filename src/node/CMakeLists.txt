@@ -87,6 +87,8 @@ ament_target_dependencies(video_node
 )
 
 ament_target_dependencies(base_hit_node
+  rclcpp
+  autoaim_msgs
   utils
   deveice
   base_hit

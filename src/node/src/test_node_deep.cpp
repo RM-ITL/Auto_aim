@@ -33,14 +33,17 @@ void handle_signal(int)
 
 PipelineApp::PipelineApp(const std::string & config_path)
 : config_path_(config_path),
-  start_time_(std::chrono::steady_clock::now())
-  // last_delay_log_time_(std::chrono::steady_clock::now())
+  start_time_(std::chrono::steady_clock::now()),
+  last_delay_log_time_(std::chrono::steady_clock::now())
 {
   ros_node_ = std::make_shared<rclcpp::Node>("pipeline_debug_node");
   debug_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Debug>(
     "debug", rclcpp::QoS(10));
-  orientation_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Orienta>(
-    "orientation", rclcpp::QoS(10));
+  // orientation_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Orienta>(
+  //   "orientation", rclcpp::QoS(10));
+  target_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Outpost>(
+    "target",rclcpp::QoS(10)
+  );
 
   camera_ = std::make_unique<camera::Camera>(config_path_);
   // dm_imu_ = std::make_unique<io::DmImu>(config_path_);
@@ -95,7 +98,7 @@ int PipelineApp::run()
 
     cv::cvtColor(img, debug_packet.rgb_image, cv::COLOR_BGR2RGB);
 
-    // orientation = dm_imu_->imu_at(timestamp);
+   // orientation = dm_imu_->imu_at(timestamp);
     orientation = gimbal_->q(timestamp);
     // utils::logger()->debug(
     //   "[Pipeline] DM_IMU四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
@@ -126,33 +129,33 @@ int PipelineApp::run()
       armor.begin(), armor.end());
     auto targets = tracker_->track(armor_list, timestamp);
 
-    // auto t5 = std::chrono::steady_clock::now();  // 送入队列前的时间
+    auto t5 = std::chrono::steady_clock::now();  // 送入队列前的时间
 
     if (!targets.empty())
       target_queue.push(targets.front());
     else
       target_queue.push(std::nullopt);
 
-    // // 计算系统总延迟并统计
-    // double total_delay_ms = std::chrono::duration<double, std::milli>(t5 - t0).count();
-    // delay_window_.push_back(total_delay_ms);
-    // if (delay_window_.size() > delay_window_size_) {
-    //   delay_window_.pop_front();
-    // }
+    // 计算系统总延迟并统计
+    double total_delay_ms = std::chrono::duration<double, std::milli>(t5 - t0).count();
+    delay_window_.push_back(total_delay_ms);
+    if (delay_window_.size() > delay_window_size_) {
+      delay_window_.pop_front();
+    }
 
-    // // 每5秒输出一次统计信息
-    // auto now = std::chrono::steady_clock::now();
-    // if (now - last_delay_log_time_ > std::chrono::seconds(5) && delay_window_.size() >= 10) {
-    //   std::vector<double> sorted_delays(delay_window_.begin(), delay_window_.end());
-    //   std::sort(sorted_delays.begin(), sorted_delays.end());
-    //   size_t p95_idx = static_cast<size_t>(sorted_delays.size() * 0.95);
-    //   double p95_delay = sorted_delays[p95_idx];
-    //   double avg_delay = std::accumulate(sorted_delays.begin(), sorted_delays.end(), 0.0) / sorted_delays.size();
-    //   utils::logger()->info(
-    //     "[Pipeline] 系统延迟统计 - 平均: {:.2f}ms, 95分位: {:.2f}ms, 最大: {:.2f}ms",
-    //     avg_delay, p95_delay, sorted_delays.back());
-    //   last_delay_log_time_ = now;
-    // }
+    // 每5秒输出一次统计信息
+    auto now = std::chrono::steady_clock::now();
+    if (now - last_delay_log_time_ > std::chrono::seconds(5) && delay_window_.size() >= 10) {
+      std::vector<double> sorted_delays(delay_window_.begin(), delay_window_.end());
+      std::sort(sorted_delays.begin(), sorted_delays.end());
+      size_t p95_idx = static_cast<size_t>(sorted_delays.size() * 0.95);
+      double p95_delay = sorted_delays[p95_idx];
+      double avg_delay = std::accumulate(sorted_delays.begin(), sorted_delays.end(), 0.0) / sorted_delays.size();
+      utils::logger()->info(
+        "[Pipeline] 系统延迟统计 - 平均: {:.2f}ms, 95分位: {:.2f}ms, 最大: {:.2f}ms",
+        avg_delay, p95_delay, sorted_delays.back());
+      last_delay_log_time_ = now;
+    }
 
     if (enable_visualization_) {
       debug_packet.reprojected_armors.reserve(targets.size() * 4);
@@ -341,8 +344,13 @@ void PipelineApp::planner_loop()
 
 
     auto plan_result = planner_->plan(target, bullet_speed_);
-    // auto plan_result = guard_planner_->plan(target, bullet_speed_);
+    //auto plan_result = guard_planner_->plan(target, bullet_speed_);
     auto gs = gimbal_->state();
+    bool enable_shoot = std::abs(plan_result.yaw - gs.yaw) < 0.02 
+                    && std::abs(plan_result.pitch - gs.pitch) < 0.015;
+    if(enable_shoot) {
+        plan_result.fire = true;
+    }
     if (plan_result.control) {
       gimbal_->send(
         plan_result.control, plan_result.fire, plan_result.yaw, plan_result.yaw_vel,
@@ -399,20 +407,20 @@ void PipelineApp::planner_loop()
       debug_pub_->publish(msg);
     }
 
-  //  // 发布Target状态消息
-  //   if (target_pub_ && target.has_value()) {
-  //     auto target_msg = autoaim_msgs::msg::Outpost{};
-  //     std::visit([&target_msg](const auto & t) {
-  //       const auto & ekf = t.ekf();
-  //       target_msg.h1 = static_cast<float>(ekf.x[9]);
-  //       target_msg.p_h1 = static_cast<float>(ekf.P(9, 9));
-  //       target_msg.h2 = static_cast<float>(ekf.x[10]);
-  //       target_msg.p_h2 = static_cast<float>(ekf.P(10, 10));
-  //       // target_msg.w = static_cast<float>(ekf.x[7]);
-  //       // target_msg.r = static_cast<float>(ekf.x[8]);
-  //     }, target.value());
-  //     target_pub_->publish(target_msg);
-  //   }
+   // 发布Target状态消息
+    if (target_pub_ && target.has_value()) {
+      auto target_msg = autoaim_msgs::msg::Outpost{};
+      std::visit([&target_msg](const auto & t) {
+        const auto & ekf = t.ekf();
+        target_msg.h1 = static_cast<float>(ekf.x[9]);
+        target_msg.p_h1 = static_cast<float>(ekf.P(9, 9));
+        target_msg.h2 = static_cast<float>(ekf.x[10]);
+        target_msg.p_h2 = static_cast<float>(ekf.P(10, 10));
+        // target_msg.w = static_cast<float>(ekf.x[7]);
+        // target_msg.r = static_cast<float>(ekf.x[8]);
+      }, target.value());
+      target_pub_->publish(target_msg);
+    }
 
     auto now = std::chrono::steady_clock::now();
     if (
@@ -447,7 +455,7 @@ int main(int argc, char ** argv)
     return 0;
   }
 
-  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/standard4.yaml";
+  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/uav.yaml";
   if (cli.has("@config-path")) {
     config_path = cli.get<std::string>("@config-path");
   }

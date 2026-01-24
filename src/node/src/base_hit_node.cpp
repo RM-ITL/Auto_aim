@@ -25,11 +25,16 @@ BaseHitNode::BaseHitNode(const std::string & config_path)
 : config_path_(config_path),
   start_time_(std::chrono::steady_clock::now())
 {
+  ros_node_ = std::make_shared<rclcpp::Node>("base_hit_node");
+  hit_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Basehit>(
+    "center", rclcpp::QoS(10)
+  );
   // 初始化相机
   camera_ = std::make_unique<camera::HikCamera>(config_path_);
 
   // 初始化检测器
   detector_ = std::make_unique<Detector>(config_path_);
+
 
   // 初始化性能监控
   utils::PerformanceMonitor::Config perf_config;
@@ -94,6 +99,21 @@ int BaseHitNode::run()
       detections = detector_->detect(img);
       detect_timer.set_success(true);
     }
+
+    if (hit_pub_ && !detections.empty()) {
+      auto msg = autoaim_msgs::msg::Basehit{};
+      
+      // 使用第一个检测结果的中心坐标
+      msg.center_x = static_cast<float>(detections[0].center.x);
+      msg.center_y = static_cast<float>(detections[0].center.y);
+      
+      hit_pub_->publish(msg);
+      
+      // RCLCPP_DEBUG(this->get_logger(), 
+      //   "Published hit at (%.2f, %.2f), score: %.3f", 
+      //   msg.center_x, msg.center_y, msg.score);
+    }
+  
 
     frame_count++;
     if (frame_count <= 5 || frame_count % 100 == 0) {
@@ -166,9 +186,15 @@ int main(int argc, char ** argv)
     config_path = cli.get<std::string>("@config-path");
   }
 
+
+  rclcpp::init(argc, argv);
+  std::signal(SIGINT, base_hit::handle_signal);
+
   try {
     base_hit::BaseHitNode app(config_path);
-    return app.run();
+    int ret = app.run();
+    rclcpp::shutdown();
+    return ret;
   } catch (const std::exception & e) {
     utils::logger()->error("[BaseHitNode] 程序异常: {}", e.what());
     return 1;

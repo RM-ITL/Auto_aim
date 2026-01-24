@@ -23,46 +23,44 @@ CalibParam:
               #   - -0.012350441691573684
               #   - -0.0022510643311303606
               #   - -2.920015848738005
-              focal_length:                     # 6mm相机
-                - 1330.649408921195
-                - 1332.3006999890033
-              principal_point:
-                - 627.2791611048931
-                - 533.2806702069377
-              disto_param:
-                - -0.14828277112729327
-                - 0.7868245788660153
-                - 0.0023478362007317123
-                - 0.002535817596959765
-                - -1.5222934363748177
-              # focal_length:                   # 4mm相机
-              #   - 893.4306170676092
-              #   - 888.878979439582
+              # focal_length:                     # 6mm相机
+              #   - 1330.649408921195
+              #   - 1332.3006999890033
               # principal_point:
-              #   - 618.4622245880115
-              #   - 511.73226091888046
+              #   - 627.2791611048931
+              #   - 533.2806702069377
               # disto_param:
-              #   - -0.09613598816721357
-              #   - 0.3686128765511766
-              #   - -0.0035685183642176046
-              #   - 0.002876545526120485
-              #   - -0.594006385480322
+              #   - -0.14828277112729327
+              #   - 0.7868245788660153
+              #   - 0.0023478362007317123
+              #   - 0.002535817596959765
+              #   - -1.5222934363748177
+              focal_length:                   # 4mm相机
+                - 893.4306170676092
+                - 888.878979439582
+              principal_point:
+                - 618.4622245880115
+                - 511.73226091888046
+              disto_param:
+                - -0.09613598816721357
+                - 0.3686128765511766
+                - -0.0035685183642176046
+                - 0.002876545526120485
+                - -0.594006385480322
   
-
-## 奶龙步兵
 
 # 相机参数
 camera:
-  type: "hik"  # 可选: "hik", "mindvision"
+  type: "mindvision"  # 可选: "hik", "mindvision"
   parameters:
-    exposure_ms: 4.0
-    gain: 14.0
-    gamma: 100.0
+    exposure_ms: 2.2
+    gain: 12.0
+    gamma: 0.7
     fps: 120.0
     target_width: 1280
     target_height: 1024
     image_topic: "image_topic"
-    vid_pid: "2bdf:0283"  # MindVsion相机的VID:PID
+    vid_pid: "2bdf:0283"  # MindVision相机的VID:PID
     debug: false
 
 # 神经网络识别参数
@@ -113,8 +111,8 @@ publish_rate: 1000  # Hz
 # 电控坐标系定义：向云台方向看
 # 向前为X轴正向，向左为Y轴正向，向上为Z轴，Pitch轴抬头为负数，低头为正数，yaw向左为正数，向右为负数
 
-# 奶龙步兵上车妙板方向规定：
-# 向后为Y轴正向，向左为X轴正向，向上为Z轴正向
+# 老步兵上车妙板方向规定：
+# 向前为Y轴正向，向右为X轴正向，向上为Z轴正向
 
 # 解算模块所需的参数
 Solver:
@@ -127,6 +125,13 @@ Solver:
             -1, 0, 0,
             0, -1, 0]
 
+    # rotation_matrix_gimbal_to_imu:
+    #   rows: 3
+    #   cols: 3
+    #   dt: float
+    #   data: [1, 0, 0,
+    #         0, 1, 0,
+    #         0, 0, 1]
     rotation_matrix_gimbal_to_imu:
       rows: 3
       cols: 3
@@ -140,7 +145,7 @@ Solver:
 # - z: 相机相对云台在上下方向的偏移
 
 t_camera_to_gimbal:
-[0.00, 0.07, 0.03]
+[0.05, 0.00, 0.05]
 # [0.115, -0.065, 0.015]cm
 
 
@@ -150,7 +155,7 @@ Tracker:
   # 跟踪状态机参数
   min_detect_count: 3              # 最小检测次数
   max_temp_lost_count: 10          # 普通目标的最大临时丢失容忍度
-  outpost_max_temp_lost_count: 30  # 前哨站的最大临时丢失容忍度
+  outpost_max_temp_lost_count: 75  # 前哨站的最大临时丢失容忍度
   # 前哨站特化参数
   outpost_min_detect_count: 3      # 前哨站的最小检测次数（更快进入tracking）
   outpost_detect_fail_tolerance: 8  # 前哨站在detecting状态允许的连续失败帧数
@@ -159,21 +164,21 @@ Tracker:
 # 瞄准器Aimer参数
 Aimer:
   #####-----aimer参数-----#####
-  yaw_offset: 0.0 # degree -2.5
-  pitch_offset: 1.6  # degree 2
+  yaw_offset: 0 # degree -2.5
+  pitch_offset: 0  # degree 2
   comming_angle: 60 # degree
   leaving_angle: 20 # degree
   left_yaw_offset: -1
   right_yaw_offset: -0.6
   decision_speed: 10 # rad/s
   high_speed_delay_time: 0.026 # s
-  low_speed_delay_time: 0.09 # s
+  low_speed_delay_time: 0.010 # s
 
 
 #####-----shooter参数-----#####
 Shooter:
-  first_tolerance: 0.8 # 近距离射击容差，degree
-  second_tolerance: 0.4 # 远距离射击容差，degree
+  first_tolerance: 3 # 近距离射击容差，degree
+  second_tolerance: 2 # 远距离射击容差，degree
   judge_distance: 2 #距离判断阈值
   auto_fire: true # 是否由自瞄控制射击
 
@@ -198,16 +203,16 @@ Planner:
   max_pitch_acc: 100  # 最大pitch加速度上限
   Q_pitch: [5e6, 0]
   R_pitch: [1]
-  yaw_offset: 0.0 # degree，相机光心与枪管中心的yaw偏差
-  pitch_offset: 1.6 # degree，pitch相对枪管的中心补偿参数
+  yaw_offset: 0 # degree，相机光心与枪管中心的yaw偏差
+  pitch_offset: 0 # degree，pitch相对枪管的中心补偿参数
   decision_speed: 7 # rad/s， 高低速的判断阈值，大于此值的为高速目标
-  high_speed_delay_time: 0.08 # s，高速目标的额外时间补偿
-  low_speed_delay_time: 0.1 # s，低速目标的额外时间补偿(40ms+15ms)
+  high_speed_delay_time: 0.0 # s，高速目标的额外时间补偿
+  low_speed_delay_time: 0.0 # s，低速目标的额外时间补偿
 
 
 GuardPlanner:
   yaw_offset: 0 # degree，相机光心与枪管中心的yaw偏差
-  pitch_offset: 1.6 # degree，pitch相对枪管的中心补偿参数
+  pitch_offset: 0 # degree，pitch相对枪管的中心补偿参数
   guard_window_angle: 20    # degree，射击窗口半角，装甲板朝向角在此范围内视为可射击
   guard_spin_threshold: 0.3     # rad/s，角速度阈值，超过此值启用守株待兔模式
   guard_fire_angle_thresh: 8  # degree，射击时装甲板预测朝向角的最大允许值
@@ -215,8 +220,8 @@ GuardPlanner:
 
   # 延迟补偿参数
   decision_speed: 7              # rad/s，高低速判断阈值
-  high_speed_delay_time: 0.08    # s，高速目标系统延迟
-  low_speed_delay_time: 0.09     # s，低速目标系统延迟
+  high_speed_delay_time: 0.03    # s，高速目标系统延迟
+  low_speed_delay_time: 0.01     # s，低速目标系统延迟
 
   # 迭代收敛参数
   max_fly_time_iterations: 5     # 飞行时间迭代最大次数

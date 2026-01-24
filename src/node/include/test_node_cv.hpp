@@ -15,7 +15,7 @@
 
 #include <rclcpp/rclcpp.hpp>
 
-#include "hikcamera.hpp"
+#include "camera.hpp"
 #include "imu_driver.h"
 #include "detector.hpp"
 #include "solver_node.hpp"
@@ -58,7 +58,7 @@ private:
 
   // 组件与配置
   std::string config_path_;
-  std::unique_ptr<camera::HikCamera> camera_;
+  std::unique_ptr<camera::Camera> camera_;
   std::unique_ptr<io::DmImu> dm_imu_;
   std::unique_ptr<armor_auto_aim::Traditional_Detector> detector_;  // 使用传统检测器
   std::unique_ptr<solver::Solver> solver_;

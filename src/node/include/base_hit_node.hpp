@@ -7,10 +7,12 @@
 #include <string>
 
 #include <opencv2/opencv.hpp>
+#include <rclcpp/rclcpp.hpp>
 
 #include "detector.hpp"
 #include "hikcamera.hpp"
 #include "performance_monitor.hpp"
+#include "autoaim_msgs/msg/basehit.hpp"
 
 namespace base_hit
 {
@@ -31,6 +33,8 @@ private:
 
   std::unique_ptr<camera::HikCamera> camera_;
   std::unique_ptr<Detector> detector_;
+  rclcpp::Node::SharedPtr ros_node_;
+  rclcpp::Publisher<autoaim_msgs::msg::Basehit>::SharedPtr hit_pub_;
 
   utils::PerformanceMonitor perf_monitor_;
 

@@ -81,7 +81,7 @@ void OutpostTarget::predict(double dt)
   auto c = dt * dt;
 
   // h1和h2是常量，过程噪声设小
-  double v_h = 0.00;
+  double v_h = 0.0006;
 
   Eigen::MatrixXd Q(11, 11);
   Q << a * v1, b * v1,      0,      0,      0,      0,      0,      0,   0,   0,   0,

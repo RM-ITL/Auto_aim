@@ -38,8 +38,8 @@ PipelineApp::PipelineApp(const std::string & config_path)
   debug_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Debug>(
     "debug", rclcpp::QoS(10));
 
-  camera_ = std::make_unique<camera::HikCamera>(config_path_);
-  // dm_imu_ = std::make_unique<io::DmImu>(config_path_);
+  camera_ = std::make_unique<camera::Camera>(config_path_);
+  //dm_imu_ = std::make_unique<io::DmImu>(config_path_);
   detector_ = std::make_unique<armor_auto_aim::Traditional_Detector>(config_path_, true);  // 使用传统检测器，启用debug
   solver_ = std::make_unique<solver::Solver>(config_path_);
   yaw_optimizer_ = solver_->getYawOptimizer();
@@ -403,7 +403,7 @@ int main(int argc, char ** argv)
     return 0;
   }
 
-  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/sentry.yaml";
+  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/uav.yaml";
   if (cli.has("@config-path")) {
     config_path = cli.get<std::string>("@config-path");
   }
