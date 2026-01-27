@@ -15,6 +15,7 @@
 namespace io
 {
 
+
 struct GimbalCommand
 {
   bool control;
@@ -22,7 +23,6 @@ struct GimbalCommand
   float yaw;
   float pitch;
 };
-
 
 struct __attribute__((packed)) GimbalToVision
 {
@@ -38,7 +38,9 @@ struct __attribute__((packed)) GimbalToVision
   uint8_t tail = 'G';
 };
 
+
 static_assert(sizeof(GimbalToVision) <= 64);
+
 
 struct __attribute__((packed)) VisionToGimbal
 {
@@ -52,6 +54,7 @@ struct __attribute__((packed)) VisionToGimbal
   float pitch_acc;
   uint8_t tail= 'V';
 };
+
 
 static_assert(sizeof(VisionToGimbal) <= 64);
 

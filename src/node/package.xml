@@ -18,7 +18,7 @@
   <depend>deveice</depend>
   <depend>auto_aim</depend>
   <depend>auto_buff</depend>
-  <depend>base_hit</depend>
+  <depend>auto_base</depend>
 
   <build_depend>OpenCV</build_depend>
 

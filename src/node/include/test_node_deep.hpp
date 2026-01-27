@@ -73,7 +73,7 @@ private:
   std::unique_ptr<io::Gimbal> gimbal_;
   rclcpp::Node::SharedPtr ros_node_;
   rclcpp::Publisher<autoaim_msgs::msg::Debug>::SharedPtr debug_pub_;
-  // rclcpp::Publisher<autoaim_msgs::msg::Orienta>::SharedPtr orientation_pub_;
+  rclcpp::Publisher<autoaim_msgs::msg::Orienta>::SharedPtr orientation_pub_;
   rclcpp::Publisher<autoaim_msgs::msg::Outpost>::SharedPtr target_pub_;
 
   tools::ThreadSafeQueue<DebugPacket, true> visualization_queue{2};

@@ -23,37 +23,37 @@ CalibParam:
               #   - -0.012350441691573684
               #   - -0.0022510643311303606
               #   - -2.920015848738005
-              focal_length:                     # 6mm相机
-                - 1330.649408921195
-                - 1332.3006999890033
-              principal_point:
-                - 627.2791611048931
-                - 533.2806702069377
-              disto_param:
-                - -0.14828277112729327
-                - 0.7868245788660153
-                - 0.0023478362007317123
-                - 0.002535817596959765
-                - -1.5222934363748177
-              # focal_length:                   # 4mm相机
-              #   - 893.4306170676092
-              #   - 888.878979439582
+              # focal_length:                     # 6mm相机
+              #   - 1330.649408921195
+              #   - 1332.3006999890033
               # principal_point:
-              #   - 618.4622245880115
-              #   - 511.73226091888046
+              #   - 627.2791611048931
+              #   - 533.2806702069377
               # disto_param:
-              #   - -0.09613598816721357
-              #   - 0.3686128765511766
-              #   - -0.0035685183642176046
-              #   - 0.002876545526120485
-              #   - -0.594006385480322
+              #   - -0.14828277112729327
+              #   - 0.7868245788660153
+              #   - 0.0023478362007317123
+              #   - 0.002535817596959765
+              #   - -1.5222934363748177
+              focal_length:                   # 4mm相机
+                - 893.4306170676092
+                - 888.878979439582
+              principal_point:
+                - 618.4622245880115
+                - 511.73226091888046
+              disto_param:
+                - -0.09613598816721357
+                - 0.3686128765511766
+                - -0.0035685183642176046
+                - 0.002876545526120485
+                - -0.594006385480322
   
 
 # 相机参数
 camera:
   type: "hik"  # 可选: "hik", "mindvision"
   parameters:
-    exposure_ms: 5.0
+    exposure_ms: 3.0
     gain: 15.0
     gamma: 100.0
     fps: 120.0
@@ -252,7 +252,7 @@ com_port_1: "/dev/ttyACM2"
 
 # video视频测试参数
 Video:
-video_path: "/home/guo/ITL_Auto_aim/test/demo.mp4"
+video_path: "/home/guo/ITL_Auto_aim/test/buff_simulation_record.mp4"
 
 #####-----buff_detector参数-----#####
 buff_model: "/home/guo/ITL_Auto_aim/src/model/yolo11_buff_int8.xml"
@@ -267,5 +267,10 @@ Base_Hit:
   Openvino_Deveice: "CPU"
   input_width: 640
   input_height: 384
-  score_threshold: 0.6
+  score_threshold: 0.8
   nms_threshold: 0.3
+
+# 光条追踪器 LightTracker 参数
+LightTracker:
+  min_detect_count: 3           # 最小检测次数（detecting → tracking）
+  max_temp_lost_count: 10       # 最大临时丢失次数（temp_lost → lost）

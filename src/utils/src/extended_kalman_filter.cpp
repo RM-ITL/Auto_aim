@@ -9,10 +9,10 @@ ExtendedKalmanFilter::ExtendedKalmanFilter(
   std::function<Eigen::VectorXd(const Eigen::VectorXd &, const Eigen::VectorXd &)> x_add)
 : x(x0), P(P0), I(Eigen::MatrixXd::Identity(x0.rows(), x0.rows())), x_add(x_add)
 {
-  data["residual_yaw"] = 0.0;
-  data["residual_pitch"] = 0.0;
-  data["residual_distance"] = 0.0;
-  data["residual_angle"] = 0.0;
+  data["residual_cx"] = 0.0;
+  data["residual_cy"] = 0.0;
+  data["residual_w"] = 0.0;
+  data["residual_h"] = 0.0;
   data["nis"] = 0.0;
   data["nees"] = 0.0;
   data["nis_fail"] = 0.0;
@@ -80,10 +80,10 @@ Eigen::VectorXd ExtendedKalmanFilter::update(
   int recent_failures = std::accumulate(recent_nis_failures.begin(), recent_nis_failures.end(), 0);
   double recent_rate = static_cast<double>(recent_failures) / recent_nis_failures.size();
 
-  data["residual_yaw"] = residual[0];
-  data["residual_pitch"] = residual[1];
-  data["residual_distance"] = residual[2];
-  data["residual_angle"] = residual[3];
+  data["residual_cx"] = residual[0];
+  data["residual_cy"] = residual[1];
+  data["residual_w"] = residual[2];
+  data["residual_h"] = residual[3];
   data["nis"] = nis;
   data["nees"] = nees;
   data["recent_nis_failures"] = recent_rate;

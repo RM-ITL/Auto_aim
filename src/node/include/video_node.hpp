@@ -10,7 +10,7 @@
 #include <opencv2/core.hpp>
 
 #include "armor.hpp"
-#include "detect_node.hpp"
+#include "buff_detector.hpp"
 #include "video.hpp"
 
 namespace Application
@@ -38,7 +38,7 @@ private:
   std::string config_path_;
 
   std::unique_ptr<utils::Video> video_reader_;
-  std::unique_ptr<armor_auto_aim::Detector> detector_;
+  std::unique_ptr<auto_buff::Buff_Detector> detector_;
   // std::unique_ptr<io::DmImu> dm_imu_;
   // std::unique_ptr<solver::Solver> solver_;
   // solver::YawOptimizer * yaw_optimizer_{nullptr};

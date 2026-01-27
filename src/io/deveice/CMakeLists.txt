@@ -201,6 +201,39 @@ ament_target_dependencies(deveice_old_gimbal
 )
 
 # ====================================================================================
+# deveice_lower_dart
+# ====================================================================================
+add_library(deveice_lower_dart STATIC
+  lower_dart/src/lower_dart.cpp
+)
+add_library(deveice::lower_dart ALIAS deveice_lower_dart)
+set_target_properties(deveice_lower_dart PROPERTIES EXPORT_NAME lower_dart)
+
+target_include_directories(deveice_lower_dart
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lower_dart/include>
+    $<INSTALL_INTERFACE:include>
+    ${LIBSERIAL_INCLUDE_DIRS}
+)
+
+target_link_libraries(deveice_lower_dart
+  PUBLIC
+    Eigen3::Eigen
+    yaml-cpp
+    utils::utils
+    serial
+    ${LIBSERIAL_LIBRARIES}
+)
+
+ament_target_dependencies(deveice_lower_dart
+  PUBLIC
+    rclcpp
+    utils
+    serial
+    Eigen3
+)
+
+# ====================================================================================
 # 集成共享库
 # ====================================================================================
 set(deveice_PUBLIC_INCLUDE_DIRS
@@ -209,6 +242,7 @@ set(deveice_PUBLIC_INCLUDE_DIRS
   ${CMAKE_CURRENT_SOURCE_DIR}/gimbal/include
   ${CMAKE_CURRENT_SOURCE_DIR}/imu/include
   ${CMAKE_CURRENT_SOURCE_DIR}/old_gimbal/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/lower_dart/include
   ${MV_CAMERA_INCLUDE_DIR}
   ${MINDVISION_INCLUDE_DIR}
   ${LIBUSB_INCLUDE_DIRS}
@@ -233,6 +267,7 @@ set(deveice_MODULE_LIBS
   deveice_gimbal
   deveice_imu
   deveice_old_gimbal
+  deveice_lower_dart
 )
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -271,6 +306,7 @@ install(
     deveice_gimbal
     deveice_imu
     deveice_old_gimbal
+    deveice_lower_dart
   EXPORT deveiceTargets
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
@@ -278,7 +314,7 @@ install(
   INCLUDES DESTINATION include
 )
 
-foreach(dir IN ITEMS camera/include cboard/include gimbal/include imu/include old_gimbal/include)
+foreach(dir IN ITEMS camera/include cboard/include gimbal/include imu/include old_gimbal/include lower_dart/include)
   install(
     DIRECTORY ${dir}/
     DESTINATION include

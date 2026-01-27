@@ -8,7 +8,7 @@
 
 #include "logger.hpp"
 
-namespace base_hit
+namespace auto_base
 {
 
 namespace
@@ -188,10 +188,10 @@ int main(int argc, char ** argv)
 
 
   rclcpp::init(argc, argv);
-  std::signal(SIGINT, base_hit::handle_signal);
+  std::signal(SIGINT, auto_base::handle_signal);
 
   try {
-    base_hit::BaseHitNode app(config_path);
+    auto_base::BaseHitNode app(config_path);
     int ret = app.run();
     rclcpp::shutdown();
     return ret;

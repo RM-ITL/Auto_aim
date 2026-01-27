@@ -14,7 +14,7 @@
 #include "performance_monitor.hpp"
 #include "autoaim_msgs/msg/basehit.hpp"
 
-namespace base_hit
+namespace auto_base
 {
 
 class BaseHitNode

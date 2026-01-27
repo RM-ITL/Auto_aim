@@ -18,7 +18,7 @@ find_package(autoaim_msgs REQUIRED)
 find_package(deveice REQUIRED)
 find_package(auto_aim REQUIRED)
 find_package(auto_buff REQUIRED)
-find_package(base_hit REQUIRED)
+find_package(auto_base REQUIRED)
 
 add_executable(deep_node
   src/test_node_deep.cpp
@@ -91,7 +91,7 @@ ament_target_dependencies(base_hit_node
   autoaim_msgs
   utils
   deveice
-  base_hit
+  auto_base
 )
 
 ament_target_dependencies(cv_node
@@ -138,7 +138,7 @@ target_link_libraries(video_node
 target_link_libraries(base_hit_node
   ${OpenCV_LIBS}
   deveice::deveice
-  base_hit::base_hit
+  auto_base::auto_base
 )
 
 target_link_libraries(cv_node

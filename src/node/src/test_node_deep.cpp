@@ -39,14 +39,14 @@ PipelineApp::PipelineApp(const std::string & config_path)
   ros_node_ = std::make_shared<rclcpp::Node>("pipeline_debug_node");
   debug_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Debug>(
     "debug", rclcpp::QoS(10));
-  // orientation_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Orienta>(
-  //   "orientation", rclcpp::QoS(10));
+  orientation_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Orienta>(
+    "orientation", rclcpp::QoS(10));
   target_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Outpost>(
     "target",rclcpp::QoS(10)
   );
 
   camera_ = std::make_unique<camera::Camera>(config_path_);
-  // dm_imu_ = std::make_unique<io::DmImu>(config_path_);
+  dm_imu_ = std::make_unique<io::DmImu>(config_path_);
   detector_ = std::make_unique<armor_auto_aim::Detector>(config_path_);
   solver_ = std::make_unique<solver::Solver>(config_path_);
   yaw_optimizer_ = solver_->getYawOptimizer();
@@ -98,27 +98,27 @@ int PipelineApp::run()
 
     cv::cvtColor(img, debug_packet.rgb_image, cv::COLOR_BGR2RGB);
 
-   // orientation = dm_imu_->imu_at(timestamp);
+    dm_orientation = dm_imu_->imu_at(timestamp);
     orientation = gimbal_->q(timestamp);
-    // utils::logger()->debug(
-    //   "[Pipeline] DM_IMU四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
-    //   dm_orientation.w(), dm_orientation.x(), dm_orientation.y(), dm_orientation.z());
-    // utils::logger()->debug(
-    // "[Pipeline] 下位机的四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
-    // orientation.w(), orientation.x(), orientation.y(), orientation.z());
+    utils::logger()->debug(
+      "[Pipeline] DM_IMU四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
+      dm_orientation.w(), dm_orientation.x(), dm_orientation.y(), dm_orientation.z());
+    utils::logger()->debug(
+    "[Pipeline] 下位机的四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
+    orientation.w(), orientation.x(), orientation.y(), orientation.z());
 
-    // if (orientation_pub_) {
-    //   auto msg = autoaim_msgs::msg::Orienta{};
-    //   msg.w = orientation.w(),
-    //   msg.x = orientation.x(),
-    //   msg.y = orientation.y(),
-    //   msg.z = orientation.z(),
-    //   msg.dm_w = dm_orientation.w(),
-    //   msg.dm_x = dm_orientation.x(),
-    //   msg.dm_y = dm_orientation.y(),
-    //   msg.dm_z = dm_orientation.z(),      
-    //   orientation_pub_->publish(msg);
-    // }
+    if (orientation_pub_) {
+      auto msg = autoaim_msgs::msg::Orienta{};
+      msg.w = orientation.w(),
+      msg.x = orientation.x(),
+      msg.y = orientation.y(),
+      msg.z = orientation.z(),
+      msg.dm_w = dm_orientation.w(),
+      msg.dm_x = dm_orientation.x(),
+      msg.dm_y = dm_orientation.y(),
+      msg.dm_z = dm_orientation.z(),      
+      orientation_pub_->publish(msg);
+    }
 
 
     solver_->updateIMU(orientation, timestamp_sec);
@@ -455,7 +455,7 @@ int main(int argc, char ** argv)
     return 0;
   }
 
-  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/uav.yaml";
+  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/config.yaml";
   if (cli.has("@config-path")) {
     config_path = cli.get<std::string>("@config-path");
   }
