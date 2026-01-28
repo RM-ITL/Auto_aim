@@ -10,7 +10,6 @@
 
 #include "light_model.hpp"
 #include "openvino_infer.hpp"
-#include "lower_dart.hpp"
 
 namespace auto_base
 {
@@ -20,8 +19,7 @@ class LightTracker
 public:
   explicit LightTracker(const std::string & config_path);
 
-  std::list<std::unique_ptr<LightTarget>> track(
-    const io::DartToVision & dart_data,
+  std::list<LightTarget*> track(
     const std::vector<OpenvinoInfer::GreenLight> & detections,
     std::chrono::steady_clock::time_point t);
 
@@ -34,8 +32,6 @@ private:
 
   std::unique_ptr<LightTarget> target_;
   std::chrono::steady_clock::time_point last_timestamp_;
-
-  io::DartToVision dart_data_cache_;
 
   std::vector<OpenvinoInfer::GreenLight> detections_cache_;
 

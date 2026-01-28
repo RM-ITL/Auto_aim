@@ -205,6 +205,7 @@ ament_target_dependencies(deveice_old_gimbal
 # ====================================================================================
 add_library(deveice_lower_dart STATIC
   lower_dart/src/lower_dart.cpp
+  lower_dart/src/dart_simulator.cpp
 )
 add_library(deveice::lower_dart ALIAS deveice_lower_dart)
 set_target_properties(deveice_lower_dart PROPERTIES EXPORT_NAME lower_dart)

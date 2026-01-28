@@ -156,6 +156,7 @@ void Dart::read_thread()
 
       state_.number_count = rx_data_.number;
       state_.dune_status = rx_data_.dune;
+      state_.dune_status = 0;
       state_.mode = rx_data_.mode;
 
       // 更新最新数据和时间戳

@@ -96,6 +96,30 @@ target_link_libraries(auto_base_tracker
 )
 
 # ====================================================================================
+# auto_base_aimer 库
+# ====================================================================================
+set(AUTO_BASE_AIMER_SOURCES
+  aimer/src/light_aimer.cpp
+)
+
+add_library(auto_base_aimer STATIC ${AUTO_BASE_AIMER_SOURCES})
+add_library(auto_base::aimer ALIAS auto_base_aimer)
+
+target_include_directories(auto_base_aimer
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/aimer/include>
+    $<INSTALL_INTERFACE:include>
+)
+
+target_link_libraries(auto_base_aimer
+  PUBLIC
+    auto_base_target
+    deveice::lower_dart
+    yaml-cpp
+    Eigen3::Eigen
+)
+
+# ====================================================================================
 # 集成共享库
 # ====================================================================================
 set(AUTO_BASE_PUBLIC_INCLUDE_DIRS
@@ -103,6 +127,7 @@ set(AUTO_BASE_PUBLIC_INCLUDE_DIRS
   ${CMAKE_CURRENT_SOURCE_DIR}/target/filter/include
   ${CMAKE_CURRENT_SOURCE_DIR}/target/predictor/include
   ${CMAKE_CURRENT_SOURCE_DIR}/tracker/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/aimer/include
 )
 
 set(AUTO_BASE_DUMMY_SRC ${CMAKE_CURRENT_BINARY_DIR}/auto_base_force_link.cpp)
@@ -121,6 +146,7 @@ set(AUTO_BASE_MODULE_LIBS
   auto_base_detect
   auto_base_target
   auto_base_tracker
+  auto_base_aimer
 )
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -152,6 +178,7 @@ install(
     auto_base_detect
     auto_base_target
     auto_base_tracker
+    auto_base_aimer
   EXPORT auto_baseTargets
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
@@ -176,6 +203,11 @@ install(
 
 install(
   DIRECTORY tracker/include/
+  DESTINATION include
+)
+
+install(
+  DIRECTORY aimer/include/
   DESTINATION include
 )
 

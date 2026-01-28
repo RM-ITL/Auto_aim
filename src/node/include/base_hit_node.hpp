@@ -10,7 +10,11 @@
 #include <rclcpp/rclcpp.hpp>
 
 #include "detector.hpp"
-#include "hikcamera.hpp"
+#include "camera.hpp"
+#include "light_aimer.hpp"
+#include "light_tracker.hpp"
+#include "light_model.hpp"
+#include "dart_simulator.hpp"
 #include "performance_monitor.hpp"
 #include "autoaim_msgs/msg/basehit.hpp"
 
@@ -27,12 +31,17 @@ public:
   void request_stop();
 
 private:
-  void visualize(const cv::Mat & img, const std::vector<Detector::GreenLight> & detections);
+  void visualize(
+    const cv::Mat & img,
+    const std::vector<Detector::GreenLight> & detections);
 
   std::string config_path_;
 
-  std::unique_ptr<camera::HikCamera> camera_;
+  std::unique_ptr<camera::Camera> camera_;
   std::unique_ptr<Detector> detector_;
+  std::unique_ptr<LightTracker> tracker_;
+  std::unique_ptr<LightAimer> aimer_;
+  std::unique_ptr<io::DartSimulator> dart_sim_;
   rclcpp::Node::SharedPtr ros_node_;
   rclcpp::Publisher<autoaim_msgs::msg::Basehit>::SharedPtr hit_pub_;
 

@@ -19,8 +19,8 @@ LightTracker::LightTracker(const std::string & config_path)
   auto yaml = utils::load(config_path);
 
   // 读取 LightTracker 配置参数
-  min_detect_count_ = utils::read<int>(yaml, "LightTracker.min_detect_count");
-  max_temp_lost_count_ = utils::read<int>(yaml, "LightTracker.max_temp_lost_count");
+  min_detect_count_ = yaml["LightTracker"]["min_detect_count"].as<int>();
+  max_temp_lost_count_ = yaml["LightTracker"]["max_temp_lost_count"].as<int>();
 
   utils::logger()->info(
     "[LightTracker] 初始化完成 - min_detect_count={}, max_temp_lost_count={}",
@@ -29,8 +29,7 @@ LightTracker::LightTracker(const std::string & config_path)
 
 std::string LightTracker::state() const { return state_; }
 
-std::list<std::unique_ptr<LightTarget>> LightTracker::track(
-  const io::DartToVision & dart_data,
+std::list<LightTarget*> LightTracker::track(
   const std::vector<OpenvinoInfer::GreenLight> & detections,
   std::chrono::steady_clock::time_point t)
 {
@@ -47,8 +46,6 @@ std::list<std::unique_ptr<LightTarget>> LightTracker::track(
     temp_lost_count_ = 0;
   }
 
-  // 缓存当前数据
-  dart_data_cache_ = dart_data;
   detections_cache_ = detections;
 
   // 根据状态分发处理
@@ -85,13 +82,13 @@ std::list<std::unique_ptr<LightTarget>> LightTracker::track(
     }
   }
 
-  // 返回结果
+  // 返回结果 - 返回指针而不是移动所有权
   if (state_ == "lost" || !target_) {
     return {};
   }
 
-  std::list<std::unique_ptr<LightTarget>> targets;
-  targets.push_back(std::move(target_));
+  std::list<LightTarget*> targets;
+  targets.push_back(target_.get());  // 返回指针，不移动所有权
   return targets;
 }
 

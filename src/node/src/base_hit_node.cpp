@@ -29,12 +29,18 @@ BaseHitNode::BaseHitNode(const std::string & config_path)
   hit_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Basehit>(
     "center", rclcpp::QoS(10)
   );
-  // 初始化相机
-  camera_ = std::make_unique<camera::HikCamera>(config_path_);
 
-  // 初始化检测器
+  camera_ = std::make_unique<camera::Camera>(config_path_);
+
   detector_ = std::make_unique<Detector>(config_path_);
 
+  tracker_ = std::make_unique<LightTracker>(config_path_);
+
+  aimer_ = std::make_unique<LightAimer>(config_path_);
+
+  // 初始化下位机模拟器
+  dart_sim_ = std::make_unique<io::DartSimulator>();
+  utils::logger()->info("[BaseHitNode] 使用模拟下位机");
 
   // 初始化性能监控
   utils::PerformanceMonitor::Config perf_config;
@@ -43,6 +49,8 @@ BaseHitNode::BaseHitNode(const std::string & config_path)
   perf_config.logger_name = "base_hit";
   perf_monitor_.set_config(perf_config);
   perf_monitor_.register_metric("detect");
+  perf_monitor_.register_metric("track");
+  perf_monitor_.register_metric("aim");
   perf_monitor_.register_metric("total");
   perf_monitor_.reset_all();
 
@@ -82,7 +90,6 @@ int BaseHitNode::run()
 
     auto total_timer = perf_monitor_.create_timer("total");
 
-    // 读取图像
     cv::Mat img;
     std::chrono::steady_clock::time_point timestamp;
     camera_->read(img, timestamp);
@@ -92,37 +99,56 @@ int BaseHitNode::run()
       continue;
     }
 
-    // 检测
+    // [2] 获取下位机数据（时间戳对齐）
+    io::DartToVision dart_data = dart_sim_->get_nearest_state(timestamp);
+
     std::vector<Detector::GreenLight> detections;
     {
       auto detect_timer = perf_monitor_.create_timer("detect");
       detections = detector_->detect(img);
       detect_timer.set_success(true);
     }
+    std::list<LightTarget*> targets;
+    {
+      auto track_timer = perf_monitor_.create_timer("track");
+      targets = tracker_->track(detections, timestamp);
+      track_timer.set_success(true);
+    }
 
+    float yaw_error = 0.0f;
+    int target_status = 0;  // 0: Lost, 1: Found
+
+    if (!targets.empty()) {
+      auto aim_timer = perf_monitor_.create_timer("aim");
+
+      // 使用第一个目标进行瞄准
+      yaw_error = static_cast<float>(aimer_->aim(targets.front(), dart_data));
+      target_status = 1;  // Found
+
+      aim_timer.set_success(true);
+    }
+
+    // [6] 发送控制命令到下位机模拟器
+    dart_sim_->send(yaw_error, target_status);
+
+    // [7] 发布ROS消息（可选）
     if (hit_pub_ && !detections.empty()) {
       auto msg = autoaim_msgs::msg::Basehit{};
-      
-      // 使用第一个检测结果的中心坐标
       msg.center_x = static_cast<float>(detections[0].center.x);
       msg.center_y = static_cast<float>(detections[0].center.y);
-      
+      msg.yaw_error = yaw_error;
       hit_pub_->publish(msg);
-      
-      // RCLCPP_DEBUG(this->get_logger(), 
-      //   "Published hit at (%.2f, %.2f), score: %.3f", 
-      //   msg.center_x, msg.center_y, msg.score);
     }
-  
 
     frame_count++;
     if (frame_count <= 5 || frame_count % 100 == 0) {
       utils::logger()->debug(
-        "[BaseHitNode] 帧{}: 检测到{}个目标",
-        frame_count, detections.size());
+        "[BaseHitNode] 帧{}: 检测{}个, 追踪{}个, 状态:{}, yaw_error:{:.2f}",
+        frame_count, detections.size(), targets.size(),
+        tracker_->state(), yaw_error);
     }
 
-    // 可视化
+    // [8] 可视化
     if (enable_visualization_) {
       visualize(img, detections);
     }
@@ -150,11 +176,19 @@ void BaseHitNode::visualize(
 {
   try {
     cv::Mat canvas;
-    // 转换为 RGB 用于显示（与 test_node 保持一致）
+    // 转换为 RGB 用于显示
     cv::cvtColor(img, canvas, cv::COLOR_BGR2RGB);
 
     // 绘制检测结果
     detector_->visualize(canvas, detections);
+
+    // 显示追踪器状态
+    std::string state_text = "State: " + tracker_->state();
+    cv::putText(
+      canvas, state_text,
+      cv::Point(10, 30),
+      cv::FONT_HERSHEY_SIMPLEX, 0.8,
+      cv::Scalar(255, 255, 0), 2);
 
     cv::imshow(window_name_, canvas);
 
@@ -181,7 +215,7 @@ int main(int argc, char ** argv)
     return 0;
   }
 
-  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/config.yaml";
+  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/dart.yaml";
   if (cli.has("@config-path")) {
     config_path = cli.get<std::string>("@config-path");
   }

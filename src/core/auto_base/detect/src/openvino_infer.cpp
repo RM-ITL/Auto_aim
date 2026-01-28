@@ -232,7 +232,7 @@ std::vector<OpenvinoInfer::GreenLight> OpenvinoInfer::infer(const cv::Mat & src)
     class_ids.emplace_back(best_class_id);
 
     GreenLight det;
-    det.box = cv::Rect2d(cx, cy, w, h); // 这里按照cx,cy,w,h的方式构成box，方便后续的滤波器使用
+    det.box = cv::Rect2d(cx -w / 2, cy - h / 2, w, h); // 这里按照cx,cy,w,h的方式构成box，方便后续的滤波器使用
     det.center = cv::Point2d(cx, cy);
     det.score = confidence;
     det.class_id = best_class_id;
