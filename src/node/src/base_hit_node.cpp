@@ -102,6 +102,8 @@ int BaseHitNode::run()
     // [2] 获取下位机数据（时间戳对齐）
     io::DartToVision dart_data = dart_sim_->get_nearest_state(timestamp);
 
+    auto process_start = std::chrono::steady_clock::now();
+
     std::vector<Detector::GreenLight> detections;
     {
       auto detect_timer = perf_monitor_.create_timer("detect");
@@ -111,9 +113,14 @@ int BaseHitNode::run()
     std::list<LightTarget*> targets;
     {
       auto track_timer = perf_monitor_.create_timer("track");
-      targets = tracker_->track(detections, timestamp);
+      // 加上处理延迟（35ms），让目标估计器预测到实际处理完成的时刻
+      auto adjusted_timestamp = timestamp + std::chrono::milliseconds(35);
+      targets = tracker_->track(detections, adjusted_timestamp);
       track_timer.set_success(true);
     }
+
+    auto process_end = std::chrono::steady_clock::now();
+    auto process_latency = utils::delta_time(process_end, process_start);
 
     float yaw_error = 0.0f;
     int target_status = 0;  // 0: Lost, 1: Found
@@ -137,15 +144,25 @@ int BaseHitNode::run()
       msg.center_x = static_cast<float>(detections[0].center.x);
       msg.center_y = static_cast<float>(detections[0].center.y);
       msg.yaw_error = yaw_error;
+
+      // 如果有追踪到的目标，发布目标信息
+      if (!targets.empty()) {
+        auto target = targets.front();
+        Eigen::VectorXd target_state = target->ekf_x();
+        msg.target_center_x = static_cast<float>(target_state[0]);
+        msg.target_center_y = static_cast<float>(target_state[1]);
+        msg.target_v_x = static_cast<float>(target_state[4]);
+        msg.target_v_y = static_cast<float>(target_state[5]);
+      }
+
       hit_pub_->publish(msg);
     }
 
     frame_count++;
     if (frame_count <= 5 || frame_count % 100 == 0) {
-      utils::logger()->debug(
-        "[BaseHitNode] 帧{}: 检测{}个, 追踪{}个, 状态:{}, yaw_error:{:.2f}",
-        frame_count, detections.size(), targets.size(),
-        tracker_->state(), yaw_error);
+      utils::logger()->info(
+        "[BaseHitNode] 帧{}: 处理延迟={:.2f}ms",
+        frame_count, process_latency * 1000.0);
     }
 
     // [8] 可视化
@@ -181,14 +198,6 @@ void BaseHitNode::visualize(
 
     // 绘制检测结果
     detector_->visualize(canvas, detections);
-
-    // 显示追踪器状态
-    std::string state_text = "State: " + tracker_->state();
-    cv::putText(
-      canvas, state_text,
-      cv::Point(10, 30),
-      cv::FONT_HERSHEY_SIMPLEX, 0.8,
-      cv::Scalar(255, 255, 0), 2);
 
     cv::imshow(window_name_, canvas);
 

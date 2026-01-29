@@ -1,3 +1,7 @@
 float32 center_x
 float32 center_y
 float32 yaw_error
+float32 target_center_x
+float32 target_center_y
+float32 target_v_x
+float32 target_v_y

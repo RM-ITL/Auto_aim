@@ -161,7 +161,7 @@ bool LightTracker::set_target(
   // 定义初始协方差矩阵对角元素
   // [cx, cy, w, h, dx, dy, dw, dh]
   Eigen::VectorXd P0_dig(8);
-  P0_dig << 10.0, 10.0, 2.0, 2.0, 5.0, 5.0, 2.0, 2.0;            
+  P0_dig << 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.5;            
 
   target_ = std::make_unique<LightTarget>(best_detection, t, P0_dig);
 

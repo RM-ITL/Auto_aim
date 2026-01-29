@@ -16,6 +16,7 @@
 #include "light_model.hpp"
 #include "dart_simulator.hpp"
 #include "performance_monitor.hpp"
+#include "math_tools.hpp"
 #include "autoaim_msgs/msg/basehit.hpp"
 
 namespace auto_base

@@ -145,7 +145,7 @@ Eigen::MatrixXd LightTarget::build_Q(double dt)
   Eigen::MatrixXd Q = Eigen::MatrixXd::Zero(8, 8);
 
   // 位置部分 [cx, cy] 和速度 [dx, dy] 的耦合噪声
-  double v_pos = 5.0;    // 位置加速度方差
+  double v_pos = 8.0;    // 位置加速度方差
   double v_size = 2.0;   // 尺寸变化加速度方差
 
   double a = dt * dt * dt * dt / 4.0;
@@ -195,8 +195,8 @@ Eigen::MatrixXd LightTarget::build_R()
   // 4x4 观测噪声协方差矩阵
   // 对角线上为各观测的噪声方差
   Eigen::MatrixXd R(4, 4);
-  R << 4.0, 0, 0, 0,    // cx 观测噪声（像素^2）
-        0, 4.0, 0, 0,       // cy 观测噪声
+  R << 2.0, 0, 0, 0,    // cx 观测噪声（像素^2）
+        0, 2.0, 0, 0,       // cy 观测噪声
         0, 0, 2.0, 0,       // w 观测噪声
         0, 0, 0, 2.0;       // h 观测噪声
 

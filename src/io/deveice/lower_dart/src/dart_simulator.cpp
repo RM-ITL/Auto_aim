@@ -37,17 +37,17 @@ void DartSimulator::send(float yaw_error, int target_status)
   last_target_status_ = target_status;
 
   // 每帧都记录调试信息
-  utils::logger()->debug(
-    "[DartSimulator] 发送数据 #{}: yaw_error={:.3f}, target_status={}",
-    send_count_, yaw_error, target_status);
+  // utils::logger()->debug(
+  //   "[DartSimulator] 发送数据 #{}: yaw_error={:.3f}, target_status={}",
+  //   send_count_, yaw_error, target_status);
 
-  // 每100帧打印一次统计信息
-  if (send_count_ % 100 == 0) {
-    utils::logger()->info(
-      "[DartSimulator] 统计信息 - 已发送{}条命令, 最后yaw_error={:.3f}, "
-      "target_status={}",
-      send_count_, yaw_error, target_status);
-  }
+  // // 每100帧打印一次统计信息
+  // if (send_count_ % 100 == 0) {
+  //   utils::logger()->info(
+  //     "[DartSimulator] 统计信息 - 已发送{}条命令, 最后yaw_error={:.3f}, "
+  //     "target_status={}",
+  //     send_count_, yaw_error, target_status);
+  // }
 }
 
 }  // namespace io
