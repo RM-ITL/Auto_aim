@@ -153,6 +153,26 @@ ament_target_dependencies(auto_aim_predictor
 )
 
 # ====================================================================================
+# auto_aim_compensator
+# ====================================================================================
+add_library(auto_aim_compensator STATIC
+  compensator/src/servo_compensator.cpp
+)
+add_library(auto_aim::compensator ALIAS auto_aim_compensator)
+
+target_include_directories(auto_aim_compensator
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/compensator/include>
+    $<INSTALL_INTERFACE:include>
+)
+
+target_link_libraries(auto_aim_compensator
+  PUBLIC
+    yaml-cpp
+    utils::utils
+)
+
+# ====================================================================================
 # auto_aim_planner
 # ====================================================================================
 set(TINYMPC_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/planner/tinympc)
@@ -312,6 +332,7 @@ ament_target_dependencies(auto_aim_tracker
 # ====================================================================================
 set(AUTO_AIM_PUBLIC_INCLUDE_DIRS
   ${CMAKE_CURRENT_SOURCE_DIR}/aimer/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/compensator/include
   ${CMAKE_CURRENT_SOURCE_DIR}/detected/include
   ${CMAKE_CURRENT_SOURCE_DIR}/planner/include
   ${CMAKE_CURRENT_SOURCE_DIR}/shooter/include
@@ -336,6 +357,7 @@ add_library(auto_aim::auto_aim ALIAS auto_aim)
 
 set(AUTO_AIM_MODULE_LIBS
   auto_aim_aimer
+  auto_aim_compensator
   auto_aim_detected
   auto_aim_planner
   auto_aim_pointer
@@ -373,6 +395,7 @@ install(
   TARGETS
     auto_aim
     auto_aim_aimer
+    auto_aim_compensator
     auto_aim_detected
     auto_aim_planner
     auto_aim_pointer
@@ -388,7 +411,7 @@ install(
   INCLUDES DESTINATION include
 )
 
-foreach(dir IN ITEMS aimer detected planner pointer solver target/predictor target/motion_model tracker shooter)
+foreach(dir IN ITEMS aimer compensator detected planner pointer solver target/predictor target/motion_model tracker shooter)
   install(
     DIRECTORY ${dir}/include/
     DESTINATION include

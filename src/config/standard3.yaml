@@ -55,7 +55,7 @@ CalibParam:
 camera:
   type: "hik"  # 可选: "hik", "mindvision"
   parameters:
-    exposure_ms: 3.0
+    exposure_ms: 4.0
     gain: 12.0
     gamma: 100.0
     fps: 120.0
@@ -140,7 +140,7 @@ Solver:
 # - z: 相机相对云台在上下方向的偏移
 
 t_camera_to_gimbal:
-[0.00, 0.00, -0.07]
+[0.0, 0.00, 0.00]
 # [0.115, -0.065, 0.015]cm
 
 
@@ -181,7 +181,6 @@ Shooter:
 
   #| 参数              | 作用         | 调节方向 | 目的            |
   #|-------------------|--------------|----------|-----------------|
-  #| fire_thresh       | 开火阈值     | ↓ 减小   | 给PID误差留余量 |
   #| max_yaw/pitch_acc | 加速度限制   | ↓ 减小   | 轨迹更平滑      |
   #| Q                 | 位置跟踪权重 | ↓ 减小   | 不那么急于跟踪  |
   #| R                 | 控制平滑权重 | ↑ 增大   | 输出更平滑      |
@@ -190,19 +189,20 @@ Shooter:
 
 ###planner参数###
 Planner:
-  fire_thresh: 0.0015 # 允许开火阈值，值越小要求精度越高，代表着实际角度和规划角度之间的误差
-  max_yaw_acc: 50 # 最大Yaw加速度上限
-  Q_yaw: [5e6, 0] # 状态权重矩阵Q的对角线元素：[位置权重, 速度权重]。
+  fire_thresh: 0.003 # Planner内部的判断，是其当前值与规划序列的判断，不是闭环反馈
+  servo_fire_thresh: 0.014 # 下位机反馈的跟踪开火容差(rad)，plan_yaw与gimbal_yaw差值小于此值才允许开火
+  max_yaw_acc: 20 # 最大Yaw加速度上限
+  Q_yaw: [9e6, 0] # 状态权重矩阵Q的对角线元素：[位置权重, 速度权重]。
   # 9e6的高位置权重意味着强调精确跟踪目标角度，速度权重为0表示不惩罚速度偏差 
-  R_yaw: [1]
-  max_pitch_acc: 100  # 最大pitch加速度上限
-  Q_pitch: [5e6, 0]
-  R_pitch: [1]
+  R_yaw: [150]
+  max_pitch_acc: 50  # 最大pitch加速度上限
+  Q_pitch: [9e6, 0]
+  R_pitch: [150]
   yaw_offset: 0 # degree，相机光心与枪管中心的yaw偏差
-  pitch_offset: -2 # degree，pitch相对枪管的中心补偿参数
+  pitch_offset: 2 # degree，pitch相对枪管的中心补偿参数
   decision_speed: 7 # rad/s， 高低速的判断阈值，大于此值的为高速目标
-  high_speed_delay_time: 0.0 # s，高速目标的额外时间补偿
-  low_speed_delay_time: 0.0 # s，低速目标的额外时间补偿
+  high_speed_delay_time: 0.03 # s，高速目标的额外时间补偿
+  low_speed_delay_time: 0.035 # s，低速目标的额外时间补偿
 
 
 GuardPlanner:
@@ -221,8 +221,6 @@ GuardPlanner:
   # 迭代收敛参数
   max_fly_time_iterations: 5     # 飞行时间迭代最大次数
   fly_time_convergence_thresh: 0.002  # s，收敛阈值
-
-
 
 # Gimbal通讯参数
 Gimbal:

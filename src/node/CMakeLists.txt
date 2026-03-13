@@ -19,6 +19,9 @@ find_package(deveice REQUIRED)
 find_package(auto_aim REQUIRED)
 find_package(auto_buff REQUIRED)
 find_package(auto_base REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
 
 add_executable(deep_node
   src/test_node_deep.cpp
@@ -44,6 +47,10 @@ add_executable(capture_node
   src/capture_node.cpp
 )
 
+add_executable(sentry_node
+  src/sentry.cpp
+)
+
 target_include_directories(deep_node PRIVATE
   include
 )
@@ -65,6 +72,10 @@ target_include_directories(capture_node PRIVATE
 )
 
 target_include_directories(aimer_node  PRIVATE
+  include
+)
+
+target_include_directories(sentry_node PRIVATE
   include
 )
 
@@ -122,6 +133,19 @@ ament_target_dependencies(aimer_node
   autoaim_msgs
 )
 
+ament_target_dependencies(sentry_node
+  rclcpp
+  Eigen3
+  deveice
+  auto_aim
+  utils
+  serial
+  autoaim_msgs
+  sensor_msgs
+  geometry_msgs
+  std_msgs
+)
+
 target_link_libraries(deep_node
   ${OpenCV_LIBS}
   deveice::deveice
@@ -158,6 +182,12 @@ target_link_libraries(aimer_node
   auto_aim::auto_aim
 )
 
+target_link_libraries(sentry_node
+  ${OpenCV_LIBS}
+  deveice::deveice
+  auto_aim::auto_aim
+)
+
 install(TARGETS
   deep_node
   video_node
@@ -165,6 +195,7 @@ install(TARGETS
   cv_node
   capture_node
   aimer_node
+  sentry_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

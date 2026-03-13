@@ -46,7 +46,7 @@ PipelineApp::PipelineApp(const std::string & config_path)
   );
 
   camera_ = std::make_unique<camera::Camera>(config_path_);
-  dm_imu_ = std::make_unique<io::DmImu>(config_path_);
+  // dm_imu_ = std::make_unique<io::DmImu>(config_path_);
   detector_ = std::make_unique<armor_auto_aim::Detector>(config_path_);
   solver_ = std::make_unique<solver::Solver>(config_path_);
   yaw_optimizer_ = solver_->getYawOptimizer();
@@ -98,11 +98,11 @@ int PipelineApp::run()
 
     cv::cvtColor(img, debug_packet.rgb_image, cv::COLOR_BGR2RGB);
 
-    dm_orientation = dm_imu_->imu_at(timestamp);
+    // orientation = dm_imu_->imu_at(timestamp);
     orientation = gimbal_->q(timestamp);
-    utils::logger()->debug(
-      "[Pipeline] DM_IMU四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
-      dm_orientation.w(), dm_orientation.x(), dm_orientation.y(), dm_orientation.z());
+    // utils::logger()->debug(
+    //   "[Pipeline] DM_IMU四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
+    //   dm_orientation.w(), dm_orientation.x(), dm_orientation.y(), dm_orientation.z());
     utils::logger()->debug(
     "[Pipeline] 下位机的四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
     orientation.w(), orientation.x(), orientation.y(), orientation.z());
@@ -113,10 +113,14 @@ int PipelineApp::run()
       msg.x = orientation.x(),
       msg.y = orientation.y(),
       msg.z = orientation.z(),
-      msg.dm_w = dm_orientation.w(),
-      msg.dm_x = dm_orientation.x(),
-      msg.dm_y = dm_orientation.y(),
-      msg.dm_z = dm_orientation.z(),      
+      // msg.dm_w = dm_orientation.w(),
+      // msg.dm_x = dm_orientation.x(),
+      // msg.dm_y = dm_orientation.y(),
+      // msg.dm_z = dm_orientation.z(),
+      msg.dm_w = 0,
+      msg.dm_x = 0,
+      msg.dm_y = 0,
+      msg.dm_z = 0,        
       orientation_pub_->publish(msg);
     }
 
@@ -346,8 +350,9 @@ void PipelineApp::planner_loop()
     auto plan_result = planner_->plan(target, bullet_speed_);
     //auto plan_result = guard_planner_->plan(target, bullet_speed_);
     auto gs = gimbal_->state();
-    bool enable_shoot = std::abs(plan_result.yaw - gs.yaw) < 0.02 
-                    && std::abs(plan_result.pitch - gs.pitch) < 0.015;
+    double sft = planner_->servo_fire_thresh();
+    bool enable_shoot = std::abs(plan_result.yaw - gs.yaw) < sft
+                    && std::abs(plan_result.pitch - gs.pitch) < sft;
     if(enable_shoot) {
         plan_result.fire = true;
     }
@@ -358,6 +363,7 @@ void PipelineApp::planner_loop()
         // gimbal_->send_simple(plan_result.control, plan_result.fire, plan_result.yaw, plan_result.pitch);
     } else {
       gimbal_->send(false, false, 0, 0, 0, 0, 0, 0);
+      // if (servo_compensator_) servo_compensator_->reset();
     }
 
     // 验证通讯帧率
@@ -394,16 +400,66 @@ void PipelineApp::planner_loop()
     //   }
     // }
       
+    // 统计滑动窗口内fire占比 和 offset
+    {
+      auto now_fire = std::chrono::steady_clock::now();
+      fire_window_.emplace_back(now_fire, plan_result.fire);
+      offset_window_.push_back({now_fire,
+        static_cast<double>(plan_result.yaw - gs.yaw),
+        static_cast<double>(plan_result.pitch - gs.pitch)});
+      // 移除超出时间窗口的旧记录
+      auto cutoff = now_fire - std::chrono::duration<double>(fire_window_sec_);
+      while (!fire_window_.empty() && fire_window_.front().first < cutoff) {
+        fire_window_.pop_front();
+      }
+      while (!offset_window_.empty() && offset_window_.front().time < cutoff) {
+        offset_window_.pop_front();
+      }
+    }
+
     if (debug_pub_) {
+      // 计算fire_rate
+      float fire_rate = 0.0f;
+      if (!fire_window_.empty()) {
+        int fire_count = 0;
+        for (const auto & [t, f] : fire_window_) {
+          if (f) fire_count++;
+        }
+        fire_rate = static_cast<float>(fire_count) / static_cast<float>(fire_window_.size());
+      }
+
+      // 计算 offset RMS 和 mean
+      float yaw_offset_rms = 0.0f, yaw_offset_mean = 0.0f;
+      float pitch_offset_rms = 0.0f, pitch_offset_mean = 0.0f;
+      if (!offset_window_.empty()) {
+        double y_sum = 0, y_sq = 0, p_sum = 0, p_sq = 0;
+        for (const auto & s : offset_window_) {
+          y_sum += s.yaw_offset;
+          y_sq += s.yaw_offset * s.yaw_offset;
+          p_sum += s.pitch_offset;
+          p_sq += s.pitch_offset * s.pitch_offset;
+        }
+        double n = static_cast<double>(offset_window_.size());
+        yaw_offset_mean = static_cast<float>(y_sum / n);
+        yaw_offset_rms = static_cast<float>(std::sqrt(y_sq / n));
+        pitch_offset_mean = static_cast<float>(p_sum / n);
+        pitch_offset_rms = static_cast<float>(std::sqrt(p_sq / n));
+      }
+
       auto msg = autoaim_msgs::msg::Debug{};
       msg.enable_control = plan_result.control;
       msg.fire = plan_result.fire;
       msg.yaw_offest = plan_result.yaw - gs.yaw;
-      msg.target_pitch = plan_result.target_pitch;
+      msg.pitch_offset = plan_result.pitch - gs.pitch;
       msg.yaw = plan_result.yaw;
       msg.pitch = plan_result.pitch;
       msg.yaw_gimbal = gs.yaw;
       msg.pitch_gimbal = gs.pitch;
+      msg.fire_rate = fire_rate;
+      msg.yaw_offset_rms = yaw_offset_rms;
+      msg.yaw_offset_mean = yaw_offset_mean;
+      msg.pitch_offset_rms = pitch_offset_rms;
+      msg.pitch_offset_mean = pitch_offset_mean;
       debug_pub_->publish(msg);
     }
 
@@ -455,7 +511,7 @@ int main(int argc, char ** argv)
     return 0;
   }
 
-  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/config.yaml";
+  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/standard3.yaml";
   if (cli.has("@config-path")) {
     config_path = cli.get<std::string>("@config-path");
   }

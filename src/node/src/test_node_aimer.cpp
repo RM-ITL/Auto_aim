@@ -380,8 +380,8 @@ void PipelineApp::process_loop()
       auto msg = autoaim_msgs::msg::Debug{};
       msg.enable_control = Command.control;
       msg.fire = Command.shoot;
+      msg.pitch_offset = Command.pitch - gs.pitch;
       msg.yaw_offest = Command.yaw - gs.yaw;
-      msg.target_pitch = 0.0;
       msg.yaw = Command.yaw;
       msg.pitch = Command.pitch;
       msg.yaw_gimbal = packet.gimbal_pos[0];

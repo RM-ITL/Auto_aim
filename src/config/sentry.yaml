@@ -260,3 +260,12 @@ Base_Hit:
   input_height: 384
   score_threshold: 0.6
   nms_threshold: 0.3
+
+# 哨兵扫描参数
+Scan:
+  yaw_center: 0.0        # yaw扫描中心 (rad)
+  yaw_amplitude: 1.5     # yaw扫描幅度 (rad)
+  yaw_period: 6.0        # yaw周期 (s)
+  pitch_center: -0.05    # pitch扫描中心 (rad)，略微向下
+  pitch_amplitude: 0.15  # pitch扫描幅度 (rad)
+  pitch_period: 3.0      # pitch周期 (s)

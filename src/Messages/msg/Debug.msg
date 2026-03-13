@@ -1,8 +1,13 @@
 bool enable_control
 bool fire
 float32 yaw_offest
-float32 target_pitch
+float32 pitch_offset
 float32 yaw
 float32 pitch
 float32 yaw_gimbal
 float32 pitch_gimbal
+float32 fire_rate
+float32 yaw_offset_rms
+float32 yaw_offset_mean
+float32 pitch_offset_rms
+float32 pitch_offset_mean
