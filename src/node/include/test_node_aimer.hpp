@@ -4,6 +4,7 @@
 #include <array>
 #include <atomic>
 #include <chrono>
+#include <deque>
 #include <list>
 #include <memory>
 #include <string>
@@ -95,6 +96,18 @@ private:
 
   std::chrono::steady_clock::time_point start_time_;
   const double bullet_speed_{22.0};
+
+  // fire占比统计（滑动时间窗口）
+  std::deque<std::pair<std::chrono::steady_clock::time_point, bool>> fire_window_;
+  double fire_window_sec_{10.0};
+
+  // offset 统计（滑动时间窗口，用于计算 RMS 和 mean）
+  struct OffsetSample {
+    std::chrono::steady_clock::time_point time;
+    double yaw_offset;
+    double pitch_offset;
+  };
+  std::deque<OffsetSample> offset_window_;
 };
 
 }  // namespace Application

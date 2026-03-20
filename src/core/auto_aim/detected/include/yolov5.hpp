@@ -22,13 +22,13 @@ public:
 
 private:
   std::string device_, model_path_;
-  std::string save_path_, debug_path_;
+  std::string save_path_;
   bool debug_, use_roi_, use_traditional_;
 
   const int class_num_ = 13;
   float nms_threshold_ = 0.3f;
   float score_threshold_ = 0.7f;
-  double min_confidence_, binary_threshold_;
+  double min_confidence_;
 
   ov::Core core_;
   ov::CompiledModel compiled_model_;

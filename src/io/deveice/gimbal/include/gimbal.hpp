@@ -29,9 +29,9 @@ struct __attribute__((packed)) GimbalToVision
   uint8_t head[2] = {'G', 'V'};
   uint8_t mode ;  // 0: 空闲, 1: 自瞄, 2: 小符, 3: 大符
   float q[4];    // wxyz顺序
-  float yaw;
+  float yaw;      // 绝对弧度值
   float yaw_vel;
-  float pitch;
+  float pitch;    // 绝对弧度值
   float pitch_vel;
   float bullet_speed;
   uint16_t bullet_count;  // 子弹累计发送次数
@@ -46,10 +46,10 @@ struct __attribute__((packed)) VisionToGimbal
 {
   uint8_t head[2] = {'V', 'G'};
   uint8_t mode;  // 0: 不控制, 1: 控制云台但不开火，2: 控制云台且开火
-  float yaw;
+  float yaw;    // 绝对弧度值
   float yaw_vel;
   float yaw_acc;
-  float pitch;
+  float pitch;    // 绝对弧度值
   float pitch_vel;
   float pitch_acc;
   uint8_t tail= 'V';

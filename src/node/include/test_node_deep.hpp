@@ -27,7 +27,7 @@
 #include "guard_planner.hpp"
 #include "autoaim_msgs/msg/debug.hpp"
 #include "autoaim_msgs/msg/orienta.hpp"
-#include "autoaim_msgs/msg/outpost.hpp"
+#include "autoaim_msgs/msg/target.hpp"
 #include "autoaim_msgs/msg/sentry_cmd.hpp"
 #include "gimbal.hpp"
 
@@ -77,7 +77,7 @@ private:
   // Debug所用的Topic
   rclcpp::Publisher<autoaim_msgs::msg::Debug>::SharedPtr debug_pub_;
   rclcpp::Publisher<autoaim_msgs::msg::Orienta>::SharedPtr orientation_pub_;
-  rclcpp::Publisher<autoaim_msgs::msg::Outpost>::SharedPtr target_pub_;
+  rclcpp::Publisher<autoaim_msgs::msg::Target>::SharedPtr target_pub_;
   tools::ThreadSafeQueue<DebugPacket, true> visualization_queue{2};
   tools::ThreadSafeQueue<std::optional<tracker::TargetVariant>, true> target_queue{1};
 

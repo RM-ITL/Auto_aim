@@ -20,15 +20,14 @@ YOLOV5Detector::YOLOV5Detector(const std::string & config_path, bool debug)
 
   model_path_ = yolov5_config["yolov5_model_path"].as<std::string>();
   device_ = yolov5_config["device"].as<std::string>();
-  binary_threshold_ = yolov5_config["threshold"].as<double>();
   min_confidence_ = yolov5_config["min_confidence"].as<double>();
   score_threshold_ = yolov5_config["score_threshold"].as<float>(0.7f);
   nms_threshold_ = yolov5_config["nms_threshold"].as<float>(0.3f);
 
   use_traditional_ = yolov5_config["use_traditional"].as<bool>(false);
 
-  save_path_ = "imgs";
-  std::filesystem::create_directory(save_path_);
+  save_path_ = "save/deep";
+  std::filesystem::create_directories(save_path_);
 
   // 检查模型文件是否存在
   if (!std::filesystem::exists(model_path_)) {

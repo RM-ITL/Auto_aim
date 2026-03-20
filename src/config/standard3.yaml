@@ -55,7 +55,7 @@ CalibParam:
 camera:
   type: "hik"  # 可选: "hik", "mindvision"
   parameters:
-    exposure_ms: 4.0
+    exposure_ms: 5.0
     gain: 12.0
     gamma: 100.0
     fps: 120.0
@@ -74,10 +74,9 @@ yolo:
   device: "CPU"  # 可选: CPU, GPU, MYRIAD
   enemy_color: "red"
   # 检测阈值
-  threshold: 0.5
-  min_confidence: 0.8
-  score_threshold: 0.7
-  nms_threshold: 0.3
+  min_confidence: 0.4   # 最终过滤
+  score_threshold: 0.4  # 初步筛选低置信度框
+  nms_threshold: 0.3    # 去除重叠框
   use_traditional: true
 
 
@@ -149,7 +148,7 @@ Tracker:
   enemy_color: "red"  # 或 "blue"
   # 跟踪状态机参数
   min_detect_count: 3              # 最小检测次数
-  max_temp_lost_count: 10          # 普通目标的最大临时丢失容忍度
+  max_temp_lost_count: 15          # 普通目标的最大临时丢失容忍度
   outpost_max_temp_lost_count: 30  # 前哨站的最大临时丢失容忍度
   # 前哨站特化参数
   outpost_min_detect_count: 3      # 前哨站的最小检测次数（更快进入tracking）
@@ -159,7 +158,7 @@ Tracker:
 # 瞄准器Aimer参数
 Aimer:
   #####-----aimer参数-----#####
-  yaw_offset: -0.8 # degree -2.5
+  yaw_offset: 0 # degree -2.5
   pitch_offset: 0  # degree 2
   comming_angle: 60 # degree
   leaving_angle: 20 # degree
@@ -167,14 +166,14 @@ Aimer:
   right_yaw_offset: -0.6
   decision_speed: 10 # rad/s
   high_speed_delay_time: 0.026 # s
-  low_speed_delay_time: 0.010 # s
+  low_speed_delay_time: 0.035 # s
 
 
 #####-----shooter参数-----#####
 Shooter:
   first_tolerance: 3 # 近距离射击容差，degree
   second_tolerance: 2 # 远距离射击容差，degree
-  judge_distance: 2 #距离判断阈值
+  judge_distance: 3 #距离判断阈值
   auto_fire: true # 是否由自瞄控制射击
 
 # planner调参：
@@ -190,19 +189,19 @@ Shooter:
 ###planner参数###
 Planner:
   fire_thresh: 0.003 # Planner内部的判断，是其当前值与规划序列的判断，不是闭环反馈
-  servo_fire_thresh: 0.014 # 下位机反馈的跟踪开火容差(rad)，plan_yaw与gimbal_yaw差值小于此值才允许开火
+  servo_fire_thresh: 0.03 # 下位机反馈的跟踪开火容差(rad)，plan_yaw与gimbal_yaw差值小于此值才允许开火
   max_yaw_acc: 20 # 最大Yaw加速度上限
   Q_yaw: [9e6, 0] # 状态权重矩阵Q的对角线元素：[位置权重, 速度权重]。
   # 9e6的高位置权重意味着强调精确跟踪目标角度，速度权重为0表示不惩罚速度偏差 
-  R_yaw: [150]
+  R_yaw: [1]
   max_pitch_acc: 50  # 最大pitch加速度上限
   Q_pitch: [9e6, 0]
-  R_pitch: [150]
-  yaw_offset: 0 # degree，相机光心与枪管中心的yaw偏差
-  pitch_offset: 2 # degree，pitch相对枪管的中心补偿参数
+  R_pitch: [1]
+  yaw_offset: 1 # degree，相机光心与枪管中心的yaw偏差
+  pitch_offset: 3.25 # degree，pitch相对枪管的中心补偿参数
   decision_speed: 7 # rad/s， 高低速的判断阈值，大于此值的为高速目标
-  high_speed_delay_time: 0.03 # s，高速目标的额外时间补偿
-  low_speed_delay_time: 0.035 # s，低速目标的额外时间补偿
+  high_speed_delay_time: 0.06 # s，高速目标的额外时间补偿
+  low_speed_delay_time: 0.05 # s，低速目标的额外时间补偿
 
 
 GuardPlanner:

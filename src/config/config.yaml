@@ -53,10 +53,10 @@ CalibParam:
 camera:
   type: "hik"  # 可选: "hik", "mindvision"
   parameters:
-    exposure_ms: 3.0
-    gain: 15.0
-    gamma: 100.0
-    fps: 120.0
+    exposure_ms: 3.0  # 曝光
+    gain: 15.0        # 增益
+    gamma: 100.0      # MindVision的gamma
+    fps: 120.0        # 海康的帧率
     target_width: 1280
     target_height: 1024
     image_topic: "image_topic"
@@ -72,7 +72,6 @@ yolo:
   device: "CPU"  # 可选: CPU, GPU, MYRIAD
   enemy_color: "red"
   # 检测阈值
-  threshold: 0.5
   min_confidence: 0.8
   score_threshold: 0.7
   nms_threshold: 0.3
@@ -111,8 +110,6 @@ publish_rate: 1000  # Hz
 # 电控坐标系定义：向云台方向看
 # 向前为X轴正向，向左为Y轴正向，向上为Z轴，Pitch轴抬头为负数，低头为正数，yaw向左为正数，向右为负数
 
-# 老步兵上车妙板方向规定：
-# 向前为Y轴正向，向右为X轴正向，向上为Z轴正向
 
 # 解算模块所需的参数
 Solver:
@@ -139,6 +136,7 @@ Solver:
       data: [1, 0, 0,
             0, 1, 0,
             0, 0, 1]
+
 # 陀螺仪与相机放置在同一位置
 # - x: 相机相对云台在前后方向的偏移
 # - y: 相机相对云台在左右方向的偏移
@@ -146,7 +144,6 @@ Solver:
 
 t_camera_to_gimbal:
 [0.00, 0.055, 0.00]
-# [0.115, -0.065, 0.015]m
 
 
 # Tracker参数
@@ -197,11 +194,11 @@ Shooter:
 Planner:
   fire_thresh: 0.0015 # 允许开火阈值，值越小要求精度越高，代表着实际角度和规划角度之间的误差
   max_yaw_acc: 50 # 最大Yaw加速度上限
-  Q_yaw: [1e6, 0] # 状态权重矩阵Q的对角线元素：[位置权重, 速度权重]。
+  Q_yaw: [9e6, 0] # 状态权重矩阵Q的对角线元素：[位置权重, 速度权重]。
   # 9e6的高位置权重意味着强调精确跟踪目标角度，速度权重为0表示不惩罚速度偏差 
   R_yaw: [1]
   max_pitch_acc: 100  # 最大pitch加速度上限
-  Q_pitch: [1e6, 0]
+  Q_pitch: [9e6, 0]
   R_pitch: [1]
   yaw_offset: 0 # degree，相机光心与枪管中心的yaw偏差
   pitch_offset: 0 # degree，pitch相对枪管的中心补偿参数
@@ -227,28 +224,13 @@ GuardPlanner:
   max_fly_time_iterations: 5     # 飞行时间迭代最大次数
   fly_time_convergence_thresh: 0.002  # s，收敛阈值
 
-
-# ZPETC伺服补偿器参数 (由 scripts/system_id.py 辨识后填入)
-ServoCompensator:
-  enable: false  # 辨识完成并填入系数后改为 true
-  yaw:
-    # 闭环传函 B_c(z⁻¹) 的系数, 由 system_id.py 辨识得到
-    b_c: [0.05, 0.04]
-    # 闭环传函 A_c(z⁻¹) 的系数, a_c[0] 须为 1.0
-    a_c: [1.0, -1.5, 0.6]
-    # 纯延迟步数
-    d: 2
-  pitch:
-    b_c: [0.03, 0.02]
-    a_c: [1.0, -1.3, 0.5]
-    d: 2
-
 # Gimbal通讯参数
 Gimbal:
 enable_serial: true
 # com_port: "/dev/ttyUSB0"
 com_port: "/dev/ttyACM0"
 com_port_1: "/dev/ttyACM2"
+
 # 校正下位机的四元数 [x, y, z, w], q_corrected = q_calib * q_lower
 # q_calib:
 #   x: 0.01168210

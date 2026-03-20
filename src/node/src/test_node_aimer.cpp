@@ -1,5 +1,6 @@
 #include "test_node_aimer.hpp"
 
+#include <cmath>
 #include <csignal>
 #include <algorithm>
 #include <iostream>
@@ -376,16 +377,61 @@ void PipelineApp::process_loop()
     //   }
     // }
       
+    // 统计滑动窗口内 fire 占比和 offset
+    {
+      auto now_stat = std::chrono::steady_clock::now();
+      fire_window_.emplace_back(now_stat, Command.shoot);
+      offset_window_.push_back({now_stat,
+        static_cast<double>(Command.yaw - gs.yaw),
+        static_cast<double>(Command.pitch - gs.pitch)});
+      auto cutoff = now_stat - std::chrono::duration<double>(fire_window_sec_);
+      while (!fire_window_.empty() && fire_window_.front().first < cutoff) {
+        fire_window_.pop_front();
+      }
+      while (!offset_window_.empty() && offset_window_.front().time < cutoff) {
+        offset_window_.pop_front();
+      }
+    }
+
     if (debug_pub_) {
+      // 计算 fire_rate
+      float fire_rate = 0.0f;
+      if (!fire_window_.empty()) {
+        int fire_count = 0;
+        for (const auto & [t, f] : fire_window_) {
+          if (f) fire_count++;
+        }
+        fire_rate = static_cast<float>(fire_count) / static_cast<float>(fire_window_.size());
+      }
+
+      // 计算 offset RMS 
+      float yaw_offset_rms = 0.0;
+      float pitch_offset_rms = 0.0f;
+      if (!offset_window_.empty()) {
+        double y_sum = 0, y_sq = 0, p_sum = 0, p_sq = 0;
+        for (const auto & s : offset_window_) {
+          y_sum += s.yaw_offset;
+          y_sq += s.yaw_offset * s.yaw_offset;
+          p_sum += s.pitch_offset;
+          p_sq += s.pitch_offset * s.pitch_offset;
+        }
+        double n = static_cast<double>(offset_window_.size());
+        yaw_offset_rms = static_cast<float>(std::sqrt(y_sq / n));
+        pitch_offset_rms = static_cast<float>(std::sqrt(p_sq / n));
+      }
+
       auto msg = autoaim_msgs::msg::Debug{};
       msg.enable_control = Command.control;
       msg.fire = Command.shoot;
-      msg.pitch_offset = Command.pitch - gs.pitch;
       msg.yaw_offest = Command.yaw - gs.yaw;
+      msg.pitch_offset = Command.pitch - gs.pitch;
       msg.yaw = Command.yaw;
       msg.pitch = Command.pitch;
-      msg.yaw_gimbal = packet.gimbal_pos[0];
-      msg.pitch_gimbal = packet.gimbal_pos[1];
+      msg.yaw_gimbal = gs.yaw;
+      msg.pitch_gimbal = gs.pitch;
+      msg.fire_rate = fire_rate;
+      msg.yaw_offset_rms = yaw_offset_rms;
+      msg.pitch_offset_rms = pitch_offset_rms;
       debug_pub_->publish(msg);
     }
 
@@ -437,7 +483,7 @@ int main(int argc, char ** argv)
     return 0;
   }
 
-  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/standard4.yaml";
+  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/standard3.yaml";
   if (cli.has("@config-path")) {
     config_path = cli.get<std::string>("@config-path");
   }

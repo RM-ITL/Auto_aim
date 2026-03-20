@@ -26,8 +26,8 @@ Traditional_Detector::Traditional_Detector(const std::string & config_path, bool
   min_confidence_ = yaml["min_confidence"].as<double>();
   max_rectangular_error_ = yaml["max_rectangular_error"].as<double>() / 57.3;  // degree to rad
 
-  save_path_ = "patterns";
-  std::filesystem::create_directory(save_path_);
+  save_path_ = "save/cv";
+  std::filesystem::create_directories(save_path_);
 }
 
 std::list<Armor> Traditional_Detector::detect(const cv::Mat & bgr_img, int frame_count)

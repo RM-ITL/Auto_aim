@@ -1,5 +1,6 @@
 #include "test_node_deep.hpp"
 
+#include <cmath>
 #include <csignal>
 #include <algorithm>
 #include <iostream>
@@ -41,7 +42,7 @@ PipelineApp::PipelineApp(const std::string & config_path)
     "debug", rclcpp::QoS(10));
   orientation_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Orienta>(
     "orientation", rclcpp::QoS(10));
-  target_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Outpost>(
+  target_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Target>(
     "target",rclcpp::QoS(10)
   );
 
@@ -103,9 +104,9 @@ int PipelineApp::run()
     // utils::logger()->debug(
     //   "[Pipeline] DM_IMU四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
     //   dm_orientation.w(), dm_orientation.x(), dm_orientation.y(), dm_orientation.z());
-    utils::logger()->debug(
-    "[Pipeline] 下位机的四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
-    orientation.w(), orientation.x(), orientation.y(), orientation.z());
+    // utils::logger()->debug(
+    // "[Pipeline] 下位机的四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
+    // orientation.w(), orientation.x(), orientation.y(), orientation.z());
 
     if (orientation_pub_) {
       auto msg = autoaim_msgs::msg::Orienta{};
@@ -348,21 +349,25 @@ void PipelineApp::planner_loop()
 
 
     auto plan_result = planner_->plan(target, bullet_speed_);
-    //auto plan_result = guard_planner_->plan(target, bullet_speed_);
+    // auto plan_result = guard_planner_->plan(target, bullet_speed_);
     auto gs = gimbal_->state();
-    double sft = planner_->servo_fire_thresh();
-    bool enable_shoot = std::abs(plan_result.yaw - gs.yaw) < sft
-                    && std::abs(plan_result.pitch - gs.pitch) < sft;
-    if(enable_shoot) {
-        plan_result.fire = true;
-    }
+    const double servo_fire_thresh = planner_->servo_fire_thresh();
+    const double yaw_fire_thresh = servo_fire_thresh;
+    const double pitch_fire_thresh = servo_fire_thresh;
+    const double yaw_offset = plan_result.yaw - gs.yaw;
+    const double pitch_offset = plan_result.pitch - gs.pitch;
+    const double normalized_error =
+      yaw_offset * yaw_offset / (yaw_fire_thresh * yaw_fire_thresh) +
+      pitch_offset * pitch_offset / (pitch_fire_thresh * pitch_fire_thresh);
+    bool enable_shoot = normalized_error < 1.0;
+    plan_result.fire = plan_result.fire && enable_shoot;
     if (plan_result.control) {
       gimbal_->send(
         plan_result.control, plan_result.fire, plan_result.yaw, plan_result.yaw_vel,
         plan_result.yaw_acc, plan_result.pitch, plan_result.pitch_vel, plan_result.pitch_acc);
         // gimbal_->send_simple(plan_result.control, plan_result.fire, plan_result.yaw, plan_result.pitch);
     } else {
-      gimbal_->send(false, false, 0, 0, 0, 0, 0, 0);
+      gimbal_->send(false, false, gs.yaw, 0, 0, gs.pitch, 0, 0);
       // if (servo_compensator_) servo_compensator_->reset();
     }
 
@@ -428,21 +433,17 @@ void PipelineApp::planner_loop()
         fire_rate = static_cast<float>(fire_count) / static_cast<float>(fire_window_.size());
       }
 
-      // 计算 offset RMS 和 mean
-      float yaw_offset_rms = 0.0f, yaw_offset_mean = 0.0f;
-      float pitch_offset_rms = 0.0f, pitch_offset_mean = 0.0f;
+      // 计算 offset RMS
+      float yaw_offset_rms = 0.0f;
+      float pitch_offset_rms = 0.0f;
       if (!offset_window_.empty()) {
-        double y_sum = 0, y_sq = 0, p_sum = 0, p_sq = 0;
+        double y_sq = 0, p_sq = 0;
         for (const auto & s : offset_window_) {
-          y_sum += s.yaw_offset;
           y_sq += s.yaw_offset * s.yaw_offset;
-          p_sum += s.pitch_offset;
           p_sq += s.pitch_offset * s.pitch_offset;
         }
         double n = static_cast<double>(offset_window_.size());
-        yaw_offset_mean = static_cast<float>(y_sum / n);
         yaw_offset_rms = static_cast<float>(std::sqrt(y_sq / n));
-        pitch_offset_mean = static_cast<float>(p_sum / n);
         pitch_offset_rms = static_cast<float>(std::sqrt(p_sq / n));
       }
 
@@ -457,23 +458,21 @@ void PipelineApp::planner_loop()
       msg.pitch_gimbal = gs.pitch;
       msg.fire_rate = fire_rate;
       msg.yaw_offset_rms = yaw_offset_rms;
-      msg.yaw_offset_mean = yaw_offset_mean;
       msg.pitch_offset_rms = pitch_offset_rms;
-      msg.pitch_offset_mean = pitch_offset_mean;
       debug_pub_->publish(msg);
     }
 
    // 发布Target状态消息
     if (target_pub_ && target.has_value()) {
-      auto target_msg = autoaim_msgs::msg::Outpost{};
+      auto target_msg = autoaim_msgs::msg::Target{};
       std::visit([&target_msg](const auto & t) {
         const auto & ekf = t.ekf();
-        target_msg.h1 = static_cast<float>(ekf.x[9]);
-        target_msg.p_h1 = static_cast<float>(ekf.P(9, 9));
-        target_msg.h2 = static_cast<float>(ekf.x[10]);
-        target_msg.p_h2 = static_cast<float>(ekf.P(10, 10));
-        // target_msg.w = static_cast<float>(ekf.x[7]);
-        // target_msg.r = static_cast<float>(ekf.x[8]);
+        target_msg.l = static_cast<float>(ekf.x[9]);
+        target_msg.p_l = static_cast<float>(ekf.P(9, 9));
+        target_msg.h = static_cast<float>(ekf.x[10]);
+        target_msg.p_h = static_cast<float>(ekf.P(10, 10));
+        target_msg.w = static_cast<float>(ekf.x[7]);
+        target_msg.r = static_cast<float>(ekf.x[8]);
       }, target.value());
       target_pub_->publish(target_msg);
     }

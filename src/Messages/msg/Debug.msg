@@ -8,6 +8,4 @@ float32 yaw_gimbal
 float32 pitch_gimbal
 float32 fire_rate
 float32 yaw_offset_rms
-float32 yaw_offset_mean
 float32 pitch_offset_rms
-float32 pitch_offset_mean

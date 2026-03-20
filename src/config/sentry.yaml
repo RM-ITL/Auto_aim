@@ -72,7 +72,6 @@ yolo:
   device: "CPU"  # 可选: CPU, GPU, MYRIAD
   enemy_color: "red"
   # 检测阈值
-  threshold: 0.5
   min_confidence: 0.8
   score_threshold: 0.7
   nms_threshold: 0.3
