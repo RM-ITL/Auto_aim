@@ -30,6 +30,7 @@
 #include "autoaim_msgs/msg/target.hpp"
 #include "autoaim_msgs/msg/sentry_cmd.hpp"
 #include "gimbal.hpp"
+#include "shooter.hpp"
 
 namespace Application
 {
@@ -72,6 +73,7 @@ private:
   std::unique_ptr<plan::Planner> planner_;
   std::unique_ptr<guard::GuardPlanner> guard_planner_;
   std::unique_ptr<io::Gimbal> gimbal_;
+  std::unique_ptr<shooter::Shooter> shooter_;
   rclcpp::Node::SharedPtr ros_node_;
 
   // Debug所用的Topic

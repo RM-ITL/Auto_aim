@@ -47,4 +47,20 @@ bool Shooter::shoot(
   return false;
 }
 
+bool Shooter::checkServoReady(
+  double cmd_yaw, double cmd_pitch,
+  const io::GimbalState & gs,
+  const TargetVariant & target)
+{
+  auto ekf_x = std::visit([](const auto & t) { return t.ekf_x(); }, target);
+  double distance = std::sqrt(utils::square(ekf_x[0]) + utils::square(ekf_x[2]));
+  double tolerance = distance > judge_distance_ ? second_tolerance_ : first_tolerance_;
+
+  double yaw_offset = cmd_yaw - gs.yaw;
+  double pitch_offset = cmd_pitch - gs.pitch;
+  double normalized_error =
+    (yaw_offset * yaw_offset + pitch_offset * pitch_offset) / (tolerance * tolerance);
+  return normalized_error < 1.0;
+}
+
 }  // namespace shooter

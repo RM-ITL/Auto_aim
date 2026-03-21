@@ -55,6 +55,7 @@ PipelineApp::PipelineApp(const std::string & config_path)
   planner_ = std::make_unique<plan::Planner>(config_path_);
   // guard_planner_ = std::make_unique<guard::GuardPlanner>(config_path_); // 守株待兔模式的planner
   gimbal_ = std::make_unique<io::Gimbal>(config_path_);
+  shooter_ = std::make_unique<shooter::Shooter>(config_path_);
 
   // enable_visualization_ = detector_->config().enable_visualization;
   // visualization_center_point_ = detector_->config().center_point;
@@ -351,16 +352,12 @@ void PipelineApp::planner_loop()
     auto plan_result = planner_->plan(target, bullet_speed_);
     // auto plan_result = guard_planner_->plan(target, bullet_speed_);
     auto gs = gimbal_->state();
-    const double servo_fire_thresh = planner_->servo_fire_thresh();
-    const double yaw_fire_thresh = servo_fire_thresh;
-    const double pitch_fire_thresh = servo_fire_thresh;
-    const double yaw_offset = plan_result.yaw - gs.yaw;
-    const double pitch_offset = plan_result.pitch - gs.pitch;
-    const double normalized_error =
-      yaw_offset * yaw_offset / (yaw_fire_thresh * yaw_fire_thresh) +
-      pitch_offset * pitch_offset / (pitch_fire_thresh * pitch_fire_thresh);
-    bool enable_shoot = normalized_error < 1.0;
-    plan_result.fire = plan_result.fire && enable_shoot;
+
+    if (target.has_value()) {
+      bool enable_shoot = shooter_->checkServoReady(
+        plan_result.yaw, plan_result.pitch, gs, target.value());
+      plan_result.fire = plan_result.fire && enable_shoot;
+    }
     if (plan_result.control) {
       gimbal_->send(
         plan_result.control, plan_result.fire, plan_result.yaw, plan_result.yaw_vel,

@@ -39,9 +39,6 @@ public:
   Eigen::Vector4d debug_xyza;
   Planner(const std::string & config_path);
 
-  /// 下位机反馈的跟踪的开火容差 (rad)
-  double servo_fire_thresh() const { return servo_fire_thresh_; }
-
   // 子弹飞行时间补偿
   Plan plan(predict::Target target, double bullet_speed);
   // 系统延迟时间的补偿
@@ -58,7 +55,6 @@ private:
   double yaw_offset_;
   double pitch_offset_;
   double fire_thresh_;
-  double servo_fire_thresh_;  // 下位机伺服跟踪的开火容差 (rad)
   double low_speed_delay_time_, high_speed_delay_time_, decision_speed_;  // 系统延迟时间的补偿
 
   TinySolver * yaw_solver_;

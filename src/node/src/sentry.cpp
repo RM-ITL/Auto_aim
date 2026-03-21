@@ -68,7 +68,7 @@ PipelineApp::PipelineApp(const std::string & config_path)
     });
 
   camera_ = std::make_unique<camera::Camera>(config_path_);
-  dm_imu_ = std::make_unique<io::DmImu>(config_path_);
+  // dm_imu_ = std::make_unique<io::DmImu>(config_path_);
   detector_ = std::make_unique<armor_auto_aim::Detector>(config_path_);
   solver_ = std::make_unique<solver::Solver>(config_path_);
   yaw_optimizer_ = solver_->getYawOptimizer();
@@ -154,7 +154,8 @@ int PipelineApp::run()
 
     cv::cvtColor(img, debug_packet.rgb_image, cv::COLOR_BGR2RGB);
 
-    orientation = dm_imu_->imu_at(timestamp);
+    // orientation = dm_imu_->imu_at(timestamp);
+    orientation = sentry_->q(timestamp);
 
     solver_->updateIMU(orientation, timestamp_sec);
 
@@ -392,8 +393,11 @@ void PipelineApp::planner_loop()
     }
 
     // 发送到下位机，vx/vy/w始终透传导航速度
-    sentry_->send(mode, send_yaw, send_pitch,
-                  nav_vx_.load(), nav_vy_.load(), nav_w_.load());
+    // sentry_->send(mode, send_yaw, send_pitch,
+    //               nav_vx_.load(), nav_vy_.load(), nav_w_.load());
+    
+    sentry_->send(mode, 0.0, 0.0,
+                  0.0, 0.0, 0.0);
 
     if (debug_pub_) {
       auto msg = autoaim_msgs::msg::Debug{};

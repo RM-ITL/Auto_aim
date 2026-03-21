@@ -96,7 +96,7 @@ min_confidence: 0.8     # 分类器的最小置信度
 # DM_IMU相关配置
 DM_IMU:
 # 串口配置
-imu_com_port: "/dev/ttyACM1"
+imu_com_port: "/dev/ttyACM3"
 baud: 115200
 
 # 发布频率相关
@@ -224,7 +224,7 @@ GuardPlanner:
 Gimbal:
 enable_serial: true
 # com_port: "/dev/ttyUSB0"
-com_port: "/dev/ttyACM0"
+com_port: "/dev/ttyACM1"
 com_port_1: "/dev/ttyACM2"
 # 校正下位机的四元数 [x, y, z, w], q_corrected = q_calib * q_lower
 # q_calib:

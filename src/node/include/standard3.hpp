@@ -21,6 +21,7 @@
 #include "armor.hpp"
 #include "planner.hpp"
 #include "gimbal.hpp"
+#include "shooter.hpp"
 
 namespace Application
 {
@@ -46,6 +47,7 @@ private:
   std::unique_ptr<tracker::Tracker> tracker_;
   std::unique_ptr<plan::Planner> planner_;
   std::unique_ptr<io::Gimbal> gimbal_;
+  std::unique_ptr<shooter::Shooter> shooter_;
 
   tools::ThreadSafeQueue<std::optional<tracker::TargetVariant>, true> target_queue{1};
 

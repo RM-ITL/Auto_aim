@@ -17,7 +17,6 @@ Planner::Planner(const std::string & config_path)
   yaw_offset_ = utils::read<double>(planner_yaml, "yaw_offset") / 57.3;
   pitch_offset_ = utils::read<double>(planner_yaml, "pitch_offset") / 57.3;
   fire_thresh_ = utils::read<double>(planner_yaml, "fire_thresh");
-  servo_fire_thresh_ = utils::read<double>(planner_yaml, "servo_fire_thresh", 0.005);
   decision_speed_ = utils::read<double>(planner_yaml, "decision_speed");
   high_speed_delay_time_ = utils::read<double>(planner_yaml, "high_speed_delay_time");
   low_speed_delay_time_ = utils::read<double>(planner_yaml, "low_speed_delay_time");
