@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>pipeline</name>
+  <name>test_pipeline</name>
   <version>0.0.1</version>
-  <description>实车部署的pipeline节点程序。</description>
+  <description>测试与调试用的pipeline节点程序。</description>
 
   <maintainer email="chenx_dust@outlook.com">Chenx Dust</maintainer>
   <license>The MIT License</license>
@@ -17,10 +17,8 @@
   <depend>autoaim_msgs</depend>
   <depend>deveice</depend>
   <depend>auto_aim</depend>
-
-  <depend>sensor_msgs</depend>
-  <depend>geometry_msgs</depend>
-  <depend>std_msgs</depend>
+  <depend>auto_buff</depend>
+  <depend>auto_base</depend>
 
   <build_depend>OpenCV</build_depend>
   <exec_depend>OpenCV</exec_depend>

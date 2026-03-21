@@ -17,120 +17,24 @@ find_package(Eigen3 REQUIRED)
 find_package(autoaim_msgs REQUIRED)
 find_package(deveice REQUIRED)
 find_package(auto_aim REQUIRED)
-find_package(auto_buff REQUIRED)
-find_package(auto_base REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
-
-add_executable(deep_node
-  src/test_node_deep.cpp
-)
-
-add_executable(video_node
-  src/video_node.cpp
-)
-
-add_executable(base_hit_node
-  src/base_hit_node.cpp
-)
-
-add_executable(cv_node
-  src/test_node_cv.cpp
-)
-
-add_executable(aimer_node
-  src/test_node_aimer.cpp
-)
-
-add_executable(capture_node
-  src/capture_node.cpp
-)
 
 add_executable(sentry_node
   src/sentry.cpp
 )
 
-target_include_directories(deep_node PRIVATE
-  include
-)
-
-target_include_directories(video_node PRIVATE
-  include
-)
-
-target_include_directories(base_hit_node PRIVATE
-  include
-)
-
-target_include_directories(cv_node PRIVATE
-  include
-)
-
-target_include_directories(capture_node PRIVATE
-  include
-)
-
-target_include_directories(aimer_node  PRIVATE
-  include
+add_executable(standard3_node
+  src/standard3.cpp
 )
 
 target_include_directories(sentry_node PRIVATE
   include
 )
 
-ament_target_dependencies(deep_node
-  rclcpp
-  Eigen3
-  deveice
-  auto_aim
-  utils
-  serial
-  autoaim_msgs
-)
-
-ament_target_dependencies(video_node
-  Eigen3
-  utils
-  deveice
-  auto_aim
-  auto_buff
-)
-
-ament_target_dependencies(base_hit_node
-  rclcpp
-  autoaim_msgs
-  utils
-  deveice
-  auto_base
-)
-
-ament_target_dependencies(cv_node
-  rclcpp
-  Eigen3
-  deveice
-  auto_aim
-  utils
-  serial
-  autoaim_msgs
-)
-
-ament_target_dependencies(capture_node
-  rclcpp
-  Eigen3
-  deveice
-  utils
-  serial
-)
-
-ament_target_dependencies(aimer_node
-  rclcpp
-  Eigen3
-  deveice
-  auto_aim
-  utils
-  serial
-  autoaim_msgs
+target_include_directories(standard3_node PRIVATE
+  include
 )
 
 ament_target_dependencies(sentry_node
@@ -146,40 +50,12 @@ ament_target_dependencies(sentry_node
   std_msgs
 )
 
-target_link_libraries(deep_node
-  ${OpenCV_LIBS}
-  deveice::deveice
-  auto_aim::auto_aim
-)
-
-target_link_libraries(video_node
-  ${OpenCV_LIBS}
-  deveice::deveice
-  auto_aim::auto_aim
-  auto_buff::auto_buff
-)
-
-target_link_libraries(base_hit_node
-  ${OpenCV_LIBS}
-  deveice::deveice
-  auto_base::auto_base
-)
-
-target_link_libraries(cv_node
-  ${OpenCV_LIBS}
-  deveice::deveice
-  auto_aim::auto_aim
-)
-
-target_link_libraries(capture_node
-  ${OpenCV_LIBS}
-  deveice::deveice
-)
-
-target_link_libraries(aimer_node
-  ${OpenCV_LIBS}
-  deveice::deveice
-  auto_aim::auto_aim
+ament_target_dependencies(standard3_node
+  Eigen3
+  deveice
+  auto_aim
+  utils
+  serial
 )
 
 target_link_libraries(sentry_node
@@ -188,14 +64,15 @@ target_link_libraries(sentry_node
   auto_aim::auto_aim
 )
 
+target_link_libraries(standard3_node
+  ${OpenCV_LIBS}
+  deveice::deveice
+  auto_aim::auto_aim
+)
+
 install(TARGETS
-  deep_node
-  video_node
-  base_hit_node
-  cv_node
-  capture_node
-  aimer_node
   sentry_node
+  standard3_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

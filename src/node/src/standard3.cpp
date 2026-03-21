@@ -1,0 +1,193 @@
+#include "standard3.hpp"
+
+#include <csignal>
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+#include <opencv2/core/utility.hpp>
+#include <opencv2/imgproc.hpp>
+
+#include "logger.hpp"
+
+namespace Application
+{
+namespace
+{
+std::atomic<bool> g_stop_requested{false};
+
+void handle_signal(int)
+{
+  g_stop_requested.store(true);
+}
+
+}  // namespace
+
+Standard3App::Standard3App(const std::string & config_path)
+: config_path_(config_path),
+  start_time_(std::chrono::steady_clock::now())
+{
+  utils::logger()->info("[Standard3] 正在初始化，配置文件: {}", config_path_);
+
+  camera_ = std::make_unique<camera::Camera>(config_path_);
+  utils::logger()->info("[Standard3] 相机初始化完成");
+
+  detector_ = std::make_unique<armor_auto_aim::Detector>(config_path_);
+  solver_ = std::make_unique<solver::Solver>(config_path_);
+  yaw_optimizer_ = solver_->getYawOptimizer();
+  tracker_ = std::make_unique<tracker::Tracker>(config_path_, *solver_);
+  planner_ = std::make_unique<plan::Planner>(config_path_);
+
+  gimbal_ = std::make_unique<io::Gimbal>(config_path_);
+  utils::logger()->info("[Standard3] 云台串口初始化完成");
+
+  utils::logger()->info("[Standard3] 所有模块初始化完成，准备进入主循环");
+}
+
+Standard3App::~Standard3App()
+{
+  request_stop();
+  if (planner_thread_.joinable()) {
+    planner_thread_.join();
+  }
+}
+
+int Standard3App::run()
+{
+  utils::logger()->info("[Standard3] 主循环启动");
+  quit_.store(false);
+  if (planner_) {
+    planner_thread_ = std::thread(&Standard3App::planner_loop, this);
+  }
+
+  std::string last_state = tracker_->state();
+
+  while (!quit_.load()) {
+    if (g_stop_requested.load()) {
+      break;
+    }
+
+    cv::Mat img;
+    std::chrono::steady_clock::time_point timestamp;
+    double timestamp_sec{0.0};
+    Eigen::Quaterniond orientation{Eigen::Quaterniond::Identity()};
+
+    camera_->read(img, timestamp);
+
+    timestamp_sec = utils::delta_time(timestamp, start_time_);
+
+    cv::Mat rgb_image;
+    cv::cvtColor(img, rgb_image, cv::COLOR_BGR2RGB);
+
+    orientation = gimbal_->q(timestamp);
+    solver_->updateIMU(orientation, timestamp_sec);
+
+    auto armor = detector_->detect(rgb_image);
+
+    std::list<armor_auto_aim::Armor> armor_list(armor.begin(), armor.end());
+    auto targets = tracker_->track(armor_list, timestamp);
+
+    if (!targets.empty())
+      target_queue.push(targets.front());
+    else
+      target_queue.push(std::nullopt);
+
+    std::string current_state = tracker_->state();
+    if (current_state != last_state) {
+      utils::logger()->info(
+        "[Standard3] Tracker状态切换: {} -> {}", last_state, current_state);
+      last_state = current_state;
+    }
+  }
+
+  request_stop();
+  if (planner_thread_.joinable()) {
+    planner_thread_.join();
+  }
+  utils::logger()->info("[Standard3] 程序正常退出");
+  return 0;
+}
+
+void Standard3App::request_stop()
+{
+  quit_.store(true);
+}
+
+void Standard3App::planner_loop()
+{
+  utils::logger()->info("[Standard3] 规划线程启动");
+
+  while (!quit_.load()) {
+    if (g_stop_requested.load()) {
+      break;
+    }
+
+    if (!planner_) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(50));
+      continue;
+    }
+
+    if (target_queue.empty()) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));
+      continue;
+    }
+
+    auto target = target_queue.front();
+
+    auto plan_result = planner_->plan(target, bullet_speed_);
+    auto gs = gimbal_->state();
+    const double servo_fire_thresh = planner_->servo_fire_thresh();
+    const double yaw_fire_thresh = servo_fire_thresh;
+    const double pitch_fire_thresh = servo_fire_thresh;
+    const double yaw_offset = plan_result.yaw - gs.yaw;
+    const double pitch_offset = plan_result.pitch - gs.pitch;
+    const double normalized_error =
+      yaw_offset * yaw_offset / (yaw_fire_thresh * yaw_fire_thresh) +
+      pitch_offset * pitch_offset / (pitch_fire_thresh * pitch_fire_thresh);
+    bool enable_shoot = normalized_error < 1.0;
+    plan_result.fire = plan_result.fire && enable_shoot;
+    if (plan_result.control) {
+      gimbal_->send(
+        plan_result.control, plan_result.fire, plan_result.yaw, plan_result.yaw_vel,
+        plan_result.yaw_acc, plan_result.pitch, plan_result.pitch_vel, plan_result.pitch_acc);
+    } else {
+      gimbal_->send(false, false, gs.yaw, 0, 0, gs.pitch, 0, 0);
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+  }
+
+  utils::logger()->info("[Standard3] 规划线程退出");
+}
+
+}  // namespace Application
+
+int main(int argc, char ** argv)
+{
+  const std::string keys =
+    "{help h usage ? | | 输出命令行参数说明}"
+    "{@config-path   | | YAML配置文件路径}";
+
+  cv::CommandLineParser cli(argc, argv, keys);
+  if (cli.has("help")) {
+    cli.printMessage();
+    return 0;
+  }
+
+  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/sentry.yaml";
+  if (cli.has("@config-path")) {
+    config_path = cli.get<std::string>("@config-path");
+  }
+
+  std::signal(SIGINT, Application::handle_signal);
+
+  try {
+    Application::Standard3App app(config_path);
+    int ret = app.run();
+    return ret;
+  } catch (const std::exception & e) {
+    utils::logger()->error("[Standard3] 程序异常终止: {}", e.what());
+  }
+
+  return 1;
+}
