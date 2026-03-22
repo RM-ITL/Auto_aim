@@ -73,12 +73,12 @@ com_port: "/dev/ttyACM0"
 
 # video视频测试参数
 Video:
-video_path: "/home/guo/ITL_Auto_aim/test/buff_simulation_record.mp4"
+video_path: "test/buff_simulation_record.mp4"
 
   
 # 基地Base识别参数
 Base_Hit:
-  Openvino_XML: /home/guo/ITL_Auto_aim/src/model/Katrin.xml
+  Openvino_XML: src/model/Katrin.xml
   Openvino_Deveice: "CPU"
   input_width: 640
   input_height: 384

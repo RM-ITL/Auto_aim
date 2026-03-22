@@ -31,7 +31,7 @@ if(NOT EXISTS "${MV_CAMERA_LIB_DIR}/libMvCameraControl.so")
 endif()
 
 # MindVision SDK 路径配置
-set(MINDVISION_SDK_PATH "/home/guo/linux_sdk" CACHE PATH "Path to MindVision SDK")
+set(MINDVISION_SDK_PATH "$ENV{HOME}/linux_sdk" CACHE PATH "Path to MindVision SDK")
 set(MINDVISION_INCLUDE_DIR "${MINDVISION_SDK_PATH}/include")
 set(MINDVISION_LIB_DIR "${MINDVISION_SDK_PATH}/lib/x64")
 

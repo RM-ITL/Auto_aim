@@ -66,8 +66,8 @@ camera:
 # 神经网络识别参数
 yolo:
   yolo_name: "yolov5"  # 可选: "yolo11", "yolov5"
-  yolo11_model_path: "/home/guo/ITL_Auto_aim/src/model/yolo11.xml"
-  yolov5_model_path: "/home/guo/ITL_Auto_aim/src/model/yolov5.xml"
+  yolo11_model_path: "src/model/yolo11.xml"
+  yolov5_model_path: "src/model/yolov5.xml"
   # 推理设备
   device: "CPU"  # 可选: CPU, GPU, MYRIAD
   enemy_color: "red"
@@ -80,7 +80,7 @@ yolo:
 
 # 传统方法识别参数：
 # 参数解析
-classify_model: "/home/guo/ITL_Auto_aim/src/model/tiny_resnet.onnx"
+classify_model: "src/model/tiny_resnet.onnx"
 threshold: 150  # 固定阈值二值化的阈值
 max_angle_error: 45 # degree，灯条最大角度误差
 min_lightbar_ratio: 1.5 # 灯条最小宽高比
@@ -253,10 +253,10 @@ com_port_1: "/dev/ttyACM2"
 
 # video视频测试参数
 Video:
-video_path: "/home/guo/ITL_Auto_aim/test/buff_simulation_record.mp4"
+video_path: "test/buff_simulation_record.mp4"
 
 #####-----buff_detector参数-----#####
-buff_model: "/home/guo/ITL_Auto_aim/src/model/yolo11_buff_int8.xml"
+buff_model: "src/model/yolo11_buff_int8.xml"
 
 #####-----buff_aimer参数-----#####
 fire_gap_time: 0.700   # s
@@ -264,7 +264,7 @@ predict_time: 0.120     # s
   
 # 基地Base识别参数
 Base_Hit:
-  Openvino_XML: /home/guo/ITL_Auto_aim/src/model/Katrin.xml
+  Openvino_XML: src/model/Katrin.xml
   Openvino_Deveice: "CPU"
   input_width: 640
   input_height: 384

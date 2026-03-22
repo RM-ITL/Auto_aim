@@ -11,17 +11,7 @@ namespace utils {
 // 加载配置文件
 inline YAML::Node load_config(const std::string& config_path = "") {
     std::string path = config_path;
-    
-    if (path.empty()) {
-        // 默认配置文件路径
-        std::string project_root = "/home/guo/ITL_sentry_auto";
-        path = project_root + "/src/config/robomaster_vision_config.yaml";
-        
-        // 如果默认路径不存在，尝试当前目录
-        if (!std::filesystem::exists(path)) {
-            path = std::filesystem::current_path().string() + "/config/robomaster_vision_config.yaml";
-        }
-    }
+
     
     if (!std::filesystem::exists(path)) {
         throw std::runtime_error("Config file not found: " + path);

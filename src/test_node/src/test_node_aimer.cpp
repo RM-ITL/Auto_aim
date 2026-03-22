@@ -3,6 +3,7 @@
 #include <cmath>
 #include <csignal>
 #include <algorithm>
+#include <filesystem>
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -483,7 +484,7 @@ int main(int argc, char ** argv)
     return 0;
   }
 
-  std::string config_path = "/home/guo/ITL_Auto_aim/src/config/standard3.yaml";
+  std::string config_path = std::filesystem::current_path().string() + "/src/config/standard3.yaml";
   if (cli.has("@config-path")) {
     config_path = cli.get<std::string>("@config-path");
   }
