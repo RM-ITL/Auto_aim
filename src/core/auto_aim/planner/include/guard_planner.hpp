@@ -21,8 +21,9 @@ struct ArmorWindow
   double predicted_angle;    // 预测子弹到达时的朝向角
 };
 
-// 守株待兔规划器
-// 策略：云台指向目标旋转中心，等待装甲板转入射击窗口时开火
+// 守株待兔规划器（小陀螺专用）
+// 策略：Yaw指向旋转中心（含平移前馈），保持不动等待装甲板扫过；
+//       Pitch追踪最佳装甲板高度；开火判断基于装甲板朝向。
 class GuardPlanner
 {
 public:
@@ -43,8 +44,7 @@ private:
   double yaw_offset_;           // 相机-枪管yaw偏差
   double pitch_offset_;         // pitch补偿
   double window_angle_;         // 射击窗口半角 (rad)
-  double spin_threshold_;       // 判断高速旋转的角速度阈值 (rad/s)
-  double fire_angle_thresh_;    // 射击时的最大朝向角阈值
+  double fire_angle_thresh_;    // 射击时的最大预测朝向角阈值
   bool require_approaching_;    // 是否要求装甲板正在转入
 
   // 延迟补偿参数
@@ -71,20 +71,12 @@ private:
   std::optional<ArmorWindow> find_best_armor(
     const std::vector<ArmorWindow> & windows) const;
 
-  // 计算瞄准角度
-  Eigen::Vector2d compute_aim_angles(
-    const Eigen::Vector3d & target_pos,
-    double bullet_speed) const;
+  // 计算弹道pitch角
+  double compute_pitch(double dist, double z, double bullet_speed) const;
 
-  // 计算旋转中心的瞄准角度
+  // 计算旋转中心的Yaw等待角（含平移速度前馈）
   template <typename TargetType>
-  Eigen::Vector2d compute_center_aim(
-    const TargetType & target,
-    double bullet_speed) const;
-
-  // 判断是否应该使用守株待兔模式
-  template <typename TargetType>
-  bool should_use_guard_mode(const TargetType & target) const;
+  double compute_wait_yaw(const TargetType & target, double delay_time) const;
 
   // 核心规划逻辑
   template <typename TargetType>

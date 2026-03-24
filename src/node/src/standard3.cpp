@@ -142,7 +142,7 @@ void Standard3App::planner_loop()
     auto gs = gimbal_->state();
 
     if (target.has_value()) {
-      bool enable_shoot = shooter_->checkServoReady(
+      bool enable_shoot = shooter_->checkfire(
         plan_result.yaw, plan_result.pitch, gs, target.value());
       plan_result.fire = plan_result.fire && enable_shoot;
     }

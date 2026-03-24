@@ -189,7 +189,6 @@ Shooter:
 ###planner参数###
 Planner:
   fire_thresh: 0.003 # Planner内部的判断，是其当前值与规划序列的判断，不是闭环反馈
-  servo_fire_thresh: 0.03 # 下位机反馈的跟踪开火容差(rad)，plan_yaw与gimbal_yaw差值小于此值才允许开火
   max_yaw_acc: 20 # 最大Yaw加速度上限
   Q_yaw: [9e6, 0] # 状态权重矩阵Q的对角线元素：[位置权重, 速度权重]。
   # 9e6的高位置权重意味着强调精确跟踪目标角度，速度权重为0表示不惩罚速度偏差 

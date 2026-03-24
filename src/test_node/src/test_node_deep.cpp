@@ -48,7 +48,7 @@ PipelineApp::PipelineApp(const std::string & config_path)
   );
 
   camera_ = std::make_unique<camera::Camera>(config_path_);
-  dm_imu_ = std::make_unique<io::DmImu>(config_path_);
+  // dm_imu_ = std::make_unique<io::DmImu>(config_path_);
   detector_ = std::make_unique<armor_auto_aim::Detector>(config_path_);
   solver_ = std::make_unique<solver::Solver>(config_path_);
   yaw_optimizer_ = solver_->getYawOptimizer();
@@ -101,8 +101,8 @@ int PipelineApp::run()
 
     cv::cvtColor(img, debug_packet.rgb_image, cv::COLOR_BGR2RGB);
 
-    orientation = dm_imu_->imu_at(timestamp);
-    // orientation = gimbal_->q(timestamp);
+    // orientation = dm_imu_->imu_at(timestamp);
+    orientation = gimbal_->q(timestamp);
     // utils::logger()->debug(
     //   "[Pipeline] DM_IMU四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
     //   dm_orientation.w(), dm_orientation.x(), dm_orientation.y(), dm_orientation.z());
@@ -355,7 +355,7 @@ void PipelineApp::planner_loop()
     auto gs = gimbal_->state();
 
     if (target.has_value()) {
-      bool enable_shoot = shooter_->checkServoReady(
+      bool enable_shoot = shooter_->checkfire(
         plan_result.yaw, plan_result.pitch, gs, target.value());
       plan_result.fire = plan_result.fire && enable_shoot;
     }
@@ -508,7 +508,7 @@ int main(int argc, char ** argv)
     return 0;
   }
 
-  std::string config_path = std::filesystem::current_path().string() + "/src/config/config.yaml";
+  std::string config_path = std::filesystem::current_path().string() + "/src/config/hero.yaml";
   if (cli.has("@config-path")) {
     config_path = cli.get<std::string>("@config-path");
   }

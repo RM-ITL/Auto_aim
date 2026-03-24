@@ -23,8 +23,8 @@ public:
     const io::GimbalCommand & command, const aimer::Aimer & aimer,
     const TargetVariant & target, const Eigen::Vector3d & gimbal_pos);
 
-  /// 检查伺服跟踪误差是否在允许范围内（normalized error 椭圆判断）
-  bool checkServoReady(
+  /// 检查跟踪误差是否在允许范围内（normalized error 椭圆判断）
+  bool checkfire(
     double cmd_yaw, double cmd_pitch,
     const io::GimbalState & gs,
     const TargetVariant & target);

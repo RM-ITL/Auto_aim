@@ -47,7 +47,7 @@ bool Shooter::shoot(
   return false;
 }
 
-bool Shooter::checkServoReady(
+bool Shooter::checkfire(
   double cmd_yaw, double cmd_pitch,
   const io::GimbalState & gs,
   const TargetVariant & target)
