@@ -1,0 +1,26 @@
+# 开机自启动脚本:
+# 其中start_node.sh是执行脚本，包含source环境，ros2 run node等，auto_aim.service是配置的系统的systemd的service用户服务
+
+# 拷贝到 ~/.config/systemd/user/ 后就能用。服务配置包括：崩溃自动重启、日志可通过journalctl 查看。
+
+# 相关使用命令：
+  # ===== 首次部署（只需执行一次） =====                                                                                                           
+  mkdir -p ~/.config/systemd/user                                                                                                                  
+  cp /home/guo/ITL_Auto_aim/scripts/auto_aim.service ~/.config/systemd/user/                                                                       
+  systemctl --user daemon-reload                                                                                                                   
+  loginctl enable-linger guo                                                                                                                       
+  systemctl --user enable auto_aim                                                                                                                 
+                                                                                                                                                   
+  # ===== 日常操作 =====                                                                                                                           
+  systemctl --user start auto_aim      # 手动启动                                                                                                  
+  systemctl --user stop auto_aim       # 手动停止                                                                                                  
+  systemctl --user status auto_aim     # 查看状态                                                                                                  
+  journalctl --user -u auto_aim -f     # 实时查看日志                                                                                              
+                                                                                                                                                   
+  # ===== 开关自启 =====                                                                                                                           
+  systemctl --user enable auto_aim     # 开启开机自启                                                                                              
+  systemctl --user disable auto_aim    # 关闭开机自启                                                                                              
+                                                                                                                                                   
+  # ===== 修改服务后需要重载 =====                                                                                                                 
+  systemctl --user daemon-reload                                                                                                                   
+  systemctl --user restart auto_aim                                                                                              

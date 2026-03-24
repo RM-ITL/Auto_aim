@@ -1,0 +1,13 @@
+[Unit]
+Description=Auto-Aim Node Service
+After=default.target
+
+[Service]
+Type=exec
+ExecStart=/home/guo/ITL_Auto_aim/scripts/start_node.sh pipeline standard3_node
+Restart=on-failure
+RestartSec=5
+Environment=DISPLAY=:0
+
+[Install]
+WantedBy=default.target
