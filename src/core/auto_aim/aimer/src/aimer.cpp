@@ -146,8 +146,8 @@ AimPoint Aimer::choose_aim_point(const predict::Target & target)
   Eigen::VectorXd ekf_x = target.ekf_x();
   std::vector<Eigen::Vector4d> armor_xyza_list = target.armor_xyza_list();
   const auto armor_num = static_cast<int>(armor_xyza_list.size());
-  // 如果装甲板未发生过跳变，则只有当前装甲板的位置已知
-  if (!target.jumped) return {true, armor_xyza_list[0]};
+  // 如果装甲板未发生过跳变，或处于单板观测模式，则只使用当前观测板
+  if (!target.jumped || target.single_plate_mode) return {true, armor_xyza_list[target.last_id]};
 
   // 整车旋转中心的球坐标yaw
   auto center_yaw = std::atan2(ekf_x[2], ekf_x[0]);

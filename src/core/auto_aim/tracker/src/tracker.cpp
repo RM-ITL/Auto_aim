@@ -33,6 +33,10 @@ Tracker::Tracker(const std::string & config_path, solver::Solver & solver)
   outpost_min_detect_count_ = yaml["Tracker"]["outpost_min_detect_count"].as<int>();
   outpost_detect_fail_tolerance_ = yaml["Tracker"]["outpost_detect_fail_tolerance"].as<int>();
 
+  // 加载单板观测模式参数
+  single_plate_threshold_ = yaml["Tracker"]["single_plate_threshold"].as<int>(50);
+  omega_threshold_ = yaml["Tracker"]["omega_threshold"].as<double>(0.5);
+
   RCLCPP_INFO(rclcpp::get_logger("Tracker"),
               "跟踪器初始化完成 - 敌方颜色: %s",
               enemy_color_str.c_str());
@@ -298,6 +302,12 @@ bool Tracker::set_target(std::list<Armors> & armors,
     is_tracking_outpost_ = false;
     RCLCPP_INFO(rclcpp::get_logger("Tracker"),
                 "初始化标准步兵目标 (ID: %d)", static_cast<int>(armor_pose.id));
+  }
+
+  // 给 Target 类型设置单板模式参数（OutpostTarget 不受影响）
+  if (auto * t = std::get_if<predict::Target>(&target_)) {
+    t->single_plate_threshold = single_plate_threshold_;
+    t->omega_threshold = omega_threshold_;
   }
 
   return true;

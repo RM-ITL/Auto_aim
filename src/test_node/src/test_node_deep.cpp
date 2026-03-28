@@ -431,20 +431,6 @@ void PipelineApp::planner_loop()
         fire_rate = static_cast<float>(fire_count) / static_cast<float>(fire_window_.size());
       }
 
-      // 计算 offset RMS
-      float yaw_offset_rms = 0.0f;
-      float pitch_offset_rms = 0.0f;
-      if (!offset_window_.empty()) {
-        double y_sq = 0, p_sq = 0;
-        for (const auto & s : offset_window_) {
-          y_sq += s.yaw_offset * s.yaw_offset;
-          p_sq += s.pitch_offset * s.pitch_offset;
-        }
-        double n = static_cast<double>(offset_window_.size());
-        yaw_offset_rms = static_cast<float>(std::sqrt(y_sq / n));
-        pitch_offset_rms = static_cast<float>(std::sqrt(p_sq / n));
-      }
-
       auto msg = autoaim_msgs::msg::Debug{};
       msg.enable_control = plan_result.control;
       msg.fire = plan_result.fire;
@@ -455,8 +441,8 @@ void PipelineApp::planner_loop()
       msg.yaw_gimbal = gs.yaw;
       msg.pitch_gimbal = gs.pitch;
       msg.fire_rate = fire_rate;
-      msg.yaw_offset_rms = yaw_offset_rms;
-      msg.pitch_offset_rms = pitch_offset_rms;
+      msg.bullet_speed = gs.bullet_speed;
+      msg.yaw_vel = plan_result.yaw_vel;
       debug_pub_->publish(msg);
     }
 
@@ -465,12 +451,12 @@ void PipelineApp::planner_loop()
       auto target_msg = autoaim_msgs::msg::Target{};
       std::visit([&target_msg](const auto & t) {
         const auto & ekf = t.ekf();
-        target_msg.l = static_cast<float>(ekf.x[9]);
-        target_msg.p_l = static_cast<float>(ekf.P(9, 9));
-        target_msg.h = static_cast<float>(ekf.x[10]);
-        target_msg.p_h = static_cast<float>(ekf.P(10, 10));
-        target_msg.w = static_cast<float>(ekf.x[7]);
-        target_msg.r = static_cast<float>(ekf.x[8]);
+        target_msg.vx = static_cast<float>(ekf.x[1]);
+        target_msg.x = static_cast<float>(ekf.x[0]);
+        target_msg.vy = static_cast<float>(ekf.x[3]);
+        target_msg.y = static_cast<float>(ekf.x[2]);
+        target_msg.vz = static_cast<float>(ekf.x[5]);
+        target_msg.z = static_cast<float>(ekf.x[4]);
       }, target.value());
       target_pub_->publish(target_msg);
     }
@@ -508,7 +494,7 @@ int main(int argc, char ** argv)
     return 0;
   }
 
-  std::string config_path = std::filesystem::current_path().string() + "/src/config/hero.yaml";
+  std::string config_path = std::filesystem::current_path().string() + "/src/config/standard3.yaml";
   if (cli.has("@config-path")) {
     config_path = cli.get<std::string>("@config-path");
   }

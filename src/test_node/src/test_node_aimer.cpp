@@ -405,21 +405,6 @@ void PipelineApp::process_loop()
         fire_rate = static_cast<float>(fire_count) / static_cast<float>(fire_window_.size());
       }
 
-      // 计算 offset RMS 
-      float yaw_offset_rms = 0.0;
-      float pitch_offset_rms = 0.0f;
-      if (!offset_window_.empty()) {
-        double y_sum = 0, y_sq = 0, p_sum = 0, p_sq = 0;
-        for (const auto & s : offset_window_) {
-          y_sum += s.yaw_offset;
-          y_sq += s.yaw_offset * s.yaw_offset;
-          p_sum += s.pitch_offset;
-          p_sq += s.pitch_offset * s.pitch_offset;
-        }
-        double n = static_cast<double>(offset_window_.size());
-        yaw_offset_rms = static_cast<float>(std::sqrt(y_sq / n));
-        pitch_offset_rms = static_cast<float>(std::sqrt(p_sq / n));
-      }
 
       auto msg = autoaim_msgs::msg::Debug{};
       msg.enable_control = Command.control;
@@ -431,8 +416,6 @@ void PipelineApp::process_loop()
       msg.yaw_gimbal = gs.yaw;
       msg.pitch_gimbal = gs.pitch;
       msg.fire_rate = fire_rate;
-      msg.yaw_offset_rms = yaw_offset_rms;
-      msg.pitch_offset_rms = pitch_offset_rms;
       debug_pub_->publish(msg);
     }
 

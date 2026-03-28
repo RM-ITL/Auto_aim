@@ -1,6 +1,6 @@
-float32 l
-float32 p_l
-float32 h
-float32 p_h
-float32 w
-float32 r
+float32 x
+float32 y
+float32 z
+float32 vx
+float32 vy
+float32 vz

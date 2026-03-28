@@ -13,6 +13,7 @@
   <depend>rclcpp</depend>
   <depend>Eigen3</depend>
   <depend>utils</depend>
+  <depend>yaml-cpp</depend>
   <depend>serial</depend>
   <depend>autoaim_msgs</depend>
   <depend>deveice</depend>

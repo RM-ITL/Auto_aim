@@ -75,7 +75,7 @@ yolo:
   enemy_color: "red"
   # 检测阈值
   min_confidence: 0.4   # 最终过滤
-  score_threshold: 0.4  # 初步筛选低置信度框
+  score_threshold: 0.7  # 初步筛选低置信度框
   nms_threshold: 0.3    # 去除重叠框
   use_traditional: true
 
@@ -153,6 +153,9 @@ Tracker:
   # 前哨站特化参数
   outpost_min_detect_count: 3      # 前哨站的最小检测次数（更快进入tracking）
   outpost_detect_fail_tolerance: 8  # 前哨站在detecting状态允许的连续失败帧数
+  # 单板观测模式参数
+  single_plate_threshold: 50       # 连续无板切换帧数超过此值进入单板模式
+  omega_threshold: 0.5             # rad/s，角速度低于此值时才允许进入单板模式
 
 
 # 瞄准器Aimer参数
@@ -171,9 +174,9 @@ Aimer:
 
 #####-----shooter参数-----#####
 Shooter:
-  first_tolerance: 3 # 近距离射击容差，degree
-  second_tolerance: 2 # 远距离射击容差，degree
-  judge_distance: 3 #距离判断阈值
+  first_tolerance: 1.8 # 近距离射击容差，degree
+  second_tolerance: 1.3 # 远距离射击容差，degree
+  judge_distance: 2 #距离判断阈值
   auto_fire: true # 是否由自瞄控制射击
 
 # planner调参：
@@ -197,10 +200,10 @@ Planner:
   Q_pitch: [9e6, 0]
   R_pitch: [1]
   yaw_offset: 1 # degree，相机光心与枪管中心的yaw偏差
-  pitch_offset: 3.25 # degree，pitch相对枪管的中心补偿参数
+  pitch_offset: 2.8 # degree，pitch相对枪管的中心补偿参数
   decision_speed: 7 # rad/s， 高低速的判断阈值，大于此值的为高速目标
-  high_speed_delay_time: 0.06 # s，高速目标的额外时间补偿
-  low_speed_delay_time: 0.05 # s，低速目标的额外时间补偿
+  high_speed_delay_time: 0.1 # s，高速目标的额外时间补偿
+  low_speed_delay_time: 0.1 # s，低速目标的额外时间补偿
 
 
 GuardPlanner:

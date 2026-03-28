@@ -30,14 +30,17 @@ CaptureApp::CaptureApp(const std::string & config_path, const std::string & outp
 {
   ros_node_ = std::make_shared<rclcpp::Node>("capture_node");
 
-  camera_ = std::make_unique<camera::HikCamera>(config_path_);
+  camera_ = std::make_unique<camera::Camera>(config_path_);
   gimbal_ = std::make_unique<io::Gimbal>(config_path_);
-
+  dm_imu_ = std::make_unique<io::DmImu>(config_path_);
   // 创建输出文件夹
   std::filesystem::create_directories(output_folder_);
 
   utils::logger()->info("[Capture] 模块初始化完成");
-  utils::logger()->info("[Capture] 棋盘格尺寸: {}x{}", chessboard_size_.width, chessboard_size_.height);
+  utils::logger()->info("[Capture] 圆点板尺寸: {}x{}", pattern_size_.width, pattern_size_.height);
+  utils::logger()->info(
+    "[Capture] 圆点直径: {:.1f} mm, 圆心距: {:.1f} mm, 板尺寸: {}x{} mm",
+    circle_diameter_mm_, circle_spacing_mm_, board_size_mm_.width, board_size_mm_.height);
   utils::logger()->info("[Capture] 输出文件夹: {}", output_folder_);
 }
 
@@ -55,6 +58,16 @@ void CaptureApp::write_q(const std::string & q_path, const Eigen::Quaterniond & 
   q_file.close();
 }
 
+void CaptureApp::write_timestamp(
+  const std::string & timestamp_path, std::chrono::steady_clock::time_point timestamp)
+{
+  std::ofstream timestamp_file(timestamp_path);
+  auto timestamp_ns =
+    std::chrono::duration_cast<std::chrono::nanoseconds>(timestamp.time_since_epoch()).count();
+  timestamp_file << timestamp_ns;
+  timestamp_file.close();
+}
+
 int CaptureApp::run()
 {
   cv::namedWindow(window_name_, cv::WINDOW_NORMAL);
@@ -70,35 +83,31 @@ int CaptureApp::run()
     std::chrono::steady_clock::time_point timestamp;
 
     camera_->read(img, timestamp);
-    Eigen::Quaterniond q = gimbal_->q(timestamp);
+    // Eigen::Quaterniond q = gimbal_->q(timestamp);
+    Eigen::Quaterniond q = dm_imu_->imu_at(timestamp);
 
-    // 在图像上显示欧拉角，用来判断 IMU 坐标系的 xyz 正方向，同时判断 IMU 是否存在零漂
-    auto img_with_ypr = img.clone();
-    Eigen::Vector3d zyx = utils::eulers(q, 2, 1, 0) * 57.3;  // 转换为角度
-    utils::draw_text(img_with_ypr, fmt::format("Z {:.2f}", zyx[0]), {40, 40}, {0, 0, 255});
-    utils::draw_text(img_with_ypr, fmt::format("Y {:.2f}", zyx[1]), {40, 80}, {0, 0, 255});
-    utils::draw_text(img_with_ypr, fmt::format("X {:.2f}", zyx[2]), {40, 120}, {0, 0, 255});
-
-    // 检测棋盘格角点
-    std::vector<cv::Point2f> corners;
-    auto success = cv::findChessboardCorners(
-      img, chessboard_size_, corners,
-      cv::CALIB_CB_ADAPTIVE_THRESH | cv::CALIB_CB_NORMALIZE_IMAGE | cv::CALIB_CB_FAST_CHECK);
-
-    // 如果找到角点，进行亚像素精确化
-    if (success) {
-      cv::Mat gray;
-      cv::cvtColor(img, gray, cv::COLOR_BGR2GRAY);
-      cv::cornerSubPix(
-        gray, corners, cv::Size(11, 11), cv::Size(-1, -1),
-        cv::TermCriteria(cv::TermCriteria::EPS + cv::TermCriteria::COUNT, 30, 0.1));
+    cv::Mat img_bgr;
+    if (camera_->camera_type() == "mindvision") {
+      cv::cvtColor(img, img_bgr, cv::COLOR_RGB2BGR);
+    } else {
+      img_bgr = img;
     }
 
-    // 绘制检测结果
-    cv::drawChessboardCorners(img_with_ypr, chessboard_size_, corners, success);
+    // 预览图缩放后再检测，保证实时显示流畅
+    cv::Mat preview_img;
+    cv::resize(img_bgr, preview_img, {}, preview_scale_, preview_scale_);
+    auto img_with_ypr = preview_img.clone();
+    Eigen::Vector3d zyx = utils::eulers(q, 2, 1, 0) * 57.3;  // 转换为角度
+    utils::draw_text(img_with_ypr, fmt::format("Z {:.2f}", zyx[0]), {20, 20}, {0, 0, 255});
+    utils::draw_text(img_with_ypr, fmt::format("Y {:.2f}", zyx[1]), {20, 50}, {0, 0, 255});
+    utils::draw_text(img_with_ypr, fmt::format("X {:.2f}", zyx[2]), {20, 80}, {0, 0, 255});
 
-    // 显示时缩小图片尺寸
-    cv::resize(img_with_ypr, img_with_ypr, {}, 0.5, 0.5);
+    std::vector<cv::Point2f> preview_centers;
+    auto preview_success = cv::findCirclesGrid(
+      preview_img, pattern_size_, preview_centers, 
+      cv::CALIB_CB_SYMMETRIC_GRID | cv::CALIB_CB_CLUSTERING);
+
+    cv::drawChessboardCorners(img_with_ypr, pattern_size_, preview_centers, preview_success);
 
     cv::imshow(window_name_, img_with_ypr);
     auto key = cv::waitKey(1);
@@ -109,12 +118,25 @@ int CaptureApp::run()
       continue;
     }
 
-    // 保存图片和四元数
+    // 保存前做一次全分辨率圆点板检测
+    std::vector<cv::Point2f> centers;
+    auto success = cv::findCirclesGrid(
+      img_bgr, pattern_size_, centers,
+      cv::CALIB_CB_SYMMETRIC_GRID | cv::CALIB_CB_CLUSTERING);
+
+    if (!success) {
+      utils::logger()->warn("[Capture] 当前帧未检测到圆点板，未保存");
+      continue;
+    }
+
+    // 保存图片、四元数和时间戳
     count++;
     auto img_path = fmt::format("{}/{}.jpg", output_folder_, count);
     auto q_path = fmt::format("{}/{}.txt", output_folder_, count);
-    cv::imwrite(img_path, img);
+    auto timestamp_path = fmt::format("{}/{}_timestamp.txt", output_folder_, count);
+    cv::imwrite(img_path, img_bgr);
     write_q(q_path, q);
+    write_timestamp(timestamp_path, timestamp);
     utils::logger()->info("[Capture] [{}] 已保存至 {}", count, output_folder_);
   }
 

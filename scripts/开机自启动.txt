@@ -6,7 +6,7 @@
 # 相关使用命令：
   # ===== 首次部署（只需执行一次） =====                                                                                                           
   mkdir -p ~/.config/systemd/user                                                                                                                  
-  cp /home/guo/ITL_Auto_aim/scripts/auto_aim.service ~/.config/systemd/user/                                                                       
+  cp /home/guo/ITL_Auto_aim/scripts/auto_aim.service ~/.config/systemd/user/      // 这个路径也需要修改                                                                 
   systemctl --user daemon-reload                                                                                                                   
   loginctl enable-linger guo                                                                                                                       
   systemctl --user enable auto_aim                                                                                                                 

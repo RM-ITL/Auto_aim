@@ -14,6 +14,7 @@ find_package(OpenCV REQUIRED)
 find_package(utils REQUIRED)
 find_package(serial REQUIRED)
 find_package(Eigen3 REQUIRED)
+find_package(yaml-cpp REQUIRED)
 find_package(autoaim_msgs REQUIRED)
 find_package(deveice REQUIRED)
 find_package(auto_aim REQUIRED)
@@ -44,6 +45,14 @@ add_executable(capture_node
   src/capture_node.cpp
 )
 
+add_executable(camera_calib_node
+  src/camera_calib_node.cpp
+)
+
+add_executable(handeye_calib_node
+  src/handeye_calib_node.cpp
+)
+
 target_include_directories(deep_node PRIVATE
   include
 )
@@ -61,6 +70,14 @@ target_include_directories(cv_node PRIVATE
 )
 
 target_include_directories(capture_node PRIVATE
+  include
+)
+
+target_include_directories(camera_calib_node PRIVATE
+  include
+)
+
+target_include_directories(handeye_calib_node PRIVATE
   include
 )
 
@@ -112,6 +129,14 @@ ament_target_dependencies(capture_node
   serial
 )
 
+ament_target_dependencies(camera_calib_node
+  utils
+)
+
+ament_target_dependencies(handeye_calib_node
+  utils
+)
+
 ament_target_dependencies(aimer_node
   rclcpp
   Eigen3
@@ -152,6 +177,16 @@ target_link_libraries(capture_node
   deveice::deveice
 )
 
+target_link_libraries(camera_calib_node
+  ${OpenCV_LIBS}
+  yaml-cpp
+)
+
+target_link_libraries(handeye_calib_node
+  ${OpenCV_LIBS}
+  yaml-cpp
+)
+
 target_link_libraries(aimer_node
   ${OpenCV_LIBS}
   deveice::deveice
@@ -164,6 +199,8 @@ install(TARGETS
   base_hit_node
   cv_node
   capture_node
+  camera_calib_node
+  handeye_calib_node
   aimer_node
   DESTINATION lib/${PROJECT_NAME}
 )

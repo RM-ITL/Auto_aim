@@ -80,7 +80,7 @@ void MindVision::open()
   CameraSetExposureTime(handle_, exposure_ms_ * 1e3);      // 设置曝光
   CameraSetGamma(handle_, gamma_ * 1e2);                   // 设置伽马
   CameraSetWbMode(handle_, FALSE);                         // 手动白平衡模式
-  CameraSetGain(handle_, 180, 130, 100);                   // 手动设置RGB增益
+  CameraSetGain(handle_, 150, 130, 100);                   // 手动设置RGB增益
   CameraSetIspOutFormat(handle_, CAMERA_MEDIA_TYPE_RGB8);  // 设置输出格式为RGB
   CameraSetTriggerMode(handle_, 0);                        // 设置为连续采集模式
   CameraSetFrameSpeed(handle_, 1);                         // 设置为低帧率模式

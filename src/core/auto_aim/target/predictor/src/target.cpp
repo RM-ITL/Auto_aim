@@ -116,6 +116,7 @@ void Target::predict(double dt)
             0,      0,      0,      0,      0,      0,      0,      0, 0, 0, 0;
   
   Q(10, 10) = 0.001;  // h高低差的过程噪声，允许缓慢的纠正
+  Q(8, 8) = 0.001;
   // Q(9, 9) = 0.01;
   // 防止夹角求和出现异常值
   auto f = [&](const Eigen::VectorXd & x) -> Eigen::VectorXd {
@@ -183,6 +184,19 @@ void Target::update(const solver::Armor_pose & armor_pose)
 
   last_id = id;
   update_count_++;
+
+  // 维护单板观测模式
+  if (is_switch_) {
+    no_switch_count_ = 0;
+    single_plate_mode = false;  // 发生板切换，退出单板模式
+  } else {
+    no_switch_count_++;
+  }
+  // 进入条件：长时间无切换 且 角速度低（排除高速旋转恰好看同一面的情况）
+  if (no_switch_count_ > single_plate_threshold &&
+      std::abs(ekf_.x[7]) < omega_threshold) {
+    single_plate_mode = true;
+  }
 
   update_ypda(armor_pose, id);
 

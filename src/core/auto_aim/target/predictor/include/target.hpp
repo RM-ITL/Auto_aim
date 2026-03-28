@@ -25,6 +25,9 @@ public:
   armor_auto_aim::ArmorPriority priority = armor_auto_aim::ArmorPriority::fifth;
   bool jumped = false;
   int last_id = 0;  // debug only
+  bool single_plate_mode = false;   // 单板观测模式标志
+  int single_plate_threshold = 50;  // 进入单板模式的无切换帧数阈值
+  double omega_threshold = 0.5;     // 角速度阈值(rad/s)，低于此值才允许进入单板模式
 
   Target() = default;
   
@@ -60,6 +63,7 @@ private:
   int armor_num_ = 0;
   int switch_count_ = 0;
   int update_count_ = 0;
+  int no_switch_count_ = 0;  // 连续无板切换帧计数
 
   bool is_switch_ = false, is_converged_ = false;
 

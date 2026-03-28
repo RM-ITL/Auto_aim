@@ -53,6 +53,10 @@ private:
   int outpost_detect_fail_tolerance_;
   int detect_fail_count_;
 
+  // 单板观测模式参数
+  int single_plate_threshold_;
+  double omega_threshold_;
+
   // 状态管理
   std::string state_;
   std::string pre_state_;

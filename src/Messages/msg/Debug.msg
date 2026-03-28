@@ -7,5 +7,5 @@ float32 pitch
 float32 yaw_gimbal
 float32 pitch_gimbal
 float32 fire_rate
-float32 yaw_offset_rms
-float32 pitch_offset_rms
+float32 bullet_speed
+float32 yaw_vel

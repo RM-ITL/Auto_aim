@@ -36,11 +36,18 @@ Plan Planner::plan(predict::Target target, double bullet_speed)
   // 1. Predict fly_time
   Eigen::Vector3d xyz;
   auto min_dist = 1e10;
-  for (auto & xyza : target.armor_xyza_list()) {
-    auto dist = xyza.head<2>().norm();
-    if (dist < min_dist) {
-      min_dist = dist;
-      xyz = xyza.head<3>();
+  if (target.single_plate_mode) {
+    // 单板模式：只用当前观测板估算飞行时间
+    auto xyza = target.armor_xyza_list()[target.last_id];
+    min_dist = xyza.head<2>().norm();
+    xyz = xyza.head<3>();
+  } else {
+    for (auto & xyza : target.armor_xyza_list()) {
+      auto dist = xyza.head<2>().norm();
+      if (dist < min_dist) {
+        min_dist = dist;
+        xyz = xyza.head<3>();
+      }
     }
   }
   auto bullet_traj = utils::Trajectory(bullet_speed, min_dist, xyz.z());
@@ -166,20 +173,27 @@ Eigen::Matrix<double, 2, 1> Planner::aim(const predict::Target & target, double 
 {
   Eigen::Vector3d xyz;
   double yaw;
-  auto min_dist = 1e10;
 
-  for (auto & xyza : target.armor_xyza_list()) {
-    auto dist = xyza.head<2>().norm();
-    if (dist < min_dist) {
-      min_dist = dist;
-      xyz = xyza.head<3>();
-      yaw = xyza[3];
+  if (target.single_plate_mode) {
+    // 单板模式：只用当前观测板
+    auto xyza = target.armor_xyza_list()[target.last_id];
+    xyz = xyza.head<3>();
+    yaw = xyza[3];
+  } else {
+    auto min_dist = 1e10;
+    for (auto & xyza : target.armor_xyza_list()) {
+      auto dist = xyza.head<2>().norm();
+      if (dist < min_dist) {
+        min_dist = dist;
+        xyz = xyza.head<3>();
+        yaw = xyza[3];
+      }
     }
   }
   debug_xyza = Eigen::Vector4d(xyz.x(), xyz.y(), xyz.z(), yaw);
 
   auto azim = std::atan2(xyz.y(), xyz.x());
-  auto bullet_traj = utils::Trajectory(bullet_speed, min_dist, xyz.z());
+  auto bullet_traj = utils::Trajectory(bullet_speed, xyz.head<2>().norm(), xyz.z());
   if (bullet_traj.unsolvable) throw std::runtime_error("Unsolvable bullet trajectory!");
 
   return {utils::limit_rad(azim + yaw_offset_), -bullet_traj.pitch - pitch_offset_};

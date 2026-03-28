@@ -12,6 +12,8 @@ logs/
 save/
 Picture/
 
+Camera/
+
 # scripts 下默认全部忽略，只保留 3 个自启动相关文件
 /scripts/*
 !/scripts/auto_aim.service
