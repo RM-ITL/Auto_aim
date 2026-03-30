@@ -160,7 +160,9 @@ void Sentry::read_thread()
       std::lock_guard<std::mutex> lock(mutex_);
 
       state_.yaw = rx_data_.yaw;
+      state_.yaw_vel = 0.0f;
       state_.pitch = rx_data_.pitch;
+      state_.pitch_vel = 0.0f;
       state_.bullet_speed = rx_data_.bullet_speed;
       state_.bullet_count = rx_data_.bullet_count;
 

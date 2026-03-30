@@ -217,12 +217,14 @@ set_target_properties(deveice_lower_sentry PROPERTIES EXPORT_NAME lower_sentry)
 target_include_directories(deveice_lower_sentry
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lower_sentry/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/gimbal/include>
     $<INSTALL_INTERFACE:include>
     ${LIBSERIAL_INCLUDE_DIRS}
 )
 
 target_link_libraries(deveice_lower_sentry
   PUBLIC
+    deveice_gimbal
     Eigen3::Eigen
     yaml-cpp
     utils::utils

@@ -33,6 +33,7 @@
 #include "autoaim_msgs/msg/outpost.hpp"
 #include "autoaim_msgs/msg/sentry_cmd.hpp"
 #include "lower_sentry.hpp"
+#include "shooter.hpp"
 
 namespace Application
 {
@@ -74,6 +75,7 @@ private:
   std::unique_ptr<plan::Planner> planner_;
   std::unique_ptr<guard::GuardPlanner> guard_planner_;
   std::unique_ptr<io::Sentry> sentry_;
+  std::unique_ptr<shooter::Shooter> shooter_;
   rclcpp::Node::SharedPtr ros_node_;
 
   // Debug所用的Topic
@@ -123,6 +125,10 @@ private:
   std::deque<double> delay_window_;
   const size_t delay_window_size_{100};
   std::chrono::steady_clock::time_point last_delay_log_time_;
+
+  // fire占比统计（滑动时间窗口）
+  std::deque<std::pair<std::chrono::steady_clock::time_point, bool>> fire_window_;
+  double fire_window_sec_{10.0};
 };
 
 }  // namespace Application

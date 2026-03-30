@@ -12,6 +12,7 @@
 
 #include "serial/serial.h"
 #include "thread_safe_queue.hpp"
+#include "gimbal.hpp"
 
 namespace io
 {
@@ -30,6 +31,7 @@ struct __attribute__((packed)) lowerToSentry
   uint8_t low_health;   // 标志位2，回家补血判断
   uint8_t resupply_done;// 标志位3，补给完毕
   uint16_t bullet_count;  // 子弹累计发送次数
+  uint8_t die_flag;
   uint8_t tail = 'G';
 };
 
@@ -51,14 +53,6 @@ struct __attribute__((packed)) SentryTolower
 
 
 static_assert(sizeof(SentryTolower) <= 64);
-
-struct GimbalState
-{
-  float yaw;
-  float pitch;
-  float bullet_speed;
-  uint16_t bullet_count;
-};
 
 class Sentry
 {

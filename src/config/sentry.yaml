@@ -53,7 +53,7 @@ CalibParam:
 camera:
   type: "hik"  # 可选: "hik", "mindvision"
   parameters:
-    exposure_ms: 2.0
+    exposure_ms: 3.0
     gain: 12.0
     gamma: 100.0
     fps: 120.0
@@ -176,8 +176,8 @@ Aimer:
 
 #####-----shooter参数-----#####
 Shooter:
-  first_tolerance: 3 # 近距离射击容差，degree
-  second_tolerance: 2 # 远距离射击容差，degree
+  first_tolerance: 1.8 # 近距离射击容差，degree
+  second_tolerance: 1.4 # 远距离射击容差，degree
   judge_distance: 2 #距离判断阈值
   auto_fire: true # 是否由自瞄控制射击
 
@@ -195,19 +195,18 @@ Shooter:
 ###planner参数###
 Planner:
   fire_thresh: 0.0015 # 允许开火阈值，值越小要求精度越高，代表着实际角度和规划角度之间的误差
-  servo_fire_thresh: 0.03 # 下位机反馈的跟踪开火容差(rad)，plan_yaw与gimbal_yaw差值小于此值才允许开火
-  max_yaw_acc: 50 # 最大Yaw加速度上限
-  Q_yaw: [5e6, 0] # 状态权重矩阵Q的对角线元素：[位置权重, 速度权重]。
+  max_yaw_acc: 15 # 最大Yaw加速度上限
+  Q_yaw: [9e6, 0] # 状态权重矩阵Q的对角线元素：[位置权重, 速度权重]。
   # 9e6的高位置权重意味着强调精确跟踪目标角度，速度权重为0表示不惩罚速度偏差 
   R_yaw: [1]
-  max_pitch_acc: 100  # 最大pitch加速度上限
-  Q_pitch: [5e6, 0]
+  max_pitch_acc: 50  # 最大pitch加速度上限
+  Q_pitch: [9e6, 0]
   R_pitch: [1]
   yaw_offset: 0 # degree，相机光心与枪管中心的yaw偏差
   pitch_offset: -2 # degree，pitch相对枪管的中心补偿参数
   decision_speed: 7 # rad/s， 高低速的判断阈值，大于此值的为高速目标
-  high_speed_delay_time: 0.0 # s，高速目标的额外时间补偿
-  low_speed_delay_time: 0.0 # s，低速目标的额外时间补偿
+  high_speed_delay_time: 0.1 # s，高速目标的额外时间补偿
+  low_speed_delay_time: 0.1 # s，低速目标的额外时间补偿
 
 
 GuardPlanner:
@@ -264,8 +263,8 @@ Base_Hit:
 # 哨兵扫描参数
 Scan:
   yaw_center: 0.0        # yaw扫描中心 (rad)
-  yaw_amplitude: 1.5     # yaw扫描幅度 (rad)
+  yaw_amplitude: 1.5     # yaw扫描幅度 (rad)，正负90度，覆盖180度
   yaw_period: 6.0        # yaw周期 (s)
   pitch_center: -0.05    # pitch扫描中心 (rad)，略微向下
-  pitch_amplitude: 0.15  # pitch扫描幅度 (rad)
-  pitch_period: 3.0      # pitch周期 (s)
+  pitch_amplitude: 0.3  # pitch扫描幅度 (rad)
+  pitch_period: 3.0      # pitch周期 (s),正负18度左右，覆盖36度

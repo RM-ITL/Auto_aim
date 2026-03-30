@@ -75,6 +75,7 @@ PipelineApp::PipelineApp(const std::string & config_path)
   yaw_optimizer_ = solver_->getYawOptimizer();
   tracker_ = std::make_unique<tracker::Tracker>(config_path_, *solver_);
   planner_ = std::make_unique<plan::Planner>(config_path_);
+  shooter_ = std::make_unique<shooter::Shooter>(config_path_);
   sentry_ = std::make_unique<io::Sentry>(config_path_);
 
   // 注册下位机接收回调：发布SentryCmd和JointState
@@ -84,6 +85,7 @@ PipelineApp::PipelineApp(const std::string & config_path)
       msg.start_nav = (data.sentry_nav == 1);
       msg.low_health = (data.low_health == 1);
       msg.resupply_done = (data.resupply_done == 1);
+      msg.die_flag = (data.die_flag == 1);
       cmd_pub_->publish(msg);
     }
     if (tf_complete_pub_) {
@@ -173,67 +175,47 @@ int PipelineApp::run()
     else
       target_queue.push(std::nullopt);
 
-    // 计算系统总延迟并统计
-    double total_delay_ms = std::chrono::duration<double, std::milli>(t5 - t0).count();
-    delay_window_.push_back(total_delay_ms);
-    if (delay_window_.size() > delay_window_size_) {
-      delay_window_.pop_front();
-    }
 
-    // 每5秒输出一次统计信息
-    auto now = std::chrono::steady_clock::now();
-    if (now - last_delay_log_time_ > std::chrono::seconds(5) && delay_window_.size() >= 10) {
-      std::vector<double> sorted_delays(delay_window_.begin(), delay_window_.end());
-      std::sort(sorted_delays.begin(), sorted_delays.end());
-      size_t p95_idx = static_cast<size_t>(sorted_delays.size() * 0.95);
-      double p95_delay = sorted_delays[p95_idx];
-      double avg_delay = std::accumulate(sorted_delays.begin(), sorted_delays.end(), 0.0) / sorted_delays.size();
-      utils::logger()->info(
-        "[Pipeline] 系统延迟统计 - 平均: {:.2f}ms, 95分位: {:.2f}ms, 最大: {:.2f}ms",
-        avg_delay, p95_delay, sorted_delays.back());
-      last_delay_log_time_ = now;
-    }
+    // if (enable_visualization_) {
+    //   debug_packet.reprojected_armors.reserve(targets.size() * 4);
+    // }
 
-    if (enable_visualization_) {
-      debug_packet.reprojected_armors.reserve(targets.size() * 4);
-    }
+    // bool is_first_target = true;
+    // for (const auto & target : targets) {
+    //   const auto armor_xyza_list = std::visit(
+    //     [](const auto & t) { return t.armor_xyza_list(); }, target);
+    //   const auto armor_type = std::visit(
+    //     [](const auto & t) { return t.armor_type; }, target);
+    //   const auto target_name = std::visit(
+    //     [](const auto & t) { return t.name; }, target);
 
-    bool is_first_target = true;
-    for (const auto & target : targets) {
-      const auto armor_xyza_list = std::visit(
-        [](const auto & t) { return t.armor_xyza_list(); }, target);
-      const auto armor_type = std::visit(
-        [](const auto & t) { return t.armor_type; }, target);
-      const auto target_name = std::visit(
-        [](const auto & t) { return t.name; }, target);
+    //   for (const Eigen::Vector4d & xyza : armor_xyza_list) {
+    //     Eigen::Vector3d world_point(xyza.x(), xyza.y(), xyza.z());
+    //     auto image_points =
+    //       yaw_optimizer_->reproject_armor_out(world_point, xyza[3], armor_type, target_name);
 
-      for (const Eigen::Vector4d & xyza : armor_xyza_list) {
-        Eigen::Vector3d world_point(xyza.x(), xyza.y(), xyza.z());
-        auto image_points =
-          yaw_optimizer_->reproject_armor_out(world_point, xyza[3], armor_type, target_name);
+    //     if (image_points.size() == 4) {
+    //       if (is_first_target) {
+    //         is_first_target = false;
+    //       }
 
-        if (image_points.size() == 4) {
-          if (is_first_target) {
-            is_first_target = false;
-          }
-
-          if (enable_visualization_) {
-            Visualization vis_armor;
-            std::copy(image_points.begin(), image_points.end(), vis_armor.corners.begin());
-            vis_armor.name = target_name;
-            vis_armor.type = armor_type;
-            debug_packet.reprojected_armors.push_back(vis_armor);
-          }
-        }
-      }
-    }
+    //       if (enable_visualization_) {
+    //         Visualization vis_armor;
+    //         std::copy(image_points.begin(), image_points.end(), vis_armor.corners.begin());
+    //         vis_armor.name = target_name;
+    //         vis_armor.type = armor_type;
+    //         debug_packet.reprojected_armors.push_back(vis_armor);
+    //       }
+    //     }
+    //   }
+    // }
 
     debug_packet.tracker_state = tracker_->state();
     debug_packet.valid = true;
 
-    if (enable_visualization_) {
-      visualization_queue.push(debug_packet);
-    }
+    // if (enable_visualization_) {
+    //   visualization_queue.push(debug_packet);
+    // }
 
     if (debug_packet.tracker_state != last_state) {
       utils::logger()->info(
@@ -263,9 +245,9 @@ void PipelineApp::start_threads()
   if (planner_) {
     planner_thread_ = std::thread(&PipelineApp::planner_loop, this);
   }
-  if (enable_visualization_) {
-    visualization_thread_ = std::thread(&PipelineApp::visualization_loop, this);
-  }
+  // if (enable_visualization_) {
+  //   visualization_thread_ = std::thread(&PipelineApp::visualization_loop, this);
+  // }
   // ROS spin线程，用于接收订阅消息
   spin_thread_ = std::thread([this]() {
     while (!quit_.load() && rclcpp::ok()) {
@@ -288,43 +270,43 @@ void PipelineApp::join_threads()
   }
 }
 
-void PipelineApp::visualization_loop()
-{
-  utils::logger()->info("[Pipeline] 可视化线程启动");
-  try {
-    cv::namedWindow(visualization_window_name_, cv::WINDOW_NORMAL);
-  } catch (const cv::Exception & e) {
-    utils::logger()->error("[Pipeline] 创建可视化窗口失败: {}", e.what());
-    return;
-  }
+// void PipelineApp::visualization_loop()
+// {
+//   utils::logger()->info("[Pipeline] 可视化线程启动");
+//   try {
+//     cv::namedWindow(visualization_window_name_, cv::WINDOW_NORMAL);
+//   } catch (const cv::Exception & e) {
+//     utils::logger()->error("[Pipeline] 创建可视化窗口失败: {}", e.what());
+//     return;
+//   }
 
-  while (!quit_.load()) {
-    if (g_stop_requested.load()) {
-      break;
-    }
+//   while (!quit_.load()) {
+//     if (g_stop_requested.load()) {
+//       break;
+//     }
 
-    DebugPacket packet;
-    visualization_queue.pop(packet);
+//     DebugPacket packet;
+//     visualization_queue.pop(packet);
 
-    if (!packet.valid) {
-      break;
-    }
+//     if (!packet.valid) {
+//       break;
+//     }
 
-    try {
-      cv::Mat canvas = packet.rgb_image.clone();
-      const int frame_index = visualization_frame_counter_.fetch_add(1) + 1;
-      detector_->visualize_results(canvas, packet.reprojected_armors, visualization_center_point_, frame_index);
+//     try {
+//       cv::Mat canvas = packet.rgb_image.clone();
+//       const int frame_index = visualization_frame_counter_.fetch_add(1) + 1;
+//       detector_->visualize_results(canvas, packet.reprojected_armors, visualization_center_point_, frame_index);
 
-      cv::imshow(visualization_window_name_, canvas);
-      cv::waitKey(1);
-    } catch (const std::exception & e) {
-      utils::logger()->warn("[Pipeline] 可视化帧处理失败: {}", e.what());
-    }
-  }
+//       cv::imshow(visualization_window_name_, canvas);
+//       cv::waitKey(1);
+//     } catch (const std::exception & e) {
+//       utils::logger()->warn("[Pipeline] 可视化帧处理失败: {}", e.what());
+//     }
+//   }
 
-  cv::destroyWindow(visualization_window_name_);
-  utils::logger()->info("[Pipeline] 可视化线程退出");
-}
+//   cv::destroyWindow(visualization_window_name_);
+//   utils::logger()->info("[Pipeline] 可视化线程退出");
+// }
 
 void PipelineApp::planner_loop()
 {
@@ -354,11 +336,10 @@ void PipelineApp::planner_loop()
     auto plan_result = planner_->plan(target, bullet_speed_);
     auto gs = sentry_->state();
 
-    // 开火判断
-    bool enable_shoot = std::abs(plan_result.yaw - gs.yaw) < 0.02
-                     && std::abs(plan_result.pitch - gs.pitch) < 0.015;
-    if (enable_shoot) {
-      plan_result.fire = true;
+    if (target.has_value()) {
+      bool enable_shoot = shooter_->checkfire(
+        plan_result.yaw, plan_result.pitch, gs, target.value());
+      plan_result.fire = plan_result.fire && enable_shoot;
     }
 
     // 确定mode和yaw/pitch
@@ -394,43 +375,58 @@ void PipelineApp::planner_loop()
     }
 
     // 发送到下位机，vx/vy/w始终透传导航速度
-    // sentry_->send(mode, send_yaw, send_pitch,
-    //               nav_vx_.load(), nav_vy_.load(), nav_w_.load());
+    sentry_->send(mode, send_yaw, send_pitch,
+                  nav_vx_.load(), nav_vy_.load(), nav_w_.load());
     
-    sentry_->send(mode, 0.0, 0.0,
-                  0.0, 0.0, 0.0);
+
+
+    // uint8_t mode = plan_result.fire ? 2 : 1;
+
+    // if (plan_result.control) {
+    //   sentry_->send(
+    //     mode, plan_result.yaw, plan_result.pitch, 0.0, 0.0, 0.0);
+    //     // gimbal_->send_simple(plan_result.control, plan_result.fire, plan_result.yaw, plan_result.pitch);
+    // } else {
+    //   sentry_->send(0, gs.yaw, gs.pitch, 0.0, 0.0, 0.0);
+    //   // if (servo_compensator_) servo_compensator_->reset();
+    // }
+
+    // 统计滑动窗口内fire占比
+    {
+      auto now_fire = std::chrono::steady_clock::now();
+      fire_window_.emplace_back(now_fire, plan_result.fire);
+      auto cutoff = now_fire - std::chrono::duration<double>(fire_window_sec_);
+      while (!fire_window_.empty() && fire_window_.front().first < cutoff) {
+        fire_window_.pop_front();
+      }
+    }
 
     if (debug_pub_) {
+      // 计算fire_rate（窗口内fire帧占比）
+      float fire_rate = 0.0f;
+      if (!fire_window_.empty()) {
+        int fire_count = 0;
+        for (const auto & [t, f] : fire_window_) {
+          if (f) fire_count++;
+        }
+        fire_rate = static_cast<float>(fire_count) / static_cast<float>(fire_window_.size());
+      }
+
       auto msg = autoaim_msgs::msg::Debug{};
       msg.enable_control = plan_result.control;
       msg.fire = plan_result.fire;
+      msg.fire_rate = fire_rate;
       msg.yaw_offest = plan_result.yaw - gs.yaw;
+      msg.pitch_offset = plan_result.pitch - gs.pitch;
       msg.yaw = plan_result.yaw;
       msg.pitch = plan_result.pitch;
       msg.yaw_gimbal = gs.yaw;
       msg.pitch_gimbal = gs.pitch;
+      msg.bullet_speed = gs.bullet_speed;
+      msg.yaw_vel = plan_result.yaw_vel;
       debug_pub_->publish(msg);
     }
 
-   // 发布Target状态消息
-    if (target_pub_ && target.has_value()) {
-      auto target_msg = autoaim_msgs::msg::Outpost{};
-      std::visit([&target_msg](const auto & t) {
-        const auto & ekf = t.ekf();
-        target_msg.h1 = static_cast<float>(ekf.x[9]);
-        target_msg.p_h1 = static_cast<float>(ekf.P(9, 9));
-        target_msg.h2 = static_cast<float>(ekf.x[10]);
-        target_msg.p_h2 = static_cast<float>(ekf.P(10, 10));
-      }, target.value());
-      target_pub_->publish(target_msg);
-    }
-
-    auto now = std::chrono::steady_clock::now();
-    if (
-      plan_result.control && now - last_log_time >
-      std::chrono::milliseconds(200)) {
-      last_log_time = now;
-    }
 
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
   }
