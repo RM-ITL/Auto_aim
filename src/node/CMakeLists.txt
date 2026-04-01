@@ -29,11 +29,19 @@ add_executable(standard3_node
   src/standard3.cpp
 )
 
+add_executable(hero_node
+  src/hero.cpp
+)
+
 target_include_directories(sentry_node PRIVATE
   include
 )
 
 target_include_directories(standard3_node PRIVATE
+  include
+)
+
+target_include_directories(hero_node PRIVATE
   include
 )
 
@@ -58,6 +66,14 @@ ament_target_dependencies(standard3_node
   serial
 )
 
+ament_target_dependencies(hero_node
+  Eigen3
+  deveice
+  auto_aim
+  utils
+  serial
+)
+
 target_link_libraries(sentry_node
   ${OpenCV_LIBS}
   deveice::deveice
@@ -70,9 +86,17 @@ target_link_libraries(standard3_node
   auto_aim::auto_aim
 )
 
+
+target_link_libraries(hero_node
+  ${OpenCV_LIBS}
+  deveice::deveice
+  auto_aim::auto_aim
+)
+
 install(TARGETS
   sentry_node
   standard3_node
+  hero_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

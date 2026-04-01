@@ -24,7 +24,6 @@
 #include "tracker.hpp"
 #include "armor.hpp"
 #include "planner.hpp"
-#include "guard_planner.hpp"
 #include "autoaim_msgs/msg/debug.hpp"
 #include "autoaim_msgs/msg/orienta.hpp"
 #include "autoaim_msgs/msg/target.hpp"
@@ -71,7 +70,6 @@ private:
   solver::YawOptimizer* yaw_optimizer_;
   std::unique_ptr<tracker::Tracker> tracker_;
   std::unique_ptr<plan::Planner> planner_;
-  std::unique_ptr<guard::GuardPlanner> guard_planner_;
   std::unique_ptr<io::Gimbal> gimbal_;
   std::unique_ptr<shooter::Shooter> shooter_;
   rclcpp::Node::SharedPtr ros_node_;
@@ -93,7 +91,7 @@ private:
   std::atomic<int> visualization_frame_counter_{0};
 
   std::chrono::steady_clock::time_point start_time_;
-  const double bullet_speed_{22.0};
+  const double bullet_speed_{11.5};
 
   // 系统延迟统计
   std::deque<double> delay_window_;

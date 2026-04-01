@@ -210,25 +210,6 @@ Planner:
   low_speed_delay_time: 0.0 # s，低速目标的额外时间补偿
 
 
-GuardPlanner:
-  yaw_offset: 0 # degree，相机光心与枪管中心的yaw偏差
-  pitch_offset: 0 # degree，pitch相对枪管的中心补偿参数
-  guard_window_angle: 20    # degree，射击窗口半角，装甲板朝向角在此范围内视为可射击
-  guard_spin_threshold: 0.3     # rad/s，角速度阈值，超过此值启用守株待兔模式
-  guard_fire_angle_thresh: 8  # degree，射击时装甲板预测朝向角的最大允许值
-  guard_require_approaching: true  # 是否要求装甲板正在转入（facing_angle在减小）
-
-  # 延迟补偿参数
-  decision_speed: 7              # rad/s，高低速判断阈值
-  high_speed_delay_time: 0.03    # s，高速目标系统延迟
-  low_speed_delay_time: 0.01     # s，低速目标系统延迟
-
-  # 迭代收敛参数
-  max_fly_time_iterations: 5     # 飞行时间迭代最大次数
-  fly_time_convergence_thresh: 0.002  # s，收敛阈值
-
-
-
 # Gimbal通讯参数
 Gimbal:
 enable_serial: true

@@ -116,7 +116,7 @@ void Target::predict(double dt)
             0,      0,      0,      0,      0,      0,      0,      0, 0, 0, 0;
   
   Q(10, 10) = 0.001;  // h高低差的过程噪声，允许缓慢的纠正
-  Q(8, 8) = 0.001;
+  // Q(8, 8) = 0.001;
   // Q(9, 9) = 0.01;
   // 防止夹角求和出现异常值
   auto f = [&](const Eigen::VectorXd & x) -> Eigen::VectorXd {

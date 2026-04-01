@@ -19,6 +19,12 @@ public:
   {
   }
 
+  /// 通知所有等待线程退出（配合 shutdown 使用）
+  void notify_all()
+  {
+    not_empty_condition_.notify_all();
+  }
+
   void push(const T & value)
   {
     std::unique_lock<std::mutex> lock(mutex_);
@@ -40,10 +46,9 @@ public:
   {
     std::unique_lock<std::mutex> lock(mutex_);
 
-    not_empty_condition_.wait(lock, [this] { return !queue_.empty(); });
+    not_empty_condition_.wait(lock, [this] { return !queue_.empty() || shutdown_; });
 
-    if (queue_.empty()) {
-      std::cerr << "Error: Attempt to pop from an empty queue." << std::endl;
+    if (shutdown_ || queue_.empty()) {
       return;
     }
 
@@ -55,18 +60,45 @@ public:
   {
     std::unique_lock<std::mutex> lock(mutex_);
 
-    not_empty_condition_.wait(lock, [this] { return !queue_.empty(); });
+    not_empty_condition_.wait(lock, [this] { return !queue_.empty() || shutdown_; });
+
+    if (shutdown_ || queue_.empty()) {
+      return T{};
+    }
 
     T value = std::move(queue_.front());
     queue_.pop();
     return std::move(value);
   }
 
+  /// 带超时的 pop，超时返回 false
+  bool try_pop(T & value, std::chrono::milliseconds timeout)
+  {
+    std::unique_lock<std::mutex> lock(mutex_);
+
+    if (!not_empty_condition_.wait_for(
+          lock, timeout, [this] { return !queue_.empty() || shutdown_; })) {
+      return false;
+    }
+
+    if (shutdown_ || queue_.empty()) {
+      return false;
+    }
+
+    value = queue_.front();
+    queue_.pop();
+    return true;
+  }
+
   T front()
   {
     std::unique_lock<std::mutex> lock(mutex_);
 
-    not_empty_condition_.wait(lock, [this] { return !queue_.empty(); });
+    not_empty_condition_.wait(lock, [this] { return !queue_.empty() || shutdown_; });
+
+    if (shutdown_ || queue_.empty()) {
+      return T{};
+    }
 
     return queue_.front();
   }
@@ -95,7 +127,15 @@ public:
     while (!queue_.empty()) {
       queue_.pop();
     }
-    not_empty_condition_.notify_all();  // 如果其他线程正在等待队列不为空，这样可以唤醒它们
+    not_empty_condition_.notify_all();
+  }
+
+  /// 标记为关闭，唤醒所有等待线程
+  void shutdown()
+  {
+    std::unique_lock<std::mutex> lock(mutex_);
+    shutdown_ = true;
+    not_empty_condition_.notify_all();
   }
 
 
@@ -105,6 +145,7 @@ private:
   mutable std::mutex mutex_;
   std::condition_variable not_empty_condition_;
   std::function<void(void)> full_handler_;
+  bool shutdown_{false};
 };
 
 }  // namespace tools

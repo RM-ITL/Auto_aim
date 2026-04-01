@@ -93,6 +93,13 @@ void HikCamera::read(cv::Mat & img, std::chrono::steady_clock::time_point & time
   timestamp = data.timestamp;
 }
 
+void HikCamera::stop()
+{
+  shutdown_ = true;
+  capture_quit_ = true;
+  queue_.shutdown();
+}
+
 void HikCamera::daemon_loop()
 {
   while (!daemon_quit_) {

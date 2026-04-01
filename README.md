@@ -119,6 +119,7 @@ src
 │   └── include/
 │       ├── sentry.hpp             # 哨兵实车部署节点
 │       └── standard3.hpp          # 步兵实车部署节点
+│       └── hero.hpp          # 步兵实车部署节点
 ├── test_node/             # 调试测试节点
 │   └── include/
 │       ├── base_hit_node.hpp      # 飞镖引导灯识别测试节点

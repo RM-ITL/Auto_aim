@@ -25,6 +25,17 @@ void Camera::read(cv::Mat & img, std::chrono::steady_clock::time_point & timesta
     camera_);
 }
 
+void Camera::stop()
+{
+  std::visit(
+    [](auto & cam) {
+      if (cam) {
+        cam->stop();
+      }
+    },
+    camera_);
+}
+
 bool Camera::load_config(const std::string & config_path)
 {
   try {

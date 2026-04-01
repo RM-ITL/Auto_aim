@@ -27,7 +27,6 @@
 #include "tracker.hpp"
 #include "armor.hpp"
 #include "planner.hpp"
-#include "guard_planner.hpp"
 #include "autoaim_msgs/msg/debug.hpp"
 #include "autoaim_msgs/msg/orienta.hpp"
 #include "autoaim_msgs/msg/outpost.hpp"
@@ -73,7 +72,6 @@ private:
   solver::YawOptimizer* yaw_optimizer_;
   std::unique_ptr<tracker::Tracker> tracker_;
   std::unique_ptr<plan::Planner> planner_;
-  std::unique_ptr<guard::GuardPlanner> guard_planner_;
   std::unique_ptr<io::Sentry> sentry_;
   std::unique_ptr<shooter::Shooter> shooter_;
   rclcpp::Node::SharedPtr ros_node_;
@@ -107,6 +105,7 @@ private:
 
   tools::ThreadSafeQueue<DebugPacket, true> visualization_queue{2};
   tools::ThreadSafeQueue<std::optional<tracker::TargetVariant>, true> target_queue{1};
+  // tools::ThreadSafeQueue<TargetPacket, true> target_queue{1};
 
   std::atomic<bool> quit_{false};
   std::thread visualization_thread_;

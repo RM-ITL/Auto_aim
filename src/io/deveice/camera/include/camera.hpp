@@ -25,6 +25,9 @@ public:
 
   void read(cv::Mat & img, std::chrono::steady_clock::time_point & timestamp);
 
+  /// 停止相机，唤醒阻塞在 read() 上的线程
+  void stop();
+
   const std::string & camera_type() const { return camera_type_; }
 
 private:

@@ -54,7 +54,6 @@ PipelineApp::PipelineApp(const std::string & config_path)
   yaw_optimizer_ = solver_->getYawOptimizer();
   tracker_ = std::make_unique<tracker::Tracker>(config_path_, *solver_);
   planner_ = std::make_unique<plan::Planner>(config_path_);
-  // guard_planner_ = std::make_unique<guard::GuardPlanner>(config_path_); // 守株待兔模式的planner
   gimbal_ = std::make_unique<io::Gimbal>(config_path_);
   shooter_ = std::make_unique<shooter::Shooter>(config_path_);
 
@@ -351,7 +350,6 @@ void PipelineApp::planner_loop()
 
 
     auto plan_result = planner_->plan(target, bullet_speed_);
-    // auto plan_result = guard_planner_->plan(target, bullet_speed_);
     auto gs = gimbal_->state();
 
     if (target.has_value()) {
@@ -494,7 +492,7 @@ int main(int argc, char ** argv)
     return 0;
   }
 
-  std::string config_path = std::filesystem::current_path().string() + "/src/config/standard3.yaml";
+  std::string config_path = std::filesystem::current_path().string() + "/src/config/hero.yaml";
   if (cli.has("@config-path")) {
     config_path = cli.get<std::string>("@config-path");
   }

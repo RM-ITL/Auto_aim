@@ -17,6 +17,7 @@ public:
   MindVision(double exposure_ms, double gamma, const std::string & vid_pid);
   ~MindVision();
   void read(cv::Mat & img, std::chrono::steady_clock::time_point & timestamp);
+  void stop();  // 停止采集，唤醒阻塞的 read()
 
 private:
   struct CameraData

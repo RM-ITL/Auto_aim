@@ -55,7 +55,7 @@ private:
   std::thread planner_thread_;
 
   std::chrono::steady_clock::time_point start_time_;
-  const double bullet_speed_{20.0};
+  const double bullet_speed_{12.0};
 };
 
 }  // namespace Application

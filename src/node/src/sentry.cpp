@@ -150,6 +150,12 @@ int PipelineApp::run()
     Eigen::Quaterniond orientation{Eigen::Quaterniond::Identity()};
 
     camera_->read(img, timestamp);
+
+    // camera shutdown 后 read() 会返回空帧，检查退出
+    if (quit_.load() || g_stop_requested.load() || img.empty()) {
+      break;
+    }
+
     auto t0 = timestamp;
 
     DebugPacket debug_packet;
@@ -159,6 +165,23 @@ int PipelineApp::run()
 
     // orientation = dm_imu_->imu_at(timestamp);
     orientation = sentry_->q(timestamp);
+
+    if (orientation_pub_) {
+      auto msg = autoaim_msgs::msg::Orienta{};
+      msg.w = orientation.w(),
+      msg.x = orientation.x(),
+      msg.y = orientation.y(),
+      msg.z = orientation.z(),
+      // msg.dm_w = dm_orientation.w(),
+      // msg.dm_x = dm_orientation.x(),
+      // msg.dm_y = dm_orientation.y(),
+      // msg.dm_z = dm_orientation.z(),
+      msg.dm_w = 0,
+      msg.dm_x = 0,
+      msg.dm_y = 0,
+      msg.dm_z = 0,        
+      orientation_pub_->publish(msg);
+    }
 
     solver_->updateIMU(orientation, timestamp_sec);
 
@@ -176,46 +199,46 @@ int PipelineApp::run()
       target_queue.push(std::nullopt);
 
 
-    // if (enable_visualization_) {
-    //   debug_packet.reprojected_armors.reserve(targets.size() * 4);
-    // }
+    if (enable_visualization_) {
+      debug_packet.reprojected_armors.reserve(targets.size() * 4);
+    }
 
-    // bool is_first_target = true;
-    // for (const auto & target : targets) {
-    //   const auto armor_xyza_list = std::visit(
-    //     [](const auto & t) { return t.armor_xyza_list(); }, target);
-    //   const auto armor_type = std::visit(
-    //     [](const auto & t) { return t.armor_type; }, target);
-    //   const auto target_name = std::visit(
-    //     [](const auto & t) { return t.name; }, target);
+    bool is_first_target = true;
+    for (const auto & target : targets) {
+      const auto armor_xyza_list = std::visit(
+        [](const auto & t) { return t.armor_xyza_list(); }, target);
+      const auto armor_type = std::visit(
+        [](const auto & t) { return t.armor_type; }, target);
+      const auto target_name = std::visit(
+        [](const auto & t) { return t.name; }, target);
 
-    //   for (const Eigen::Vector4d & xyza : armor_xyza_list) {
-    //     Eigen::Vector3d world_point(xyza.x(), xyza.y(), xyza.z());
-    //     auto image_points =
-    //       yaw_optimizer_->reproject_armor_out(world_point, xyza[3], armor_type, target_name);
+      for (const Eigen::Vector4d & xyza : armor_xyza_list) {
+        Eigen::Vector3d world_point(xyza.x(), xyza.y(), xyza.z());
+        auto image_points =
+          yaw_optimizer_->reproject_armor_out(world_point, xyza[3], armor_type, target_name);
 
-    //     if (image_points.size() == 4) {
-    //       if (is_first_target) {
-    //         is_first_target = false;
-    //       }
+        if (image_points.size() == 4) {
+          if (is_first_target) {
+            is_first_target = false;
+          }
 
-    //       if (enable_visualization_) {
-    //         Visualization vis_armor;
-    //         std::copy(image_points.begin(), image_points.end(), vis_armor.corners.begin());
-    //         vis_armor.name = target_name;
-    //         vis_armor.type = armor_type;
-    //         debug_packet.reprojected_armors.push_back(vis_armor);
-    //       }
-    //     }
-    //   }
-    // }
+          if (enable_visualization_) {
+            Visualization vis_armor;
+            std::copy(image_points.begin(), image_points.end(), vis_armor.corners.begin());
+            vis_armor.name = target_name;
+            vis_armor.type = armor_type;
+            debug_packet.reprojected_armors.push_back(vis_armor);
+          }
+        }
+      }
+    }
 
     debug_packet.tracker_state = tracker_->state();
     debug_packet.valid = true;
 
-    // if (enable_visualization_) {
-    //   visualization_queue.push(debug_packet);
-    // }
+    if (enable_visualization_) {
+      visualization_queue.push(debug_packet);
+    }
 
     if (debug_packet.tracker_state != last_state) {
       utils::logger()->info(
@@ -232,9 +255,16 @@ int PipelineApp::run()
 void PipelineApp::request_stop()
 {
   if (!quit_.exchange(true)) {
-    if (enable_visualization_) {
-      visualization_queue.push(DebugPacket{});
+    // 关闭所有队列，唤醒阻塞在 pop/front 上的线程
+    visualization_queue.shutdown();
+    target_queue.shutdown();
+
+    // 关闭相机，使 camera_->read() 不再阻塞
+    if (camera_) {
+      camera_->stop();
     }
+
+    utils::logger()->info("[Pipeline] 正在停止...");
   }
 }
 
@@ -245,9 +275,9 @@ void PipelineApp::start_threads()
   if (planner_) {
     planner_thread_ = std::thread(&PipelineApp::planner_loop, this);
   }
-  // if (enable_visualization_) {
-  //   visualization_thread_ = std::thread(&PipelineApp::visualization_loop, this);
-  // }
+  if (enable_visualization_) {
+    visualization_thread_ = std::thread(&PipelineApp::visualization_loop, this);
+  }
   // ROS spin线程，用于接收订阅消息
   spin_thread_ = std::thread([this]() {
     while (!quit_.load() && rclcpp::ok()) {
@@ -270,43 +300,43 @@ void PipelineApp::join_threads()
   }
 }
 
-// void PipelineApp::visualization_loop()
-// {
-//   utils::logger()->info("[Pipeline] 可视化线程启动");
-//   try {
-//     cv::namedWindow(visualization_window_name_, cv::WINDOW_NORMAL);
-//   } catch (const cv::Exception & e) {
-//     utils::logger()->error("[Pipeline] 创建可视化窗口失败: {}", e.what());
-//     return;
-//   }
+void PipelineApp::visualization_loop()
+{
+  utils::logger()->info("[Pipeline] 可视化线程启动");
+  try {
+    cv::namedWindow(visualization_window_name_, cv::WINDOW_NORMAL);
+  } catch (const cv::Exception & e) {
+    utils::logger()->error("[Pipeline] 创建可视化窗口失败: {}", e.what());
+    return;
+  }
 
-//   while (!quit_.load()) {
-//     if (g_stop_requested.load()) {
-//       break;
-//     }
+  while (!quit_.load()) {
+    if (g_stop_requested.load()) {
+      break;
+    }
 
-//     DebugPacket packet;
-//     visualization_queue.pop(packet);
+    DebugPacket packet;
+    visualization_queue.pop(packet);
 
-//     if (!packet.valid) {
-//       break;
-//     }
+    if (!packet.valid) {
+      break;
+    }
 
-//     try {
-//       cv::Mat canvas = packet.rgb_image.clone();
-//       const int frame_index = visualization_frame_counter_.fetch_add(1) + 1;
-//       detector_->visualize_results(canvas, packet.reprojected_armors, visualization_center_point_, frame_index);
+    try {
+      cv::Mat canvas = packet.rgb_image.clone();
+      const int frame_index = visualization_frame_counter_.fetch_add(1) + 1;
+      detector_->visualize_results(canvas, packet.reprojected_armors, visualization_center_point_, frame_index);
 
-//       cv::imshow(visualization_window_name_, canvas);
-//       cv::waitKey(1);
-//     } catch (const std::exception & e) {
-//       utils::logger()->warn("[Pipeline] 可视化帧处理失败: {}", e.what());
-//     }
-//   }
+      cv::imshow(visualization_window_name_, canvas);
+      cv::waitKey(1);
+    } catch (const std::exception & e) {
+      utils::logger()->warn("[Pipeline] 可视化帧处理失败: {}", e.what());
+    }
+  }
 
-//   cv::destroyWindow(visualization_window_name_);
-//   utils::logger()->info("[Pipeline] 可视化线程退出");
-// }
+  cv::destroyWindow(visualization_window_name_);
+  utils::logger()->info("[Pipeline] 可视化线程退出");
+}
 
 void PipelineApp::planner_loop()
 {
@@ -342,54 +372,74 @@ void PipelineApp::planner_loop()
       plan_result.fire = plan_result.fire && enable_shoot;
     }
 
-    // 确定mode和yaw/pitch
-    uint8_t mode = 0;
-    float send_yaw = 0.0f, send_pitch = 0.0f;
-    bool active = gimbal_active_.load();
+    // // 确定mode和yaw/pitch
+    // uint8_t mode = 0;
+    // float send_yaw = 0.0f, send_pitch = 0.0f;
+    // bool active = gimbal_active_.load();
 
-    if (!active) {
-      // 导航说不可控 → 静止
-      mode = 0;
-      send_yaw = 0.0f;
-      send_pitch = 0.0f;
-      was_scanning = false;
-    } else if (!plan_result.control) {
-      // 可控但没有目标 → 扫描
-      mode = 4;
-      if (!was_scanning) {
-        scan_start_time = std::chrono::steady_clock::now();
-        was_scanning = true;
-      }
-      double t = std::chrono::duration<double>(
-          std::chrono::steady_clock::now() - scan_start_time).count();
-      send_yaw = scan_yaw_center_ +
-          scan_yaw_amplitude_ * static_cast<float>(std::sin(2.0 * M_PI / scan_yaw_period_ * t));
-      send_pitch = scan_pitch_center_ +
-          scan_pitch_amplitude_ * static_cast<float>(std::sin(2.0 * M_PI / scan_pitch_period_ * t));
-    } else {
-      // 有目标 → 控制/开火
-      was_scanning = false;
-      mode = plan_result.fire ? 2 : 1;
-      send_yaw = plan_result.yaw;
-      send_pitch = plan_result.pitch;
-    }
+    // if (!active) {
+    //   // 导航说不可控 → 静止
+    //   mode = 0;
+    //   send_yaw = 0.0f;
+    //   send_pitch = 0.0f;
+    //   was_scanning = false;
+    // } else if (!plan_result.control) {
+    //   // 可控但没有目标 → 扫描
+    //   mode = 4;
+    //   if (!was_scanning) {
+    //     scan_start_time = std::chrono::steady_clock::now();
+    //     was_scanning = true;
+    //   }
+    //   double t = std::chrono::duration<double>(
+    //       std::chrono::steady_clock::now() - scan_start_time).count();
+    //   send_yaw = scan_yaw_center_ +
+    //       scan_yaw_amplitude_ * static_cast<float>(std::sin(2.0 * M_PI / scan_yaw_period_ * t));
+    //   send_pitch = scan_pitch_center_ +
+    //       scan_pitch_amplitude_ * static_cast<float>(std::sin(2.0 * M_PI / scan_pitch_period_ * t));
+    // } else {
+    //   // 有目标 → 控制/开火
+    //   was_scanning = false;
+    //   mode = plan_result.fire ? 2 : 1;
+    //   send_yaw = plan_result.yaw;
+    //   send_pitch = plan_result.pitch;
+    // }
 
-    // 发送到下位机，vx/vy/w始终透传导航速度
-    sentry_->send(mode, send_yaw, send_pitch,
-                  nav_vx_.load(), nav_vy_.load(), nav_w_.load());
+    // // 发送到下位机，vx/vy/w始终透传导航速度
+    // sentry_->send(mode, send_yaw, send_pitch,
+    //               nav_vx_.load(), nav_vy_.load(), nav_w_.load());
     
 
 
-    // uint8_t mode = plan_result.fire ? 2 : 1;
+    auto truncate4 = [](double v) -> double {
+      return std::floor(v * 10000.0) / 10000.0;
+    };
 
-    // if (plan_result.control) {
-    //   sentry_->send(
-    //     mode, plan_result.yaw, plan_result.pitch, 0.0, 0.0, 0.0);
-    //     // gimbal_->send_simple(plan_result.control, plan_result.fire, plan_result.yaw, plan_result.pitch);
-    // } else {
-    //   sentry_->send(0, gs.yaw, gs.pitch, 0.0, 0.0, 0.0);
-    //   // if (servo_compensator_) servo_compensator_->reset();
-    // }
+    // 安全兜底：control=true 但值含 NaN 时回退到 gs
+    bool safe = plan_result.control
+        && std::isfinite(plan_result.yaw)
+        && std::isfinite(plan_result.pitch);
+
+    uint8_t send_mode = 0;
+    float send_yaw = 0.0f, send_pitch = 0.0f;
+
+    if (safe) {
+      send_mode = plan_result.fire ? 2 : 1;
+      send_yaw = truncate4(plan_result.yaw);
+      send_pitch = truncate4(plan_result.pitch);
+    } else {
+      send_mode = 0;
+      send_yaw = truncate4(gs.yaw);
+      send_pitch = truncate4(gs.pitch);
+      if (plan_result.control) {
+        // control=true 但值异常，记录一下方便排查
+        utils::logger()->warn(
+          "[Pipeline] 安全回退: plan值异常 yaw={:.4f} pitch={:.4f}, 回退到gs yaw={:.4f} pitch={:.4f}",
+          plan_result.yaw, plan_result.pitch, gs.yaw, gs.pitch);
+      }
+    }
+
+
+    sentry_->send(send_mode, send_yaw, send_pitch, 0.0, 0.0, 0.0);
 
     // 统计滑动窗口内fire占比
     {
@@ -413,13 +463,14 @@ void PipelineApp::planner_loop()
       }
 
       auto msg = autoaim_msgs::msg::Debug{};
-      msg.enable_control = plan_result.control;
-      msg.fire = plan_result.fire;
+      msg.enable_control = safe;
+      msg.fire = plan_result.fire && safe;
       msg.fire_rate = fire_rate;
-      msg.yaw_offest = plan_result.yaw - gs.yaw;
-      msg.pitch_offset = plan_result.pitch - gs.pitch;
-      msg.yaw = plan_result.yaw;
-      msg.pitch = plan_result.pitch;
+      // debug 发布实际发送的值，方便观察
+      msg.yaw_offest = send_yaw - gs.yaw;
+      msg.pitch_offset = send_pitch - gs.pitch;
+      msg.yaw = send_yaw;
+      msg.pitch = send_pitch;
       msg.yaw_gimbal = gs.yaw;
       msg.pitch_gimbal = gs.pitch;
       msg.bullet_speed = gs.bullet_speed;

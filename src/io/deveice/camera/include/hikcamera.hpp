@@ -31,8 +31,9 @@ public:
   HikCamera(const HikCamera &) = delete;
   HikCamera & operator=(const HikCamera &) = delete;
 
-  void read(cv::Mat & img, std::chrono::steady_clock::time_point & timestamp);  // 对外接口，主要是一个流式的拿取图像
-  const std::string & image_topic() const { return image_topic_; }  // ROS发布调式用
+  void read(cv::Mat & img, std::chrono::steady_clock::time_point & timestamp);
+  void stop();  // 停止采集，唤醒阻塞的 read()
+  const std::string & image_topic() const { return image_topic_; }
 
 private:
   void daemon_loop();

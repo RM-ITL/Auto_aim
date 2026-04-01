@@ -29,6 +29,8 @@ Sentry::Sentry(const std::string & config_path)
 
   try {
     serial_.setPort(com_port);
+    auto timeout = serial::Timeout::simpleTimeout(50);
+    serial_.setTimeout(timeout);
     serial_.open();
     serial_.setBaudrate(115200);
   } catch (const std::exception & e) {
@@ -43,6 +45,7 @@ Sentry::Sentry(const std::string & config_path)
 Sentry::~Sentry()
 {
   quit_ = true;
+  queue_.shutdown();  // 唤醒可能卡在 q() 中的线程
   if (thread_.joinable()) thread_.join();
   serial_.close();
 }
@@ -57,9 +60,17 @@ GimbalState Sentry::state() const
 
 Eigen::Quaterniond Sentry::q(std::chrono::steady_clock::time_point t)
 {
-  while (true) {
+  int attempts = 0;
+  while (!quit_) {
+    if (++attempts > 200) {
+      // 超过200次仍无法插值，返回上一次的四元数避免卡死
+      utils::logger()->warn("[Sentry] q() 插值超时，返回默认姿态");
+      return Eigen::Quaterniond::Identity();
+    }
     auto [q_a, t_a] = queue_.pop();
+    if (quit_) return Eigen::Quaterniond::Identity();
     auto [q_b, t_b] = queue_.front();
+    if (quit_) return Eigen::Quaterniond::Identity();
     auto t_ab = utils::delta_time(t_a, t_b);
     auto t_ac = utils::delta_time(t_a, t);
     auto k = t_ac / t_ab;
@@ -69,6 +80,7 @@ Eigen::Quaterniond Sentry::q(std::chrono::steady_clock::time_point t)
 
     return q_c;
   }
+  return Eigen::Quaterniond::Identity();
 }
 
 

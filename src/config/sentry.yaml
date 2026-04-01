@@ -72,7 +72,7 @@ yolo:
   device: "CPU"  # 可选: CPU, GPU, MYRIAD
   enemy_color: "red"
   # 检测阈值
-  min_confidence: 0.8
+  min_confidence: 0.4
   score_threshold: 0.7
   nms_threshold: 0.3
   use_traditional: true
@@ -96,7 +96,7 @@ min_confidence: 0.8     # 分类器的最小置信度
 # DM_IMU相关配置
 DM_IMU:
 # 串口配置
-imu_com_port: "/dev/ttyACM3"
+imu_com_port: "/dev/ttyACM1"
 baud: 115200
 
 # 发布频率相关
@@ -150,28 +150,30 @@ t_camera_to_gimbal:
 
 # Tracker参数
 Tracker:
-  enemy_color: "red"  # 或 "blue"
+  enemy_color: "blue"  # 或 "blue"
   # 跟踪状态机参数
   min_detect_count: 3              # 最小检测次数
-  max_temp_lost_count: 10          # 普通目标的最大临时丢失容忍度
+  max_temp_lost_count: 50          # 普通目标的最大临时丢失容忍度
   outpost_max_temp_lost_count: 30  # 前哨站的最大临时丢失容忍度
   # 前哨站特化参数
   outpost_min_detect_count: 3      # 前哨站的最小检测次数（更快进入tracking）
   outpost_detect_fail_tolerance: 8  # 前哨站在detecting状态允许的连续失败帧数
+  single_plate_threshold: 50       # 连续无板切换帧数超过此值进入单板模式
+  omega_threshold: 0.5             # rad/s，角速度低于此值时才允许进入单板模式
 
 
 # 瞄准器Aimer参数
 Aimer:
   #####-----aimer参数-----#####
   yaw_offset: 0.5 # degree -2.5
-  pitch_offset: 0.0  # degree 2
-  comming_angle: 60 # degree
+  pitch_offset: 5.0  # degree 2
+  comming_angle: 50 # degree
   leaving_angle: 20 # degree
   left_yaw_offset: -1
   right_yaw_offset: -0.6
   decision_speed: 10 # rad/s
-  high_speed_delay_time: 0.026 # s
-  low_speed_delay_time: 0.010 # s
+  high_speed_delay_time: 0.05 # s
+  low_speed_delay_time: 0.10 # s
 
 
 #####-----shooter参数-----#####
@@ -195,28 +197,18 @@ Shooter:
 ###planner参数###
 Planner:
   fire_thresh: 0.0015 # 允许开火阈值，值越小要求精度越高，代表着实际角度和规划角度之间的误差
-  max_yaw_acc: 15 # 最大Yaw加速度上限
+  max_yaw_acc: 10 # 最大Yaw加速度上限
   Q_yaw: [9e6, 0] # 状态权重矩阵Q的对角线元素：[位置权重, 速度权重]。
   # 9e6的高位置权重意味着强调精确跟踪目标角度，速度权重为0表示不惩罚速度偏差 
-  R_yaw: [1]
-  max_pitch_acc: 50  # 最大pitch加速度上限
+  R_yaw: [100]
+  max_pitch_acc: 20  # 最大pitch加速度上限
   Q_pitch: [9e6, 0]
-  R_pitch: [1]
+  R_pitch: [100]
   yaw_offset: 0 # degree，相机光心与枪管中心的yaw偏差
-  pitch_offset: -2 # degree，pitch相对枪管的中心补偿参数
+  pitch_offset: 7 # degree，pitch相对枪管的中心补偿参数
   decision_speed: 7 # rad/s， 高低速的判断阈值，大于此值的为高速目标
   high_speed_delay_time: 0.1 # s，高速目标的额外时间补偿
   low_speed_delay_time: 0.1 # s，低速目标的额外时间补偿
-
-
-GuardPlanner:
-  yaw_offset: 2 # degree，相机光心与枪管中心的yaw偏差
-  pitch_offset: 6.5 # degree，pitch相对枪管的中心补偿参数
-  guard_window_angle: 20    # degree，射击窗口半角，装甲板朝向角在此范围内视为可射击
-  guard_spin_threshold: 0.3     # rad/s，角速度阈值，超过此值启用守株待兔模式
-  guard_fire_angle_thresh: 8  # degree，射击时装甲板预测朝向角的最大允许值
-  guard_require_approaching: true  # 是否要求装甲板正在转入（facing_angle在减小）
-
 
 
 # Gimbal通讯参数
@@ -238,8 +230,6 @@ com_port_1: "/dev/ttyACM2"
 #   z: 1.0000
 #   w: 1.0000
 
-
-
 # video视频测试参数
 Video:
 video_path: "test/demo.mp4"
@@ -250,15 +240,6 @@ buff_model: "src/model/yolo11_buff_int8.xml"
 #####-----buff_aimer参数-----#####
 fire_gap_time: 0.700   # s
 predict_time: 0.120     # s
-  
-# 基地Base识别参数
-Base_Hit:
-  Openvino_XML: src/model/Katrin.xml
-  Openvino_Deveice: "CPU"
-  input_width: 640
-  input_height: 384
-  score_threshold: 0.6
-  nms_threshold: 0.3
 
 # 哨兵扫描参数
 Scan:
