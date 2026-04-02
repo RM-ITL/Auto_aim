@@ -83,6 +83,9 @@ public:
 
   ~Gimbal();
 
+  /// 停止 gimbal，唤醒阻塞在 q() 中的线程
+  void stop();
+
   GimbalMode mode() const;
   GimbalState state() const;
   std::string str(GimbalMode mode) const;
@@ -118,7 +121,8 @@ private:
   // IMU外参标定四元数：q_corrected = q_calib_ * q_lower
   Eigen::Quaterniond q_calib_;
 
-  bool read_serial(uint8_t * buffer, size_t size);
+  // 返回值: 1=成功, 0=超时无数据, -1=设备异常
+  int read_serial(uint8_t * buffer, size_t size);
   void read_thread();
   void reconnect();
 };

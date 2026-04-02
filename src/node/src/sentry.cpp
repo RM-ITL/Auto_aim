@@ -25,10 +25,14 @@ namespace Application
 namespace
 {
 std::atomic<bool> g_stop_requested{false};
+PipelineApp* g_app_instance{nullptr};
 
 void handle_signal(int)
 {
   g_stop_requested.store(true);
+  if (g_app_instance) {
+    g_app_instance->request_stop();
+  }
 }
 
 }  // namespace
@@ -126,10 +130,12 @@ PipelineApp::PipelineApp(const std::string & config_path)
   }
 
   utils::logger()->info("[Pipeline] 模块初始化完成");
+  g_app_instance = this;
 }
 
 PipelineApp::~PipelineApp()
 {
+  g_app_instance = nullptr;
   request_stop();
   join_threads();
 }
@@ -258,6 +264,11 @@ void PipelineApp::request_stop()
     // 关闭所有队列，唤醒阻塞在 pop/front 上的线程
     visualization_queue.shutdown();
     target_queue.shutdown();
+
+    // 停止 sentry，唤醒阻塞在 q() 中的主线程
+    if (sentry_) {
+      sentry_->stop();
+    }
 
     // 关闭相机，使 camera_->read() 不再阻塞
     if (camera_) {

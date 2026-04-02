@@ -16,10 +16,14 @@ namespace Application
 namespace
 {
 std::atomic<bool> g_stop_requested{false};
+Standard3App* g_app_instance{nullptr};
 
 void handle_signal(int)
 {
   g_stop_requested.store(true);
+  if (g_app_instance) {
+    g_app_instance->request_stop();
+  }
 }
 
 }  // namespace
@@ -46,10 +50,12 @@ Standard3App::Standard3App(const std::string & config_path)
   utils::logger()->info("[Standard3] Shooter初始化完成");
 
   utils::logger()->info("[Standard3] 所有模块初始化完成，准备进入主循环");
+  g_app_instance = this;
 }
 
 Standard3App::~Standard3App()
 {
+  g_app_instance = nullptr;
   request_stop();
   if (planner_thread_.joinable()) {
     planner_thread_.join();
@@ -77,6 +83,11 @@ int Standard3App::run()
     Eigen::Quaterniond orientation{Eigen::Quaterniond::Identity()};
 
     camera_->read(img, timestamp);
+
+    // camera shutdown 后 read() 会返回空帧，检查退出
+    if (quit_.load() || g_stop_requested.load() || img.empty()) {
+      break;
+    }
 
     timestamp_sec = utils::delta_time(timestamp, start_time_);
 
@@ -114,7 +125,22 @@ int Standard3App::run()
 
 void Standard3App::request_stop()
 {
-  quit_.store(true);
+  if (!quit_.exchange(true)) {
+    // 关闭队列，唤醒阻塞在 pop/front 上的线程
+    target_queue.shutdown();
+
+    // 停止 gimbal，唤醒阻塞在 q() 中的主线程
+    if (gimbal_) {
+      gimbal_->stop();
+    }
+
+    // 关闭相机，使 camera_->read() 不再阻塞
+    if (camera_) {
+      camera_->stop();
+    }
+
+    utils::logger()->info("[Standard3] 正在停止...");
+  }
 }
 
 void Standard3App::planner_loop()

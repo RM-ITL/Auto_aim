@@ -24,10 +24,14 @@ namespace Application
 namespace
 {
 std::atomic<bool> g_stop_requested{false};
+PipelineApp* g_app_instance{nullptr};
 
 void handle_signal(int)
 {
   g_stop_requested.store(true);
+  if (g_app_instance) {
+    g_app_instance->request_stop();
+  }
 }
 
 
@@ -68,10 +72,12 @@ PipelineApp::PipelineApp(const std::string & config_path)
   }
 
   utils::logger()->info("[Pipeline] 模块初始化完成");
+  g_app_instance = this;
 }
 
 PipelineApp::~PipelineApp()
 {
+  g_app_instance = nullptr;
   request_stop();
   join_threads();
 }
@@ -93,6 +99,12 @@ int PipelineApp::run()
     Eigen::Quaterniond dm_orientation{Eigen::Quaterniond::Identity()};
 
     camera_->read(img, timestamp);
+
+    // camera shutdown 后 read() 会返回空帧，检查退出
+    if (quit_.load() || g_stop_requested.load() || img.empty()) {
+      break;
+    }
+
     auto t0 = timestamp;  // 图像采集时间戳
 
     DebugPacket debug_packet;
@@ -254,9 +266,21 @@ int PipelineApp::run()
 void PipelineApp::request_stop()
 {
   if (!quit_.exchange(true)) {
-    if (enable_visualization_) {
-      visualization_queue.push(DebugPacket{});
+    // 关闭所有队列，唤醒阻塞在 pop/front 上的线程
+    visualization_queue.shutdown();
+    target_queue.shutdown();
+
+    // 停止 gimbal，唤醒阻塞在 q() 中的主线程
+    if (gimbal_) {
+      gimbal_->stop();
     }
+
+    // 关闭相机，使 camera_->read() 不再阻塞
+    if (camera_) {
+      camera_->stop();
+    }
+
+    utils::logger()->info("[Pipeline] 正在停止...");
   }
 }
 
@@ -348,9 +372,9 @@ void PipelineApp::planner_loop()
     auto target = target_queue.front();
 
 
-
-    auto plan_result = planner_->plan(target, bullet_speed_);
     auto gs = gimbal_->state();
+    auto plan_result = planner_->plan(target, gs.bullet_speed);
+
 
     if (target.has_value()) {
       bool enable_shoot = shooter_->checkfire(
@@ -492,7 +516,7 @@ int main(int argc, char ** argv)
     return 0;
   }
 
-  std::string config_path = std::filesystem::current_path().string() + "/src/config/hero.yaml";
+  std::string config_path = std::filesystem::current_path().string() + "/src/config/standard3.yaml";
   if (cli.has("@config-path")) {
     config_path = cli.get<std::string>("@config-path");
   }

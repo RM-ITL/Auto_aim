@@ -19,3 +19,6 @@ Camera/
 !/scripts/auto_aim.service
 !/scripts/start_node.sh
 !/scripts/开机自启动.txt
+!/scripts/setup_gimbal_udev.sh
+!/scripts/串口设备映射.txt
+!/scripts/99-gimbal.rules

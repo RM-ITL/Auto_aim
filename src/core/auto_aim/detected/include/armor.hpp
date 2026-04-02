@@ -58,12 +58,12 @@ using PriorityMap = std::unordered_map<armor_auto_aim::ArmorName, armor_auto_aim
 // 优先级映射表：从装甲板名称到优先级的映射
 // 数值越小，优先级越高
 const PriorityMap rank_map = {
-{armor_auto_aim::ArmorName::one, armor_auto_aim::ArmorPriority::second},      // 英雄1号 - 第二优先级
+{armor_auto_aim::ArmorName::one, armor_auto_aim::ArmorPriority::third},      // 英雄1号 - 第二优先级
 {armor_auto_aim::ArmorName::two, armor_auto_aim::ArmorPriority::forth},       // 工程2号 - 第四优先级
 {armor_auto_aim::ArmorName::three, armor_auto_aim::ArmorPriority::first},     // 步兵3号 - 第一优先级（主要目标）
 {armor_auto_aim::ArmorName::four, armor_auto_aim::ArmorPriority::first},      // 步兵4号 - 第一优先级（主要目标）
 {armor_auto_aim::ArmorName::five, armor_auto_aim::ArmorPriority::third},      // 步兵5号 - 第三优先级
-{armor_auto_aim::ArmorName::sentry, armor_auto_aim::ArmorPriority::third},    // 哨兵 - 第三优先级
+{armor_auto_aim::ArmorName::sentry, armor_auto_aim::ArmorPriority::second},    // 哨兵 - 第三优先级
 {armor_auto_aim::ArmorName::outpost, armor_auto_aim::ArmorPriority::fifth},   // 前哨站 - 第五优先级
 {armor_auto_aim::ArmorName::base, armor_auto_aim::ArmorPriority::fifth},      // 基地 - 第五优先级
 {armor_auto_aim::ArmorName::not_armor, armor_auto_aim::ArmorPriority::fifth}};// 非装甲板 - 第五优先级

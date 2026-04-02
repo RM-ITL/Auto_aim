@@ -161,6 +161,7 @@ set(TINYMPC_INCLUDE_SRC_DIR ${TINYMPC_SOURCE_DIR}/include)
 
 set(AUTO_AIM_PLANNER_SOURCES
   planner/src/planner.cpp
+  planner/src/aim_planner.cpp
   planner/tinympc/src/tiny_api.cpp
   planner/tinympc/src/codegen.cpp
   planner/tinympc/src/rho_benchmark.cpp

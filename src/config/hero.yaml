@@ -214,7 +214,7 @@ Planner:
 Gimbal:
 enable_serial: true
 # com_port: "/dev/ttyUSB0"
-com_port: "/dev/ttyACM0"
+com_port: "/dev/gimbal"
 com_port_1: "/dev/ttyACM2"
 # 校正下位机的四元数 [x, y, z, w], q_corrected = q_calib * q_lower
 # q_calib:

@@ -1,0 +1,45 @@
+# ==================== 串口设备固定映射教程 ====================
+#
+# 问题：下位机重置或USB重新插拔后，设备号会变化
+#       （如 /dev/ttyACM0 → /dev/ttyACM1），导致程序无法重连。
+#
+# 解决：通过 udev 规则，将下位机设备固定映射为 /dev/gimbal，
+#       无论内核分配什么编号，/dev/gimbal 永远指向正确的设备。
+#
+# ================================================================
+
+# ===== 安装（每个平台只需执行一次） =====
+
+# 插上下位机，然后运行:
+sudo bash /home/guo/ITL_Auto_aim/scripts/setup_gimbal_udev.sh
+
+# 脚本会自动:
+#   1. 扫描所有串口设备并显示 VID:PID 信息
+#   2. 多个设备时让你选择哪个是下位机
+#   3. 自动生成 udev 规则并安装到 /etc/udev/rules.d/
+#   4. 验证 /dev/gimbal 是否创建成功
+
+# ===== 配置文件修改 =====
+
+# 将 yaml 配置文件中的 com_port 从 "/dev/ttyACM0" 改为 "/dev/gimbal"
+#   src/config/standard3.yaml  →  com_port: "/dev/gimbal"   （已改）
+#   src/config/sentry.yaml     →  com_port: "/dev/gimbal"   （需要时再改）
+#   src/config/config.yaml     →  com_port: "/dev/gimbal"   （需要时再改）
+
+# ===== 验证流程 =====
+
+# 1. 查看映射是否存在
+ls -la /dev/gimbal
+
+# 2. 启动程序，确认串口正常通讯
+# 3. 拔掉下位机USB，观察日志输出重连信息
+# 4. 重新插入USB，等待几秒，观察日志显示 "重连成功: /dev/gimbal"
+
+# ===== 卸载 =====
+sudo rm /etc/udev/rules.d/99-gimbal.rules && sudo udevadm control --reload-rules
+
+# ===== 注意事项 =====
+#
+# 1. 不同平台的下位机 VID:PID 可能不同，每个平台部署时都运行一次脚本即可
+# 2. 如果更换了下位机，重新运行脚本即可
+# 3. 同一平台上有多个相同 VID:PID 的设备时，脚本会列出让你选择

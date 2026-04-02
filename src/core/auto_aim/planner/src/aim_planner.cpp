@@ -170,6 +170,17 @@ Plan AimPlanner::plan(std::optional<predict::Target> target, double bullet_speed
   return plan(*target, bullet_speed);
 }
 
+// variant 重载：从 variant 中提取 Target，OutpostTarget 不处理
+Plan AimPlanner::plan(std::optional<std::variant<predict::Target, predict::OutpostTarget>> target, double bullet_speed)
+{
+  if (!target.has_value()) return {false};
+
+  auto* p = std::get_if<predict::Target>(&target.value());
+  if (!p) return {false};
+
+  return plan(std::optional<predict::Target>(*p), bullet_speed);
+}
+
 void AimPlanner::setup_yaw_solver(const std::string & config_path)
 {
   auto yaml = utils::load(config_path);

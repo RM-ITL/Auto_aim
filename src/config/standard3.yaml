@@ -55,8 +55,8 @@ CalibParam:
 camera:
   type: "hik"  # 可选: "hik", "mindvision"
   parameters:
-    exposure_ms: 5.0
-    gain: 12.0
+    exposure_ms: 6.0
+    gain: 14.0
     gamma: 100.0
     fps: 120.0
     target_width: 1280
@@ -199,8 +199,8 @@ Planner:
   max_pitch_acc: 50  # 最大pitch加速度上限
   Q_pitch: [9e6, 0]
   R_pitch: [1]
-  yaw_offset: 1 # degree，相机光心与枪管中心的yaw偏差
-  pitch_offset: 2.8 # degree，pitch相对枪管的中心补偿参数
+  yaw_offset: 1.7 # degree，相机光心与枪管中心的yaw偏差
+  pitch_offset: 1.9 # degree，pitch相对枪管的中心补偿参数
   decision_speed: 7 # rad/s， 高低速的判断阈值，大于此值的为高速目标
   high_speed_delay_time: 0.1 # s，高速目标的额外时间补偿
   low_speed_delay_time: 0.1 # s，低速目标的额外时间补偿
@@ -210,7 +210,7 @@ Planner:
 Gimbal:
 enable_serial: true
 # com_port: "/dev/ttyUSB0"
-com_port: "/dev/ttyACM0"
+com_port: "/dev/gimbal"
 com_port_1: "/dev/ttyACM2"
 # 校正下位机的四元数 [x, y, z, w], q_corrected = q_calib * q_lower
 # q_calib:

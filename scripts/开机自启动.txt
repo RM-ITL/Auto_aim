@@ -9,7 +9,8 @@
   cp /home/guo/ITL_Auto_aim/scripts/auto_aim.service ~/.config/systemd/user/      // 这个路径也需要修改                                                                 
   systemctl --user daemon-reload                                                                                                                   
   loginctl enable-linger guo                                                                                                                       
-  systemctl --user enable auto_aim                                                                                                                 
+  systemctl --user enable auto_aim
+  sudo chmod +x start_node.sh                                                                                                                 
                                                                                                                                                    
   # ===== 日常操作 =====                                                                                                                           
   systemctl --user start auto_aim      # 手动启动                                                                                                  

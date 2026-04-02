@@ -3,6 +3,7 @@
 
 #include <Eigen/Dense>
 #include <optional>
+#include <variant>
 
 #include "planner.hpp"  // 复用 Plan, DT, HORIZON 等定义
 
@@ -19,6 +20,8 @@ public:
   Plan plan(predict::Target target, double bullet_speed);
   // 系统延迟时间的补偿
   Plan plan(std::optional<predict::Target> target, double bullet_speed);
+  // variant 重载（兼容 TargetVariant）
+  Plan plan(std::optional<std::variant<predict::Target, predict::OutpostTarget>> target, double bullet_speed);
 
 private:
   // 基础参数

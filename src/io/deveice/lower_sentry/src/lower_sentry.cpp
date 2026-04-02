@@ -44,10 +44,15 @@ Sentry::Sentry(const std::string & config_path)
 
 Sentry::~Sentry()
 {
-  quit_ = true;
-  queue_.shutdown();  // 唤醒可能卡在 q() 中的线程
+  stop();
   if (thread_.joinable()) thread_.join();
   serial_.close();
+}
+
+void Sentry::stop()
+{
+  quit_ = true;
+  queue_.shutdown();  // 唤醒可能卡在 q() 中的线程
 }
 
 
@@ -115,13 +120,13 @@ void Sentry::send(
   }
 }
 
-bool Sentry::read_serial(uint8_t * buffer, size_t size)
+int Sentry::read_serial(uint8_t * buffer, size_t size)
 {
   std::lock_guard<std::mutex> lock(serial_mutex_);
   try {
-    return serial_.read(buffer, size) == size;
+    return serial_.read(buffer, size) == size ? 1 : 0;
   } catch (const std::exception & e) {
-    return false;
+    return -1;
   }
 }
 
@@ -139,7 +144,13 @@ void Sentry::read_thread()
     }
 
     // 读取帧头
-    if (!read_serial(reinterpret_cast<uint8_t *>(&rx_data_), sizeof(rx_data_.head))) {
+    int ret = read_serial(reinterpret_cast<uint8_t *>(&rx_data_), sizeof(rx_data_.head));
+    if (ret == -1) {
+      error_count++;  // 设备异常（拔掉、断开），累加错误触发重连
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));
+      continue;
+    }
+    if (ret == 0) {
       std::this_thread::sleep_for(std::chrono::milliseconds(1));
       continue;
     }
@@ -151,9 +162,9 @@ void Sentry::read_thread()
     }
 
     // 读取除帧头外的剩余数据
-    if (!read_serial(
+    if (read_serial(
           reinterpret_cast<uint8_t *>(&rx_data_) + sizeof(rx_data_.head),
-          sizeof(rx_data_) - sizeof(rx_data_.head))) {
+          sizeof(rx_data_) - sizeof(rx_data_.head)) != 1) {
       error_count++;
       continue;
     }

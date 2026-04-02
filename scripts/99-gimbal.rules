@@ -1,0 +1,7 @@
+# STM32 Virtual COM Port -> /dev/gimbal
+# 安装方法:
+#   sudo cp 99-gimbal.rules /etc/udev/rules.d/
+#   sudo udevadm control --reload-rules
+#   sudo udevadm trigger
+# 然后重新插拔下位机USB即可生效
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", SYMLINK+="gimbal", MODE="0666"

@@ -91,7 +91,7 @@ private:
   std::atomic<int> visualization_frame_counter_{0};
 
   std::chrono::steady_clock::time_point start_time_;
-  const double bullet_speed_{11.5};
+  const double bullet_speed_{20.0};
 
   // 系统延迟统计
   std::deque<double> delay_window_;
