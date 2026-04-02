@@ -374,8 +374,10 @@ void PipelineApp::planner_loop()
 
     auto target = target_queue.front();
 
-    auto plan_result = planner_->plan(target, bullet_speed_);
     auto gs = sentry_->state();
+
+    auto plan_result = planner_->plan(target, gs.bullet_speed);
+    // auto gs = sentry_->state();
 
     if (target.has_value()) {
       bool enable_shoot = shooter_->checkfire(
