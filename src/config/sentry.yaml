@@ -200,10 +200,10 @@ Planner:
   max_yaw_acc: 10 # 最大Yaw加速度上限
   Q_yaw: [9e6, 0] # 状态权重矩阵Q的对角线元素：[位置权重, 速度权重]。
   # 9e6的高位置权重意味着强调精确跟踪目标角度，速度权重为0表示不惩罚速度偏差 
-  R_yaw: [100]
+  R_yaw: [1]
   max_pitch_acc: 20  # 最大pitch加速度上限
   Q_pitch: [9e6, 0]
-  R_pitch: [100]
+  R_pitch: [1]
   yaw_offset:  1.0 # degree，相机光心与枪管中心的yaw偏差
   pitch_offset: 6.5 # degree，pitch相对枪管的中心补偿参数
   decision_speed: 7 # rad/s， 高低速的判断阈值，大于此值的为高速目标

@@ -65,9 +65,30 @@ ros2 run plotjuggler plotjuggler
 
 然后按照开机自启动教程 txt 中的步骤部署即可。
 
+
+## 串口端口自映射
+
+为解决场上电控软件复位后，上位机串口端口号随之变化导致通信中断的问题，编写了对应的一键配置脚本。脚本通过读取下位机的设备 VID，将其固定映射至 `/dev/gimbal` 端口。
+
+映射完成后，下位机无论如何复位，端口号均保持不变；若通信出现异常，也可直接在代码层尝试重连，无需手动干预。
+
+在 `scripts` 文件夹下，赋予脚本执行权限后直接运行即可：
+
+```bash
+sudo chmod +x setup_gimbal_udev.sh
+sudo bash ./setup_gimbal_udev.sh
+```
+
 ## 文件树
 
 ```
+scripts
+│   ├── 99-gimbal.rules            # udev 规则文件，定义串口端口映射规则
+│   ├── 串口设备映射.txt           # 串口端口自映射配置教程
+│   ├── 开机自启动.txt             # 开机自启动配置教程
+│   ├── auto_aim.service           # systemd 服务文件，用于开机自启动
+│   ├── setup_gimbal_udev.sh       # 一键配置串口端口映射脚本
+│   ├── start_node.sh              # 节点启动脚本
 src
 ├── Messages/              # ROS2 自定义消息 msg
 │   └── msg/

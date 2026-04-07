@@ -74,7 +74,7 @@ yolo:
   device: "CPU"  # 可选: CPU, GPU, MYRIAD
   enemy_color: "red"
   # 检测阈值
-  min_confidence: 0.4   # 最终过滤
+  min_confidence: 0.6   # 最终过滤
   score_threshold: 0.7  # 初步筛选低置信度框
   nms_threshold: 0.3    # 去除重叠框
   use_traditional: true
