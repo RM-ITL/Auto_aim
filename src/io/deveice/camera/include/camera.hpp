@@ -9,7 +9,9 @@
 #include <opencv2/opencv.hpp>
 
 #include "hikcamera.hpp"
+#ifdef HAS_MINDVISION
 #include "mindvision.hpp"
+#endif
 
 namespace camera
 {
@@ -36,7 +38,11 @@ private:
   std::string config_path_;
   std::string camera_type_;
 
+#ifdef HAS_MINDVISION
   std::variant<std::unique_ptr<HikCamera>, std::unique_ptr<MindVision>> camera_;
+#else
+  std::variant<std::unique_ptr<HikCamera>> camera_;
+#endif
 };
 
 }  // namespace camera

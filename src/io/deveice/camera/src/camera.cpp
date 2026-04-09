@@ -54,6 +54,7 @@ bool Camera::load_config(const std::string & config_path)
       // 创建海康相机
       camera_ = std::make_unique<HikCamera>(config_path);
       utils::logger()->info("Created HikCamera");
+#ifdef HAS_MINDVISION
     } else if (camera_type_ == "mindvision") {
       // 读取MindVision所需参数
       auto params = camera_node["parameters"];
@@ -63,6 +64,7 @@ bool Camera::load_config(const std::string & config_path)
 
       camera_ = std::make_unique<MindVision>(exposure_ms, gamma, vid_pid);
       utils::logger()->info("Created MindVision camera");
+#endif
     } else {
       utils::logger()->error("Unknown camera type: {}", camera_type_);
       return false;

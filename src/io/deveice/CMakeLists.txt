@@ -30,13 +30,17 @@ if(NOT EXISTS "${MV_CAMERA_LIB_DIR}/libMvCameraControl.so")
   message(FATAL_ERROR "Hikvision camera library not found at: ${MV_CAMERA_LIB_DIR}/libMvCameraControl.so")
 endif()
 
-# MindVision SDK 路径配置
-set(MINDVISION_SDK_PATH "$ENV{HOME}/linux_sdk" CACHE PATH "Path to MindVision SDK")
+# MindVision SDK（可选）
+set(MINDVISION_SDK_PATH "/opt/MindVision" CACHE PATH "Path to MindVision SDK")
 set(MINDVISION_INCLUDE_DIR "${MINDVISION_SDK_PATH}/include")
 set(MINDVISION_LIB_DIR "${MINDVISION_SDK_PATH}/lib/x64")
 
-if(NOT EXISTS "${MINDVISION_LIB_DIR}/libMVSDK.so")
-  message(WARNING "MindVision camera library not found at: ${MINDVISION_LIB_DIR}/libMVSDK.so")
+if(EXISTS "${MINDVISION_LIB_DIR}/libMVSDK.so")
+  set(HAS_MINDVISION ON)
+  message(STATUS "MindVision SDK found, enabling MindVision camera support")
+else()
+  set(HAS_MINDVISION OFF)
+  message(STATUS "MindVision SDK not found, building without MindVision support")
 endif()
 
 # ====================================================================================
@@ -44,9 +48,11 @@ endif()
 # ====================================================================================
 set(deveice_CAMERA_SOURCES
   camera/src/hikcamera.cpp
-  camera/src/mindvision.cpp
   camera/src/camera.cpp
 )
+if(HAS_MINDVISION)
+  list(APPEND deveice_CAMERA_SOURCES camera/src/mindvision.cpp)
+endif()
 
 add_library(deveice_camera STATIC ${deveice_CAMERA_SOURCES})
 add_library(deveice::camera ALIAS deveice_camera)
@@ -57,7 +63,6 @@ target_include_directories(deveice_camera
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/camera/include>
     $<INSTALL_INTERFACE:include>
     ${MV_CAMERA_INCLUDE_DIR}
-    ${MINDVISION_INCLUDE_DIR}
     ${LIBUSB_INCLUDE_DIRS}
 )
 
@@ -70,8 +75,13 @@ target_link_libraries(deveice_camera
     ${LIBUSB_LIBRARIES}
     ${MV_CAMERA_LIB_DIR}/libMvCameraControl.so
     ${MV_CAMERA_LIB_DIR}/libMvCameraControlWrapper.so
-    ${MINDVISION_LIB_DIR}/libMVSDK.so
 )
+
+if(HAS_MINDVISION)
+  target_include_directories(deveice_camera PUBLIC ${MINDVISION_INCLUDE_DIR})
+  target_link_libraries(deveice_camera PUBLIC ${MINDVISION_LIB_DIR}/libMVSDK.so)
+  target_compile_definitions(deveice_camera PUBLIC HAS_MINDVISION)
+endif()
 
 target_compile_options(deveice_camera PRIVATE ${LIBUSB_CFLAGS_OTHER})
 
@@ -251,10 +261,13 @@ set(deveice_PUBLIC_INCLUDE_DIRS
   ${CMAKE_CURRENT_SOURCE_DIR}/lower_dart/include
   ${CMAKE_CURRENT_SOURCE_DIR}/lower_sentry/include
   ${MV_CAMERA_INCLUDE_DIR}
-  ${MINDVISION_INCLUDE_DIR}
   ${LIBUSB_INCLUDE_DIRS}
   ${LIBSERIAL_INCLUDE_DIRS}
 )
+
+if(HAS_MINDVISION)
+  list(APPEND deveice_PUBLIC_INCLUDE_DIRS ${MINDVISION_INCLUDE_DIR})
+endif()
 
 set(deveice_DUMMY_SRC ${CMAKE_CURRENT_BINARY_DIR}/deveice_force_link.cpp)
 if(NOT EXISTS ${deveice_DUMMY_SRC})
@@ -341,7 +354,18 @@ install(
   DESTINATION share/${PROJECT_NAME}/cmake
 )
 
-ament_export_include_directories(include ${MV_CAMERA_INCLUDE_DIR} ${MINDVISION_INCLUDE_DIR} ${LIBUSB_INCLUDE_DIRS} ${LIBSERIAL_INCLUDE_DIRS})
+set(deveice_EXPORT_INCLUDE_DIRS
+  include
+  ${MV_CAMERA_INCLUDE_DIR}
+  ${LIBUSB_INCLUDE_DIRS}
+  ${LIBSERIAL_INCLUDE_DIRS}
+)
+
+if(HAS_MINDVISION)
+  list(APPEND deveice_EXPORT_INCLUDE_DIRS ${MINDVISION_INCLUDE_DIR})
+endif()
+
+ament_export_include_directories(${deveice_EXPORT_INCLUDE_DIRS})
 ament_export_targets(deveiceTargets HAS_LIBRARY_TARGET)
 ament_export_dependencies(
   rclcpp
