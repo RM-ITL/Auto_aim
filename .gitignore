@@ -22,3 +22,4 @@ Camera/
 !/scripts/setup_gimbal_udev.sh
 !/scripts/串口设备映射.txt
 !/scripts/99-gimbal.rules
+.vscode/settings.json

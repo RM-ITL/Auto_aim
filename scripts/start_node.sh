@@ -1,23 +1,41 @@
 #!/bin/bash
 # ============================================================
-# Auto-Aim 节点启动脚本
-# 用法: ./scripts/start_node.sh [包名] [节点名]
-# 示例: ./scripts/start_node.sh test_pipeline deep_node
-#       ./scripts/start_node.sh pipeline sentry_node
+# ITL_AutoAim 节点启动脚本
+#
+# 默认面向哨兵直连自瞄入口：
+#   ./scripts/start_node.sh
+#   ./scripts/start_node.sh pipeline sentry_node
+#
+# 普通车入口示例：
+#   ./scripts/start_node.sh pipeline standard3_node
+#
+# 哨兵桥接模式示例：
+#   ./scripts/start_node.sh pipeline sentry_node src/config/sentry.yaml --ros-args -p run_mode:=bridge
 # ============================================================
 
 set -euo pipefail
 
-# -------------------- 配置区 --------------------
-WORKSPACE_DIR="/home/guo/ITL_Auto_aim"
-SERIAL_DEV="/dev/ttyACM0"          # 云台串口设备
-CAMERA_USB_VID="2bdf"              # 海康/MindVision 相机 USB Vendor ID
-MAX_WAIT=30                        # 设备等待超时(秒)
-CHECK_INTERVAL=2                   # 检测间隔(秒)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WORKSPACE_DIR_DEFAULT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
-# 默认启动的包和节点
+# -------------------- 配置区 --------------------
+WORKSPACE_DIR="${WORKSPACE_DIR:-${WORKSPACE_DIR_DEFAULT}}"
+SERIAL_DEV="${SERIAL_DEV:-/dev/gimbal}"   # 仅普通车/legacy 直连模式使用
+CAMERA_USB_VID="${CAMERA_USB_VID:-2bdf}"
+MAX_WAIT="${MAX_WAIT:-30}"
+CHECK_INTERVAL="${CHECK_INTERVAL:-2}"
+WAIT_FOR_SERIAL="${WAIT_FOR_SERIAL:-auto}"  # auto|always|never
+
 PACKAGE="${1:-pipeline}"
-NODE="${2:-standard3_node}"
+NODE="${2:-sentry_node}"
+DEFAULT_CONFIG="${WORKSPACE_DIR}/src/config/sentry.yaml"
+
+EXTRA_ARGS=()
+if [[ $# -ge 3 ]]; then
+    EXTRA_ARGS=("${@:3}")
+elif [[ "${NODE}" == "sentry_node" ]]; then
+    EXTRA_ARGS=("${DEFAULT_CONFIG}")
+fi
 # ------------------------------------------------
 
 log() {
@@ -58,6 +76,27 @@ wait_for_serial() {
     return 1
 }
 
+should_wait_for_serial() {
+    local extra_args_joined="${EXTRA_ARGS[*]:-}"
+    case "${WAIT_FOR_SERIAL}" in
+        always) return 0 ;;
+        never) return 1 ;;
+        auto)
+            if [[ "${NODE}" == "sentry_node" && "${extra_args_joined}" == *"run_mode:=bridge"* ]]; then
+                return 1
+            fi
+            if [[ "${NODE}" == "sentry_node" || "${NODE}" == "standard3_node" || "${NODE}" == "hero_node" ]]; then
+                return 0
+            fi
+            return 1
+            ;;
+        *)
+            log "错误: WAIT_FOR_SERIAL 只能是 auto / always / never"
+            return 2
+            ;;
+    esac
+}
+
 # ==================== 环境检查 ====================
 
 check_workspace() {
@@ -76,18 +115,22 @@ check_workspace() {
 # ==================== 主流程 ====================
 
 main() {
-    log "========== Auto-Aim 启动脚本 =========="
-    log "目标: ros2 run ${PACKAGE} ${NODE}"
+    log "========== ITL_AutoAim 启动脚本 =========="
+    log "工作区: ${WORKSPACE_DIR}"
+    log "目标: ros2 run ${PACKAGE} ${NODE} ${EXTRA_ARGS[*]:-}"
 
-    # 1. 设备检测（并行等待两个设备）
+    # 1. 设备检测
     wait_for_camera &
     local cam_pid=$!
-    wait_for_serial &
-    local serial_pid=$!
 
     local failed=0
     wait $cam_pid || failed=1
-    wait $serial_pid || failed=1
+
+    if should_wait_for_serial; then
+        wait_for_serial || failed=1
+    else
+        log "当前入口不要求本仓持有串口，跳过串口检测"
+    fi
 
     if [ $failed -ne 0 ]; then
         log "设备检测未通过，终止启动"
@@ -101,8 +144,8 @@ main() {
     # 切换到工作空间目录，确保 spdlog 日志写入正确的 logs/ 目录
     cd "${WORKSPACE_DIR}"
 
-    log "正在启动节点: ros2 run ${PACKAGE} ${NODE}"
-    exec ros2 run "${PACKAGE}" "${NODE}"
+    log "正在启动节点: ros2 run ${PACKAGE} ${NODE} ${EXTRA_ARGS[*]:-}"
+    exec ros2 run "${PACKAGE}" "${NODE}" "${EXTRA_ARGS[@]}"
 }
 
 main

@@ -1,10 +1,11 @@
 [Unit]
-Description=Auto-Aim Node Service
+Description=ITL_Auto_Aim Node Service
 After=default.target
 
 [Service]
 Type=exec
-ExecStart=/home/guo/ITL_Auto_aim/scripts/start_node.sh pipeline standard3_node
+WorkingDirectory=/home/guo/ros_ws/ITL_AutoAim
+ExecStart=/home/guo/ros_ws/ITL_AutoAim/scripts/start_node.sh pipeline sentry_node
 Restart=on-failure
 RestartSec=5
 Environment=DISPLAY=:0

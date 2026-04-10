@@ -21,6 +21,8 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Orienta.msg"
   "msg/Basehit.msg"
   "msg/SentryCmd.msg"
+  "msg/GimbalState.msg"
+  "msg/GimbalCmd.msg"
   DEPENDENCIES std_msgs geometry_msgs sensor_msgs
 )
 

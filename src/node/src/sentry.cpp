@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <numeric>
 #include <sstream>
+#include <stdexcept>
 #include <utility>
 #include <vector>
 
@@ -18,7 +19,6 @@
 
 #include "logger.hpp"
 #include "draw_tools.hpp"
-#include "yaml.hpp"
 
 namespace Application
 {
@@ -26,6 +26,17 @@ namespace
 {
 std::atomic<bool> g_stop_requested{false};
 PipelineApp* g_app_instance{nullptr};
+
+SentryRunMode parse_run_mode(const std::string & value)
+{
+  if (value == "direct") {
+    return SentryRunMode::Direct;
+  }
+  if (value == "bridge") {
+    return SentryRunMode::Bridge;
+  }
+  throw std::invalid_argument("run_mode 只能是 direct 或 bridge");
+}
 
 void handle_signal(int)
 {
@@ -40,9 +51,14 @@ void handle_signal(int)
 PipelineApp::PipelineApp(const std::string & config_path)
 : config_path_(config_path),
   start_time_(std::chrono::steady_clock::now()),
-  last_delay_log_time_(std::chrono::steady_clock::now())
+  last_delay_log_time_(std::chrono::steady_clock::now()),
+  last_state_wait_log_time_(std::chrono::steady_clock::now())
 {
   ros_node_ = std::make_shared<rclcpp::Node>("sentry_node");
+  run_mode_name_ = ros_node_->declare_parameter<std::string>("run_mode", "direct");
+  run_mode_ = parse_run_mode(run_mode_name_);
+  enable_visualization_ = ros_node_->declare_parameter<bool>(
+    "enable_visualization", run_mode_ == SentryRunMode::Direct);
 
   // Debug Topics
   debug_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Debug>(
@@ -52,73 +68,24 @@ PipelineApp::PipelineApp(const std::string & config_path)
   target_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Outpost>(
     "target", rclcpp::QoS(10));
 
-  // 导航通讯 Topics
-  cmd_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::SentryCmd>(
-    "sentry_cmd", rclcpp::QoS(10));
-  tf_complete_pub_ = ros_node_->create_publisher<sensor_msgs::msg::JointState>(
-    "joint_states", rclcpp::QoS(10));
-
-  vel_sub_ = ros_node_->create_subscription<geometry_msgs::msg::Twist>(
-    "cmd_vel", rclcpp::QoS(10),
-    [this](const geometry_msgs::msg::Twist::SharedPtr msg) {
-      nav_vx_.store(static_cast<float>(msg->linear.x));
-      nav_vy_.store(static_cast<float>(msg->linear.y));
-      nav_w_.store(static_cast<float>(msg->angular.z));
-    });
-
-  gimbal_active_sub_ = ros_node_->create_subscription<std_msgs::msg::Bool>(
-    "gimbal_active", rclcpp::QoS(10),
-    [this](const std_msgs::msg::Bool::SharedPtr msg) {
-      gimbal_active_.store(msg->data);
-    });
-
   camera_ = std::make_unique<camera::Camera>(config_path_);
-  // dm_imu_ = std::make_unique<io::DmImu>(config_path_);
   detector_ = std::make_unique<armor_auto_aim::Detector>(config_path_);
   solver_ = std::make_unique<solver::Solver>(config_path_);
   yaw_optimizer_ = solver_->getYawOptimizer();
   tracker_ = std::make_unique<tracker::Tracker>(config_path_, *solver_);
   planner_ = std::make_unique<plan::Planner>(config_path_);
   shooter_ = std::make_unique<shooter::Shooter>(config_path_);
-  sentry_ = std::make_unique<io::Sentry>(config_path_);
 
-  // 注册下位机接收回调：发布SentryCmd和JointState
-  sentry_->set_receive_callback([this](const io::lowerToSentry& data) {
-    if (cmd_pub_) {
-      auto msg = autoaim_msgs::msg::SentryCmd{};
-      msg.start_nav = (data.sentry_nav == 1);
-      msg.low_health = (data.low_health == 1);
-      msg.resupply_done = (data.resupply_done == 1);
-      msg.die_flag = (data.die_flag == 1);
-      cmd_pub_->publish(msg);
-    }
-    if (tf_complete_pub_) {
-      auto msg = sensor_msgs::msg::JointState{};
-      msg.header.stamp = ros_node_->now();
-      msg.name = {"gimbal_yaw_odom_joint", "gimbal_yaw_joint", "gimbal_pitch_joint"};
-      msg.position = {
-        static_cast<double>(data.yaw_odom),
-        static_cast<double>(data.yaw),
-        static_cast<double>(data.pitch)
-      };
-      tf_complete_pub_->publish(msg);
-    }
-  });
-
-  // 读取扫描参数
-  auto yaml = utils::load(config_path_);
-  auto scan_node = yaml["Scan"];
-  if (scan_node) {
-    scan_yaw_center_ = scan_node["yaw_center"].as<float>(0.0f);
-    scan_yaw_amplitude_ = scan_node["yaw_amplitude"].as<float>(1.5f);
-    scan_yaw_period_ = scan_node["yaw_period"].as<float>(6.0f);
-    scan_pitch_center_ = scan_node["pitch_center"].as<float>(-0.05f);
-    scan_pitch_amplitude_ = scan_node["pitch_amplitude"].as<float>(0.15f);
-    scan_pitch_period_ = scan_node["pitch_period"].as<float>(3.0f);
-    utils::logger()->info(
-      "[Pipeline] 扫描参数: yaw[{:.2f}±{:.2f}, T={:.1f}s] pitch[{:.2f}±{:.2f}, T={:.1f}s]",
-      scan_yaw_center_, scan_yaw_amplitude_, scan_yaw_period_,
-      scan_pitch_center_, scan_pitch_amplitude_, scan_pitch_period_);
+  if (run_mode_ == SentryRunMode::Direct) {
+    sentry_ = std::make_unique<io::Sentry>(config_path_);
+  } else {
+    gimbal_cmd_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::GimbalCmd>(
+      "/gimbal/cmd", rclcpp::QoS(10));
+    gimbal_state_sub_ = ros_node_->create_subscription<autoaim_msgs::msg::GimbalState>(
+      "/gimbal/state", rclcpp::SensorDataQoS(),
+      [this](const autoaim_msgs::msg::GimbalState::SharedPtr msg) {
+        gimbal_state_callback(msg);
+      });
   }
 
   visualization_frame_counter_.store(0);
@@ -129,7 +96,8 @@ PipelineApp::PipelineApp(const std::string & config_path)
     utils::logger()->info("[Pipeline] 可视化已关闭");
   }
 
-  utils::logger()->info("[Pipeline] 模块初始化完成");
+  utils::logger()->info(
+    "[Pipeline] 模块初始化完成，运行模式: {}", run_mode_name_);
   g_app_instance = this;
 }
 
@@ -162,15 +130,22 @@ int PipelineApp::run()
       break;
     }
 
-    auto t0 = timestamp;
+    if (!has_runtime_state()) {
+      auto now = std::chrono::steady_clock::now();
+      if (utils::delta_time(last_state_wait_log_time_, now) >= 1.0) {
+        utils::logger()->warn("[Pipeline] 尚未收到有效状态输入，等待中...");
+        last_state_wait_log_time_ = now;
+      }
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));
+      continue;
+    }
 
     DebugPacket debug_packet;
     timestamp_sec = utils::delta_time(timestamp, start_time_);
 
     cv::cvtColor(img, debug_packet.rgb_image, cv::COLOR_BGR2RGB);
 
-    // orientation = dm_imu_->imu_at(timestamp);
-    orientation = sentry_->q(timestamp);
+    orientation = runtime_orientation(timestamp);
 
     if (orientation_pub_) {
       auto msg = autoaim_msgs::msg::Orienta{};
@@ -196,8 +171,6 @@ int PipelineApp::run()
     std::list<armor_auto_aim::Armor> armor_list(
       armor.begin(), armor.end());
     auto targets = tracker_->track(armor_list, timestamp);
-
-    auto t5 = std::chrono::steady_clock::now();
 
     if (!targets.empty())
       target_queue.push(targets.front());
@@ -266,7 +239,7 @@ void PipelineApp::request_stop()
     target_queue.shutdown();
 
     // 停止 sentry，唤醒阻塞在 q() 中的主线程
-    if (sentry_) {
+    if (run_mode_ == SentryRunMode::Direct && sentry_) {
       sentry_->stop();
     }
 
@@ -289,13 +262,14 @@ void PipelineApp::start_threads()
   if (enable_visualization_) {
     visualization_thread_ = std::thread(&PipelineApp::visualization_loop, this);
   }
-  // ROS spin线程，用于接收订阅消息
-  spin_thread_ = std::thread([this]() {
-    while (!quit_.load() && rclcpp::ok()) {
-      rclcpp::spin_some(ros_node_);
-      std::this_thread::sleep_for(std::chrono::milliseconds(1));
-    }
-  });
+  if (run_mode_ == SentryRunMode::Bridge) {
+    spin_thread_ = std::thread([this]() {
+      while (!quit_.load() && rclcpp::ok()) {
+        rclcpp::spin_some(ros_node_);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+      }
+    });
+  }
 }
 
 void PipelineApp::join_threads()
@@ -353,10 +327,6 @@ void PipelineApp::planner_loop()
 {
   utils::logger()->info("[Pipeline] 规划线程启动");
 
-  auto last_log_time = std::chrono::steady_clock::now();
-  bool was_scanning = false;
-  std::chrono::steady_clock::time_point scan_start_time;
-
   while (!quit_.load()) {
     if (g_stop_requested.load()) {
       break;
@@ -374,10 +344,9 @@ void PipelineApp::planner_loop()
 
     auto target = target_queue.front();
 
-    auto gs = sentry_->state();
+    auto gs = runtime_state();
 
     auto plan_result = planner_->plan(target, gs.bullet_speed);
-
 
     if (target.has_value()) {
       bool enable_shoot = shooter_->checkfire(
@@ -385,79 +354,27 @@ void PipelineApp::planner_loop()
       plan_result.fire = plan_result.fire && enable_shoot;
     }
 
-    // // 确定mode和yaw/pitch
-    // uint8_t mode = 0;
-    // float send_yaw = 0.0f, send_pitch = 0.0f;
-    // bool active = gimbal_active_.load();
-
-    // if (!active) {
-    //   // 导航说不可控 → 静止
-    //   mode = 0;
-    //   send_yaw = 0.0f;
-    //   send_pitch = 0.0f;
-    //   was_scanning = false;
-    // } else if (!plan_result.control) {
-    //   // 可控但没有目标 → 扫描
-    //   mode = 4;
-    //   if (!was_scanning) {
-    //     scan_start_time = std::chrono::steady_clock::now();
-    //     was_scanning = true;
-    //   }
-    //   double t = std::chrono::duration<double>(
-    //       std::chrono::steady_clock::now() - scan_start_time).count();
-    //   send_yaw = scan_yaw_center_ +
-    //       scan_yaw_amplitude_ * static_cast<float>(std::sin(2.0 * M_PI / scan_yaw_period_ * t));
-    //   send_pitch = scan_pitch_center_ +
-    //       scan_pitch_amplitude_ * static_cast<float>(std::sin(2.0 * M_PI / scan_pitch_period_ * t));
-    // } else {
-    //   // 有目标 → 控制/开火
-    //   was_scanning = false;
-    //   mode = plan_result.fire ? 2 : 1;
-    //   send_yaw = plan_result.yaw;
-    //   send_pitch = plan_result.pitch;
-    // }
-
-    // // 发送到下位机，vx/vy/w始终透传导航速度
-    // sentry_->send(mode, send_yaw, send_pitch,
-    //               nav_vx_.load(), nav_vy_.load(), nav_w_.load());
-    
-
-
-    auto truncate4 = [](double v) -> double {
-      return std::floor(v * 10000.0) / 10000.0;
-    };
-
     // 安全兜底：control=true 但值含 NaN 时回退到 gs
     bool safe = plan_result.control
         && std::isfinite(plan_result.yaw)
         && std::isfinite(plan_result.pitch);
 
-    uint8_t send_mode = 0;
-    float send_yaw = 0.0f, send_pitch = 0.0f;
-
-    if (safe) {
-      send_mode = plan_result.fire ? 2 : 1;
-      send_yaw = truncate4(plan_result.yaw);
-      send_pitch = truncate4(plan_result.pitch);
-    } else {
-      send_mode = 0;
-      send_yaw = truncate4(gs.yaw);
-      send_pitch = truncate4(gs.pitch);
-      if (plan_result.control) {
-        // control=true 但值异常，记录一下方便排查
-        utils::logger()->warn(
-          "[Pipeline] 安全回退: plan值异常 yaw={:.4f} pitch={:.4f}, 回退到gs yaw={:.4f} pitch={:.4f}",
-          plan_result.yaw, plan_result.pitch, gs.yaw, gs.pitch);
-      }
+    const bool fire = plan_result.fire && safe;
+    const float send_yaw = safe ? static_cast<float>(plan_result.yaw) : gs.yaw;
+    const float send_pitch = safe ? static_cast<float>(plan_result.pitch) : gs.pitch;
+    const float send_yaw_vel = safe ? static_cast<float>(plan_result.yaw_vel) : 0.0f;
+    if (!safe && plan_result.control) {
+      utils::logger()->warn(
+        "[Pipeline] 安全回退: plan值异常 yaw={:.4f} pitch={:.4f}, 回退到gs yaw={:.4f} pitch={:.4f}",
+        plan_result.yaw, plan_result.pitch, gs.yaw, gs.pitch);
     }
 
-
-    sentry_->send(send_mode, send_yaw, send_pitch, 0.0, 0.0, 0.0);
+    output_control(plan_result, gs);
 
     // 统计滑动窗口内fire占比
     {
       auto now_fire = std::chrono::steady_clock::now();
-      fire_window_.emplace_back(now_fire, plan_result.fire);
+      fire_window_.emplace_back(now_fire, fire);
       auto cutoff = now_fire - std::chrono::duration<double>(fire_window_sec_);
       while (!fire_window_.empty() && fire_window_.front().first < cutoff) {
         fire_window_.pop_front();
@@ -477,9 +394,8 @@ void PipelineApp::planner_loop()
 
       auto msg = autoaim_msgs::msg::Debug{};
       msg.enable_control = safe;
-      msg.fire = plan_result.fire && safe;
+      msg.fire = fire;
       msg.fire_rate = fire_rate;
-      // debug 发布实际发送的值，方便观察
       msg.yaw_offest = send_yaw - gs.yaw;
       msg.pitch_offset = send_pitch - gs.pitch;
       msg.yaw = send_yaw;
@@ -487,7 +403,7 @@ void PipelineApp::planner_loop()
       msg.yaw_gimbal = gs.yaw;
       msg.pitch_gimbal = gs.pitch;
       msg.bullet_speed = gs.bullet_speed;
-      msg.yaw_vel = plan_result.yaw_vel;
+      msg.yaw_vel = send_yaw_vel;
       debug_pub_->publish(msg);
     }
 
@@ -498,23 +414,115 @@ void PipelineApp::planner_loop()
   utils::logger()->info("[Pipeline] 规划线程退出");
 }
 
+void PipelineApp::gimbal_state_callback(const autoaim_msgs::msg::GimbalState::SharedPtr msg)
+{
+  std::lock_guard<std::mutex> lock(bridge_state_mutex_);
+
+  bridge_state_.yaw = msg->yaw;
+  bridge_state_.pitch = msg->pitch;
+  bridge_state_.yaw_vel = msg->yaw_vel;
+  bridge_state_.pitch_vel = msg->pitch_vel;
+  bridge_state_.bullet_speed = msg->bullet_speed;
+  bridge_state_.bullet_count = msg->bullet_count;
+
+  Eigen::Quaterniond q(
+    msg->orientation.w,
+    msg->orientation.x,
+    msg->orientation.y,
+    msg->orientation.z);
+  if (q.norm() < 1e-6) {
+    bridge_orientation_ = Eigen::Quaterniond::Identity();
+  } else {
+    bridge_orientation_ = q.normalized();
+  }
+
+  bridge_has_state_ = true;
+}
+
+bool PipelineApp::has_runtime_state() const
+{
+  if (run_mode_ == SentryRunMode::Direct) {
+    return sentry_ != nullptr;
+  }
+  std::lock_guard<std::mutex> lock(bridge_state_mutex_);
+  return bridge_has_state_;
+}
+
+io::GimbalState PipelineApp::runtime_state() const
+{
+  if (run_mode_ == SentryRunMode::Direct) {
+    return sentry_->state();
+  }
+  std::lock_guard<std::mutex> lock(bridge_state_mutex_);
+  return bridge_state_;
+}
+
+Eigen::Quaterniond PipelineApp::runtime_orientation(std::chrono::steady_clock::time_point timestamp) const
+{
+  if (run_mode_ == SentryRunMode::Direct) {
+    return sentry_->q(timestamp);
+  }
+  std::lock_guard<std::mutex> lock(bridge_state_mutex_);
+  return bridge_orientation_;
+}
+
+void PipelineApp::output_control(const plan::Plan & plan_result, const io::GimbalState & gs)
+{
+  const bool safe = plan_result.control &&
+    std::isfinite(plan_result.yaw) &&
+    std::isfinite(plan_result.pitch);
+
+  const bool fire = plan_result.fire && safe;
+  const float send_yaw = safe ? static_cast<float>(plan_result.yaw) : gs.yaw;
+  const float send_pitch = safe ? static_cast<float>(plan_result.pitch) : gs.pitch;
+  const float send_yaw_vel = safe ? static_cast<float>(plan_result.yaw_vel) : 0.0f;
+  const float send_pitch_vel = safe ? static_cast<float>(plan_result.pitch_vel) : 0.0f;
+  const float send_yaw_acc = safe ? static_cast<float>(plan_result.yaw_acc) : 0.0f;
+  const float send_pitch_acc = safe ? static_cast<float>(plan_result.pitch_acc) : 0.0f;
+
+  if (run_mode_ == SentryRunMode::Direct) {
+    const uint8_t send_mode = safe ? static_cast<uint8_t>(fire ? 2 : 1) : static_cast<uint8_t>(0);
+    sentry_->send(send_mode, send_yaw, send_pitch, 0.0f, 0.0f, 0.0f);
+    return;
+  }
+
+  auto gimbal_cmd_msg = autoaim_msgs::msg::GimbalCmd{};
+  gimbal_cmd_msg.header.stamp = ros_node_->now();
+  gimbal_cmd_msg.control = safe;
+  gimbal_cmd_msg.fire_advice = fire;
+  gimbal_cmd_msg.yaw = send_yaw;
+  gimbal_cmd_msg.pitch = send_pitch;
+  gimbal_cmd_msg.yaw_vel = send_yaw_vel;
+  gimbal_cmd_msg.pitch_vel = send_pitch_vel;
+  gimbal_cmd_msg.yaw_acc = send_yaw_acc;
+  gimbal_cmd_msg.pitch_acc = send_pitch_acc;
+  gimbal_cmd_pub_->publish(gimbal_cmd_msg);
+}
+
 }  // namespace Application
 
 int main(int argc, char ** argv)
 {
-  const std::string keys =
-    "{help h usage ? | | 输出命令行参数说明}"
-    "{@config-path   | | YAML配置文件路径}";
-
-  cv::CommandLineParser cli(argc, argv, keys);
-  if (cli.has("help")) {
-    cli.printMessage();
-    return 0;
+  bool show_help = false;
+  std::string config_path = std::filesystem::current_path().string() + "/src/config/sentry.yaml";
+  for (int i = 1; i < argc; ++i) {
+    const std::string arg(argv[i]);
+    if (arg == "--help" || arg == "-h" || arg == "help") {
+      show_help = true;
+      break;
+    }
+    if (arg == "--ros-args") {
+      break;
+    }
+    if (!arg.empty() && arg[0] != '-') {
+      config_path = arg;
+      break;
+    }
   }
 
-  std::string config_path = std::filesystem::current_path().string() + "/src/config/sentry.yaml";
-  if (cli.has("@config-path")) {
-    config_path = cli.get<std::string>("@config-path");
+  if (show_help) {
+    std::cout << "用法: ros2 run pipeline sentry_node [config-path] [--ros-args -p run_mode:=direct|bridge]\n";
+    return 0;
   }
 
   rclcpp::init(argc, argv);
