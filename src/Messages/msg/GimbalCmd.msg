@@ -1,0 +1,9 @@
+std_msgs/Header header
+bool control
+bool fire_advice
+float32 yaw
+float32 pitch
+float32 yaw_vel
+float32 pitch_vel
+float32 yaw_acc
+float32 pitch_acc
