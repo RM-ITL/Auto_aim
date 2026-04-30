@@ -240,7 +240,7 @@ predict_time: 0.120     # s
 # 基地Base识别参数
 Base_Hit:
   Openvino_XML: src/model/Katrin.xml
-  Openvino_Deveice: "CPU"
+  device: "CPU"
   input_width: 640
   input_height: 384
   score_threshold: 0.6
