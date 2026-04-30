@@ -12,7 +12,6 @@
 namespace aimer
 {
 Aimer::Aimer(const std::string & config_path)
-: left_yaw_offset_(std::nullopt), right_yaw_offset_(std::nullopt)
 {
   auto yaml = YAML::LoadFile(config_path);
   yaw_offset_ = yaml["Aimer"]["yaw_offset"].as<double>() / 57.3;        // degree to rad
@@ -22,11 +21,6 @@ Aimer::Aimer(const std::string & config_path)
   high_speed_delay_time_ = yaml["Aimer"]["high_speed_delay_time"].as<double>();
   low_speed_delay_time_ = yaml["Aimer"]["low_speed_delay_time"].as<double>();
   decision_speed_ = yaml["Aimer"]["decision_speed"].as<double>();
-  if (yaml["Aimer"]["left_yaw_offset"].IsDefined() && yaml["right_yaw_offset"].IsDefined()) {
-    left_yaw_offset_ = yaml["Aimer"]["left_yaw_offset"].as<double>() / 57.3;    // degree to rad
-    right_yaw_offset_ = yaml["Aimer"]["right_yaw_offset"].as<double>() / 57.3;  // degree to rad
-    utils::logger()->info("[Aimer] successfully loading shootmode");
-  }
 }
 
 io::GimbalCommand Aimer::aim(
@@ -121,25 +115,6 @@ io::GimbalCommand Aimer::aim(
   double pitch = -(current_traj.pitch + pitch_offset_);  //世界坐标系下pitch向上为负
   return {true, false, static_cast<float>(yaw), static_cast<float>(pitch)};
 }
-
-// io::Command Aimer::aim(
-//   std::list<predict::Target> targets, std::chrono::steady_clock::time_point timestamp, double bullet_speed,
-//   io::ShootMode shoot_mode, bool to_now)
-// {
-//   double yaw_offset;
-//   if (shoot_mode == io::left_shoot && left_yaw_offset_.has_value()) {
-//     yaw_offset = left_yaw_offset_.value();
-//   } else if (shoot_mode == io::right_shoot && right_yaw_offset_.has_value()) {
-//     yaw_offset = right_yaw_offset_.value();
-//   } else {
-//     yaw_offset = yaw_offset_;
-//   }
-
-//   auto command = aim(targets, timestamp, bullet_speed, to_now);
-//   command.yaw = command.yaw - yaw_offset_ + yaw_offset;
-
-//   return command;
-// }
 
 AimPoint Aimer::choose_aim_point(const predict::Target & target)
 {
