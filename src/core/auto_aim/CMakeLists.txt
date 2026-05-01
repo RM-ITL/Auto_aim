@@ -191,27 +191,6 @@ ament_target_dependencies(auto_aim_planner
 )
 
 # ====================================================================================
-# auto_aim_pointer
-# ====================================================================================
-add_library(auto_aim_pointer STATIC
-  pointer/src/image_processor.cpp
-  pointer/src/lightbar_detector.cpp
-)
-add_library(auto_aim::pointer ALIAS auto_aim_pointer)
-
-target_include_directories(auto_aim_pointer
-  PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/pointer/include>
-    $<INSTALL_INTERFACE:include>
-)
-
-target_link_libraries(auto_aim_pointer
-  PUBLIC
-    ${OpenCV_LIBS}
-    yaml-cpp
-)
-
-# ====================================================================================
 # auto_aim_aimer
 # ====================================================================================
 add_library(auto_aim_aimer STATIC
@@ -317,7 +296,6 @@ set(AUTO_AIM_PUBLIC_INCLUDE_DIRS
   ${CMAKE_CURRENT_SOURCE_DIR}/planner/include
   ${CMAKE_CURRENT_SOURCE_DIR}/shooter/include
   ${TINYMPC_INCLUDE_SRC_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}/pointer/include
   ${CMAKE_CURRENT_SOURCE_DIR}/solver/include
   ${CMAKE_CURRENT_SOURCE_DIR}/target/predictor/include
   ${CMAKE_CURRENT_SOURCE_DIR}/target/motion_model/include
@@ -339,7 +317,6 @@ set(AUTO_AIM_MODULE_LIBS
   auto_aim_aimer
   auto_aim_detected
   auto_aim_planner
-  auto_aim_pointer
   auto_aim_solver
   auto_aim_motion_model
   auto_aim_predictor
@@ -376,7 +353,6 @@ install(
     auto_aim_aimer
     auto_aim_detected
     auto_aim_planner
-    auto_aim_pointer
     auto_aim_solver
     auto_aim_motion_model
     auto_aim_predictor
@@ -389,7 +365,7 @@ install(
   INCLUDES DESTINATION include
 )
 
-foreach(dir IN ITEMS aimer detected planner pointer solver target/predictor target/motion_model tracker shooter)
+foreach(dir IN ITEMS aimer detected planner solver target/predictor target/motion_model tracker shooter)
   install(
     DIRECTORY ${dir}/include/
     DESTINATION include
