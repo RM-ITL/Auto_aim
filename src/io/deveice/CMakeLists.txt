@@ -92,34 +92,6 @@ ament_target_dependencies(deveice_camera
 )
 
 # ====================================================================================
-# deveice_cboard
-# ====================================================================================
-add_library(deveice_cboard STATIC
-  cboard/src/cboard.cpp
-)
-add_library(deveice::cboard ALIAS deveice_cboard)
-set_target_properties(deveice_cboard PROPERTIES EXPORT_NAME cboard)
-
-target_include_directories(deveice_cboard
-  PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/cboard/include>
-    $<INSTALL_INTERFACE:include>
-)
-
-target_link_libraries(deveice_cboard
-  PUBLIC
-    Eigen3::Eigen
-    yaml-cpp
-    utils::utils
-)
-
-ament_target_dependencies(deveice_cboard
-  PUBLIC
-    rclcpp
-    utils
-)
-
-# ====================================================================================
 # deveice_gimbal
 # ====================================================================================
 add_library(deveice_gimbal STATIC
@@ -255,7 +227,6 @@ ament_target_dependencies(deveice_lower_sentry
 # ====================================================================================
 set(deveice_PUBLIC_INCLUDE_DIRS
   ${CMAKE_CURRENT_SOURCE_DIR}/camera/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/cboard/include
   ${CMAKE_CURRENT_SOURCE_DIR}/gimbal/include
   ${CMAKE_CURRENT_SOURCE_DIR}/imu/include
   ${CMAKE_CURRENT_SOURCE_DIR}/lower_dart/include
@@ -283,7 +254,6 @@ add_library(deveice::deveice ALIAS deveice)
 
 set(deveice_MODULE_LIBS
   deveice_camera
-  deveice_cboard
   deveice_gimbal
   deveice_imu
   deveice_lower_dart
@@ -322,7 +292,6 @@ install(
   TARGETS
     deveice
     deveice_camera
-    deveice_cboard
     deveice_gimbal
     deveice_imu
     deveice_lower_dart
@@ -334,7 +303,7 @@ install(
   INCLUDES DESTINATION include
 )
 
-foreach(dir IN ITEMS camera/include cboard/include gimbal/include imu/include lower_dart/include lower_sentry/include)
+foreach(dir IN ITEMS camera/include gimbal/include imu/include lower_dart/include lower_sentry/include)
   install(
     DIRECTORY ${dir}/
     DESTINATION include
