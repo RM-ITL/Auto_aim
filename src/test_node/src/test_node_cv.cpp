@@ -6,6 +6,7 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <stdexcept>
 #include <utility>
 #include <vector>
 
@@ -39,8 +40,17 @@ PipelineApp::PipelineApp(const std::string & config_path)
   debug_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Debug>(
     "debug", rclcpp::QoS(10));
 
+  imu_source_name_ = ros_node_->declare_parameter<std::string>("imu_source", "gimbal");
+  if (imu_source_name_ != "gimbal" && imu_source_name_ != "dm_imu") {
+    throw std::invalid_argument("imu_source 只能是 gimbal 或 dm_imu");
+  }
+  imu_source_ = (imu_source_name_ == "dm_imu") ? ImuSource::DmImu : ImuSource::Gimbal;
+  utils::logger()->info("[Pipeline] 姿态来源: {}", imu_source_name_);
+
   camera_ = std::make_unique<camera::Camera>(config_path_);
-  //dm_imu_ = std::make_unique<io::DmImu>(config_path_);
+  if (imu_source_ == ImuSource::DmImu) {
+    dm_imu_ = std::make_unique<io::DmImu>(config_path_);
+  }
   detector_ = std::make_unique<armor_auto_aim::Traditional_Detector>(config_path_, true);  // 使用传统检测器，启用debug
   solver_ = std::make_unique<solver::Solver>(config_path_);
   yaw_optimizer_ = solver_->getYawOptimizer();
@@ -98,11 +108,9 @@ int PipelineApp::run()
 
     cv::cvtColor(img, debug_packet.rgb_image, cv::COLOR_BGR2RGB);
 
-    // orientation = dm_imu_->imu_at(timestamp);
-    orientation = gimbal_->q(timestamp);
-    // utils::logger()->debug(
-    //   "[Pipeline] IMU四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
-    //   orientation.w(), orientation.x(), orientation.y(), orientation.z());
+    orientation = (imu_source_ == ImuSource::DmImu)
+                  ? dm_imu_->imu_at(timestamp)
+                  : gimbal_->q(timestamp);
 
     solver_->updateIMU(orientation, timestamp_sec);
 

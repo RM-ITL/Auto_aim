@@ -58,6 +58,9 @@ private:
 
   // 组件与配置
   std::string config_path_;
+  enum class ImuSource { Gimbal, DmImu };
+  ImuSource imu_source_{ImuSource::Gimbal};
+  std::string imu_source_name_;
   std::unique_ptr<camera::Camera> camera_;
   std::unique_ptr<io::DmImu> dm_imu_;
   std::unique_ptr<armor_auto_aim::Traditional_Detector> detector_;  // 使用传统检测器

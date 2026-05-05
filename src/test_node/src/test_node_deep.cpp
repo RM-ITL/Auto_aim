@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <numeric>
 #include <sstream>
+#include <stdexcept>
 #include <utility>
 #include <vector>
 
@@ -51,8 +52,17 @@ PipelineApp::PipelineApp(const std::string & config_path)
     "target",rclcpp::QoS(10)
   );
 
+  imu_source_name_ = ros_node_->declare_parameter<std::string>("imu_source", "gimbal");
+  if (imu_source_name_ != "gimbal" && imu_source_name_ != "dm_imu") {
+    throw std::invalid_argument("imu_source 只能是 gimbal 或 dm_imu");
+  }
+  imu_source_ = (imu_source_name_ == "dm_imu") ? ImuSource::DmImu : ImuSource::Gimbal;
+  utils::logger()->info("[Pipeline] 姿态来源: {}", imu_source_name_);
+
   camera_ = std::make_unique<camera::Camera>(config_path_);
-  // dm_imu_ = std::make_unique<io::DmImu>(config_path_);
+  if (imu_source_ == ImuSource::DmImu) {
+    dm_imu_ = std::make_unique<io::DmImu>(config_path_);
+  }
   detector_ = std::make_unique<armor_auto_aim::Detector>(config_path_);
   solver_ = std::make_unique<solver::Solver>(config_path_);
   yaw_optimizer_ = solver_->getYawOptimizer();
@@ -96,7 +106,6 @@ int PipelineApp::run()
     std::chrono::steady_clock::time_point timestamp;
     double timestamp_sec{0.0};
     Eigen::Quaterniond orientation{Eigen::Quaterniond::Identity()};
-    Eigen::Quaterniond dm_orientation{Eigen::Quaterniond::Identity()};
 
     camera_->read(img, timestamp);
 
@@ -112,14 +121,9 @@ int PipelineApp::run()
 
     cv::cvtColor(img, debug_packet.rgb_image, cv::COLOR_BGR2RGB);
 
-    // orientation = dm_imu_->imu_at(timestamp);
-    orientation = gimbal_->q(timestamp);
-    // utils::logger()->debug(
-    //   "[Pipeline] DM_IMU四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
-    //   dm_orientation.w(), dm_orientation.x(), dm_orientation.y(), dm_orientation.z());
-    // utils::logger()->debug(
-    // "[Pipeline] 下位机的四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
-    // orientation.w(), orientation.x(), orientation.y(), orientation.z());
+    orientation = (imu_source_ == ImuSource::DmImu)
+                  ? dm_imu_->imu_at(timestamp)
+                  : gimbal_->q(timestamp);
 
     if (orientation_pub_) {
       auto msg = autoaim_msgs::msg::Orienta{};
@@ -127,14 +131,10 @@ int PipelineApp::run()
       msg.x = orientation.x(),
       msg.y = orientation.y(),
       msg.z = orientation.z(),
-      // msg.dm_w = dm_orientation.w(),
-      // msg.dm_x = dm_orientation.x(),
-      // msg.dm_y = dm_orientation.y(),
-      // msg.dm_z = dm_orientation.z(),
       msg.dm_w = 0,
       msg.dm_x = 0,
       msg.dm_y = 0,
-      msg.dm_z = 0,        
+      msg.dm_z = 0,
       orientation_pub_->publish(msg);
     }
 
