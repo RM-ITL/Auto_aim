@@ -21,6 +21,14 @@ Aimer::Aimer(const std::string & config_path)
   high_speed_delay_time_ = yaml["Aimer"]["high_speed_delay_time"].as<double>();
   low_speed_delay_time_ = yaml["Aimer"]["low_speed_delay_time"].as<double>();
   decision_speed_ = yaml["Aimer"]["decision_speed"].as<double>();
+
+  utils::logger()->info("[Aimer] yaw_offset            = {:.3f} deg ({:.6f} rad)", yaw_offset_ * 57.3, yaw_offset_);
+  utils::logger()->info("[Aimer] pitch_offset          = {:.3f} deg ({:.6f} rad)", pitch_offset_ * 57.3, pitch_offset_);
+  utils::logger()->info("[Aimer] comming_angle         = {:.3f} deg ({:.6f} rad)", comming_angle_ * 57.3, comming_angle_);
+  utils::logger()->info("[Aimer] leaving_angle         = {:.3f} deg ({:.6f} rad)", leaving_angle_ * 57.3, leaving_angle_);
+  utils::logger()->info("[Aimer] high_speed_delay_time = {:.6f}", high_speed_delay_time_);
+  utils::logger()->info("[Aimer] low_speed_delay_time  = {:.6f}", low_speed_delay_time_);
+  utils::logger()->info("[Aimer] decision_speed        = {:.3f}", decision_speed_);
 }
 
 io::GimbalCommand Aimer::aim(

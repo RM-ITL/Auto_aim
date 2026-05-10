@@ -22,9 +22,8 @@ LightTracker::LightTracker(const std::string & config_path)
   min_detect_count_ = yaml["LightTracker"]["min_detect_count"].as<int>();
   max_temp_lost_count_ = yaml["LightTracker"]["max_temp_lost_count"].as<int>();
 
-  utils::logger()->info(
-    "[LightTracker] 初始化完成 - min_detect_count={}, max_temp_lost_count={}",
-    min_detect_count_, max_temp_lost_count_);
+  utils::logger()->info("[LightTracker] min_detect_count    = {}", min_detect_count_);
+  utils::logger()->info("[LightTracker] max_temp_lost_count = {}", max_temp_lost_count_);
 }
 
 std::string LightTracker::state() const { return state_; }

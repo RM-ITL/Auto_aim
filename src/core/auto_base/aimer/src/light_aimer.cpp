@@ -3,6 +3,8 @@
 #include <yaml-cpp/yaml.h>
 #include <iostream>
 
+#include "logger.hpp"
+
 namespace auto_base
 {
 
@@ -17,6 +19,7 @@ LightAimer::LightAimer(const std::string & config_path)
   } else {
     std::cerr << "[LightAimer] Warning: begin_x not defined in config, using default 0.0"
               << std::endl;
+    utils::logger()->warn("[LightAimer] begin_x missing, using default 0.0");
   }
 
   // 加载基础补偿
@@ -25,6 +28,7 @@ LightAimer::LightAimer(const std::string & config_path)
   } else {
     std::cerr << "[LightAimer] Warning: base_offset not defined in config, using default 0.0"
               << std::endl;
+    utils::logger()->warn("[LightAimer] base_offset missing, using default 0.0");
   }
 
   // 加载根据number的补偿表
@@ -34,10 +38,16 @@ LightAimer::LightAimer(const std::string & config_path)
       int number = std::stoi(it->first.as<std::string>());
       double offset = it->second.as<double>();
       offset_map_[number] = offset;
+      utils::logger()->info("[LightAimer] offsets[{}] = {:.3f}", number, offset);
     }
   } else {
     std::cerr << "[LightAimer] Warning: offsets not defined in config" << std::endl;
+    utils::logger()->warn("[LightAimer] offsets missing");
   }
+
+  utils::logger()->info("[LightAimer] begin_x         = {:.3f}", begin_x_);
+  utils::logger()->info("[LightAimer] base_offset     = {:.3f}", base_offset_);
+  utils::logger()->info("[LightAimer] offset_map.size = {}", offset_map_.size());
 
   std::cout << "[LightAimer] Initialized with begin_x=" << begin_x_
             << ", base_offset=" << base_offset_ << ", offset_map size=" << offset_map_.size()

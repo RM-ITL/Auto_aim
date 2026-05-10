@@ -4,6 +4,8 @@
 #include <yaml-cpp/yaml.h>
 #include <cmath>
 
+#include "logger.hpp"
+
 namespace solver {
 
 PnPSolver::PnPSolver(const std::string& yaml_config_path) {
@@ -93,7 +95,21 @@ bool PnPSolver::loadCameraParamsFromYAML(const std::string& yaml_path) {
         RCLCPP_INFO(rclcpp::get_logger("PnPSolver"), 
                    "相机参数加载成功 - 焦距:[%.1f, %.1f]",
                    focal_length[0], focal_length[1]);
-        
+        utils::logger()->info(
+            "[PnPSolver] focal_length    = [{:.3f}, {:.3f}]",
+            focal_length[0], focal_length[1]);
+        utils::logger()->info(
+            "[PnPSolver] principal_point = [{:.3f}, {:.3f}]",
+            principal_point[0], principal_point[1]);
+        utils::logger()->info(
+            "[PnPSolver] dist_coeffs     = {}x{}",
+            dist_coeffs_.rows, dist_coeffs_.cols);
+        for (int i = 0; i < dist_coeffs_.cols; ++i) {
+            utils::logger()->info(
+                "[PnPSolver] dist_coeffs[{}] = {:.8f}",
+                i, dist_coeffs_.at<double>(0, i));
+        }
+         
         return true;
         
     } catch (const std::exception& e) {

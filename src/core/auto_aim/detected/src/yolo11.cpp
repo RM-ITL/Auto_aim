@@ -4,6 +4,8 @@
 #include <filesystem>
 #include <iostream>
 
+#include "logger.hpp"
+
 namespace armor_auto_aim
 {
 
@@ -33,7 +35,14 @@ YOLO11Detector::YOLO11Detector(const std::string& config_path, bool debug)
     if (yolo11_config["enemy_color"]) {
         enemy_color_ = yolo11_config["enemy_color"].as<std::string>("red");
     }
-    
+
+    utils::logger()->info("[YOLO11Detector] yolo11_model_path = {}", model_path_);
+    utils::logger()->info("[YOLO11Detector] device            = {}", device_);
+    utils::logger()->info("[YOLO11Detector] min_confidence    = {:.3f}", min_confidence_);
+    utils::logger()->info("[YOLO11Detector] score_threshold   = {:.3f}", score_threshold_);
+    utils::logger()->info("[YOLO11Detector] nms_threshold     = {:.3f}", nms_threshold_);
+    utils::logger()->info("[YOLO11Detector] enemy_color       = {}", enemy_color_);
+     
     // 检查模型文件是否存在
     if (!std::filesystem::exists(model_path_)) {
         throw std::runtime_error("模型文件不存在: " + model_path_);

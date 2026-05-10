@@ -19,7 +19,10 @@ OpenvinoInfer::OpenvinoInfer(const std::string & config_path)
   score_threshold_ = cfg["score_threshold"].as<float>(0.5f);
   nms_threshold_ = cfg["nms_threshold"].as<float>(0.45f);
 
-  utils::logger()->info("[OpenvinoInfer] 加载模型: {}, 设备: {}", xml_path, device_);
+  utils::logger()->info("[OpenvinoInfer] Openvino_XML    = {}", xml_path);
+  utils::logger()->info("[OpenvinoInfer] device          = {}", device_);
+  utils::logger()->info("[OpenvinoInfer] score_threshold = {:.3f}", score_threshold_);
+  utils::logger()->info("[OpenvinoInfer] nms_threshold   = {:.3f}", nms_threshold_);
 
   // 读取模型
   auto model = core_.read_model(xml_path);

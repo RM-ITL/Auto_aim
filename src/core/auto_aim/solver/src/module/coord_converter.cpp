@@ -5,6 +5,8 @@
 #include <iostream>
 #include <yaml-cpp/yaml.h>
 
+#include "logger.hpp"
+
 namespace solver {
 
 CoordConverter::CoordConverter(const std::string& yaml_config_path)
@@ -303,6 +305,21 @@ bool CoordConverter::loadCalibrationFromYAML(const std::string& yaml_path) {
                     dist_coeffs_.at<double>(0, i) = disto_param[i];
                 }
             }
+
+            utils::logger()->info(
+                "[CoordConverter] focal_length    = [{:.3f}, {:.3f}]",
+                focal_length[0], focal_length[1]);
+            utils::logger()->info(
+                "[CoordConverter] principal_point = [{:.3f}, {:.3f}]",
+                principal_point[0], principal_point[1]);
+            utils::logger()->info(
+                "[CoordConverter] dist_coeffs     = {}x{}",
+                dist_coeffs_.rows, dist_coeffs_.cols);
+            for (int i = 0; i < dist_coeffs_.cols; ++i) {
+                utils::logger()->info(
+                    "[CoordConverter] dist_coeffs[{}] = {:.8f}",
+                    i, dist_coeffs_.at<double>(0, i));
+            }
         }
         
         // 读取相机到云台的旋转矩阵
@@ -311,6 +328,9 @@ bool CoordConverter::loadCalibrationFromYAML(const std::string& yaml_path) {
             R_camera_to_gimbal << matrix_data[0], matrix_data[1], matrix_data[2],
                                 matrix_data[3], matrix_data[4], matrix_data[5],
                                 matrix_data[6], matrix_data[7], matrix_data[8];
+            utils::logger()->info("[CoordConverter] R_camera_to_gimbal row0 = [{:.6f}, {:.6f}, {:.6f}]", R_camera_to_gimbal(0, 0), R_camera_to_gimbal(0, 1), R_camera_to_gimbal(0, 2));
+            utils::logger()->info("[CoordConverter] R_camera_to_gimbal row1 = [{:.6f}, {:.6f}, {:.6f}]", R_camera_to_gimbal(1, 0), R_camera_to_gimbal(1, 1), R_camera_to_gimbal(1, 2));
+            utils::logger()->info("[CoordConverter] R_camera_to_gimbal row2 = [{:.6f}, {:.6f}, {:.6f}]", R_camera_to_gimbal(2, 0), R_camera_to_gimbal(2, 1), R_camera_to_gimbal(2, 2));
         }
 
         // 读取云台到IMU的旋转矩阵
@@ -319,6 +339,9 @@ bool CoordConverter::loadCalibrationFromYAML(const std::string& yaml_path) {
             R_gimbal_to_imu << matrix_data[0], matrix_data[1], matrix_data[2],
                             matrix_data[3], matrix_data[4], matrix_data[5],
                             matrix_data[6], matrix_data[7], matrix_data[8];
+            utils::logger()->info("[CoordConverter] R_gimbal_to_imu row0 = [{:.6f}, {:.6f}, {:.6f}]", R_gimbal_to_imu(0, 0), R_gimbal_to_imu(0, 1), R_gimbal_to_imu(0, 2));
+            utils::logger()->info("[CoordConverter] R_gimbal_to_imu row1 = [{:.6f}, {:.6f}, {:.6f}]", R_gimbal_to_imu(1, 0), R_gimbal_to_imu(1, 1), R_gimbal_to_imu(1, 2));
+            utils::logger()->info("[CoordConverter] R_gimbal_to_imu row2 = [{:.6f}, {:.6f}, {:.6f}]", R_gimbal_to_imu(2, 0), R_gimbal_to_imu(2, 1), R_gimbal_to_imu(2, 2));
         }
 
         // 读取相机到云台的平移向量
@@ -326,9 +349,19 @@ bool CoordConverter::loadCalibrationFromYAML(const std::string& yaml_path) {
             std::vector<double> translation_data = config["t_camera_to_gimbal"].as<std::vector<double>>();
             if(translation_data.size() == 3) {
                 t_camera_to_gimbal_ << translation_data[0], translation_data[1], translation_data[2];
-                utils::logger()->info("成功加载相机到云台平移向量: [{:.3f}, {:.3f}, {:.3f}]",
+                utils::logger()->info(
+                    "[CoordConverter] t_camera_to_gimbal = [{:.3f}, {:.3f}, {:.3f}]",
                     t_camera_to_gimbal_(0), t_camera_to_gimbal_(1), t_camera_to_gimbal_(2));
+            } else {
+                utils::logger()->warn(
+                    "[CoordConverter] t_camera_to_gimbal = [{:.3f}, {:.3f}, {:.3f}] (size={}, fallback to zero)",
+                    t_camera_to_gimbal_(0), t_camera_to_gimbal_(1), t_camera_to_gimbal_(2),
+                    translation_data.size());
             }
+        } else {
+            utils::logger()->warn(
+                "[CoordConverter] t_camera_to_gimbal = [{:.3f}, {:.3f}, {:.3f}] (missing t_camera_to_gimbal, fallback to zero)",
+                t_camera_to_gimbal_(0), t_camera_to_gimbal_(1), t_camera_to_gimbal_(2));
         }
 
         return true;

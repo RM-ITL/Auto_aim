@@ -26,6 +26,13 @@ YOLOV5Detector::YOLOV5Detector(const std::string & config_path, bool debug)
 
   use_traditional_ = yolov5_config["use_traditional"].as<bool>(false);
 
+  utils::logger()->info("[YOLOV5Detector] yolov5_model_path = {}", model_path_);
+  utils::logger()->info("[YOLOV5Detector] device            = {}", device_);
+  utils::logger()->info("[YOLOV5Detector] min_confidence    = {:.3f}", min_confidence_);
+  utils::logger()->info("[YOLOV5Detector] score_threshold   = {:.3f}", score_threshold_);
+  utils::logger()->info("[YOLOV5Detector] nms_threshold     = {:.3f}", nms_threshold_);
+  utils::logger()->info("[YOLOV5Detector] use_traditional   = {}", use_traditional_);
+
   save_path_ = "save/deep";
   std::filesystem::create_directories(save_path_);
 

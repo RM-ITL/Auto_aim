@@ -26,6 +26,28 @@ Traditional_Detector::Traditional_Detector(const std::string & config_path, bool
   min_confidence_ = yaml["min_confidence"].as<double>();
   max_rectangular_error_ = yaml["max_rectangular_error"].as<double>() / 57.3;  // degree to rad
 
+  utils::logger()->info("[Traditional_Detector] threshold             = {:.3f}", threshold_);
+  utils::logger()->info(
+    "[Traditional_Detector] max_angle_error       = {:.3f} deg ({:.6f} rad)",
+    max_angle_error_ * 57.3, max_angle_error_);
+  utils::logger()->info(
+    "[Traditional_Detector] min_lightbar_ratio    = {:.3f}", min_lightbar_ratio_);
+  utils::logger()->info(
+    "[Traditional_Detector] max_lightbar_ratio    = {:.3f}", max_lightbar_ratio_);
+  utils::logger()->info(
+    "[Traditional_Detector] min_lightbar_length   = {:.3f}", min_lightbar_length_);
+  utils::logger()->info(
+    "[Traditional_Detector] min_armor_ratio       = {:.3f}", min_armor_ratio_);
+  utils::logger()->info(
+    "[Traditional_Detector] max_armor_ratio       = {:.3f}", max_armor_ratio_);
+  utils::logger()->info(
+    "[Traditional_Detector] max_side_ratio        = {:.3f}", max_side_ratio_);
+  utils::logger()->info(
+    "[Traditional_Detector] min_confidence        = {:.3f}", min_confidence_);
+  utils::logger()->info(
+    "[Traditional_Detector] max_rectangular_error = {:.3f} deg ({:.6f} rad)",
+    max_rectangular_error_ * 57.3, max_rectangular_error_);
+
   save_path_ = "save/cv";
   std::filesystem::create_directories(save_path_);
 }

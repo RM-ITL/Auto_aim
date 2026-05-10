@@ -56,6 +56,7 @@ private:
   // 单板观测模式参数
   int single_plate_threshold_;
   double omega_threshold_;
+  bool single_plate_debug_;
 
   // 状态管理
   std::string state_;

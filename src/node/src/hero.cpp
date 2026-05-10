@@ -2,6 +2,7 @@
 
 #include <csignal>
 #include <algorithm>
+#include <exception>
 #include <filesystem>
 #include <iostream>
 #include <vector>
@@ -22,6 +23,22 @@ void handle_signal(int)
   g_stop_requested.store(true);
 }
 
+void log_config_file_info(const std::string & prefix, const std::string & config_path)
+{
+  try {
+    const auto absolute_path = std::filesystem::absolute(config_path);
+    const auto file_size = std::filesystem::file_size(absolute_path);
+    const auto last_write_time = std::filesystem::last_write_time(absolute_path);
+    utils::logger()->info("[{}] config.absolute_path = {}", prefix, absolute_path.string());
+    utils::logger()->info("[{}] config.file_size     = {} bytes", prefix, file_size);
+    utils::logger()->info(
+      "[{}] config.last_write_time_raw = {}", prefix,
+      last_write_time.time_since_epoch().count());
+  } catch (const std::exception & e) {
+    utils::logger()->warn("[{}] config file info unavailable: {}", prefix, e.what());
+  }
+}
+
 }  // namespace
 
 Standard3App::Standard3App(const std::string & config_path)
@@ -29,6 +46,7 @@ Standard3App::Standard3App(const std::string & config_path)
   start_time_(std::chrono::steady_clock::now())
 {
   utils::logger()->info("[Standard3] 正在初始化，配置文件: {}", config_path_);
+  log_config_file_info("Hero", config_path_);
 
   camera_ = std::make_unique<camera::Camera>(config_path_);
   utils::logger()->info("[Standard3] 相机初始化完成");

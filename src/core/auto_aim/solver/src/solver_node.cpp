@@ -1,9 +1,12 @@
 #include "solver_node.hpp"
 #include <rclcpp/rclcpp.hpp>
 
+#include "logger.hpp"
+
 namespace solver {
 
 Solver::Solver(const std::string& yaml_config_path) {
+    utils::logger()->info("[Solver] config_path = {}", yaml_config_path);
     // 所有模块从同一个YAML文件初始化
     pnp_solver_ = std::make_unique<PnPSolver>(yaml_config_path);
     coord_converter_ = std::make_unique<CoordConverter>(yaml_config_path);

@@ -5,6 +5,8 @@
 #include <cmath>
 #include <limits>
 
+#include "logger.hpp"
+
 namespace solver {
 
 YawOptimizer::YawOptimizer(const std::string& yaml_config_path, CoordConverter* CoordConverter_)
@@ -19,6 +21,9 @@ YawOptimizer::YawOptimizer(const std::string& yaml_config_path, CoordConverter* 
     if (!loadCameraParamsFromYAML(yaml_config_path)) {
         throw std::runtime_error("YawOptimizer: 无法从配置文件加载相机参数: " + yaml_config_path);
     }
+
+    utils::logger()->info("[YawOptimizer] search_range = {:.3f} deg (HARDCODED)", search_range_);
+    utils::logger()->info("[YawOptimizer] search_step  = {:.3f} deg (HARDCODED)", search_step_);
 
 }
 
@@ -83,7 +88,22 @@ bool YawOptimizer::loadCameraParamsFromYAML(const std::string& yaml_path) {
         } else {
             dist_coeffs_ = cv::Mat::zeros(1, 5, CV_64F);
         }
-        
+
+        utils::logger()->info(
+            "[YawOptimizer] focal_length    = [{:.3f}, {:.3f}]",
+            focal_length[0], focal_length[1]);
+        utils::logger()->info(
+            "[YawOptimizer] principal_point = [{:.3f}, {:.3f}]",
+            principal_point[0], principal_point[1]);
+        utils::logger()->info(
+            "[YawOptimizer] dist_coeffs     = {}x{}",
+            dist_coeffs_.rows, dist_coeffs_.cols);
+        for (int i = 0; i < dist_coeffs_.cols; ++i) {
+            utils::logger()->info(
+                "[YawOptimizer] dist_coeffs[{}] = {:.8f}",
+                i, dist_coeffs_.at<double>(0, i));
+        }
+         
         return true;
         
     } catch (const std::exception& e) {

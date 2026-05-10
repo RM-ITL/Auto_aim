@@ -11,13 +11,16 @@ Dart::Dart(const std::string & config_path)
   auto yaml = utils::load(config_path);
   auto com_port = utils::read<std::string>(yaml, "com_port");
 
+  utils::logger()->info("[Dart] com_port                = {}", com_port);
+  utils::logger()->info("[Dart] baud                    = 115200 (HARDCODED)");
+
   try {
     serial_.setPort(com_port);
     serial_.open();
     serial_.setBaudrate(115200);
   } catch (const std::exception & e) {
     utils::logger()->error("[Dart] Failed to open serial: {}", e.what());
-    exit(1);
+    throw;
   }
 
   thread_ = std::thread(&Dart::read_thread, this);

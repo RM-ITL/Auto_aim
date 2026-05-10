@@ -3,6 +3,8 @@
 #include <yaml-cpp/yaml.h>
 #include <array>
 
+#include "logger.hpp"
+
 namespace armor_auto_aim
 {
 
@@ -25,6 +27,8 @@ Classifier::Classifier(const std::string & config_path)
 {
   auto yaml = YAML::LoadFile(config_path);
   auto model = yaml["classify_model"].as<std::string>();
+  utils::logger()->info("[Classifier] classify_model = {}", model);
+  utils::logger()->info("[Classifier] openvino.device = AUTO (HARDCODED)");
   net_ = cv::dnn::readNetFromONNX(model);
   auto ovmodel = core_.read_model(model);
   compiled_model_ = core_.compile_model(

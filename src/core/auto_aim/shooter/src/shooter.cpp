@@ -14,6 +14,11 @@ Shooter::Shooter(const std::string & config_path) : last_command_{0, 0, 0}
   second_tolerance_ = yaml["Shooter"]["second_tolerance"].as<double>() / 57.3;  // degree to rad
   judge_distance_ = yaml["Shooter"]["judge_distance"].as<double>();
   auto_fire_ = yaml["Shooter"]["auto_fire"].as<bool>();
+
+  utils::logger()->info("[Shooter] first_tolerance  = {:.3f} deg ({:.6f} rad)", first_tolerance_ * 57.3, first_tolerance_);
+  utils::logger()->info("[Shooter] second_tolerance = {:.3f} deg ({:.6f} rad)", second_tolerance_ * 57.3, second_tolerance_);
+  utils::logger()->info("[Shooter] judge_distance   = {:.3f}", judge_distance_);
+  utils::logger()->info("[Shooter] auto_fire        = {}", auto_fire_);
 }
 
 bool Shooter::shoot(

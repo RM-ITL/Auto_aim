@@ -276,9 +276,13 @@ bool HikCamera::load_config(const std::string & config_path)
       cv::Size(params["target_width"].as<int>(), params["target_height"].as<int>());
     image_topic_ = params["image_topic"].as<std::string>();
 
-    utils::logger()->info(
-      "[HikCamera] 配置加载成功 - 曝光:{:.1f}ms 增益:{:.1f} FPS:{:.1f}",
-      exposure_us_ / 1000.0, gain_, fps_);
+    utils::logger()->info("[HikCamera] exposure_ms       = {:.3f} ms", exposure_us_ / 1000.0);
+    utils::logger()->info("[HikCamera] exposure_us       = {:.1f} us", exposure_us_);
+    utils::logger()->info("[HikCamera] gain              = {:.3f}", gain_);
+    utils::logger()->info("[HikCamera] fps               = {:.3f}", fps_);
+    utils::logger()->info("[HikCamera] target_width      = {}", target_size_.width);
+    utils::logger()->info("[HikCamera] target_height     = {}", target_size_.height);
+    utils::logger()->info("[HikCamera] image_topic       = {}", image_topic_);
     return true;
 
   } catch (const std::exception & e) {

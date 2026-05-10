@@ -40,7 +40,19 @@ DmImu::DmImu(const std::string & config_path)
 {
   auto yaml = utils::load(config_path);
   imu_serial_port_ = utils::read<std::string>(yaml, "imu_com_port");
-  
+  const auto yaml_baud = yaml["baud"] ? yaml["baud"].as<std::string>() : "<missing>";
+  const auto yaml_publish_rate =
+    yaml["publish_rate"] ? yaml["publish_rate"].as<std::string>() : "<missing>";
+
+  utils::logger()->info("[DmImu] imu_com_port           = {}", imu_serial_port_);
+  utils::logger()->info(
+    "[DmImu] baud                   = {} (HARDCODED, yaml 'baud' = {} ignored)",
+    imu_seial_baud_, yaml_baud);
+  utils::logger()->info(
+    "[DmImu] publish_rate           = ~333 Hz (HARDCODED set_output_interval_ms(3), "
+    "yaml 'publish_rate' = {} ignored)",
+    yaml_publish_rate);
+
   data_ = {0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F};
   pending_bytes_.reserve(256);
 

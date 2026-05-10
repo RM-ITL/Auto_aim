@@ -2,6 +2,7 @@
 #include <yaml-cpp/yaml.h>
 #include <tuple>
 #include "math_tools.hpp"
+#include "logger.hpp"
 #include <rclcpp/rclcpp.hpp>  // 添加ROS日志支持
 
 namespace tracker
@@ -36,10 +37,26 @@ Tracker::Tracker(const std::string & config_path, solver::Solver & solver)
   // 加载单板观测模式参数
   single_plate_threshold_ = yaml["Tracker"]["single_plate_threshold"].as<int>(50);
   omega_threshold_ = yaml["Tracker"]["omega_threshold"].as<double>(0.5);
+  single_plate_debug_ = yaml["Tracker"]["single_plate_debug"].as<bool>(false);
+
+  utils::logger()->info("[Tracker] enemy_color                 = {}", enemy_color_str);
+  utils::logger()->info("[Tracker] min_detect_count            = {}", min_detect_count_);
+  utils::logger()->info("[Tracker] max_temp_lost_count         = {}", max_temp_lost_count_);
+  utils::logger()->info("[Tracker] outpost_max_temp_lost_count = {}", outpost_max_temp_lost_count_);
+  utils::logger()->info("[Tracker] outpost_min_detect_count    = {}", outpost_min_detect_count_);
+  utils::logger()->info("[Tracker] outpost_detect_fail_tolerance = {}", outpost_detect_fail_tolerance_);
+  utils::logger()->info("[Tracker] single_plate_threshold      = {}", single_plate_threshold_);
+  utils::logger()->info("[Tracker] omega_threshold             = {:.3f}", omega_threshold_);
+  utils::logger()->info("[Tracker] single_plate_debug          = {}", single_plate_debug_);
 
   RCLCPP_INFO(rclcpp::get_logger("Tracker"),
               "跟踪器初始化完成 - 敌方颜色: %s",
               enemy_color_str.c_str());
+  if (single_plate_debug_) {
+    RCLCPP_WARN(
+      rclcpp::get_logger("Tracker"),
+      "single_plate_debug 已启用：跳过普通目标 r/l 发散与 NIS 重置，仅用于单板调试");
+  }
 }
 
 std::string Tracker::state() const { return state_; }
@@ -92,7 +109,9 @@ std::list<TargetVariant> Tracker::track(
   state_machine(found);
 
   // 发散检测
-  if (state_ == "tracking" || state_ == "temp_lost") {
+  const bool skip_model_consistency_checks = single_plate_debug_ && !is_tracking_outpost_;
+
+  if ((state_ == "tracking" || state_ == "temp_lost") && !skip_model_consistency_checks) {
     bool diverged = std::visit([](auto & target) { return target.diverged(); }, target_);
     if (diverged) {
       RCLCPP_WARN(rclcpp::get_logger("Tracker"),
@@ -106,7 +125,7 @@ std::list<TargetVariant> Tracker::track(
   }
 
   // 收敛效果检测
-  if (state_ == "tracking") {
+  if (state_ == "tracking" && !skip_model_consistency_checks) {
     bool converged = std::visit([](auto & target) { return target.convergened(); }, target_);
     if (converged) {
       const auto & ekf = std::visit([](auto & target) -> const motion_model::ExtendedKalmanFilter & {
@@ -132,6 +151,12 @@ std::list<TargetVariant> Tracker::track(
 
   if (state_ == "lost") {
     return {};
+  }
+
+  if (single_plate_debug_) {
+    if (auto * target = std::get_if<predict::Target>(&target_)) {
+      target->single_plate_mode = true;
+    }
   }
 
   std::list<TargetVariant> targets = {target_};

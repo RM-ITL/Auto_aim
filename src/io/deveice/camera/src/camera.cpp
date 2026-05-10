@@ -49,6 +49,7 @@ bool Camera::load_config(const std::string & config_path)
 
     // 读取相机类型，默认为hik
     camera_type_ = camera_node["type"].as<std::string>("hik");
+    utils::logger()->info("[Camera] camera.type          = {}", camera_type_);
 
     if (camera_type_ == "hik") {
       // 创建海康相机
@@ -61,6 +62,9 @@ bool Camera::load_config(const std::string & config_path)
       double exposure_ms = params["exposure_ms"].as<double>(5.0);
       double gamma = params["gamma"].as<double>(100.0);
       std::string vid_pid = params["vid_pid"].as<std::string>("2bdf:0283");
+      utils::logger()->info("[Camera] mindvision.exposure_ms = {:.3f} ms", exposure_ms);
+      utils::logger()->info("[Camera] mindvision.gamma       = {:.3f}", gamma);
+      utils::logger()->info("[Camera] mindvision.vid_pid     = {}", vid_pid);
 
       camera_ = std::make_unique<MindVision>(exposure_ms, gamma, vid_pid);
       utils::logger()->info("Created MindVision camera");

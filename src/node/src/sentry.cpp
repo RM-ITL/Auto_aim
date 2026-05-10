@@ -3,6 +3,7 @@
 #include <csignal>
 #include <algorithm>
 #include <cmath>
+#include <exception>
 #include <filesystem>
 #include <iostream>
 #include <iomanip>
@@ -25,7 +26,6 @@ namespace Application
 namespace
 {
 std::atomic<bool> g_stop_requested{false};
-PipelineApp* g_app_instance{nullptr};
 
 SentryRunMode parse_run_mode(const std::string & value)
 {
@@ -41,8 +41,21 @@ SentryRunMode parse_run_mode(const std::string & value)
 void handle_signal(int)
 {
   g_stop_requested.store(true);
-  if (g_app_instance) {
-    g_app_instance->request_stop();
+}
+
+void log_config_file_info(const std::string & prefix, const std::string & config_path)
+{
+  try {
+    const auto absolute_path = std::filesystem::absolute(config_path);
+    const auto file_size = std::filesystem::file_size(absolute_path);
+    const auto last_write_time = std::filesystem::last_write_time(absolute_path);
+    utils::logger()->info("[{}] config.absolute_path = {}", prefix, absolute_path.string());
+    utils::logger()->info("[{}] config.file_size     = {} bytes", prefix, file_size);
+    utils::logger()->info(
+      "[{}] config.last_write_time_raw = {}", prefix,
+      last_write_time.time_since_epoch().count());
+  } catch (const std::exception & e) {
+    utils::logger()->warn("[{}] config file info unavailable: {}", prefix, e.what());
   }
 }
 
@@ -59,6 +72,7 @@ PipelineApp::PipelineApp(const std::string & config_path)
   run_mode_ = parse_run_mode(run_mode_name_);
   enable_visualization_ = ros_node_->declare_parameter<bool>(
     "enable_visualization", run_mode_ == SentryRunMode::Direct);
+  log_config_file_info("Pipeline", config_path_);
 
   // Debug Topics
   debug_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Debug>(
@@ -98,12 +112,10 @@ PipelineApp::PipelineApp(const std::string & config_path)
 
   utils::logger()->info(
     "[Pipeline] 模块初始化完成，运行模式: {}", run_mode_name_);
-  g_app_instance = this;
 }
 
 PipelineApp::~PipelineApp()
 {
-  g_app_instance = nullptr;
   request_stop();
   join_threads();
 }

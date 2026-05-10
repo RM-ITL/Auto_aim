@@ -18,6 +18,7 @@ Detector::Detector(const std::string& config_path){
         if (yaml["yolo"] && yaml["yolo"]["yolo_name"]) {
             detector_type_ = yaml["yolo"]["yolo_name"].as<std::string>();
         }
+        utils::logger()->info("[Detector] yolo.yolo_name     = {}", detector_type_);
 
         // 根据配置创建对应的检测器
         if (detector_type_ == "yolov5") {
