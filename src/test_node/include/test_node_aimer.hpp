@@ -111,6 +111,11 @@ private:
     double pitch_offset;
   };
   std::deque<OffsetSample> offset_window_;
+
+  float last_gs_yaw_vel_{0.0f};
+  float last_gs_pitch_vel_{0.0f};
+  std::chrono::steady_clock::time_point last_gs_time_;
+  bool gs_initialized_{false};
 };
 
 }  // namespace Application

@@ -86,6 +86,11 @@ private:
 
   std::chrono::steady_clock::time_point start_time_;
   const double bullet_speed_{22.0};
+
+  float last_gs_yaw_vel_{0.0f};
+  float last_gs_pitch_vel_{0.0f};
+  std::chrono::steady_clock::time_point last_gs_time_;
+  bool gs_initialized_{false};
 };
 
 }  // namespace Application

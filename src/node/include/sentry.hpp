@@ -117,6 +117,11 @@ private:
   std::deque<std::pair<std::chrono::steady_clock::time_point, bool>> fire_window_;
   double fire_window_sec_{10.0};
 
+  float last_gs_yaw_vel_{0.0f};
+  float last_gs_pitch_vel_{0.0f};
+  std::chrono::steady_clock::time_point last_gs_time_;
+  bool gs_initialized_{false};
+
   SentryRunMode run_mode_{SentryRunMode::Direct};
   std::string run_mode_name_{"direct"};
 

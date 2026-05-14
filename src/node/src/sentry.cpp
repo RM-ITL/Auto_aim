@@ -404,6 +404,21 @@ void PipelineApp::planner_loop()
         fire_rate = static_cast<float>(fire_count) / static_cast<float>(fire_window_.size());
       }
 
+      auto now = std::chrono::steady_clock::now();
+      float yaw_acc_gimbal = 0.0f;
+      float pitch_acc_gimbal = 0.0f;
+      if (gs_initialized_) {
+        auto dt = std::chrono::duration<float>(now - last_gs_time_).count();
+        if (dt > 0.001f) {
+          yaw_acc_gimbal = (gs.yaw_vel - last_gs_yaw_vel_) / dt;
+          pitch_acc_gimbal = (gs.pitch_vel - last_gs_pitch_vel_) / dt;
+        }
+      }
+      last_gs_yaw_vel_ = gs.yaw_vel;
+      last_gs_pitch_vel_ = gs.pitch_vel;
+      last_gs_time_ = now;
+      gs_initialized_ = true;
+
       auto msg = autoaim_msgs::msg::Debug{};
       msg.enable_control = safe;
       msg.fire = fire;
@@ -416,6 +431,13 @@ void PipelineApp::planner_loop()
       msg.pitch_gimbal = gs.pitch;
       msg.bullet_speed = gs.bullet_speed;
       msg.yaw_vel = send_yaw_vel;
+      msg.pitch_vel = safe ? static_cast<float>(plan_result.pitch_vel) : 0.0f;
+      msg.yaw_acc = safe ? static_cast<float>(plan_result.yaw_acc) : 0.0f;
+      msg.pitch_acc = safe ? static_cast<float>(plan_result.pitch_acc) : 0.0f;
+      msg.yaw_vel_gimbal = gs.yaw_vel;
+      msg.pitch_vel_gimbal = gs.pitch_vel;
+      msg.yaw_acc_gimbal = yaw_acc_gimbal;
+      msg.pitch_acc_gimbal = pitch_acc_gimbal;
       debug_pub_->publish(msg);
     }
 

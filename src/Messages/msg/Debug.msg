@@ -9,3 +9,10 @@ float32 pitch_gimbal
 float32 fire_rate
 float32 bullet_speed
 float32 yaw_vel
+float32 pitch_vel
+float32 yaw_acc
+float32 pitch_acc
+float32 yaw_vel_gimbal
+float32 pitch_vel_gimbal
+float32 yaw_acc_gimbal
+float32 pitch_acc_gimbal

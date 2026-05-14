@@ -112,6 +112,12 @@ private:
     double pitch_offset;
   };
   std::deque<OffsetSample> offset_window_;
+
+  // 从上一帧 GimbalState 速度和时间戳差分估算云台实际加速度。
+  float last_gs_yaw_vel_{0.0f};
+  float last_gs_pitch_vel_{0.0f};
+  std::chrono::steady_clock::time_point last_gs_time_;
+  bool gs_initialized_{false};
 };
 
 }  // namespace pipeline
