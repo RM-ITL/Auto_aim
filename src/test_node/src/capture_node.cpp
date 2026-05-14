@@ -3,11 +3,15 @@
 #include <csignal>
 #include <filesystem>
 #include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <stdexcept>
 
 #include <fmt/core.h>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 
+#include "calibration_common.hpp"
 #include "logger.hpp"
 #include "math_tools.hpp"
 #include "draw_tools.hpp"
@@ -29,10 +33,28 @@ CaptureApp::CaptureApp(const std::string & config_path, const std::string & outp
 : config_path_(config_path), output_folder_(output_folder)
 {
   ros_node_ = std::make_shared<rclcpp::Node>("capture_node");
+  pose_source_ = ros_node_->declare_parameter<std::string>("pose_source", "gimbal");
+  diag_mode_ = ros_node_->declare_parameter<bool>("diag", false);
+
+  if (diag_mode_) {
+    pose_source_ = "gimbal";
+    gimbal_ = std::make_unique<io::Gimbal>(config_path_);
+    r_gimbal_to_imu_ = calibration::read_r_gimbal_to_imu(config_path_);
+    std::filesystem::create_directories(output_folder_);
+    utils::logger()->info("[Capture/Diag] 进入诊断模式，不打开相机");
+    utils::logger()->info("[Capture/Diag] 输出文件夹: {}", output_folder_);
+    return;
+  }
+
+  if (pose_source_ != "gimbal" && pose_source_ != "dm_imu") {
+    throw std::invalid_argument("pose_source must be 'gimbal' or 'dm_imu'");
+  }
 
   camera_ = std::make_unique<camera::Camera>(config_path_);
   gimbal_ = std::make_unique<io::Gimbal>(config_path_);
-  dm_imu_ = std::make_unique<io::DmImu>(config_path_);
+  if (pose_source_ == "dm_imu") {
+    dm_imu_ = std::make_unique<io::DmImu>(config_path_);
+  }
   // 创建输出文件夹
   std::filesystem::create_directories(output_folder_);
 
@@ -41,6 +63,7 @@ CaptureApp::CaptureApp(const std::string & config_path, const std::string & outp
   utils::logger()->info(
     "[Capture] 圆点直径: {:.1f} mm, 圆心距: {:.1f} mm, 板尺寸: {}x{} mm",
     circle_diameter_mm_, circle_spacing_mm_, board_size_mm_.width, board_size_mm_.height);
+  utils::logger()->info("[Capture] 姿态来源: {}", pose_source_);
   utils::logger()->info("[Capture] 输出文件夹: {}", output_folder_);
 }
 
@@ -68,8 +91,18 @@ void CaptureApp::write_timestamp(
   timestamp_file.close();
 }
 
+Eigen::Quaterniond CaptureApp::pose_at(std::chrono::steady_clock::time_point timestamp)
+{
+  if (pose_source_ == "dm_imu") {
+    return dm_imu_->imu_at(timestamp);
+  }
+  return gimbal_->q(timestamp);
+}
+
 int CaptureApp::run()
 {
+  if (diag_mode_) return run_diag();
+
   cv::namedWindow(window_name_, cv::WINDOW_NORMAL);
 
   int count = 0;
@@ -83,8 +116,7 @@ int CaptureApp::run()
     std::chrono::steady_clock::time_point timestamp;
 
     camera_->read(img, timestamp);
-    // Eigen::Quaterniond q = gimbal_->q(timestamp);
-    Eigen::Quaterniond q = dm_imu_->imu_at(timestamp);
+    Eigen::Quaterniond q = pose_at(timestamp);
 
     cv::Mat img_bgr;
     if (camera_->camera_type() == "mindvision") {
@@ -149,6 +181,88 @@ int CaptureApp::run()
 void CaptureApp::request_stop()
 {
   quit_.store(true);
+}
+
+void CaptureApp::write_diag_header(const std::string & csv_path)
+{
+  std::ofstream f(csv_path, std::ios::out | std::ios::trunc);
+  f << "idx,t_ns,qw,qx,qy,qz,"
+       "q_yaw_deg,q_pitch_deg,q_roll_deg,"
+       "state_yaw_deg,state_pitch_deg,"
+       "g2w_yaw_deg,g2w_pitch_deg,g2w_roll_deg\n";
+}
+
+void CaptureApp::append_diag_row(
+  const std::string & csv_path,
+  int idx,
+  std::chrono::steady_clock::time_point t,
+  const Eigen::Quaterniond & q,
+  const Eigen::Vector3d & q_ypr_deg,
+  const io::GimbalState & state,
+  const Eigen::Vector3d & g2w_ypr_deg)
+{
+  std::ofstream f(csv_path, std::ios::app);
+  f << std::fixed << std::setprecision(4);
+  const auto t_ns =
+    std::chrono::duration_cast<std::chrono::nanoseconds>(t.time_since_epoch()).count();
+  f << idx << "," << t_ns << ","
+    << q.w() << "," << q.x() << "," << q.y() << "," << q.z() << ","
+    << q_ypr_deg[0] << "," << q_ypr_deg[1] << "," << q_ypr_deg[2] << ","
+    << (state.yaw  * 57.2957795) << "," << (state.pitch * 57.2957795) << ","
+    << g2w_ypr_deg[0] << "," << g2w_ypr_deg[1] << "," << g2w_ypr_deg[2] << "\n";
+}
+
+int CaptureApp::run_diag()
+{
+  const std::string csv_path = output_folder_ + "/diag_snapshots.csv";
+  write_diag_header(csv_path);
+
+  cv::Mat hint(100, 480, CV_8UC3, cv::Scalar(0, 0, 0));
+  cv::putText(hint, "Press s: snapshot,  q/ESC: quit",
+              {10, 55}, cv::FONT_HERSHEY_SIMPLEX, 0.6, {255, 255, 255}, 1);
+  const std::string win = "gimbal diag";
+  cv::namedWindow(win, cv::WINDOW_NORMAL);
+  cv::imshow(win, hint);
+
+  int snapshot_idx = 0;
+  while (!quit_.load() && !g_stop_requested.load()) {
+    const auto t_now = std::chrono::steady_clock::now();
+    const Eigen::Quaterniond q = gimbal_->q(t_now);
+    const auto state = gimbal_->state();
+
+    const Eigen::Matrix3d R_q = q.toRotationMatrix();
+    const Eigen::Matrix3d R_g2w =
+      r_gimbal_to_imu_.transpose() * R_q * r_gimbal_to_imu_;
+
+    const Eigen::Vector3d q_ypr_deg = utils::eulers(R_q,   2, 1, 0) * 57.2957795;
+    const Eigen::Vector3d g_ypr_deg = utils::eulers(R_g2w, 2, 1, 0) * 57.2957795;
+
+    std::cout << "\033[H\033[2J"
+              << std::fixed << std::setprecision(3)
+              << "=== gimbal pose diag (press s: snapshot, q: quit) ===\n"
+              << "raw q (wxyz)     : "
+              << q.w() << "  " << q.x() << "  " << q.y() << "  " << q.z() << "\n"
+              << "q.toR -> ZYX deg : yaw=" << q_ypr_deg[0]
+              << "  pitch="                << q_ypr_deg[1]
+              << "  roll="                 << q_ypr_deg[2] << "\n"
+              << "state (rx) deg   : yaw=" << (state.yaw  * 57.2957795)
+              << "  pitch="                << (state.pitch * 57.2957795) << "\n"
+              << "R_g2w  -> ZYX deg: yaw=" << g_ypr_deg[0]
+              << "  pitch="                << g_ypr_deg[1]
+              << "  roll="                 << g_ypr_deg[2] << "\n"
+              << "snapshots saved  : "    << snapshot_idx << "\n"
+              << "csv path         : "    << csv_path     << "\n";
+    std::cout.flush();
+
+    cv::imshow(win, hint);
+    const int key = cv::waitKey(50);
+    if (key == 'q' || key == 27) break;
+    if (key == 's') {
+      append_diag_row(csv_path, ++snapshot_idx, t_now, q, q_ypr_deg, state, g_ypr_deg);
+    }
+  }
+  cv::destroyWindow(win);
+  return 0;
 }
 
 }  // namespace Application
