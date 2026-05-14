@@ -9,13 +9,14 @@ namespace io
 Sentry::Sentry(const std::string & config_path)
 {
   auto yaml = utils::load(config_path);
-  auto com_port = utils::read<std::string>(yaml, "com_port");
+  auto gimbal_yaml = yaml["Gimbal"];
+  auto com_port = utils::read<std::string>(gimbal_yaml, "com_port");
 
   utils::logger()->info("[Sentry] com_port              = {}", com_port);
   utils::logger()->info("[Sentry] baud                  = 115200 (HARDCODED)");
 
-  // 读取IMU外参标定四元数（注意：q_calib是顶级节点，在Sentry同级）
-  auto q_calib_node = yaml["q_calib"];
+  // 读取IMU外参标定四元数（从 yaml["Gimbal"]["q_calib"] 读取）
+  auto q_calib_node = gimbal_yaml["q_calib"];
   if (q_calib_node) {
     double qx = q_calib_node["x"].as<double>();
     double qy = q_calib_node["y"].as<double>();

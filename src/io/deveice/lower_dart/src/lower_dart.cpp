@@ -9,7 +9,8 @@ namespace io
 Dart::Dart(const std::string & config_path)
 {
   auto yaml = utils::load(config_path);
-  auto com_port = utils::read<std::string>(yaml, "com_port");
+  auto dart_yaml = yaml["lower_Dart"];
+  auto com_port = utils::read<std::string>(dart_yaml, "com_port");
 
   utils::logger()->info("[Dart] com_port                = {}", com_port);
   utils::logger()->info("[Dart] baud                    = 115200 (HARDCODED)");

@@ -39,19 +39,19 @@ DmImu::DmImu(const std::string & config_path)
   queue_(kQueueCapacity)
 {
   auto yaml = utils::load(config_path);
-  imu_serial_port_ = utils::read<std::string>(yaml, "imu_com_port");
-  const auto yaml_baud = yaml["baud"] ? yaml["baud"].as<std::string>() : "<missing>";
-  const auto yaml_publish_rate =
-    yaml["publish_rate"] ? yaml["publish_rate"].as<std::string>() : "<missing>";
+  auto imu_yaml = yaml["DM_IMU"];
+  imu_serial_port_ = utils::read<std::string>(imu_yaml, "imu_com_port");
+  imu_seial_baud_ = utils::read<int>(imu_yaml, "baud", 921600);
+  const int publish_rate = utils::read<int>(imu_yaml, "publish_rate", 333);
+  const uint16_t interval_ms = static_cast<uint16_t>(
+    std::clamp(static_cast<int>(std::round(1000.0 / std::max(1, publish_rate))), 1, 100));
 
   utils::logger()->info("[DmImu] imu_com_port           = {}", imu_serial_port_);
   utils::logger()->info(
-    "[DmImu] baud                   = {} (HARDCODED, yaml 'baud' = {} ignored)",
-    imu_seial_baud_, yaml_baud);
+    "[DmImu] baud                   = {} (from yaml)", imu_seial_baud_);
   utils::logger()->info(
-    "[DmImu] publish_rate           = ~333 Hz (HARDCODED set_output_interval_ms(3), "
-    "yaml 'publish_rate' = {} ignored)",
-    yaml_publish_rate);
+    "[DmImu] publish_rate           = {} Hz (interval_ms={}, from yaml)",
+    publish_rate, interval_ms);
 
   data_ = {0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F};
   pending_bytes_.reserve(256);
@@ -73,8 +73,8 @@ DmImu::DmImu(const std::string & config_path)
   turn_on_quat();
   sleep_for_command();
 
-  // 目标约 300Hz，设置 3ms 输出间隔（≈333Hz，为固件支持的最接近取值）
-  set_output_interval_ms(3);
+  // interval_ms 由 yaml 中 publish_rate 算得（默认 333Hz → 3ms ≈ 与原硬编码字节级一致）
+  set_output_interval_ms(interval_ms);
   sleep_for_command();
 
   save_imu_para();

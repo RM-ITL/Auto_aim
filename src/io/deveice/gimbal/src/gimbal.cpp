@@ -9,13 +9,14 @@ namespace io
 Gimbal::Gimbal(const std::string & config_path)
 {
   auto yaml = utils::load(config_path);
-  auto com_port = utils::read<std::string>(yaml, "com_port");
+  auto gimbal_yaml = yaml["Gimbal"];
+  auto com_port = utils::read<std::string>(gimbal_yaml, "com_port");
 
   utils::logger()->info("[Gimbal] com_port              = {}", com_port);
   utils::logger()->info("[Gimbal] baud                  = 115200 (HARDCODED)");
 
-  // 读取IMU外参标定四元数（注意：q_calib是顶级节点，在Gimbal同级）
-  auto q_calib_node = yaml["q_calib"];
+  // 读取IMU外参标定四元数（注意：q_calib在Gimbal段下）
+  auto q_calib_node = gimbal_yaml["q_calib"];
   if (q_calib_node) {
     double qx = q_calib_node["x"].as<double>();
     double qy = q_calib_node["y"].as<double>();

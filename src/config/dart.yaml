@@ -61,27 +61,23 @@ camera:
     target_height: 1024
     image_topic: "image_topic"
     vid_pid: "2bdf:0283"  # MindVision相机的VID:PID
-    debug: false
 
 
 # lower_Dart通讯参数
 lower_Dart:
-enable_serial: true
-# com_port: "/dev/ttyUSB0"
-com_port: "/dev/ttyACM0"
+  # com_port: "/dev/ttyUSB0"
+  com_port: "/dev/ttyACM0"
 
 
 # video视频测试参数
 Video:
-video_path: "test/buff_simulation_record.mp4"
+  video_path: "test/buff_simulation_record.mp4"
 
   
 # 基地Base识别参数
 Base_Hit:
   Openvino_XML: src/model/Katrin.xml
   device: "CPU"
-  input_width: 640
-  input_height: 384
   score_threshold: 0.5
   nms_threshold: 0.1
 

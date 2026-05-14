@@ -96,12 +96,12 @@ min_confidence: 0.8     # 分类器的最小置信度
 
 # DM_IMU相关配置
 DM_IMU:
-# 串口配置
-imu_com_port: "/dev/ttyACM1"
-baud: 115200
+  # 串口配置
+  imu_com_port: "/dev/ttyACM1"
+  baud: 921600
 
-# 发布频率相关
-publish_rate: 1000  # Hz
+  # 发布频率相关
+  publish_rate: 333  # Hz
   
 
 # 坐标系配置
@@ -118,24 +118,11 @@ publish_rate: 1000  # Hz
 Solver:
   coord_converter:  # 坐标变换所需参数
     rotation_matrix_camera_to_gimbal:
-      rows: 3
-      cols: 3
-      dt: float
       data: [0, 0, 1,
             -1, 0, 0,
             0, -1, 0]
 
-    # rotation_matrix_gimbal_to_imu:
-    #   rows: 3
-    #   cols: 3
-    #   dt: float
-    #   data: [1, 0, 0,
-    #         0, 1, 0,
-    #         0, 0, 1]
     rotation_matrix_gimbal_to_imu:
-      rows: 3
-      cols: 3
-      dt: float
       data: [0, 1, 0,
             -1, 0, 0,
             0, 0, 1]
@@ -210,28 +197,26 @@ Planner:
 
 # Gimbal通讯参数
 Gimbal:
-enable_serial: true
-# com_port: "/dev/ttyUSB0"
-com_port: "/dev/ttyACM0"
-com_port_1: "/dev/ttyACM2"
-# 校正下位机的四元数 [x, y, z, w], q_corrected = q_calib * q_lower
-# q_calib:
-#   x: 0.01168210
-#   y: 0.06258915
-#   z: -0.02122380
-#   w: 0.99774530
+  # com_port: "/dev/ttyUSB0"
+  com_port: "/dev/ttyACM0"
+  # 校正下位机的四元数 [x, y, z, w], q_corrected = q_calib * q_lower
+  # q_calib:
+  #   x: 0.01168210
+  #   y: 0.06258915
+  #   z: -0.02122380
+  #   w: 0.99774530
 
-# q_calib:
-#   x: 1.0000
-#   y: 1.0000
-#   z: 1.0000
-#   w: 1.0000
+  # q_calib:
+  #   x: 1.0000
+  #   y: 1.0000
+  #   z: 1.0000
+  #   w: 1.0000
 
 
 
 # video视频测试参数
 Video:
-video_path: "test/demo.mp4"
+  video_path: "test/demo.mp4"
 
 #####-----buff_detector参数-----#####
 buff_model: "src/model/yolo11_buff_int8.xml"
@@ -244,7 +229,5 @@ predict_time: 0.120     # s
 Base_Hit:
   Openvino_XML: src/model/Katrin.xml
   device: "CPU"
-  input_width: 640
-  input_height: 384
   score_threshold: 0.6
   nms_threshold: 0.3

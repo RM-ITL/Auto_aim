@@ -63,7 +63,6 @@ camera:
     target_height: 1024
     image_topic: "image_topic"
     vid_pid: "2bdf:0283"  # MindVision相机的VID:PID
-    debug: false
 
 # 神经网络识别参数
 yolo:
@@ -97,12 +96,12 @@ min_confidence: 0.8     # 分类器的最小置信度
 
 # DM_IMU相关配置
 DM_IMU:
-# 串口配置
-imu_com_port: "/dev/ttyACM1"
-baud: 115200
+  # 串口配置
+  imu_com_port: "/dev/ttyACM1"
+  baud: 921600
 
-# 发布频率相关
-publish_rate: 1000  # Hz
+  # 发布频率相关
+  publish_rate: 333  # Hz
   
 
 # 坐标系配置
@@ -119,19 +118,13 @@ publish_rate: 1000  # Hz
 Solver:
   coord_converter:  # 坐标变换所需参数
     rotation_matrix_camera_to_gimbal:
-      rows: 3
-      cols: 3
-      dt: float
-      data: [0, 0, 1,
-            -1, 0, 0,
-            0, -1, 0]
-
+      data: [0.1224, -0.0542, 0.9904,
+            -0.9923, 0.0105, 0.1233,
+            -0.0184, -0.9979, -0.0624]
+            
     rotation_matrix_gimbal_to_imu:
-      rows: 3
-      cols: 3
-      dt: float
-      data: [0, -1, 0,
-            1, 0, 0,
+      data: [0, 1, 0,
+            -1, 0, 0,
             0, 0, 1]
 # 陀螺仪与相机放置在同一位置
 # - x: 相机相对云台在前后方向的偏移
@@ -139,7 +132,7 @@ Solver:
 # - z: 相机相对云台在上下方向的偏移
 
 t_camera_to_gimbal:
-[0.0, 0.00, 0.00]
+[0.1519, 0.0756, 0.0222]
 # [0.115, -0.065, 0.015]cm
 
 
@@ -154,8 +147,8 @@ Tracker:
   outpost_min_detect_count: 3      # 前哨站的最小检测次数（更快进入tracking）
   outpost_detect_fail_tolerance: 8  # 前哨站在detecting状态允许的连续失败帧数
   # 单板观测模式参数
-  single_plate_threshold: 50       # 连续无板切换帧数超过此值进入单板模式
-  omega_threshold: 0.5             # rad/s，角速度低于此值时才允许进入单板模式
+  single_plate_threshold: 20       # 连续无板切换帧数超过此值进入单板模式
+  omega_threshold: 0.4             # rad/s，角速度低于此值时才允许进入单板模式
 
 
 # 瞄准器Aimer参数
@@ -206,28 +199,26 @@ Planner:
 
 # Gimbal通讯参数
 Gimbal:
-enable_serial: true
-# com_port: "/dev/ttyUSB0"
-com_port: "/dev/gimbal"
-com_port_1: "/dev/ttyACM2"
-# 校正下位机的四元数 [x, y, z, w], q_corrected = q_calib * q_lower
-# q_calib:
-#   x: 0.01168210
-#   y: 0.06258915
-#   z: -0.02122380
-#   w: 0.99774530
+  # com_port: "/dev/ttyUSB0"
+  com_port: "/dev/gimbal"
+  # 校正下位机的四元数 [x, y, z, w], q_corrected = q_calib * q_lower
+  # q_calib:
+  #   x: 0.01168210
+  #   y: 0.06258915
+  #   z: -0.02122380
+  #   w: 0.99774530
 
-# q_calib:
-#   x: 1.0000
-#   y: 1.0000
-#   z: 1.0000
-#   w: 1.0000
+  # q_calib:
+  #   x: 1.0000
+  #   y: 1.0000
+  #   z: 1.0000
+  #   w: 1.0000
 
 
 
 # video视频测试参数
 Video:
-video_path: "test/demo.mp4"
+  video_path: "test/demo.mp4"
 
 #####-----buff_detector参数-----#####
 buff_model: "src/model/yolo11_buff_int8.xml"
@@ -240,7 +231,5 @@ predict_time: 0.120     # s
 Base_Hit:
   Openvino_XML: src/model/Katrin.xml
   device: "CPU"
-  input_width: 640
-  input_height: 384
   score_threshold: 0.6
   nms_threshold: 0.3
