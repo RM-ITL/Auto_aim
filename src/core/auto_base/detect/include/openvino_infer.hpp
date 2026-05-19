@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+#include "app_config/app_config.hpp"
+
 namespace auto_base
 {
 
@@ -21,7 +23,7 @@ public:
     int class_id;
   };
 
-  explicit OpenvinoInfer(const std::string & config_path);
+  explicit OpenvinoInfer(const app_config::OpenvinoInferConfig & config);
   ~OpenvinoInfer() = default;
 
   // 推理接口：输入图像，返回检测结果

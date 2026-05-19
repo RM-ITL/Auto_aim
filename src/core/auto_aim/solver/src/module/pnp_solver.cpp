@@ -1,24 +1,60 @@
 #include "module/pnp_solver.hpp"
 #include <opencv2/core/eigen.hpp>
 #include <rclcpp/rclcpp.hpp>
-#include <yaml-cpp/yaml.h>
 #include <cmath>
 
 #include "logger.hpp"
 
 namespace solver {
 
-PnPSolver::PnPSolver(const std::string& yaml_config_path) {
+PnPSolver::PnPSolver(const app_config::PnPSolverConfig & config) {
     camera_matrix_ = cv::Mat();
     dist_coeffs_ = cv::Mat();
-    
-    if (!loadCameraParamsFromYAML(yaml_config_path)) {
-        throw std::runtime_error("PnPSolver: 无法从配置文件加载相机参数: " + yaml_config_path);
+
+    // 字段来自 SubConfig（已在 AppConfig::load 时处理过 ptr_wrapper.data fallback）。
+    const auto & focal_length = config.focal_length;
+    const auto & principal_point = config.principal_point;
+
+    if (focal_length.size() < 2 || principal_point.size() < 2) {
+        throw std::runtime_error("PnPSolver: focal_length / principal_point 字段不足 2 维");
     }
-    
-    RCLCPP_INFO(rclcpp::get_logger("PnPSolver"), 
-                "成功从配置文件初始化PnP求解器: %s", 
-                yaml_config_path.c_str());
+
+    camera_matrix_ = cv::Mat::zeros(3, 3, CV_64F);
+    camera_matrix_.at<double>(0, 0) = focal_length[0];
+    camera_matrix_.at<double>(1, 1) = focal_length[1];
+    camera_matrix_.at<double>(0, 2) = principal_point[0];
+    camera_matrix_.at<double>(1, 2) = principal_point[1];
+    camera_matrix_.at<double>(2, 2) = 1.0;
+
+    // disto_param: 与原 if (camera_params["disto_param"]) 守卫等价：
+    // SubConfig 字段在缺字段时是 empty vector；empty 时填 5 个 0。
+    if (!config.disto_param.empty()) {
+        int coeff_count = std::min(5, static_cast<int>(config.disto_param.size()));
+        dist_coeffs_ = cv::Mat::zeros(1, coeff_count, CV_64F);
+        for (int i = 0; i < coeff_count; i++) {
+            dist_coeffs_.at<double>(0, i) = config.disto_param[i];
+        }
+    } else {
+        dist_coeffs_ = cv::Mat::zeros(1, 5, CV_64F);
+    }
+
+    RCLCPP_INFO(rclcpp::get_logger("PnPSolver"),
+               "相机参数加载成功 - 焦距:[%.1f, %.1f]",
+               focal_length[0], focal_length[1]);
+    utils::logger()->info(
+        "[PnPSolver] focal_length    = [{:.3f}, {:.3f}]",
+        focal_length[0], focal_length[1]);
+    utils::logger()->info(
+        "[PnPSolver] principal_point = [{:.3f}, {:.3f}]",
+        principal_point[0], principal_point[1]);
+    utils::logger()->info(
+        "[PnPSolver] dist_coeffs     = {}x{}",
+        dist_coeffs_.rows, dist_coeffs_.cols);
+    for (int i = 0; i < dist_coeffs_.cols; ++i) {
+        utils::logger()->info(
+            "[PnPSolver] dist_coeffs[{}] = {:.8f}",
+            i, dist_coeffs_.at<double>(0, i));
+    }
 }
 
 PnPSolver::PnPSolver() {
@@ -42,84 +78,7 @@ void PnPSolver::setDistortionCoeffs(const cv::Mat& dist_coeffs) {
     }
 }
 
-bool PnPSolver::loadCameraParamsFromYAML(const std::string& yaml_path) {
-    try {
-        YAML::Node config = YAML::LoadFile(yaml_path);
-        
-        if (!config["CalibParam"]["INTRI"]["Camera"]) {
-            RCLCPP_ERROR(rclcpp::get_logger("PnPSolver"), 
-                        "YAML文件缺少Camera节点");
-            return false;
-        }
-        
-        auto camera_node = config["CalibParam"]["INTRI"]["Camera"][0]["value"];
-        
-        YAML::Node camera_params;
-        if (camera_node["ptr_wrapper"] && camera_node["ptr_wrapper"]["data"]) {
-            camera_params = camera_node["ptr_wrapper"]["data"];
-        } else {
-            camera_params = camera_node;
-        }
-        
-        std::vector<double> focal_length = camera_params["focal_length"].as<std::vector<double>>();
-        std::vector<double> principal_point = camera_params["principal_point"].as<std::vector<double>>();
-        
-        if (focal_length.size() < 2 || principal_point.size() < 2) {
-            return false;
-        }
-        
-        // 构建内参矩阵
-        camera_matrix_ = cv::Mat::zeros(3, 3, CV_64F);
-        camera_matrix_.at<double>(0, 0) = focal_length[0];
-        camera_matrix_.at<double>(1, 1) = focal_length[1];
-        camera_matrix_.at<double>(0, 2) = principal_point[0];
-        camera_matrix_.at<double>(1, 2) = principal_point[1];
-        camera_matrix_.at<double>(2, 2) = 1.0;
-        
-        // 加载畸变系数
-        if (camera_params["disto_param"]) {
-            std::vector<double> disto_param = camera_params["disto_param"].as<std::vector<double>>();
-            
-            if (!disto_param.empty()) {
-                int coeff_count = std::min(5, static_cast<int>(disto_param.size()));
-                dist_coeffs_ = cv::Mat::zeros(1, coeff_count, CV_64F);
-                
-                for (int i = 0; i < coeff_count; i++) {
-                    dist_coeffs_.at<double>(0, i) = disto_param[i];
-                }
-            }
-        } else {
-            dist_coeffs_ = cv::Mat::zeros(1, 5, CV_64F);
-        }
-        
-        RCLCPP_INFO(rclcpp::get_logger("PnPSolver"), 
-                   "相机参数加载成功 - 焦距:[%.1f, %.1f]",
-                   focal_length[0], focal_length[1]);
-        utils::logger()->info(
-            "[PnPSolver] focal_length    = [{:.3f}, {:.3f}]",
-            focal_length[0], focal_length[1]);
-        utils::logger()->info(
-            "[PnPSolver] principal_point = [{:.3f}, {:.3f}]",
-            principal_point[0], principal_point[1]);
-        utils::logger()->info(
-            "[PnPSolver] dist_coeffs     = {}x{}",
-            dist_coeffs_.rows, dist_coeffs_.cols);
-        for (int i = 0; i < dist_coeffs_.cols; ++i) {
-            utils::logger()->info(
-                "[PnPSolver] dist_coeffs[{}] = {:.8f}",
-                i, dist_coeffs_.at<double>(0, i));
-        }
-         
-        return true;
-        
-    } catch (const std::exception& e) {
-        RCLCPP_ERROR(rclcpp::get_logger("PnPSolver"), 
-                    "加载相机参数失败: %s", e.what());
-        return false;
-    }
-}
-
-solver::PnPResult PnPSolver::solvePnP(const std::vector<cv::Point2f>& corners, 
+solver::PnPResult PnPSolver::solvePnP(const std::vector<cv::Point2f>& corners,
                               ArmorType armor_type,
                               double timestamp) {
     solver::PnPResult result;

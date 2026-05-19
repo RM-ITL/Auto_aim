@@ -1,10 +1,8 @@
 #include "hikcamera.hpp"
 
 #include <libusb-1.0/libusb.h>
-#include <yaml-cpp/yaml.h>
 
 #include <cstring>
-#include <fstream>
 #include <stdexcept>
 #include <unordered_map>
 
@@ -30,13 +28,23 @@ void release_camera_handle(void *& handle)
 }
 }  // namespace
 
-HikCamera::HikCamera(const std::string & config_path)
-: config_path_(config_path), queue_(3)
+HikCamera::HikCamera(const app_config::CameraHikConfig & config)
+: queue_(3)
 {
-  if (!load_config(config_path_)) {
-    utils::logger()->error("[HikCamera] 配置加载失败: {}", config_path_);
-    throw std::runtime_error("Failed to load camera configuration");
-  }
+  // 字段直接从 SubConfig 取，与原 load_config 中 yaml 字段值字节级一致。
+  exposure_us_ = config.exposure_ms * 1000.0;
+  gain_ = config.gain;
+  fps_ = config.fps;
+  target_size_ = cv::Size(config.target_width, config.target_height);
+  image_topic_ = config.image_topic;
+
+  utils::logger()->info("[HikCamera] exposure_ms       = {:.3f} ms", exposure_us_ / 1000.0);
+  utils::logger()->info("[HikCamera] exposure_us       = {:.1f} us", exposure_us_);
+  utils::logger()->info("[HikCamera] gain              = {:.3f}", gain_);
+  utils::logger()->info("[HikCamera] fps               = {:.3f}", fps_);
+  utils::logger()->info("[HikCamera] target_width      = {}", target_size_.width);
+  utils::logger()->info("[HikCamera] target_height     = {}", target_size_.height);
+  utils::logger()->info("[HikCamera] image_topic       = {}", image_topic_);
 
   if (libusb_init(nullptr) != LIBUSB_SUCCESS) {
     utils::logger()->error("[HikCamera] libusb初始化失败");
@@ -63,7 +71,7 @@ HikCamera::HikCamera(const std::string & config_path)
 
   daemon_thread_ = std::thread(&HikCamera::daemon_loop, this);
 
-  utils::logger()->info("[HikCamera] 初始化完成，配置路径: {}", config_path_);
+  utils::logger()->info("[HikCamera] 初始化完成");
 }
 
 HikCamera::~HikCamera()
@@ -253,41 +261,6 @@ void HikCamera::reset_usb() const
   if (handle) {
     libusb_reset_device(handle);
     libusb_close(handle);
-  }
-}
-
-bool HikCamera::load_config(const std::string & config_path)
-{
-  try {
-    std::ifstream file(config_path);
-    if (!file.good()) {
-      utils::logger()->error("[HikCamera] 配置文件不存在: {}", config_path);
-      return false;
-    }
-    file.close();
-
-    YAML::Node config = YAML::LoadFile(config_path);
-    const YAML::Node & params = config["camera"]["parameters"];
-
-    exposure_us_ = params["exposure_ms"].as<double>() * 1000.0;
-    gain_ = params["gain"].as<double>();
-    fps_ = params["fps"].as<double>();
-    target_size_ =
-      cv::Size(params["target_width"].as<int>(), params["target_height"].as<int>());
-    image_topic_ = params["image_topic"].as<std::string>();
-
-    utils::logger()->info("[HikCamera] exposure_ms       = {:.3f} ms", exposure_us_ / 1000.0);
-    utils::logger()->info("[HikCamera] exposure_us       = {:.1f} us", exposure_us_);
-    utils::logger()->info("[HikCamera] gain              = {:.3f}", gain_);
-    utils::logger()->info("[HikCamera] fps               = {:.3f}", fps_);
-    utils::logger()->info("[HikCamera] target_width      = {}", target_size_.width);
-    utils::logger()->info("[HikCamera] target_height     = {}", target_size_.height);
-    utils::logger()->info("[HikCamera] image_topic       = {}", image_topic_);
-    return true;
-
-  } catch (const std::exception & e) {
-    utils::logger()->error("[HikCamera] 配置加载异常: {}", e.what());
-    return false;
   }
 }
 

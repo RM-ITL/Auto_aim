@@ -24,13 +24,11 @@ std::function<void(void)> ensure_handler(std::function<void(void)> handler)
 }  // namespace
 
 Video::Video(
-  const std::string & config_path,
+  const std::string & video_path,
   std::size_t queue_capacity, std::function<void(void)> queue_full_handler)
 : Video(queue_capacity, std::move(queue_full_handler))
 {
-
-  auto yaml = YAML::LoadFile(config_path);
-  video_path_ = yaml["Video"]["video_path"].as<std::string>();
+  video_path_ = video_path;
   utils::logger()->info("[Video] 尝试打开视频: {}", video_path_);
   if (!video_capture_.open(video_path_)) {
     utils::logger()->error("[Video] 打开视频失败: {}", video_path_);

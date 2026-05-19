@@ -5,9 +5,9 @@
 namespace auto_base
 {
 
-Detector::Detector(const std::string & config_path)
+Detector::Detector(const app_config::BaseHitConfig & config)
 {
-  infer_ = std::make_unique<OpenvinoInfer>(config_path);
+  infer_ = std::make_unique<OpenvinoInfer>(config.openvino);
   utils::logger()->info("[Detector] 检测器初始化完成");
 }
 

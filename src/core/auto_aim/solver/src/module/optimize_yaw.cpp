@@ -1,7 +1,6 @@
 #include "module/optimize_yaw.hpp"
 #include <opencv2/core/eigen.hpp>
 #include <rclcpp/rclcpp.hpp>
-#include <yaml-cpp/yaml.h>
 #include <cmath>
 #include <limits>
 
@@ -9,7 +8,7 @@
 
 namespace solver {
 
-YawOptimizer::YawOptimizer(const std::string& yaml_config_path, CoordConverter* CoordConverter_)
+YawOptimizer::YawOptimizer(const app_config::YawOptimizerConfig & config, CoordConverter* CoordConverter_)
     : CoordConverter_(CoordConverter_),
       camera_matrix_(),
       dist_coeffs_(),
@@ -17,14 +16,47 @@ YawOptimizer::YawOptimizer(const std::string& yaml_config_path, CoordConverter* 
       search_step_(1.0),
       last_optimization_error_(0.0),
       last_optimized_yaw_(0.0) {
-    
-    if (!loadCameraParamsFromYAML(yaml_config_path)) {
-        throw std::runtime_error("YawOptimizer: 无法从配置文件加载相机参数: " + yaml_config_path);
+
+    // 字段从 SubConfig 注入（与 PnPSolver 同一份内参三字段，1.C 保留独立 SubConfig）。
+    const auto & focal_length = config.focal_length;
+    const auto & principal_point = config.principal_point;
+    if (focal_length.size() < 2 || principal_point.size() < 2) {
+        throw std::runtime_error("YawOptimizer: focal_length / principal_point 字段不足 2 维");
+    }
+    camera_matrix_ = cv::Mat::zeros(3, 3, CV_64F);
+    camera_matrix_.at<double>(0, 0) = focal_length[0];
+    camera_matrix_.at<double>(1, 1) = focal_length[1];
+    camera_matrix_.at<double>(0, 2) = principal_point[0];
+    camera_matrix_.at<double>(1, 2) = principal_point[1];
+    camera_matrix_.at<double>(2, 2) = 1.0;
+
+    if (!config.disto_param.empty()) {
+        int coeff_count = std::min(5, static_cast<int>(config.disto_param.size()));
+        dist_coeffs_ = cv::Mat::zeros(1, coeff_count, CV_64F);
+        for (int i = 0; i < coeff_count; i++) {
+            dist_coeffs_.at<double>(0, i) = config.disto_param[i];
+        }
+    } else {
+        dist_coeffs_ = cv::Mat::zeros(1, 5, CV_64F);
+    }
+
+    utils::logger()->info(
+        "[YawOptimizer] focal_length    = [{:.3f}, {:.3f}]",
+        focal_length[0], focal_length[1]);
+    utils::logger()->info(
+        "[YawOptimizer] principal_point = [{:.3f}, {:.3f}]",
+        principal_point[0], principal_point[1]);
+    utils::logger()->info(
+        "[YawOptimizer] dist_coeffs     = {}x{}",
+        dist_coeffs_.rows, dist_coeffs_.cols);
+    for (int i = 0; i < dist_coeffs_.cols; ++i) {
+        utils::logger()->info(
+            "[YawOptimizer] dist_coeffs[{}] = {:.8f}",
+            i, dist_coeffs_.at<double>(0, i));
     }
 
     utils::logger()->info("[YawOptimizer] search_range = {:.3f} deg (HARDCODED)", search_range_);
     utils::logger()->info("[YawOptimizer] search_step  = {:.3f} deg (HARDCODED)", search_step_);
-
 }
 
 YawOptimizer::YawOptimizer(
@@ -44,72 +76,6 @@ YawOptimizer::YawOptimizer(
     }
     if (!dist_coeffs_.empty() && dist_coeffs_.type() != CV_64F) {
         dist_coeffs_.convertTo(dist_coeffs_, CV_64F);
-    }
-}
-
-bool YawOptimizer::loadCameraParamsFromYAML(const std::string& yaml_path) {
-    try {
-        YAML::Node config = YAML::LoadFile(yaml_path);
-        
-        if (!config["CalibParam"]["INTRI"]["Camera"]) {
-            return false;
-        }
-        
-        auto camera_node = config["CalibParam"]["INTRI"]["Camera"][0]["value"];
-        
-        YAML::Node camera_params;
-        if (camera_node["ptr_wrapper"] && camera_node["ptr_wrapper"]["data"]) {
-            camera_params = camera_node["ptr_wrapper"]["data"];
-        } else {
-            camera_params = camera_node;
-        }
-        
-        std::vector<double> focal_length = camera_params["focal_length"].as<std::vector<double>>();
-        std::vector<double> principal_point = camera_params["principal_point"].as<std::vector<double>>();
-        
-        camera_matrix_ = cv::Mat::zeros(3, 3, CV_64F);
-        camera_matrix_.at<double>(0, 0) = focal_length[0];
-        camera_matrix_.at<double>(1, 1) = focal_length[1];
-        camera_matrix_.at<double>(0, 2) = principal_point[0];
-        camera_matrix_.at<double>(1, 2) = principal_point[1];
-        camera_matrix_.at<double>(2, 2) = 1.0;
-        
-        if (camera_params["disto_param"]) {
-            std::vector<double> disto_param = camera_params["disto_param"].as<std::vector<double>>();
-            
-            if (!disto_param.empty()) {
-                int coeff_count = std::min(5, static_cast<int>(disto_param.size()));
-                dist_coeffs_ = cv::Mat::zeros(1, coeff_count, CV_64F);
-                
-                for (int i = 0; i < coeff_count; i++) {
-                    dist_coeffs_.at<double>(0, i) = disto_param[i];
-                }
-            }
-        } else {
-            dist_coeffs_ = cv::Mat::zeros(1, 5, CV_64F);
-        }
-
-        utils::logger()->info(
-            "[YawOptimizer] focal_length    = [{:.3f}, {:.3f}]",
-            focal_length[0], focal_length[1]);
-        utils::logger()->info(
-            "[YawOptimizer] principal_point = [{:.3f}, {:.3f}]",
-            principal_point[0], principal_point[1]);
-        utils::logger()->info(
-            "[YawOptimizer] dist_coeffs     = {}x{}",
-            dist_coeffs_.rows, dist_coeffs_.cols);
-        for (int i = 0; i < dist_coeffs_.cols; ++i) {
-            utils::logger()->info(
-                "[YawOptimizer] dist_coeffs[{}] = {:.8f}",
-                i, dist_coeffs_.at<double>(0, i));
-        }
-         
-        return true;
-        
-    } catch (const std::exception& e) {
-        RCLCPP_ERROR(rclcpp::get_logger("YawOptimizer"), 
-                    "加载相机参数失败: %s", e.what());
-        return false;
     }
 }
 

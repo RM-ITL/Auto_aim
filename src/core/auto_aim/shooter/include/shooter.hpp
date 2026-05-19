@@ -5,6 +5,7 @@
 #include <variant>
 #include <Eigen/Dense>
 
+#include "app_config/app_config.hpp"
 #include "gimbal.hpp"
 #include "target.hpp"
 #include "outpost_target.hpp"
@@ -17,7 +18,7 @@ using TargetVariant = std::variant<predict::Target, predict::OutpostTarget>;
 class Shooter
 {
 public:
-  Shooter(const std::string & config_path);
+  Shooter(const app_config::ShooterConfig & config);
 
   bool shoot(
     const io::GimbalCommand & command, const aimer::Aimer & aimer,

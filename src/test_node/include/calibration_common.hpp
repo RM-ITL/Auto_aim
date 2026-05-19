@@ -265,20 +265,6 @@ inline std::string make_handeye_yaml(
   return oss.str();
 }
 
-inline Eigen::Matrix3d read_r_gimbal_to_imu(const std::string & config_path)
-{
-  const YAML::Node yaml = YAML::LoadFile(config_path);
-  const auto matrix_data =
-    yaml["Solver"]["coord_converter"]["rotation_matrix_gimbal_to_imu"]["data"].as<std::vector<double>>();
-
-  if (matrix_data.size() != 9) {
-    throw std::runtime_error("rotation_matrix_gimbal_to_imu 数据长度不是 9");
-  }
-
-  Eigen::Matrix<double, 3, 3, Eigen::RowMajor> matrix(matrix_data.data());
-  return matrix;
-}
-
 inline void log_gimbal_euler_hint(const Eigen::Matrix3d & r_gimbal_to_world)
 {
   const Eigen::Vector3d ypr_deg = utils::eulers(r_gimbal_to_world, 2, 1, 0) * 57.3;

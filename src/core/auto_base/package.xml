@@ -14,6 +14,7 @@
   <depend>libopencv-dev</depend>
   <depend>openvino</depend>
   <depend>utils</depend>
+  <depend>app_config</depend>
   <depend>eigen3</depend>
   <depend>deveice</depend>
 

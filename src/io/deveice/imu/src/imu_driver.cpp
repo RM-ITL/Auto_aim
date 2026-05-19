@@ -34,15 +34,12 @@ void sleep_for_post_config()
 }
 }  // namespace
 
-DmImu::DmImu(const std::string & config_path)
-: imu_seial_baud_(921600),
+DmImu::DmImu(const app_config::DmImuConfig & config)
+: imu_seial_baud_(config.baud),
   queue_(kQueueCapacity)
 {
-  auto yaml = utils::load(config_path);
-  auto imu_yaml = yaml["DM_IMU"];
-  imu_serial_port_ = utils::read<std::string>(imu_yaml, "imu_com_port");
-  imu_seial_baud_ = utils::read<int>(imu_yaml, "baud", 921600);
-  const int publish_rate = utils::read<int>(imu_yaml, "publish_rate", 333);
+  imu_serial_port_ = config.imu_com_port;
+  const int publish_rate = config.publish_rate;
   const uint16_t interval_ms = static_cast<uint16_t>(
     std::clamp(static_cast<int>(std::round(1000.0 / std::max(1, publish_rate))), 1, 100));
 

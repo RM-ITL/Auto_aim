@@ -8,6 +8,7 @@
 #include <opencv2/core/eigen.hpp>
 #include <opencv2/opencv.hpp>
 
+#include "app_config/app_config.hpp"
 #include "calibration_common.hpp"
 #include "logger.hpp"
 #include "math_tools.hpp"
@@ -18,9 +19,9 @@ namespace Application
 class HandeyeCalibApp
 {
 public:
-  HandeyeCalibApp(std::string input_folder, std::string config_path, std::string mode, bool show_detection)
+  HandeyeCalibApp(std::string input_folder, app_config::AppConfig app_config, std::string mode, bool show_detection)
   : input_folder_(std::move(input_folder)),
-    config_path_(std::move(config_path)),
+    app_config_(std::move(app_config)),
     mode_(std::move(mode)),
     show_detection_(show_detection)
   {
@@ -34,12 +35,18 @@ public:
       return 1;
     }
 
-    const auto yaml = YAML::LoadFile(config_path_);
-    const Eigen::Matrix3d r_gimbal_to_imu = calibration::read_r_gimbal_to_imu(config_path_);
-    const auto camera_node = yaml["CalibParam"]["INTRI"]["Camera"][0]["value"]["ptr_wrapper"]["data"];
-    const auto focal_length = camera_node["focal_length"].as<std::vector<double>>();
-    const auto principal_point = camera_node["principal_point"].as<std::vector<double>>();
-    const auto disto_param = camera_node["disto_param"].as<std::vector<double>>();
+    const auto unflatten_3x3 = [](const std::vector<double> & data) -> Eigen::Matrix3d {
+      if (data.size() != 9) {
+        throw std::runtime_error("rotation_matrix_gimbal_to_imu 数据长度不是 9");
+      }
+      return Eigen::Matrix<double, 3, 3, Eigen::RowMajor>(data.data());
+    };
+
+    const Eigen::Matrix3d r_gimbal_to_imu =
+      unflatten_3x3(app_config_.solver.coord_converter.rotation_matrix_gimbal_to_imu);
+    const auto & focal_length = app_config_.solver.pnp.focal_length;
+    const auto & principal_point = app_config_.solver.pnp.principal_point;
+    const auto & disto_param = app_config_.solver.pnp.disto_param;
 
     cv::Mat camera_matrix = cv::Mat::eye(3, 3, CV_64F);
     camera_matrix.at<double>(0, 0) = focal_length.at(0);
@@ -178,7 +185,7 @@ public:
 private:
   calibration::PatternConfig pattern_config_;
   std::string input_folder_;
-  std::string config_path_;
+  app_config::AppConfig app_config_;
   std::string mode_;
   bool show_detection_{false};
   const std::string window_name_{"handeye_calib_node"};
@@ -207,7 +214,7 @@ int main(int argc, char ** argv)
   const bool show_detection = cli.get<bool>("show");
 
   try {
-    Application::HandeyeCalibApp app(input_folder, config_path, mode, show_detection);
+    Application::HandeyeCalibApp app(input_folder, app_config::AppConfig::load(config_path), mode, show_detection);
     return app.run();
   } catch (const std::exception & e) {
     utils::logger()->error("[HandeyeCalib] 程序异常终止: {}", e.what());

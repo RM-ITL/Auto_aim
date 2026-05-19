@@ -7,6 +7,7 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 
+#include "app_config/app_config.hpp"
 #include "logger.hpp"
 
 namespace auto_base
@@ -22,22 +23,21 @@ void handle_signal(int)
 }
 }  // namespace
 
-BaseHitNode::BaseHitNode(const std::string & config_path)
-: config_path_(config_path),
-  start_time_(std::chrono::steady_clock::now())
+BaseHitNode::BaseHitNode(const app_config::AppConfig & app_config)
+: start_time_(std::chrono::steady_clock::now())
 {
   ros_node_ = std::make_shared<rclcpp::Node>("base_hit_node");
   hit_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Basehit>(
     "center", rclcpp::QoS(10)
   );
 
-  camera_ = std::make_unique<camera::Camera>(config_path_);
+  camera_ = std::make_unique<camera::Camera>(app_config.camera);
 
-  detector_ = std::make_unique<Detector>(config_path_);
+  detector_ = std::make_unique<Detector>(app_config.base_hit);
 
-  tracker_ = std::make_unique<LightTracker>(config_path_);
+  tracker_ = std::make_unique<LightTracker>(app_config.light_tracker);
 
-  aimer_ = std::make_unique<LightAimer>(config_path_);
+  aimer_ = std::make_unique<LightAimer>(app_config.light_aimer);
 
   // 初始化下位机模拟器
   dart_sim_ = std::make_unique<io::DartSimulator>();
@@ -55,7 +55,7 @@ BaseHitNode::BaseHitNode(const std::string & config_path)
   perf_monitor_.register_metric("total");
   perf_monitor_.reset_all();
 
-  utils::logger()->info("[BaseHitNode] 初始化完成, config: {}", config_path_);
+  utils::logger()->info("[BaseHitNode] 初始化完成, config: {}", app_config.source_path);
 }
 
 BaseHitNode::~BaseHitNode()
@@ -235,7 +235,7 @@ int main(int argc, char ** argv)
   std::signal(SIGINT, auto_base::handle_signal);
 
   try {
-    auto_base::BaseHitNode app(config_path);
+    auto_base::BaseHitNode app(app_config::AppConfig::load(config_path));
     int ret = app.run();
     rclcpp::shutdown();
     return ret;

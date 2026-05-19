@@ -9,6 +9,7 @@
 #include <thread>
 #include <tuple>
 
+#include "app_config/app_config.hpp"
 #include "serial/serial.h"
 #include "thread_safe_queue.hpp"
 
@@ -79,7 +80,7 @@ struct GimbalState
 class Gimbal
 {
 public:
-  Gimbal(const std::string & config_path);
+  Gimbal(const app_config::GimbalConfig & config);
 
   ~Gimbal();
 

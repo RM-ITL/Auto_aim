@@ -5,22 +5,20 @@
 #include "math_tools.hpp"
 #include "logger.hpp"
 #include "trajectory.hpp"
-#include "yaml.hpp"
 
 using namespace std::chrono_literals;
 
 namespace plan
 {
-Planner::Planner(const std::string & config_path)
+Planner::Planner(const app_config::PlannerConfig & config)
 {
-  auto yaml = utils::load(config_path);
-  auto planner_yaml = yaml["Planner"];
-  yaw_offset_ = utils::read<double>(planner_yaml, "yaw_offset") / 57.3;
-  pitch_offset_ = utils::read<double>(planner_yaml, "pitch_offset") / 57.3;
-  fire_thresh_ = utils::read<double>(planner_yaml, "fire_thresh");
-  decision_speed_ = utils::read<double>(planner_yaml, "decision_speed");
-  high_speed_delay_time_ = utils::read<double>(planner_yaml, "high_speed_delay_time");
-  low_speed_delay_time_ = utils::read<double>(planner_yaml, "low_speed_delay_time");
+  // 字段从 SubConfig 注入（消除原 ctor + setup_yaw_solver + setup_pitch_solver 三次 utils::load）。
+  yaw_offset_ = config.yaw_offset / 57.3;
+  pitch_offset_ = config.pitch_offset / 57.3;
+  fire_thresh_ = config.fire_thresh;
+  decision_speed_ = config.decision_speed;
+  high_speed_delay_time_ = config.high_speed_delay_time;
+  low_speed_delay_time_ = config.low_speed_delay_time;
 
   utils::logger()->info("[Planner] yaw_offset            = {:.3f} deg ({:.6f} rad)", yaw_offset_ * 57.3, yaw_offset_);
   utils::logger()->info("[Planner] pitch_offset          = {:.3f} deg ({:.6f} rad)", pitch_offset_ * 57.3, pitch_offset_);
@@ -29,8 +27,8 @@ Planner::Planner(const std::string & config_path)
   utils::logger()->info("[Planner] high_speed_delay_time = {:.6f}", high_speed_delay_time_);
   utils::logger()->info("[Planner] low_speed_delay_time  = {:.6f}", low_speed_delay_time_);
 
-  setup_yaw_solver(config_path);
-  setup_pitch_solver(config_path);
+  setup_yaw_solver(config);
+  setup_pitch_solver(config);
 }
 
 // 子弹飞行时间补偿
@@ -129,13 +127,11 @@ Plan Planner::plan(std::optional<predict::Target> target, double bullet_speed)
   return plan(*target, bullet_speed);
 }
 
-void Planner::setup_yaw_solver(const std::string & config_path)
+void Planner::setup_yaw_solver(const app_config::PlannerConfig & config)
 {
-  auto yaml = utils::load(config_path);
-  auto planner_yaml = yaml["Planner"];
-  auto max_yaw_acc = utils::read<double>(planner_yaml, "max_yaw_acc");
-  auto Q_yaw = utils::read<std::vector<double>>(planner_yaml, "Q_yaw");
-  auto R_yaw = utils::read<std::vector<double>>(planner_yaml, "R_yaw");
+  const auto max_yaw_acc = config.max_yaw_acc;
+  const auto & Q_yaw = config.Q_yaw;
+  const auto & R_yaw = config.R_yaw;
 
   utils::logger()->info("[Planner] max_yaw_acc = {:.6f}", max_yaw_acc);
   utils::logger()->info("[Planner] Q_yaw.size  = {}", Q_yaw.size());
@@ -163,13 +159,11 @@ void Planner::setup_yaw_solver(const std::string & config_path)
   yaw_solver_->settings->max_iter = 10;
 }
 
-void Planner::setup_pitch_solver(const std::string & config_path)
+void Planner::setup_pitch_solver(const app_config::PlannerConfig & config)
 {
-  auto yaml = utils::load(config_path);
-  auto planner_yaml = yaml["Planner"];
-  auto max_pitch_acc = utils::read<double>(planner_yaml, "max_pitch_acc");
-  auto Q_pitch = utils::read<std::vector<double>>(planner_yaml, "Q_pitch");
-  auto R_pitch = utils::read<std::vector<double>>(planner_yaml, "R_pitch");
+  const auto max_pitch_acc = config.max_pitch_acc;
+  const auto & Q_pitch = config.Q_pitch;
+  const auto & R_pitch = config.R_pitch;
 
   utils::logger()->info("[Planner] max_pitch_acc = {:.6f}", max_pitch_acc);
   utils::logger()->info("[Planner] Q_pitch.size  = {}", Q_pitch.size());

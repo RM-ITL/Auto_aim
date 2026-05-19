@@ -16,6 +16,7 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/core/utility.hpp>
 
+#include "app_config/app_config.hpp"
 #include "logger.hpp"
 #include "draw_tools.hpp"
 
@@ -30,28 +31,19 @@ void handle_signal(int)
   g_stop_requested.store(true);
 }
 
-void log_config_file_info(const std::string & prefix, const std::string & config_path)
+void log_app_config(const std::string & prefix, const app_config::AppConfig & app_config)
 {
-  try {
-    const auto absolute_path = std::filesystem::absolute(config_path);
-    const auto file_size = std::filesystem::file_size(absolute_path);
-    const auto last_write_time = std::filesystem::last_write_time(absolute_path);
-    utils::logger()->info("[{}] config.absolute_path = {}", prefix, absolute_path.string());
-    utils::logger()->info("[{}] config.file_size     = {} bytes", prefix, file_size);
-    utils::logger()->info(
-      "[{}] config.last_write_time_raw = {}", prefix,
-      last_write_time.time_since_epoch().count());
-  } catch (const std::exception & e) {
-    utils::logger()->warn("[{}] config file info unavailable: {}", prefix, e.what());
-  }
+  utils::logger()->info("[{}] config.absolute_path = {}", prefix, app_config.source_path);
+  utils::logger()->info("[{}] config.file_size     = {} bytes", prefix, app_config.source_file_size);
+  utils::logger()->info(
+    "[{}] config.last_write_time_raw = {}", prefix, app_config.source_last_write_raw);
 }
 
 
 }  // namespace
 
-PipelineApp::PipelineApp(const std::string & config_path)
-: config_path_(config_path),
-  start_time_(std::chrono::steady_clock::now())
+PipelineApp::PipelineApp(const app_config::AppConfig & app_config)
+: start_time_(std::chrono::steady_clock::now())
 {
   ros_node_ = std::make_shared<rclcpp::Node>("pipeline_debug_node");
   debug_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Debug>(
@@ -65,19 +57,19 @@ PipelineApp::PipelineApp(const std::string & config_path)
   }
   imu_source_ = (imu_source_name_ == "dm_imu") ? ImuSource::DmImu : ImuSource::Gimbal;
   utils::logger()->info("[Pipeline] 姿态来源: {}", imu_source_name_);
-  log_config_file_info("Pipeline", config_path_);
+  log_app_config("Pipeline", app_config);
 
-  camera_ = std::make_unique<camera::Camera>(config_path_);
+  camera_ = std::make_unique<camera::Camera>(app_config.camera);
   if (imu_source_ == ImuSource::DmImu) {
-    dm_imu_ = std::make_unique<io::DmImu>(config_path_);
+    dm_imu_ = std::make_unique<io::DmImu>(app_config.dm_imu);
   }
-  detector_ = std::make_unique<armor_auto_aim::Detector>(config_path_);
-  solver_ = std::make_unique<solver::Solver>(config_path_);
+  detector_ = std::make_unique<armor_auto_aim::Detector>(app_config.detector);
+  solver_ = std::make_unique<solver::Solver>(app_config.solver);
   yaw_optimizer_ = solver_->getYawOptimizer();
-  tracker_ = std::make_unique<tracker::Tracker>(config_path_, *solver_);
-  aimer_ = std::make_unique<aimer::Aimer>(config_path_);
-  shooter_ = std::make_unique<shooter::Shooter>(config_path_);
-  gimbal_ = std::make_unique<io::Gimbal>(config_path_);
+  tracker_ = std::make_unique<tracker::Tracker>(app_config.tracker, *solver_);
+  aimer_ = std::make_unique<aimer::Aimer>(app_config.aimer);
+  shooter_ = std::make_unique<shooter::Shooter>(app_config.shooter);
+  gimbal_ = std::make_unique<io::Gimbal>(app_config.gimbal);
 
   // enable_visualization_ = detector_->config().enable_visualization;
   // visualization_center_point_ = detector_->config().center_point;
@@ -515,7 +507,7 @@ int main(int argc, char ** argv)
   std::signal(SIGINT, Application::handle_signal);
 
   try {
-    Application::PipelineApp app(config_path);
+    Application::PipelineApp app(app_config::AppConfig::load(config_path));
     int ret = app.run();
     rclcpp::shutdown();
     return ret;

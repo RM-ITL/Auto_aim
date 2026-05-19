@@ -6,6 +6,7 @@
 #include <optional>
 #include <variant>
 
+#include "app_config/app_config.hpp"
 #include "target.hpp"
 #include "outpost_target.hpp"
 #include "tinympc/tiny_api.hpp"
@@ -37,7 +38,7 @@ class Planner
 {
 public:
   Eigen::Vector4d debug_xyza;
-  Planner(const std::string & config_path);
+  Planner(const app_config::PlannerConfig & config);
 
   // 子弹飞行时间补偿
   Plan plan(predict::Target target, double bullet_speed);
@@ -60,8 +61,8 @@ private:
   TinySolver * yaw_solver_;
   TinySolver * pitch_solver_;
 
-  void setup_yaw_solver(const std::string & config_path);
-  void setup_pitch_solver(const std::string & config_path);
+  void setup_yaw_solver(const app_config::PlannerConfig & config);
+  void setup_pitch_solver(const app_config::PlannerConfig & config);
 
   Eigen::Matrix<double, 2, 1> aim(const predict::Target & target, double bullet_speed);
   // 轨迹生成过程中的连续预测

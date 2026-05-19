@@ -1,5 +1,4 @@
 #include "tracker.hpp"
-#include <yaml-cpp/yaml.h>
 #include <tuple>
 #include "math_tools.hpp"
 #include "logger.hpp"
@@ -7,7 +6,7 @@
 
 namespace tracker
 {
-Tracker::Tracker(const std::string & config_path, solver::Solver & solver)
+Tracker::Tracker(const app_config::TrackerConfig & config, solver::Solver & solver)
 : solver_{solver},
   detect_count_(0),
   temp_lost_count_(0),
@@ -16,28 +15,23 @@ Tracker::Tracker(const std::string & config_path, solver::Solver & solver)
   pre_state_{"lost"},
   last_timestamp_(std::chrono::steady_clock::now())
 {
-  auto yaml = YAML::LoadFile(config_path);
-
-  // 解析敌方颜色配置
-  std::string enemy_color_str = yaml["Tracker"]["enemy_color"].as<std::string>();
+  // 字段从 SubConfig 注入，行为与原 yaml["Tracker"] 读取字节级一致。
+  const std::string & enemy_color_str = config.enemy_color;
   enemy_color_ = (enemy_color_str == "red") ?
                  armor_auto_aim::Color::red :
                  armor_auto_aim::Color::blue;
 
-  // 加载跟踪参数
-  min_detect_count_ = yaml["Tracker"]["min_detect_count"].as<int>();
-  max_temp_lost_count_ = yaml["Tracker"]["max_temp_lost_count"].as<int>();
-  outpost_max_temp_lost_count_ = yaml["Tracker"]["outpost_max_temp_lost_count"].as<int>();
+  min_detect_count_ = config.min_detect_count;
+  max_temp_lost_count_ = config.max_temp_lost_count;
+  outpost_max_temp_lost_count_ = config.outpost_max_temp_lost_count;
   normal_temp_lost_count_ = max_temp_lost_count_;
 
-  // 加载前哨站特化参数
-  outpost_min_detect_count_ = yaml["Tracker"]["outpost_min_detect_count"].as<int>();
-  outpost_detect_fail_tolerance_ = yaml["Tracker"]["outpost_detect_fail_tolerance"].as<int>();
+  outpost_min_detect_count_ = config.outpost_min_detect_count;
+  outpost_detect_fail_tolerance_ = config.outpost_detect_fail_tolerance;
 
-  // 加载单板观测模式参数
-  single_plate_threshold_ = yaml["Tracker"]["single_plate_threshold"].as<int>(50);
-  omega_threshold_ = yaml["Tracker"]["omega_threshold"].as<double>(0.5);
-  single_plate_debug_ = yaml["Tracker"]["single_plate_debug"].as<bool>(false);
+  single_plate_threshold_ = config.single_plate_threshold;
+  omega_threshold_ = config.omega_threshold;
+  single_plate_debug_ = config.single_plate_debug;
 
   utils::logger()->info("[Tracker] enemy_color                 = {}", enemy_color_str);
   utils::logger()->info("[Tracker] min_detect_count            = {}", min_detect_count_);

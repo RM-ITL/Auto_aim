@@ -2,15 +2,12 @@
 
 #include "logger.hpp"
 #include "math_tools.hpp"
-#include "yaml.hpp"
 
 namespace io
 {
-Dart::Dart(const std::string & config_path)
+Dart::Dart(const app_config::DartConfig & config)
 {
-  auto yaml = utils::load(config_path);
-  auto dart_yaml = yaml["lower_Dart"];
-  auto com_port = utils::read<std::string>(dart_yaml, "com_port");
+  const std::string & com_port = config.com_port;
 
   utils::logger()->info("[Dart] com_port                = {}", com_port);
   utils::logger()->info("[Dart] baud                    = 115200 (HARDCODED)");

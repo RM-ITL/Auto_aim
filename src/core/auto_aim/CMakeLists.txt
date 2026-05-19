@@ -20,6 +20,7 @@ find_package(std_srvs REQUIRED)
 
 find_package(autoaim_msgs REQUIRED)
 find_package(utils REQUIRED)
+find_package(app_config REQUIRED)
 find_package(deveice REQUIRED)
 find_package(serial REQUIRED)
 
@@ -56,6 +57,7 @@ target_link_libraries(auto_aim_detected
     yaml-cpp
     openvino::runtime
     utils::utils
+    app_config::app_config
 )
 
 ament_target_dependencies(auto_aim_detected
@@ -110,6 +112,7 @@ target_link_libraries(auto_aim_solver
     fmt::fmt
     auto_aim_detected
     utils::utils
+    app_config::app_config
 )
 
 ament_target_dependencies(auto_aim_solver
@@ -183,6 +186,7 @@ target_link_libraries(auto_aim_planner
     Eigen3::Eigen
     auto_aim_predictor
     utils::utils
+    app_config::app_config
 )
 
 ament_target_dependencies(auto_aim_planner
@@ -213,6 +217,7 @@ target_link_libraries(auto_aim_aimer
     serial
     auto_aim_predictor
     utils::utils
+    app_config::app_config
 )
 
 ament_target_dependencies(auto_aim_aimer
@@ -245,6 +250,7 @@ target_link_libraries(auto_aim_shooter
     auto_aim_predictor
     auto_aim_aimer
     utils::utils
+    app_config::app_config
 )
 
 ament_target_dependencies(auto_aim_shooter
@@ -276,6 +282,7 @@ target_link_libraries(auto_aim_tracker
     auto_aim_predictor
     auto_aim_aimer
     utils::utils
+    app_config::app_config
 )
 
 ament_target_dependencies(auto_aim_tracker
@@ -388,6 +395,7 @@ ament_export_dependencies(
   std_srvs
   autoaim_msgs
   utils
+  app_config
   deveice
   OpenCV
   OpenVINO

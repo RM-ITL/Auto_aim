@@ -8,6 +8,7 @@
 #include <variant>
 
 
+#include "app_config/app_config.hpp"
 #include "target.hpp"
 #include "outpost_target.hpp"
 #include "armor.hpp"
@@ -31,7 +32,7 @@ class Aimer
 {
 public:
   AimPoint debug_aim_point;
-  explicit Aimer(const std::string & config_path);
+  explicit Aimer(const app_config::AimerConfig & config);
 
   // 新接口：支持 TargetVariant
   io::GimbalCommand aim(

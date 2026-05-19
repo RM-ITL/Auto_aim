@@ -1,7 +1,6 @@
 #include "yolov5.hpp"
 
 #include <fmt/chrono.h>
-#include <yaml-cpp/yaml.h>
 
 #include <filesystem>
 
@@ -11,20 +10,16 @@
 namespace armor_auto_aim
 {
 
-YOLOV5Detector::YOLOV5Detector(const std::string & config_path, bool debug)
-: debug_(debug), detector_(config_path, false)
+YOLOV5Detector::YOLOV5Detector(const app_config::DetectorConfig & config, bool debug)
+: debug_(debug), detector_(config.traditional, config.classifier, false)
 {
-  auto yaml = YAML::LoadFile(config_path);
-
-  const auto& yolov5_config = yaml["yolo"];
-
-  model_path_ = yolov5_config["yolov5_model_path"].as<std::string>();
-  device_ = yolov5_config["device"].as<std::string>();
-  min_confidence_ = yolov5_config["min_confidence"].as<double>();
-  score_threshold_ = yolov5_config["score_threshold"].as<float>(0.7f);
-  nms_threshold_ = yolov5_config["nms_threshold"].as<float>(0.3f);
-
-  use_traditional_ = yolov5_config["use_traditional"].as<bool>(false);
+  // YOLOV5 自身字段：来自 config.yolov5
+  model_path_ = config.yolov5.yolov5_model_path;
+  device_ = config.yolov5.device;
+  min_confidence_ = config.yolov5.min_confidence;
+  score_threshold_ = config.yolov5.score_threshold;
+  nms_threshold_ = config.yolov5.nms_threshold;
+  use_traditional_ = config.yolov5.use_traditional;
 
   utils::logger()->info("[YOLOV5Detector] yolov5_model_path = {}", model_path_);
   utils::logger()->info("[YOLOV5Detector] device            = {}", device_);

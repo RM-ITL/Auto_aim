@@ -5,16 +5,15 @@
 
 namespace solver {
 
-Solver::Solver(const std::string& yaml_config_path) {
-    utils::logger()->info("[Solver] config_path = {}", yaml_config_path);
-    // 所有模块从同一个YAML文件初始化
-    pnp_solver_ = std::make_unique<PnPSolver>(yaml_config_path);
-    coord_converter_ = std::make_unique<CoordConverter>(yaml_config_path);
-    yaw_optimizer_ = std::make_unique<YawOptimizer>(yaml_config_path, coord_converter_.get());
-    
-    RCLCPP_INFO(rclcpp::get_logger("Solver"), 
-                "Solver系统初始化完成，配置文件: %s", 
-                yaml_config_path.c_str());
+Solver::Solver(const app_config::SolverConfig & config) {
+    utils::logger()->info("[Solver] 初始化（按 SubConfig 注入）");
+    // 三个子模块从 SubConfig 分别注入；1.C 保留三处独立内参字段（与原代码一致）。
+    pnp_solver_ = std::make_unique<PnPSolver>(config.pnp);
+    coord_converter_ = std::make_unique<CoordConverter>(config.coord_converter);
+    yaw_optimizer_ = std::make_unique<YawOptimizer>(config.yaw_optimizer, coord_converter_.get());
+
+    RCLCPP_INFO(rclcpp::get_logger("Solver"),
+                "Solver系统初始化完成");
 }
 
 void Solver::updateIMU(const Eigen::Quaterniond& q_absolute, double timestamp) {

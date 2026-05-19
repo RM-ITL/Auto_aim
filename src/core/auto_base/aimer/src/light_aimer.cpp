@@ -1,6 +1,5 @@
 #include "light_aimer.hpp"
 
-#include <yaml-cpp/yaml.h>
 #include <iostream>
 
 #include "logger.hpp"
@@ -8,41 +7,16 @@
 namespace auto_base
 {
 
-LightAimer::LightAimer(const std::string & config_path)
-: begin_x_(0.0), base_offset_(0.0)
+LightAimer::LightAimer(const app_config::LightAimerConfig & config)
+: begin_x_(config.begin_x), base_offset_(config.base_offset)
 {
-  auto yaml = YAML::LoadFile(config_path);
+  // 字段从 SubConfig 注入。SubConfig 加载阶段已处理 IsDefined 守卫与 map 遍历，
+  // 此处仅赋值。原代码缺字段时打 warn——SubConfig 加载阶段不再打 warn（值是默认 0.0/空 map），
+  // 但模块构造日志仍会暴露最终值，调试者可对照判断字段是否生效。
+  offset_map_ = config.offsets;
 
-  // 加载基准点x坐标
-  if (yaml["LightAimer"]["begin_x"].IsDefined()) {
-    begin_x_ = yaml["LightAimer"]["begin_x"].as<double>();
-  } else {
-    std::cerr << "[LightAimer] Warning: begin_x not defined in config, using default 0.0"
-              << std::endl;
-    utils::logger()->warn("[LightAimer] begin_x missing, using default 0.0");
-  }
-
-  // 加载基础补偿
-  if (yaml["LightAimer"]["base_offset"].IsDefined()) {
-    base_offset_ = yaml["LightAimer"]["base_offset"].as<double>();
-  } else {
-    std::cerr << "[LightAimer] Warning: base_offset not defined in config, using default 0.0"
-              << std::endl;
-    utils::logger()->warn("[LightAimer] base_offset missing, using default 0.0");
-  }
-
-  // 加载根据number的补偿表
-  if (yaml["LightAimer"]["offsets"].IsDefined()) {
-    auto offsets_node = yaml["LightAimer"]["offsets"];
-    for (auto it = offsets_node.begin(); it != offsets_node.end(); ++it) {
-      int number = std::stoi(it->first.as<std::string>());
-      double offset = it->second.as<double>();
-      offset_map_[number] = offset;
-      utils::logger()->info("[LightAimer] offsets[{}] = {:.3f}", number, offset);
-    }
-  } else {
-    std::cerr << "[LightAimer] Warning: offsets not defined in config" << std::endl;
-    utils::logger()->warn("[LightAimer] offsets missing");
+  for (const auto & [number, offset] : offset_map_) {
+    utils::logger()->info("[LightAimer] offsets[{}] = {:.3f}", number, offset);
   }
 
   utils::logger()->info("[LightAimer] begin_x         = {:.3f}", begin_x_);

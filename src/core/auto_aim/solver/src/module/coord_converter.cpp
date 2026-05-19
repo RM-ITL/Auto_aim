@@ -3,13 +3,12 @@
 #include <stdexcept>
 #include <cmath>
 #include <iostream>
-#include <yaml-cpp/yaml.h>
 
 #include "logger.hpp"
 
 namespace solver {
 
-CoordConverter::CoordConverter(const std::string& yaml_config_path)
+CoordConverter::CoordConverter(const app_config::CoordConverterConfig & config)
     : is_initialized_(false),
       current_timestamp_(0.0),
       current_imu_angles_(0.0, 0.0, 0.0, 0.0) {
@@ -23,8 +22,80 @@ CoordConverter::CoordConverter(const std::string& yaml_config_path)
     R_gimbal_to_imu = Eigen::Matrix3d::Identity();
     t_camera_to_gimbal_ = Eigen::Vector3d::Zero();  // 初始化平移向量
 
-    if (!loadCalibrationFromYAML(yaml_config_path)) {
-        throw std::runtime_error("Cannot load calibration file: " + yaml_config_path);
+    // 内参 focal_length / principal_point / disto_param 来自 SubConfig（AppConfig::load 时
+    // 已处理 ptr_wrapper.data fallback）。原代码缺 disto_param 时裸读抛异常 → 外层 catch 返
+    // false → throw runtime_error。SubConfig 加载侧已用 IsDefined 守卫转 empty vector；
+    // 此处 empty 时仍按原 dist_coeffs_ 不构建（与原 size<4 路径等价），不再抛异常。
+    const auto & focal_length = config.focal_length;
+    const auto & principal_point = config.principal_point;
+    if (focal_length.size() >= 2 && principal_point.size() >= 2) {
+        camera_matrix_ = cv::Mat(3, 3, CV_64F);
+        camera_matrix_.at<double>(0, 0) = focal_length[0];
+        camera_matrix_.at<double>(0, 1) = 0.0;
+        camera_matrix_.at<double>(0, 2) = principal_point[0];
+        camera_matrix_.at<double>(1, 0) = 0.0;
+        camera_matrix_.at<double>(1, 1) = focal_length[1];
+        camera_matrix_.at<double>(1, 2) = principal_point[1];
+        camera_matrix_.at<double>(2, 0) = 0.0;
+        camera_matrix_.at<double>(2, 1) = 0.0;
+        camera_matrix_.at<double>(2, 2) = 1.0;
+
+        if (config.disto_param.size() >= 4) {
+            dist_coeffs_ = cv::Mat(1, std::min(5, (int)config.disto_param.size()), CV_64F);
+            for (int i = 0; i < dist_coeffs_.cols; i++) {
+                dist_coeffs_.at<double>(0, i) = config.disto_param[i];
+            }
+        }
+
+        utils::logger()->info(
+            "[CoordConverter] focal_length    = [{:.3f}, {:.3f}]",
+            focal_length[0], focal_length[1]);
+        utils::logger()->info(
+            "[CoordConverter] principal_point = [{:.3f}, {:.3f}]",
+            principal_point[0], principal_point[1]);
+        utils::logger()->info(
+            "[CoordConverter] dist_coeffs     = {}x{}",
+            dist_coeffs_.rows, dist_coeffs_.cols);
+        for (int i = 0; i < dist_coeffs_.cols; ++i) {
+            utils::logger()->info(
+                "[CoordConverter] dist_coeffs[{}] = {:.8f}",
+                i, dist_coeffs_.at<double>(0, i));
+        }
+    }
+
+    // 旋转矩阵：SubConfig 字段缺则 empty vector，保留构造时的 Identity。
+    if (config.rotation_matrix_camera_to_gimbal.size() == 9) {
+        const auto & d = config.rotation_matrix_camera_to_gimbal;
+        R_camera_to_gimbal << d[0], d[1], d[2],
+                              d[3], d[4], d[5],
+                              d[6], d[7], d[8];
+        utils::logger()->info("[CoordConverter] R_camera_to_gimbal row0 = [{:.6f}, {:.6f}, {:.6f}]", R_camera_to_gimbal(0, 0), R_camera_to_gimbal(0, 1), R_camera_to_gimbal(0, 2));
+        utils::logger()->info("[CoordConverter] R_camera_to_gimbal row1 = [{:.6f}, {:.6f}, {:.6f}]", R_camera_to_gimbal(1, 0), R_camera_to_gimbal(1, 1), R_camera_to_gimbal(1, 2));
+        utils::logger()->info("[CoordConverter] R_camera_to_gimbal row2 = [{:.6f}, {:.6f}, {:.6f}]", R_camera_to_gimbal(2, 0), R_camera_to_gimbal(2, 1), R_camera_to_gimbal(2, 2));
+    }
+
+    if (config.rotation_matrix_gimbal_to_imu.size() == 9) {
+        const auto & d = config.rotation_matrix_gimbal_to_imu;
+        R_gimbal_to_imu << d[0], d[1], d[2],
+                           d[3], d[4], d[5],
+                           d[6], d[7], d[8];
+        utils::logger()->info("[CoordConverter] R_gimbal_to_imu row0 = [{:.6f}, {:.6f}, {:.6f}]", R_gimbal_to_imu(0, 0), R_gimbal_to_imu(0, 1), R_gimbal_to_imu(0, 2));
+        utils::logger()->info("[CoordConverter] R_gimbal_to_imu row1 = [{:.6f}, {:.6f}, {:.6f}]", R_gimbal_to_imu(1, 0), R_gimbal_to_imu(1, 1), R_gimbal_to_imu(1, 2));
+        utils::logger()->info("[CoordConverter] R_gimbal_to_imu row2 = [{:.6f}, {:.6f}, {:.6f}]", R_gimbal_to_imu(2, 0), R_gimbal_to_imu(2, 1), R_gimbal_to_imu(2, 2));
+    }
+
+    if (config.t_camera_to_gimbal.size() == 3) {
+        t_camera_to_gimbal_ << config.t_camera_to_gimbal[0],
+                               config.t_camera_to_gimbal[1],
+                               config.t_camera_to_gimbal[2];
+        utils::logger()->info(
+            "[CoordConverter] t_camera_to_gimbal = [{:.3f}, {:.3f}, {:.3f}]",
+            t_camera_to_gimbal_(0), t_camera_to_gimbal_(1), t_camera_to_gimbal_(2));
+    } else {
+        utils::logger()->warn(
+            "[CoordConverter] t_camera_to_gimbal = [{:.3f}, {:.3f}, {:.3f}] (size={}, fallback to zero)",
+            t_camera_to_gimbal_(0), t_camera_to_gimbal_(1), t_camera_to_gimbal_(2),
+            config.t_camera_to_gimbal.size());
     }
 }
 
@@ -268,108 +339,6 @@ Eigen::Vector3d CoordConverter::WorldToCamera(const Eigen::Vector3d& point_world
 //     return Eigen::Matrix3d::Identity() + std::sin(angle) * K + (1 - std::cos(angle)) * K * K;
 // }
 
-bool CoordConverter::loadCalibrationFromYAML(const std::string& yaml_path) {
-    try {
-        YAML::Node config = YAML::LoadFile(yaml_path);
-        
-        // 读取相机内参
-        if (config["CalibParam"]["INTRI"]["Camera"]) {
-            auto camera_node = config["CalibParam"]["INTRI"]["Camera"][0]["value"];
-            
-            YAML::Node camera_params;
-            if (camera_node["ptr_wrapper"] && camera_node["ptr_wrapper"]["data"]) {
-                camera_params = camera_node["ptr_wrapper"]["data"];
-            } else {
-                camera_params = camera_node;
-            }
-            
-            std::vector<double> focal_length = camera_params["focal_length"].as<std::vector<double>>();
-            std::vector<double> principal_point = camera_params["principal_point"].as<std::vector<double>>();
-            
-            camera_matrix_ = cv::Mat(3, 3, CV_64F);
-            camera_matrix_.at<double>(0, 0) = focal_length[0];
-            camera_matrix_.at<double>(0, 1) = 0.0;
-            camera_matrix_.at<double>(0, 2) = principal_point[0];
-            camera_matrix_.at<double>(1, 0) = 0.0;
-            camera_matrix_.at<double>(1, 1) = focal_length[1];
-            camera_matrix_.at<double>(1, 2) = principal_point[1];
-            camera_matrix_.at<double>(2, 0) = 0.0;
-            camera_matrix_.at<double>(2, 1) = 0.0;
-            camera_matrix_.at<double>(2, 2) = 1.0;
-            
-            std::vector<double> disto_param = camera_params["disto_param"].as<std::vector<double>>();
-            
-            if (disto_param.size() >= 4) {
-                dist_coeffs_ = cv::Mat(1, std::min(5, (int)disto_param.size()), CV_64F);
-                for (int i = 0; i < dist_coeffs_.cols; i++) {
-                    dist_coeffs_.at<double>(0, i) = disto_param[i];
-                }
-            }
-
-            utils::logger()->info(
-                "[CoordConverter] focal_length    = [{:.3f}, {:.3f}]",
-                focal_length[0], focal_length[1]);
-            utils::logger()->info(
-                "[CoordConverter] principal_point = [{:.3f}, {:.3f}]",
-                principal_point[0], principal_point[1]);
-            utils::logger()->info(
-                "[CoordConverter] dist_coeffs     = {}x{}",
-                dist_coeffs_.rows, dist_coeffs_.cols);
-            for (int i = 0; i < dist_coeffs_.cols; ++i) {
-                utils::logger()->info(
-                    "[CoordConverter] dist_coeffs[{}] = {:.8f}",
-                    i, dist_coeffs_.at<double>(0, i));
-            }
-        }
-        
-        // 读取相机到云台的旋转矩阵
-        if(config["Solver"]["coord_converter"]) {
-            std::vector<double> matrix_data = config["Solver"]["coord_converter"]["rotation_matrix_camera_to_gimbal"]["data"].as<std::vector<double>>();
-            R_camera_to_gimbal << matrix_data[0], matrix_data[1], matrix_data[2],
-                                matrix_data[3], matrix_data[4], matrix_data[5],
-                                matrix_data[6], matrix_data[7], matrix_data[8];
-            utils::logger()->info("[CoordConverter] R_camera_to_gimbal row0 = [{:.6f}, {:.6f}, {:.6f}]", R_camera_to_gimbal(0, 0), R_camera_to_gimbal(0, 1), R_camera_to_gimbal(0, 2));
-            utils::logger()->info("[CoordConverter] R_camera_to_gimbal row1 = [{:.6f}, {:.6f}, {:.6f}]", R_camera_to_gimbal(1, 0), R_camera_to_gimbal(1, 1), R_camera_to_gimbal(1, 2));
-            utils::logger()->info("[CoordConverter] R_camera_to_gimbal row2 = [{:.6f}, {:.6f}, {:.6f}]", R_camera_to_gimbal(2, 0), R_camera_to_gimbal(2, 1), R_camera_to_gimbal(2, 2));
-        }
-
-        // 读取云台到IMU的旋转矩阵
-        if(config["Solver"]["coord_converter"]) {
-            std::vector<double> matrix_data = config["Solver"]["coord_converter"]["rotation_matrix_gimbal_to_imu"]["data"].as<std::vector<double>>();
-            R_gimbal_to_imu << matrix_data[0], matrix_data[1], matrix_data[2],
-                            matrix_data[3], matrix_data[4], matrix_data[5],
-                            matrix_data[6], matrix_data[7], matrix_data[8];
-            utils::logger()->info("[CoordConverter] R_gimbal_to_imu row0 = [{:.6f}, {:.6f}, {:.6f}]", R_gimbal_to_imu(0, 0), R_gimbal_to_imu(0, 1), R_gimbal_to_imu(0, 2));
-            utils::logger()->info("[CoordConverter] R_gimbal_to_imu row1 = [{:.6f}, {:.6f}, {:.6f}]", R_gimbal_to_imu(1, 0), R_gimbal_to_imu(1, 1), R_gimbal_to_imu(1, 2));
-            utils::logger()->info("[CoordConverter] R_gimbal_to_imu row2 = [{:.6f}, {:.6f}, {:.6f}]", R_gimbal_to_imu(2, 0), R_gimbal_to_imu(2, 1), R_gimbal_to_imu(2, 2));
-        }
-
-        // 读取相机到云台的平移向量
-        if(config["t_camera_to_gimbal"]) {
-            std::vector<double> translation_data = config["t_camera_to_gimbal"].as<std::vector<double>>();
-            if(translation_data.size() == 3) {
-                t_camera_to_gimbal_ << translation_data[0], translation_data[1], translation_data[2];
-                utils::logger()->info(
-                    "[CoordConverter] t_camera_to_gimbal = [{:.3f}, {:.3f}, {:.3f}]",
-                    t_camera_to_gimbal_(0), t_camera_to_gimbal_(1), t_camera_to_gimbal_(2));
-            } else {
-                utils::logger()->warn(
-                    "[CoordConverter] t_camera_to_gimbal = [{:.3f}, {:.3f}, {:.3f}] (size={}, fallback to zero)",
-                    t_camera_to_gimbal_(0), t_camera_to_gimbal_(1), t_camera_to_gimbal_(2),
-                    translation_data.size());
-            }
-        } else {
-            utils::logger()->warn(
-                "[CoordConverter] t_camera_to_gimbal = [{:.3f}, {:.3f}, {:.3f}] (missing t_camera_to_gimbal, fallback to zero)",
-                t_camera_to_gimbal_(0), t_camera_to_gimbal_(1), t_camera_to_gimbal_(2));
-        }
-
-        return true;
-        
-    } catch (const std::exception& e) {
-        return false;
-    }
-}
 
 // std::vector<cv::Point2f> CoordConverter::reproject_armor(
 //     const Eigen::Vector3d & xyz_in_world, double yaw, ArmorType type, ArmorName name) const

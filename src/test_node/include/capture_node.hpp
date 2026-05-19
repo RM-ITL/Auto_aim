@@ -11,6 +11,7 @@
 #include <opencv2/opencv.hpp>
 #include <rclcpp/rclcpp.hpp>
 
+#include "app_config/app_config.hpp"
 #include "camera.hpp"
 #include "gimbal.hpp"
 #include "imu_driver.h"
@@ -21,7 +22,7 @@ namespace Application
 class CaptureApp
 {
 public:
-  explicit CaptureApp(const std::string & config_path, const std::string & output_folder);
+  explicit CaptureApp(const app_config::AppConfig & app_config, const std::string & output_folder);
   ~CaptureApp();
 
   int run();
@@ -43,7 +44,6 @@ private:
     const io::GimbalState & state,
     const Eigen::Vector3d & g2w_ypr_deg);
 
-  std::string config_path_;
   std::string output_folder_;
 
   std::unique_ptr<camera::Camera> camera_;

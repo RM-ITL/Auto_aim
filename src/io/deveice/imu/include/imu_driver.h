@@ -8,9 +8,9 @@
 #include <vector>
 
 #include <Eigen/Geometry>
+#include "app_config/app_config.hpp"
 #include "serial/serial.h"
 #include "thread_safe_queue.hpp"
-#include "yaml.hpp"
 
 namespace io
 {
@@ -23,10 +23,10 @@ struct ImuData
   float roll, pitch, yaw;    // 欧拉角数据
 };
 
-class DmImu 
+class DmImu
 {
 public:
-  DmImu(const std::string & config_path);
+  DmImu(const app_config::DmImuConfig & config);
   ~DmImu();
 
   Eigen::Quaterniond imu_at(std::chrono::steady_clock::time_point timestamp);

@@ -11,6 +11,7 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 
+#include "app_config/app_config.hpp"
 #include "calibration_common.hpp"
 #include "logger.hpp"
 #include "math_tools.hpp"
@@ -29,17 +30,25 @@ void handle_signal(int)
 }
 }  // namespace
 
-CaptureApp::CaptureApp(const std::string & config_path, const std::string & output_folder)
-: config_path_(config_path), output_folder_(output_folder)
+CaptureApp::CaptureApp(const app_config::AppConfig & app_config, const std::string & output_folder)
+: output_folder_(output_folder)
 {
   ros_node_ = std::make_shared<rclcpp::Node>("capture_node");
   pose_source_ = ros_node_->declare_parameter<std::string>("pose_source", "gimbal");
   diag_mode_ = ros_node_->declare_parameter<bool>("diag", false);
 
+  // 把 SubConfig 的 vector<double>(9) 转 Eigen::Matrix3d；与原 read_r_gimbal_to_imu 行为字节级一致。
+  auto unflatten_3x3 = [](const std::vector<double> & data) -> Eigen::Matrix3d {
+    if (data.size() != 9) {
+      throw std::runtime_error("rotation_matrix_gimbal_to_imu 数据长度不是 9");
+    }
+    return Eigen::Matrix<double, 3, 3, Eigen::RowMajor>(data.data());
+  };
+
   if (diag_mode_) {
     pose_source_ = "gimbal";
-    gimbal_ = std::make_unique<io::Gimbal>(config_path_);
-    r_gimbal_to_imu_ = calibration::read_r_gimbal_to_imu(config_path_);
+    gimbal_ = std::make_unique<io::Gimbal>(app_config.gimbal);
+    r_gimbal_to_imu_ = unflatten_3x3(app_config.solver.coord_converter.rotation_matrix_gimbal_to_imu);
     std::filesystem::create_directories(output_folder_);
     utils::logger()->info("[Capture/Diag] 进入诊断模式，不打开相机");
     utils::logger()->info("[Capture/Diag] 输出文件夹: {}", output_folder_);
@@ -50,10 +59,10 @@ CaptureApp::CaptureApp(const std::string & config_path, const std::string & outp
     throw std::invalid_argument("pose_source must be 'gimbal' or 'dm_imu'");
   }
 
-  camera_ = std::make_unique<camera::Camera>(config_path_);
-  gimbal_ = std::make_unique<io::Gimbal>(config_path_);
+  camera_ = std::make_unique<camera::Camera>(app_config.camera);
+  gimbal_ = std::make_unique<io::Gimbal>(app_config.gimbal);
   if (pose_source_ == "dm_imu") {
-    dm_imu_ = std::make_unique<io::DmImu>(config_path_);
+    dm_imu_ = std::make_unique<io::DmImu>(app_config.dm_imu);
   }
   // 创建输出文件夹
   std::filesystem::create_directories(output_folder_);
@@ -290,7 +299,7 @@ int main(int argc, char ** argv)
   std::signal(SIGINT, Application::handle_signal);
 
   try {
-    Application::CaptureApp app(config_path, output_folder);
+    Application::CaptureApp app(app_config::AppConfig::load(config_path), output_folder);
     int ret = app.run();
     rclcpp::shutdown();
     return ret;

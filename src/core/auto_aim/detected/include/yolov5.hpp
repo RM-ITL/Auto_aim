@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+#include "app_config/app_config.hpp"
 #include "armor.hpp"
 #include "detector.hpp"
 
@@ -15,7 +16,7 @@ namespace armor_auto_aim
 class YOLOV5Detector
 {
 public:
-  YOLOV5Detector(const std::string & config_path, bool debug = false);
+  YOLOV5Detector(const app_config::DetectorConfig & config, bool debug = false);
 
   std::vector<Armor> detect(const cv::Mat & bgr_img, int frame_count = -1);
   void setDebug(bool debug) { debug_ = debug; }

@@ -1,6 +1,5 @@
 #include "yolo11.hpp"
 #include "draw_tools.hpp"
-#include <yaml-cpp/yaml.h>
 #include <filesystem>
 #include <iostream>
 
@@ -9,32 +8,16 @@
 namespace armor_auto_aim
 {
 
-YOLO11Detector::YOLO11Detector(const std::string& config_path, bool debug)
+YOLO11Detector::YOLO11Detector(const app_config::DetectorYOLO11Config & config, bool debug)
     : debug_(debug)
 {
-    // 读取配置文件
-    auto yaml = YAML::LoadFile(config_path);
-    
-    // 从yolo11节点下读取配置参数
-    if (!yaml["yolo"]) {
-        throw std::runtime_error("配置文件中缺少'yolo11'节点");
-    }
-    
-    const auto& yolo11_config = yaml["yolo"];
-    
-    // 读取模型路径和设备配置
-    model_path_ = yolo11_config["yolo11_model_path"].as<std::string>();
-    device_ = yolo11_config["device"].as<std::string>("CPU");
-    
-    // 读取检测阈值参数
-    min_confidence_ = yolo11_config["min_confidence"].as<double>(0.8);
-    score_threshold_ = yolo11_config["score_threshold"].as<float>(0.7f);
-    nms_threshold_ = yolo11_config["nms_threshold"].as<float>(0.3f);
-    
-    // 读取其他配置（虽然暂时可能用不到，但预留接口）
-    if (yolo11_config["enemy_color"]) {
-        enemy_color_ = yolo11_config["enemy_color"].as<std::string>("red");
-    }
+    // 字段从 SubConfig 注入，行为与原 yaml["yolo"] 读取字节级一致。
+    model_path_ = config.yolo11_model_path;
+    device_ = config.device;
+    min_confidence_ = config.min_confidence;
+    score_threshold_ = config.score_threshold;
+    nms_threshold_ = config.nms_threshold;
+    enemy_color_ = config.enemy_color;
 
     utils::logger()->info("[YOLO11Detector] yolo11_model_path = {}", model_path_);
     utils::logger()->info("[YOLO11Detector] device            = {}", device_);
@@ -42,7 +25,7 @@ YOLO11Detector::YOLO11Detector(const std::string& config_path, bool debug)
     utils::logger()->info("[YOLO11Detector] score_threshold   = {:.3f}", score_threshold_);
     utils::logger()->info("[YOLO11Detector] nms_threshold     = {:.3f}", nms_threshold_);
     utils::logger()->info("[YOLO11Detector] enemy_color       = {}", enemy_color_);
-     
+
     // 检查模型文件是否存在
     if (!std::filesystem::exists(model_path_)) {
         throw std::runtime_error("模型文件不存在: " + model_path_);

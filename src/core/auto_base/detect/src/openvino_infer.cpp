@@ -1,6 +1,5 @@
 #include "openvino_infer.hpp"
 
-#include <yaml-cpp/yaml.h>
 #include <fmt/format.h>
 
 #include "logger.hpp"
@@ -8,16 +7,13 @@
 namespace auto_base
 {
 
-OpenvinoInfer::OpenvinoInfer(const std::string & config_path)
+OpenvinoInfer::OpenvinoInfer(const app_config::OpenvinoInferConfig & config)
 {
-  // 加载 YAML 配置
-  auto yaml = YAML::LoadFile(config_path);
-  const auto & cfg = yaml["Base_Hit"];
-
-  std::string xml_path = cfg["Openvino_XML"].as<std::string>();
-  device_ = cfg["device"].as<std::string>("CPU");
-  score_threshold_ = cfg["score_threshold"].as<float>(0.5f);
-  nms_threshold_ = cfg["nms_threshold"].as<float>(0.45f);
+  // 字段从 SubConfig 注入；行为与原 yaml["Base_Hit"] 读取字节级一致。
+  const std::string & xml_path = config.Openvino_XML;
+  device_ = config.device;
+  score_threshold_ = config.score_threshold;
+  nms_threshold_ = config.nms_threshold;
 
   utils::logger()->info("[OpenvinoInfer] Openvino_XML    = {}", xml_path);
   utils::logger()->info("[OpenvinoInfer] device          = {}", device_);

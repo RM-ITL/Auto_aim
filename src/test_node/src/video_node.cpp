@@ -12,6 +12,7 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 
+#include "app_config/app_config.hpp"
 #include "logger.hpp"
 #include "math_tools.hpp"
 #include "target.hpp"
@@ -28,19 +29,21 @@ void handle_signal(int)
 }
 }  // namespace
 
-VideoApp::VideoApp(const std::string & config_path)
-: config_path_(config_path),
-  start_time_(std::chrono::steady_clock::now())
+VideoApp::VideoApp(const app_config::AppConfig & app_config)
+: start_time_(std::chrono::steady_clock::now())
 {
-  video_reader_ = std::make_unique<utils::Video>(config_path_);
-  // dm_imu_ = std::make_unique<io::DmImu>(config_path_);
-  detector_ = std::make_unique<auto_buff::Buff_Detector>(config_path_);
+  // Sprint 1.C Phase 4/5：utils::Video 按 SubConfig.video_path 注入（utils 不依赖
+  // app_config，故由本入口提取 string 后传入）。auto_buff::Buff_Detector 仍走
+  // config_path（auto_buff 整包冻结），通过 app_config.source_path 取 yaml 路径。
+  video_reader_ = std::make_unique<utils::Video>(app_config.video.video_path);
+  // dm_imu_ = std::make_unique<io::DmImu>(app_config.dm_imu);
+  detector_ = std::make_unique<auto_buff::Buff_Detector>(app_config.source_path);
   // solver_ = std::make_unique<solver::Solver>(config_path_);
   // yaw_optimizer_ = solver_->getYawOptimizer();
   // tracker_ = std::make_unique<tracker::Tracker>(config_path_, *solver_);
 
   utils::logger()->info(
-    "[VideoPipeline] 初始化完成, config path: {}", config_path_);
+    "[VideoPipeline] 初始化完成, config path: {}", app_config.source_path);
 }
 
 VideoApp::~VideoApp()
@@ -183,7 +186,7 @@ int main(int argc, char ** argv)
   std::signal(SIGINT, Application::handle_signal);
 
   try {
-    Application::VideoApp app(config_path);
+    Application::VideoApp app(app_config::AppConfig::load(config_path));
     return app.run();
   } catch (const std::exception & e) {
     utils::logger()->error("[VideoPipeline] 程序异常终止: {}", e.what());

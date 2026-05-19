@@ -5,22 +5,19 @@
 
 #include "logger.hpp"
 #include "math_tools.hpp"
-#include "yaml.hpp"
 
 namespace auto_base
 {
 
-LightTracker::LightTracker(const std::string & config_path)
+LightTracker::LightTracker(const app_config::LightTrackerConfig & config)
 : state_("lost"),
   detect_count_(0),
   temp_lost_count_(0),
   last_timestamp_(std::chrono::steady_clock::now())
 {
-  auto yaml = utils::load(config_path);
-
-  // 读取 LightTracker 配置参数
-  min_detect_count_ = yaml["LightTracker"]["min_detect_count"].as<int>();
-  max_temp_lost_count_ = yaml["LightTracker"]["max_temp_lost_count"].as<int>();
+  // 字段从 SubConfig 注入。
+  min_detect_count_ = config.min_detect_count;
+  max_temp_lost_count_ = config.max_temp_lost_count;
 
   utils::logger()->info("[LightTracker] min_detect_count    = {}", min_detect_count_);
   utils::logger()->info("[LightTracker] max_temp_lost_count = {}", max_temp_lost_count_);

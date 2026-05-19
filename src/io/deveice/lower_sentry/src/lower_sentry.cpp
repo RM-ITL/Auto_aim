@@ -2,27 +2,19 @@
 
 #include "logger.hpp"
 #include "math_tools.hpp"
-#include "yaml.hpp"
 
 namespace io
 {
-Sentry::Sentry(const std::string & config_path)
+Sentry::Sentry(const app_config::SentryConfig & config)
 {
-  auto yaml = utils::load(config_path);
-  auto gimbal_yaml = yaml["Gimbal"];
-  auto com_port = utils::read<std::string>(gimbal_yaml, "com_port");
+  const std::string & com_port = config.com_port;
 
   utils::logger()->info("[Sentry] com_port              = {}", com_port);
   utils::logger()->info("[Sentry] baud                  = 115200 (HARDCODED)");
 
-  // 读取IMU外参标定四元数（从 yaml["Gimbal"]["q_calib"] 读取）
-  auto q_calib_node = gimbal_yaml["q_calib"];
-  if (q_calib_node) {
-    double qx = q_calib_node["x"].as<double>();
-    double qy = q_calib_node["y"].as<double>();
-    double qz = q_calib_node["z"].as<double>();
-    double qw = q_calib_node["w"].as<double>();
-    q_calib_ = Eigen::Quaterniond(qw, qx, qy, qz).normalized();
+  // q_calib: 与 Gimbal 完全等价（SentryConfig 复用 yaml["Gimbal"] 段）。
+  if (config.q_calib) {
+    q_calib_ = config.q_calib->normalized();
     utils::logger()->info("[Sentry] q_calib.w             = {:.6f}", q_calib_.w());
     utils::logger()->info("[Sentry] q_calib.x             = {:.6f}", q_calib_.x());
     utils::logger()->info("[Sentry] q_calib.y             = {:.6f}", q_calib_.y());

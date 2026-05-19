@@ -10,6 +10,7 @@
 #include <opencv2/core/utility.hpp>
 #include <opencv2/imgproc.hpp>
 
+#include "app_config/app_config.hpp"
 #include "logger.hpp"
 
 namespace Application
@@ -23,44 +24,35 @@ void handle_signal(int)
   g_stop_requested.store(true);
 }
 
-void log_config_file_info(const std::string & prefix, const std::string & config_path)
+void log_app_config(const std::string & prefix, const app_config::AppConfig & app_config)
 {
-  try {
-    const auto absolute_path = std::filesystem::absolute(config_path);
-    const auto file_size = std::filesystem::file_size(absolute_path);
-    const auto last_write_time = std::filesystem::last_write_time(absolute_path);
-    utils::logger()->info("[{}] config.absolute_path = {}", prefix, absolute_path.string());
-    utils::logger()->info("[{}] config.file_size     = {} bytes", prefix, file_size);
-    utils::logger()->info(
-      "[{}] config.last_write_time_raw = {}", prefix,
-      last_write_time.time_since_epoch().count());
-  } catch (const std::exception & e) {
-    utils::logger()->warn("[{}] config file info unavailable: {}", prefix, e.what());
-  }
+  utils::logger()->info("[{}] config.absolute_path = {}", prefix, app_config.source_path);
+  utils::logger()->info("[{}] config.file_size     = {} bytes", prefix, app_config.source_file_size);
+  utils::logger()->info(
+    "[{}] config.last_write_time_raw = {}", prefix, app_config.source_last_write_raw);
 }
 
 }  // namespace
 
-Standard3App::Standard3App(const std::string & config_path)
-: config_path_(config_path),
-  start_time_(std::chrono::steady_clock::now())
+Standard3App::Standard3App(const app_config::AppConfig & app_config)
+: start_time_(std::chrono::steady_clock::now())
 {
-  utils::logger()->info("[Standard3] 正在初始化，配置文件: {}", config_path_);
-  log_config_file_info("Hero", config_path_);
+  utils::logger()->info("[Standard3] 正在初始化，配置文件: {}", app_config.source_path);
+  log_app_config("Hero", app_config);
 
-  camera_ = std::make_unique<camera::Camera>(config_path_);
+  camera_ = std::make_unique<camera::Camera>(app_config.camera);
   utils::logger()->info("[Standard3] 相机初始化完成");
 
-  detector_ = std::make_unique<armor_auto_aim::Detector>(config_path_);
-  solver_ = std::make_unique<solver::Solver>(config_path_);
+  detector_ = std::make_unique<armor_auto_aim::Detector>(app_config.detector);
+  solver_ = std::make_unique<solver::Solver>(app_config.solver);
   yaw_optimizer_ = solver_->getYawOptimizer();
-  tracker_ = std::make_unique<tracker::Tracker>(config_path_, *solver_);
-  planner_ = std::make_unique<plan::Planner>(config_path_);
+  tracker_ = std::make_unique<tracker::Tracker>(app_config.tracker, *solver_);
+  planner_ = std::make_unique<plan::Planner>(app_config.planner);
 
-  gimbal_ = std::make_unique<io::Gimbal>(config_path_);
+  gimbal_ = std::make_unique<io::Gimbal>(app_config.gimbal);
   utils::logger()->info("[Standard3] 云台串口初始化完成");
 
-  shooter_ = std::make_unique<shooter::Shooter>(config_path_);
+  shooter_ = std::make_unique<shooter::Shooter>(app_config.shooter);
   utils::logger()->info("[Standard3] Shooter初始化完成");
 
   utils::logger()->info("[Standard3] 所有模块初始化完成，准备进入主循环");
@@ -201,7 +193,8 @@ int main(int argc, char ** argv)
   std::signal(SIGINT, Application::handle_signal);
 
   try {
-    Application::Standard3App app(config_path);
+    const auto app_config = app_config::AppConfig::load(config_path);
+    Application::Standard3App app(app_config);
     int ret = app.run();
     return ret;
   } catch (const std::exception & e) {

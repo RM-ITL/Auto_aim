@@ -8,25 +8,18 @@
 
 namespace armor_auto_aim {
 
-Detector::Detector(const std::string& config_path){
+Detector::Detector(const app_config::DetectorConfig & config){
     try {
-        // 读取配置文件获取检测器类型
-        auto yaml = YAML::LoadFile(config_path);
-
-        // 默认使用yolo11，如果配置文件中有yolo_name则使用配置的值
-        detector_type_ = "yolo11";
-        if (yaml["yolo"] && yaml["yolo"]["yolo_name"]) {
-            detector_type_ = yaml["yolo"]["yolo_name"].as<std::string>();
-        }
+        detector_type_ = config.yolo_name;
         utils::logger()->info("[Detector] yolo.yolo_name     = {}", detector_type_);
 
         // 根据配置创建对应的检测器
         if (detector_type_ == "yolov5") {
-            detector_ = std::make_unique<YOLOV5Detector>(config_path, debug_);
+            detector_ = std::make_unique<YOLOV5Detector>(config, debug_);
             utils::logger()->info("使用YOLOv5检测器");
         } else {
             // 默认使用YOLO11
-            detector_ = std::make_unique<YOLO11Detector>(config_path, debug_);
+            detector_ = std::make_unique<YOLO11Detector>(config.yolo11, debug_);
             utils::logger()->info("使用YOLO11检测器");
         }
 

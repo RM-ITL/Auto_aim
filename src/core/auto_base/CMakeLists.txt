@@ -15,6 +15,7 @@ find_package(OpenVINO REQUIRED)
 find_package(yaml-cpp REQUIRED)
 find_package(fmt REQUIRED)
 find_package(utils REQUIRED)
+find_package(app_config REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(deveice REQUIRED)
 
@@ -42,6 +43,7 @@ target_link_libraries(auto_base_detect
     fmt::fmt
     openvino::runtime
     utils::utils
+    app_config::app_config
 )
 
 # ====================================================================================
@@ -93,6 +95,7 @@ target_link_libraries(auto_base_tracker
     auto_base_target
     deveice::lower_dart
     Eigen3::Eigen
+    app_config::app_config
 )
 
 # ====================================================================================
@@ -117,6 +120,7 @@ target_link_libraries(auto_base_aimer
     deveice::lower_dart
     yaml-cpp
     Eigen3::Eigen
+    app_config::app_config
 )
 
 # ====================================================================================
@@ -219,6 +223,7 @@ ament_export_dependencies(
   yaml-cpp
   fmt
   utils
+  app_config
   Eigen3
   deveice
 )

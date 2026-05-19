@@ -8,6 +8,7 @@
 #include <string>
 #include <variant>
 
+#include "app_config/app_config.hpp"
 #include "armor.hpp"
 #include "module/solver.hpp"
 #include "solver_node.hpp"
@@ -25,7 +26,7 @@ using TargetVariant = std::variant<predict::Target, predict::OutpostTarget>;
 class Tracker
 {
 public:
-  Tracker(const std::string & config_path, solver::Solver & solver);
+  Tracker(const app_config::TrackerConfig & config, solver::Solver & solver);
 
   std::string state() const;
 

@@ -6,6 +6,7 @@
 #include <memory>
 #include <string>
 
+#include "app_config/app_config.hpp"
 #include "light_model.hpp"
 #include "lower_dart.hpp"
 
@@ -15,7 +16,7 @@ namespace auto_base
 class LightAimer
 {
 public:
-  explicit LightAimer(const std::string & config_path);
+  explicit LightAimer(const app_config::LightAimerConfig & config);
 
   double aim(
     LightTarget* target,

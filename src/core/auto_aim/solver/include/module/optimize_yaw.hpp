@@ -3,6 +3,7 @@
 
 #include <Eigen/Dense>
 #include <opencv2/opencv.hpp>
+#include "app_config/app_config.hpp"
 #include "solver.hpp"
 #include "coord_converter.hpp"
 #include "armor.hpp"
@@ -17,10 +18,10 @@ using ArmorType = armor_auto_aim::ArmorType;
 
 class YawOptimizer {
 public:
-    explicit YawOptimizer(const std::string& yaml_config_path, 
+    explicit YawOptimizer(const app_config::YawOptimizerConfig & config,
                           CoordConverter* CoordConverter_);
 
-            YawOptimizer(const cv::Mat& camera_matrix, 
+            YawOptimizer(const cv::Mat& camera_matrix,
                     const cv::Mat& dist_coeffs,
                     CoordConverter* CoordConverter_);
 
@@ -49,9 +50,7 @@ public:
                                         double yaw, ArmorType type, ArmorName name) const;
      
 private:
-    bool loadCameraParamsFromYAML(const std::string& yaml_path);
-    
-    void extractWorldEulerAngles(const Eigen::Matrix3d& R_armor_to_camera, 
+    void extractWorldEulerAngles(const Eigen::Matrix3d& R_armor_to_camera,
                                  double& yaw, double& pitch, double& roll) const; 
     
     double ReprojectionError(

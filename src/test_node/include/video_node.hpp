@@ -9,6 +9,7 @@
 
 #include <opencv2/core.hpp>
 
+#include "app_config/app_config.hpp"
 #include "armor.hpp"
 #include "buff_detector.hpp"
 #include "video.hpp"
@@ -26,7 +27,7 @@ struct VideoDebugPacket
 class VideoApp
 {
 public:
-  explicit VideoApp(const std::string & config_path);
+  explicit VideoApp(const app_config::AppConfig & app_config);
   ~VideoApp();
 
   int run();
@@ -34,8 +35,6 @@ public:
 
 private:
   void visualize(const VideoDebugPacket & packet);
-
-  std::string config_path_;
 
   std::unique_ptr<utils::Video> video_reader_;
   std::unique_ptr<auto_buff::Buff_Detector> detector_;

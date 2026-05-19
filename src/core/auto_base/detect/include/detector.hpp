@@ -7,6 +7,7 @@
 
 #include <opencv2/opencv.hpp>
 
+#include "app_config/app_config.hpp"
 #include "openvino_infer.hpp"
 
 namespace auto_base
@@ -17,7 +18,7 @@ class Detector
 public:
   using GreenLight = OpenvinoInfer::GreenLight;
 
-  explicit Detector(const std::string & config_path);
+  explicit Detector(const app_config::BaseHitConfig & config);
   ~Detector() = default;
 
   // 检测接口

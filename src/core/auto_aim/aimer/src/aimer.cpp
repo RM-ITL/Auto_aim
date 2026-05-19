@@ -1,7 +1,5 @@
 #include "aimer.hpp"
 
-#include <yaml-cpp/yaml.h>
-
 #include <cmath>
 #include <vector>
 
@@ -11,16 +9,16 @@
 
 namespace aimer
 {
-Aimer::Aimer(const std::string & config_path)
+Aimer::Aimer(const app_config::AimerConfig & config)
 {
-  auto yaml = YAML::LoadFile(config_path);
-  yaw_offset_ = yaml["Aimer"]["yaw_offset"].as<double>() / 57.3;        // degree to rad
-  pitch_offset_ = yaml["Aimer"]["pitch_offset"].as<double>() / 57.3;    // degree to rad
-  comming_angle_ = yaml["Aimer"]["comming_angle"].as<double>() / 57.3;  // degree to rad
-  leaving_angle_ = yaml["Aimer"]["leaving_angle"].as<double>() / 57.3;  // degree to rad
-  high_speed_delay_time_ = yaml["Aimer"]["high_speed_delay_time"].as<double>();
-  low_speed_delay_time_ = yaml["Aimer"]["low_speed_delay_time"].as<double>();
-  decision_speed_ = yaml["Aimer"]["decision_speed"].as<double>();
+  // 字段从 SubConfig 注入。yaml 字面值是 deg，模块构造时 / 57.3 转 rad。
+  yaw_offset_ = config.yaw_offset / 57.3;
+  pitch_offset_ = config.pitch_offset / 57.3;
+  comming_angle_ = config.comming_angle / 57.3;
+  leaving_angle_ = config.leaving_angle / 57.3;
+  high_speed_delay_time_ = config.high_speed_delay_time;
+  low_speed_delay_time_ = config.low_speed_delay_time;
+  decision_speed_ = config.decision_speed;
 
   utils::logger()->info("[Aimer] yaw_offset            = {:.3f} deg ({:.6f} rad)", yaw_offset_ * 57.3, yaw_offset_);
   utils::logger()->info("[Aimer] pitch_offset          = {:.3f} deg ({:.6f} rad)", pitch_offset_ * 57.3, pitch_offset_);

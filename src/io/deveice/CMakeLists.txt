@@ -13,6 +13,7 @@ find_package(ament_cmake REQUIRED)
 
 find_package(rclcpp REQUIRED)
 find_package(utils REQUIRED)
+find_package(app_config REQUIRED)
 find_package(serial REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(OpenCV REQUIRED)
@@ -71,6 +72,7 @@ target_link_libraries(deveice_camera
     ${OpenCV_LIBS}
     yaml-cpp
     utils::utils
+    app_config::app_config
     pthread
     ${LIBUSB_LIBRARIES}
     ${MV_CAMERA_LIB_DIR}/libMvCameraControl.so
@@ -89,6 +91,7 @@ ament_target_dependencies(deveice_camera
   PUBLIC
     rclcpp
     utils
+    app_config
 )
 
 # ====================================================================================
@@ -111,6 +114,7 @@ target_link_libraries(deveice_gimbal
   PUBLIC
     yaml-cpp
     utils::utils
+    app_config::app_config
     serial
     ${LIBSERIAL_LIBRARIES}
 )
@@ -119,6 +123,7 @@ ament_target_dependencies(deveice_gimbal
   PUBLIC
     rclcpp
     utils
+    app_config
     serial
 )
 
@@ -141,6 +146,7 @@ target_link_libraries(deveice_imu
   PUBLIC
     Eigen3::Eigen
     utils::utils
+    app_config::app_config
     serial
 )
 
@@ -148,6 +154,7 @@ ament_target_dependencies(deveice_imu
   PUBLIC
     Eigen3
     utils
+    app_config
     serial
 )
 
@@ -175,6 +182,7 @@ target_link_libraries(deveice_lower_dart
     Eigen3::Eigen
     yaml-cpp
     utils::utils
+    app_config::app_config
     serial
     ${LIBSERIAL_LIBRARIES}
 )
@@ -183,6 +191,7 @@ ament_target_dependencies(deveice_lower_dart
   PUBLIC
     rclcpp
     utils
+    app_config
     serial
     Eigen3
 )
@@ -210,6 +219,7 @@ target_link_libraries(deveice_lower_sentry
     Eigen3::Eigen
     yaml-cpp
     utils::utils
+    app_config::app_config
     serial
     ${LIBSERIAL_LIBRARIES}
 )
@@ -218,6 +228,7 @@ ament_target_dependencies(deveice_lower_sentry
   PUBLIC
     rclcpp
     utils
+    app_config
     serial
     Eigen3
 )
@@ -339,6 +350,7 @@ ament_export_targets(deveiceTargets HAS_LIBRARY_TARGET)
 ament_export_dependencies(
   rclcpp
   utils
+  app_config
   serial
   Eigen3
   OpenCV

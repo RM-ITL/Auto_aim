@@ -16,6 +16,7 @@
 
 #include <rclcpp/rclcpp.hpp>
 
+#include "app_config/app_config.hpp"
 #include "camera.hpp"
 #include "detect_node.hpp"
 #include "solver_node.hpp"
@@ -54,7 +55,7 @@ enum class SentryRunMode
 class PipelineApp
 {
 public:
-  explicit PipelineApp(const std::string & config_path);
+  explicit PipelineApp(const app_config::AppConfig & app_config);
   ~PipelineApp();
 
   int run();
@@ -72,7 +73,6 @@ private:
   void output_control(const plan::Plan & plan_result, const io::GimbalState & gs);
 
   // 组件与配置
-  std::string config_path_;
   std::unique_ptr<camera::Camera> camera_;
   std::unique_ptr<armor_auto_aim::Detector> detector_;
   std::unique_ptr<solver::Solver> solver_;

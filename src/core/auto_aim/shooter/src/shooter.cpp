@@ -1,19 +1,17 @@
 #include "shooter.hpp"
 
-#include <yaml-cpp/yaml.h>
-
 #include "logger.hpp"
 #include "math_tools.hpp"
 
 namespace shooter
 {
-Shooter::Shooter(const std::string & config_path) : last_command_{0, 0, 0}
+Shooter::Shooter(const app_config::ShooterConfig & config) : last_command_{0, 0, 0}
 {
-  auto yaml = YAML::LoadFile(config_path);
-  first_tolerance_ = yaml["Shooter"]["first_tolerance"].as<double>() / 57.3;    // degree to rad
-  second_tolerance_ = yaml["Shooter"]["second_tolerance"].as<double>() / 57.3;  // degree to rad
-  judge_distance_ = yaml["Shooter"]["judge_distance"].as<double>();
-  auto_fire_ = yaml["Shooter"]["auto_fire"].as<bool>();
+  // 字段从 SubConfig 注入。tolerance 为 deg，模块 / 57.3 转 rad。
+  first_tolerance_ = config.first_tolerance / 57.3;
+  second_tolerance_ = config.second_tolerance / 57.3;
+  judge_distance_ = config.judge_distance;
+  auto_fire_ = config.auto_fire;
 
   utils::logger()->info("[Shooter] first_tolerance  = {:.3f} deg ({:.6f} rad)", first_tolerance_ * 57.3, first_tolerance_);
   utils::logger()->info("[Shooter] second_tolerance = {:.3f} deg ({:.6f} rad)", second_tolerance_ * 57.3, second_tolerance_);
