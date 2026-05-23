@@ -8,7 +8,9 @@
 
 namespace solver {
 
-CoordConverter::CoordConverter(const app_config::CoordConverterConfig & config)
+CoordConverter::CoordConverter(
+    const app_config::CameraIntriConfig & intri,
+    const app_config::CoordConverterConfig & config)
     : is_initialized_(false),
       current_timestamp_(0.0),
       current_imu_angles_(0.0, 0.0, 0.0, 0.0) {
@@ -22,12 +24,11 @@ CoordConverter::CoordConverter(const app_config::CoordConverterConfig & config)
     R_gimbal_to_imu = Eigen::Matrix3d::Identity();
     t_camera_to_gimbal_ = Eigen::Vector3d::Zero();  // 初始化平移向量
 
-    // 内参 focal_length / principal_point / disto_param 来自 SubConfig（AppConfig::load 时
-    // 已处理 ptr_wrapper.data fallback）。原代码缺 disto_param 时裸读抛异常 → 外层 catch 返
-    // false → throw runtime_error。SubConfig 加载侧已用 IsDefined 守卫转 empty vector；
-    // 此处 empty 时仍按原 dist_coeffs_ 不构建（与原 size<4 路径等价），不再抛异常。
-    const auto & focal_length = config.focal_length;
-    const auto & principal_point = config.principal_point;
+    // 内参 focal_length / principal_point / disto_param 来自 SolverConfig.camera_intri
+    // （AppConfig::load 时已处理 ptr_wrapper.data fallback）。CoordConverterConfig
+    // 只承载 rotation/t 非内参字段。
+    const auto & focal_length = intri.focal_length;
+    const auto & principal_point = intri.principal_point;
     if (focal_length.size() >= 2 && principal_point.size() >= 2) {
         camera_matrix_ = cv::Mat(3, 3, CV_64F);
         camera_matrix_.at<double>(0, 0) = focal_length[0];
@@ -40,10 +41,10 @@ CoordConverter::CoordConverter(const app_config::CoordConverterConfig & config)
         camera_matrix_.at<double>(2, 1) = 0.0;
         camera_matrix_.at<double>(2, 2) = 1.0;
 
-        if (config.disto_param.size() >= 4) {
-            dist_coeffs_ = cv::Mat(1, std::min(5, (int)config.disto_param.size()), CV_64F);
+        if (intri.disto_param.size() >= 4) {
+            dist_coeffs_ = cv::Mat(1, std::min(5, (int)intri.disto_param.size()), CV_64F);
             for (int i = 0; i < dist_coeffs_.cols; i++) {
-                dist_coeffs_.at<double>(0, i) = config.disto_param[i];
+                dist_coeffs_.at<double>(0, i) = intri.disto_param[i];
             }
         }
 

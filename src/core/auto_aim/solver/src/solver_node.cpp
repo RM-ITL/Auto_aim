@@ -7,10 +7,10 @@ namespace solver {
 
 Solver::Solver(const app_config::SolverConfig & config) {
     utils::logger()->info("[Solver] 初始化（按 SubConfig 注入）");
-    // 三个子模块从 SubConfig 分别注入；1.C 保留三处独立内参字段（与原代码一致）。
-    pnp_solver_ = std::make_unique<PnPSolver>(config.pnp);
-    coord_converter_ = std::make_unique<CoordConverter>(config.coord_converter);
-    yaw_optimizer_ = std::make_unique<YawOptimizer>(config.yaw_optimizer, coord_converter_.get());
+    // 三个子模块共享 SolverConfig.camera_intri；各模块不直接耦合完整 SolverConfig。
+    pnp_solver_ = std::make_unique<PnPSolver>(config.camera_intri);
+    coord_converter_ = std::make_unique<CoordConverter>(config.camera_intri, config.coord_converter);
+    yaw_optimizer_ = std::make_unique<YawOptimizer>(config.camera_intri, coord_converter_.get());
 
     RCLCPP_INFO(rclcpp::get_logger("Solver"),
                 "Solver系统初始化完成");

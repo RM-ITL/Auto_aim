@@ -18,7 +18,7 @@ using ArmorType = armor_auto_aim::ArmorType;
 
 class YawOptimizer {
 public:
-    explicit YawOptimizer(const app_config::YawOptimizerConfig & config,
+    explicit YawOptimizer(const app_config::CameraIntriConfig & config,
                           CoordConverter* CoordConverter_);
 
             YawOptimizer(const cv::Mat& camera_matrix,

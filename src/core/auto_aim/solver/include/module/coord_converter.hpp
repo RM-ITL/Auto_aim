@@ -20,7 +20,8 @@ using ArmorName = armor_auto_aim::ArmorName;
 
 class CoordConverter {
 public:
-    explicit CoordConverter(const app_config::CoordConverterConfig & config);
+    CoordConverter(const app_config::CameraIntriConfig & intri,
+                   const app_config::CoordConverterConfig & config);
     
     void updateIMU(const Eigen::Quaterniond& q_absolute, double timestamp);
     void updateIMU(double yaw, double pitch, double timestamp);

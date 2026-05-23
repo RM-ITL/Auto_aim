@@ -85,15 +85,12 @@ void dump(const app_config::AppConfig & c)
               << "  yolo11.enemy_color = " << c.detector.yolo11.enemy_color << "\n";
   }
 
-  std::cout << "[solver.pnp]\n";
-  print_vec("focal_length", c.solver.pnp.focal_length);
-  print_vec("principal_point", c.solver.pnp.principal_point);
-  print_vec("disto_param", c.solver.pnp.disto_param);
+  std::cout << "[solver.camera_intri]\n";
+  print_vec("focal_length", c.solver.camera_intri.focal_length);
+  print_vec("principal_point", c.solver.camera_intri.principal_point);
+  print_vec("disto_param", c.solver.camera_intri.disto_param);
 
   std::cout << "[solver.coord_converter]\n";
-  print_vec("focal_length", c.solver.coord_converter.focal_length);
-  print_vec("principal_point", c.solver.coord_converter.principal_point);
-  print_vec("disto_param", c.solver.coord_converter.disto_param);
   print_vec("R_camera_to_gimbal", c.solver.coord_converter.rotation_matrix_camera_to_gimbal);
   print_vec("R_gimbal_to_imu", c.solver.coord_converter.rotation_matrix_gimbal_to_imu);
   print_vec("t_camera_to_gimbal", c.solver.coord_converter.t_camera_to_gimbal);

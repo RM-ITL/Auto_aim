@@ -16,7 +16,7 @@ using ArmorType = armor_auto_aim::ArmorType;
 
 class PnPSolver {
 public:
-    explicit PnPSolver(const app_config::PnPSolverConfig & config);
+    explicit PnPSolver(const app_config::CameraIntriConfig & config);
     PnPSolver();
 
     void setCameraMatrix(const cv::Mat& camera_matrix);

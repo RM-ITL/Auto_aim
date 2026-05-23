@@ -7,11 +7,11 @@
 
 namespace solver {
 
-PnPSolver::PnPSolver(const app_config::PnPSolverConfig & config) {
+PnPSolver::PnPSolver(const app_config::CameraIntriConfig & config) {
     camera_matrix_ = cv::Mat();
     dist_coeffs_ = cv::Mat();
 
-    // 字段来自 SubConfig（已在 AppConfig::load 时处理过 ptr_wrapper.data fallback）。
+    // 内参来自 SolverConfig.camera_intri（已在 AppConfig::load 时处理过 ptr_wrapper.data fallback）。
     const auto & focal_length = config.focal_length;
     const auto & principal_point = config.principal_point;
 

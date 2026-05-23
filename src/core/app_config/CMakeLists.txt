@@ -78,6 +78,20 @@ if(BUILD_TESTING)
     fmt::fmt
   )
 
+  add_executable(test_phase1_camera_intri_profiles test/test_phase1_camera_intri_profiles.cpp)
+  target_link_libraries(test_phase1_camera_intri_profiles
+    ${PROJECT_NAME}
+    utils::utils
+    fmt::fmt
+  )
+
+  add_executable(test_phase2_camera_intri_single_source test/test_phase2_camera_intri_single_source.cpp)
+  target_link_libraries(test_phase2_camera_intri_single_source
+    ${PROJECT_NAME}
+    utils::utils
+    fmt::fmt
+  )
+
   install(TARGETS test_load
     RUNTIME DESTINATION lib/${PROJECT_NAME}
   )
@@ -88,6 +102,12 @@ if(BUILD_TESTING)
     RUNTIME DESTINATION lib/${PROJECT_NAME}
   )
   install(TARGETS test_phase3_traditional_detector_config
+    RUNTIME DESTINATION lib/${PROJECT_NAME}
+  )
+  install(TARGETS test_phase1_camera_intri_profiles
+    RUNTIME DESTINATION lib/${PROJECT_NAME}
+  )
+  install(TARGETS test_phase2_camera_intri_single_source
     RUNTIME DESTINATION lib/${PROJECT_NAME}
   )
 endif()

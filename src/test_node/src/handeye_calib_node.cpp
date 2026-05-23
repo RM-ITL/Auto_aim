@@ -44,9 +44,9 @@ public:
 
     const Eigen::Matrix3d r_gimbal_to_imu =
       unflatten_3x3(app_config_.solver.coord_converter.rotation_matrix_gimbal_to_imu);
-    const auto & focal_length = app_config_.solver.pnp.focal_length;
-    const auto & principal_point = app_config_.solver.pnp.principal_point;
-    const auto & disto_param = app_config_.solver.pnp.disto_param;
+    const auto & focal_length = app_config_.solver.camera_intri.focal_length;
+    const auto & principal_point = app_config_.solver.camera_intri.principal_point;
+    const auto & disto_param = app_config_.solver.camera_intri.disto_param;
 
     cv::Mat camera_matrix = cv::Mat::eye(3, 3, CV_64F);
     camera_matrix.at<double>(0, 0) = focal_length.at(0);

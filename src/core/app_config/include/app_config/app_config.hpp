@@ -14,7 +14,7 @@
 //      无默认重载，缺崩；可选字段给默认值，from_yaml 用 utils::read<T>(node, key,
 //      default) 三参数重载。
 //   5. 整组可缺的嵌套段（如 Gimbal.q_calib）用 std::optional<T>。
-//   6. 不引入 enum（camera.type 仍是 string）；1.C.3 才做 enum 化。
+//   6. 不引入 enum（camera.type / camera.lens 仍是 string）；schema 校验留给后续。
 //
 // AppConfig::load 在入口处一次解析整份 yaml，按 SubConfig 分发到各模块。
 //
@@ -65,6 +65,7 @@ struct CameraMindVisionConfig
 // 使用：camera::Camera 外壳根据 type 选用 hik / mindvision
 struct CameraConfig
 {
+  std::string lens{};              // required；用于选择 CalibParam...profiles.<lens>
   std::string type = "hik";        // 默认 hik；外壳条件读
   CameraHikConfig hik{};
   CameraMindVisionConfig mindvision{};
@@ -142,54 +143,55 @@ struct DetectorConfig
 };
 
 // ===================================================================================
-// Solver / 三个子模块独立字段（auto_aim）
+// Solver / 三个子模块（auto_aim）
 // ===================================================================================
-// 注意：PnPSolver / CoordConverter / YawOptimizer 当前各自读一份内参，三处独立、
-//       值字节级一致。1.C 保留三处独立 SubConfig 以维持 "零行为变化"；1.C.3 才统一。
+// 注意：Sprint 1.C.3 Phase 2 后，PnPSolver / CoordConverter / YawOptimizer 不再
+//       各自持有 focal_length / principal_point / disto_param。相机内参统一由
+//       SolverConfig.camera_intri 提供，消费侧通过 CameraIntriConfig 注入。
 
 // 来源：yaml["CalibParam"]["INTRI"]["Camera"][0]["value"]["ptr_wrapper"]["data"]
-//       （ptr_wrapper.data 有 fallback：缺则直接读 value 节点）
-// 使用：solver::PnPSolver 构造
-struct PnPSolverConfig
+//       下的 profiles[camera.lens]
+// 使用：作为 PnPSolver / CoordConverter / YawOptimizer 三个模块的共享注入数据源。
+struct CameraIntriConfig
 {
   std::vector<double> focal_length{};     // required（取 [0]=fx, [1]=fy）
   std::vector<double> principal_point{};  // required（取 [0]=cx, [1]=cy）
-  std::vector<double> disto_param{};      // 条件读：IsDefined 守卫；缺则填 5 个 0
+  std::vector<double> disto_param{};      // 条件读；缺则 empty
 };
 
-// 来源：同 PnPSolverConfig 三字段 + yaml["Solver"]["coord_converter"]["rotation_matrix_*"]
+// 使用：solver::PnPSolver 构造的非内参配置。
+// 注意：PnPSolver 不再持有内参字段；内参由 SolverConfig.camera_intri 提供。
+struct PnPSolverConfig
+{
+};
+
+// 来源：yaml["Solver"]["coord_converter"]["rotation_matrix_*"]
 //       + yaml["Solver"]["coord_converter"]["t_camera_to_gimbal"]
 // 使用：solver::CoordConverter 构造
 //
-// 注意：disto_param 在 CoordConverter 中无 IsDefined 守卫（与 PnPSolver / YawOptimizer
-//       不同），缺则裸读异常 → 外层 try/catch 转 runtime_error。1.C 保留差异，
-//       不在 SubConfig 上层弥合。
+// 注意：CoordConverter 不再持有内参字段；内参由 SolverConfig.camera_intri 提供。
+//       本结构只保留 rotation/t 非内参字段。
 struct CoordConverterConfig
 {
-  std::vector<double> focal_length{};                          // required
-  std::vector<double> principal_point{};                       // required
-  std::vector<double> disto_param{};                           // 条件读（at-load 守卫）
   std::vector<double> rotation_matrix_camera_to_gimbal{};      // 条件读，缺则 identity
   std::vector<double> rotation_matrix_gimbal_to_imu{};         // 条件读，缺则 identity
   std::vector<double> t_camera_to_gimbal{};                    // 条件读（Solver.coord_converter），缺则 zero
 };
 
-// 来源：同 PnPSolverConfig 三字段
-// 使用：solver::YawOptimizer 构造
+// 使用：solver::YawOptimizer 构造的非内参配置。
 //
 // 注意：search_range = 70 deg、search_step = 1 deg 在模块中硬编码（启动日志带
 //       (HARDCODED) 标注），不进 SubConfig。
+// 注意：YawOptimizer 不再持有内参字段；内参由 SolverConfig.camera_intri 提供。
 struct YawOptimizerConfig
 {
-  std::vector<double> focal_length{};     // required
-  std::vector<double> principal_point{};  // required
-  std::vector<double> disto_param{};      // 条件读：IsDefined 守卫；缺则填 5 个 0
 };
 
 // 来源：上面三块整合
 // 使用：solver::Solver 外壳分发给 PnPSolver / CoordConverter / YawOptimizer
 struct SolverConfig
 {
+  CameraIntriConfig camera_intri{};  // PnPSolver / CoordConverter / YawOptimizer 共享内参来源
   PnPSolverConfig pnp{};
   CoordConverterConfig coord_converter{};
   YawOptimizerConfig yaw_optimizer{};

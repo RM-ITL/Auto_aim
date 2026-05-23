@@ -19,6 +19,7 @@
 #include "app_config/app_config.hpp"
 
 #include <algorithm>
+#include <cstdlib>
 #include <cstdint>
 #include <filesystem>
 #include <stdexcept>
@@ -61,10 +62,13 @@ YAML::Node camera_intri_data_node(const YAML::Node & root)
 void load_camera(CameraConfig & out, const YAML::Node & root)
 {
   if (!root["camera"]) {
-    // 与 camera::Camera 现行行为一致：缺整段也走默认 type=hik。
-    return;
+    utils::logger()->error("[AppConfig] camera section missing (camera.lens is required)");
+    std::exit(1);
   }
   const auto camera_yaml = root["camera"];
+
+  // lens 是 1.C.3 Phase 1 新增 required 字段，不给默认值，避免静默选错内参。
+  out.lens = utils::read<std::string>(camera_yaml, "lens");
 
   // type 条件读 + 默认 hik（同 camera.cpp:45 的 .as<string>("hik")）。
   out.type = utils::read<std::string>(camera_yaml, "type", out.type);
@@ -162,47 +166,18 @@ void load_detector(DetectorConfig & out, const YAML::Node & root)
 // Solver / PnP / CoordConverter / YawOptimizer
 // ---------------------------------------------------------------------------------
 
-// 三处共用：从 CalibParam 段读 focal_length / principal_point。
-// disto_param 由调用方决定 IsDefined 守卫语义。
-void load_camera_intri_required(
-  std::vector<double> & focal_length,
-  std::vector<double> & principal_point,
-  const YAML::Node & data_node)
+void load_camera_intri(CameraIntriConfig & out, const YAML::Node & selected_profile)
 {
-  focal_length = data_node["focal_length"].as<std::vector<double>>();
-  principal_point = data_node["principal_point"].as<std::vector<double>>();
+  out.focal_length = utils::read<std::vector<double>>(selected_profile, "focal_length");
+  out.principal_point = utils::read<std::vector<double>>(selected_profile, "principal_point");
+  out.disto_param.clear();
+  if (selected_profile["disto_param"]) {
+    out.disto_param = selected_profile["disto_param"].as<std::vector<double>>();
+  }
 }
 
-void load_pnp(PnPSolverConfig & out, const YAML::Node & root)
+void load_coord_converter_non_intri(CoordConverterConfig & out, const YAML::Node & root)
 {
-  const auto data = camera_intri_data_node(root);
-  if (!data) {
-    utils::logger()->error("[AppConfig] CalibParam.INTRI.Camera missing (PnPSolver expects it)");
-    return;  // PnPSolver 在缺 Camera 节点时返回 false，不抛；保持与之一致。
-  }
-  load_camera_intri_required(out.focal_length, out.principal_point, data);
-
-  // 与 pnp_solver.cpp:80 一致：IsDefined 守卫。
-  if (data["disto_param"]) {
-    out.disto_param = data["disto_param"].as<std::vector<double>>();
-  }
-  // 不在此处填 5 个 0：消费侧（PnPSolver 改造后）按 .empty() 检测填零，与原行为对齐。
-}
-
-void load_coord_converter(CoordConverterConfig & out, const YAML::Node & root)
-{
-  const auto data = camera_intri_data_node(root);
-  if (data) {
-    load_camera_intri_required(out.focal_length, out.principal_point, data);
-    // CoordConverter 无 IsDefined 守卫，裸读；缺则抛 yaml 异常 → 与原 try/catch 行为一致：
-    // 但 AppConfig::load 走 utils::load，不在我们捕获范围内；这里改用 IsDefined 守卫
-    // 转换为"缺则空 vector"，把抛行为留给消费侧（CoordConverter 改造时用 .empty() 处理）。
-    // 这是 SubConfig 加载阶段对消费侧抛行为的等价表达。
-    if (data["disto_param"]) {
-      out.disto_param = data["disto_param"].as<std::vector<double>>();
-    }
-  }
-
   // rotation_matrix_camera_to_gimbal / _gimbal_to_imu / t_camera_to_gimbal：
   // 在 Solver.coord_converter 守卫下读。
   // rotation_matrix_* 守卫内若 .data 字段缺会抛——保持与 coord_converter.cpp:326 行为：守卫存在但内部裸读。
@@ -225,21 +200,36 @@ void load_coord_converter(CoordConverterConfig & out, const YAML::Node & root)
   }
 }
 
-void load_yaw_optimizer(YawOptimizerConfig & out, const YAML::Node & root)
+void load_solver(SolverConfig & out, const YAML::Node & root, const std::string & lens)
 {
   const auto data = camera_intri_data_node(root);
-  if (!data) return;
-  load_camera_intri_required(out.focal_length, out.principal_point, data);
-  if (data["disto_param"]) {
-    out.disto_param = data["disto_param"].as<std::vector<double>>();
+  if (!data) {
+    utils::logger()->error(
+      "[AppConfig] CalibParam.INTRI.Camera[0].value.ptr_wrapper.data missing "
+      "(camera.lens='{}')",
+      lens);
+    std::exit(1);
   }
-}
 
-void load_solver(SolverConfig & out, const YAML::Node & root)
-{
-  load_pnp(out.pnp, root);
-  load_coord_converter(out.coord_converter, root);
-  load_yaw_optimizer(out.yaw_optimizer, root);
+  const auto profiles = data["profiles"];
+  if (!profiles) {
+    utils::logger()->error(
+      "[AppConfig] CalibParam.INTRI.Camera[0].value.ptr_wrapper.data.profiles missing "
+      "(camera.lens='{}')",
+      lens);
+    std::exit(1);
+  }
+
+  const auto selected_profile = profiles[lens];
+  if (!selected_profile) {
+    utils::logger()->error(
+      "[AppConfig] CalibParam.INTRI.Camera[0].value.ptr_wrapper.data.profiles['{}'] missing",
+      lens);
+    std::exit(1);
+  }
+
+  load_camera_intri(out.camera_intri, selected_profile);
+  load_coord_converter_non_intri(out.coord_converter, root);
 }
 
 // ---------------------------------------------------------------------------------
@@ -478,7 +468,7 @@ AppConfig AppConfig::load(const std::string & yaml_path)
 
   load_camera(cfg.camera, root);
   load_detector(cfg.detector, root);
-  load_solver(cfg.solver, root);
+  load_solver(cfg.solver, root, cfg.camera.lens);
   load_tracker(cfg.tracker, root);
   load_planner(cfg.planner, root);
   load_aim_planner(cfg.aim_planner, root);

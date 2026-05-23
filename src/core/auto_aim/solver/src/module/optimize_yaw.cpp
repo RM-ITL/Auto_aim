@@ -8,7 +8,7 @@
 
 namespace solver {
 
-YawOptimizer::YawOptimizer(const app_config::YawOptimizerConfig & config, CoordConverter* CoordConverter_)
+YawOptimizer::YawOptimizer(const app_config::CameraIntriConfig & config, CoordConverter* CoordConverter_)
     : CoordConverter_(CoordConverter_),
       camera_matrix_(),
       dist_coeffs_(),
@@ -17,7 +17,7 @@ YawOptimizer::YawOptimizer(const app_config::YawOptimizerConfig & config, CoordC
       last_optimization_error_(0.0),
       last_optimized_yaw_(0.0) {
 
-    // 字段从 SubConfig 注入（与 PnPSolver 同一份内参三字段，1.C 保留独立 SubConfig）。
+    // 内参从 SolverConfig.camera_intri 注入（与 PnPSolver / CoordConverter 同一份来源）。
     const auto & focal_length = config.focal_length;
     const auto & principal_point = config.principal_point;
     if (focal_length.size() < 2 || principal_point.size() < 2) {
