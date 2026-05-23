@@ -81,17 +81,20 @@ yolo:
 
 # 传统方法识别参数：
 # 参数解析
-classify_model: "src/model/tiny_resnet.onnx"
-threshold: 150  # 固定阈值二值化的阈值
-max_angle_error: 45 # degree，灯条最大角度误差
-min_lightbar_ratio: 1.5 # 灯条最小宽高比
-max_lightbar_ratio: 20  # 灯条最大宽高比
-min_lightbar_length: 8  # 灯条的最小长度像素
-min_armor_ratio: 1      # 装甲板最小宽高比
-max_armor_ratio: 5      # 装甲板的最大宽高比
-max_side_ratio: 1.5     # 左右灯条的长度比上限
-max_rectangular_error: 20 # degree，最大灯条的长度比上限
-min_confidence: 0.8     # 分类器的最小置信度
+Traditional_Detector:
+  threshold: 150  # 固定阈值二值化的阈值
+  max_angle_error: 45 # degree，灯条最大角度误差
+  min_lightbar_ratio: 1.5 # 灯条最小宽高比
+  max_lightbar_ratio: 20  # 灯条最大宽高比
+  min_lightbar_length: 8  # 灯条的最小长度像素
+  min_armor_ratio: 1      # 装甲板最小宽高比
+  max_armor_ratio: 5      # 装甲板的最大宽高比
+  max_side_ratio: 1.5     # 左右灯条的长度比上限
+  max_rectangular_error: 20 # degree，最大灯条的长度比上限
+
+Classifier:
+  classify_model: "src/model/tiny_resnet.onnx"
+  min_confidence: 0.8     # 分类器的最小置信度
 
 
 # DM_IMU相关配置
@@ -118,22 +121,21 @@ DM_IMU:
 Solver:
   coord_converter:  # 坐标变换所需参数
     rotation_matrix_camera_to_gimbal:
-      data: [0.1224, -0.0542, 0.9904,
-            -0.9923, 0.0105, 0.1233,
-            -0.0184, -0.9979, -0.0624]
+      data: [0, 0, 1,
+            -1, 0, 0,
+            0, -1, 0]
             
     rotation_matrix_gimbal_to_imu:
       data: [0, 1, 0,
             -1, 0, 0,
             0, 0, 1]
-# 陀螺仪与相机放置在同一位置
-# - x: 相机相对云台在前后方向的偏移
-# - y: 相机相对云台在左右方向的偏移
-# - z: 相机相对云台在上下方向的偏移
-
-t_camera_to_gimbal:
-[0.1519, 0.0756, 0.0222]
-# [0.115, -0.065, 0.015]cm
+    # 陀螺仪与相机放置在同一位置
+    # - x: 相机相对云台在前后方向的偏移
+    # - y: 相机相对云台在左右方向的偏移
+    # - z: 相机相对云台在上下方向的偏移
+    t_camera_to_gimbal:
+      [0.1519, 0.0756, 0.0222]
+    # [0.115, -0.065, 0.015]cm
 
 
 # Tracker参数
@@ -187,10 +189,10 @@ Planner:
   Q_yaw: [9e6, 0] # 状态权重矩阵Q的对角线元素：[位置权重, 速度权重]。
   # 9e6的高位置权重意味着强调精确跟踪目标角度，速度权重为0表示不惩罚速度偏差 
   R_yaw: [1]
-  max_pitch_acc: 50  # 最大pitch加速度上限
+  max_pitch_acc: 20  # 最大pitch加速度上限
   Q_pitch: [9e6, 0]
   R_pitch: [1]
-  yaw_offset: 1.7 # degree，相机光心与枪管中心的yaw偏差
+  yaw_offset: 2.2 # degree，相机光心与枪管中心的yaw偏差
   pitch_offset: 1.9 # degree，pitch相对枪管的中心补偿参数
   decision_speed: 7 # rad/s， 高低速的判断阈值，大于此值的为高速目标
   high_speed_delay_time: 0.1 # s，高速目标的额外时间补偿

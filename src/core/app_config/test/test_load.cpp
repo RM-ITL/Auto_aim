@@ -72,9 +72,9 @@ void dump(const app_config::AppConfig & c)
     std::cout << "  traditional.threshold        = " << c.detector.traditional.threshold << "\n"
               << "  traditional.max_angle_error  = " << c.detector.traditional.max_angle_error
               << " deg\n"
-              << "  traditional.min_confidence   = " << c.detector.traditional.min_confidence
-              << "\n"
               << "  classifier.classify_model    = " << c.detector.classifier.classify_model
+              << "\n"
+              << "  classifier.min_confidence    = " << c.detector.classifier.min_confidence
               << "\n";
   } else if (c.detector.yolo_name == "yolo11") {
     std::cout << "  yolo11.model_path = " << c.detector.yolo11.yolo11_model_path << "\n"

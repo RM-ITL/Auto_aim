@@ -98,14 +98,15 @@ struct DetectorYOLO11Config
   std::string enemy_color = "red";   // 条件读取；YOLOV5Detector 不读此字段
 };
 
-// 来源：yaml 顶层（threshold / max_angle_error / min_lightbar_* 等都是 root 字段）
+// 来源：yaml["Traditional_Detector"]
 // 使用：armor_auto_aim::Traditional_Detector 构造（同时由 YOLOV5Detector 内嵌使用）
 //
+// 注意：分类器输出过滤阈值 min_confidence 已迁到 ClassifierConfig，本段不再持有。
 // 注意单位换算：max_angle_error / max_rectangular_error 在 yaml 是 deg，
 //   模块构造时除 57.3 转 rad。SubConfig 保留 yaml 字面 deg 值。
 struct DetectorTraditionalConfig
 {
-  double threshold{};                // required（root yaml["threshold"]，int→double）
+  double threshold{};                // required（yaml["Traditional_Detector"]["threshold"]，int→double）
   double max_angle_error{};          // required（deg, 模块 / 57.3）
   double min_lightbar_ratio{};       // required
   double max_lightbar_ratio{};       // required
@@ -113,20 +114,23 @@ struct DetectorTraditionalConfig
   double min_armor_ratio{};          // required
   double max_armor_ratio{};          // required
   double max_side_ratio{};           // required
-  double min_confidence{};           // required（root；与 yolo.min_confidence 同名不同语义）
   double max_rectangular_error{};    // required（deg, 模块 / 57.3）
 };
 
-// 来源：yaml 顶层 classify_model 字段
+// 来源：yaml["Classifier"]
 // 使用：armor_auto_aim::Classifier 构造（由 Traditional_Detector 内嵌使用）
+//      min_confidence 消费点在 Traditional_Detector::check_name()
 //
+// 注意：Classifier 类自身只输出 armor.confidence，不执行 min_confidence 过滤；
+//       过滤仍发生在 Traditional_Detector::check_name()。
 // 注意：classifier 内部 openvino 推理设备硬编码 "AUTO"，非 yaml 字段。
 struct ClassifierConfig
 {
-  std::string classify_model{};      // required（root yaml["classify_model"]）
+  std::string classify_model{};      // required（yaml["Classifier"]["classify_model"]）
+  double min_confidence{};           // required（yaml["Classifier"]["min_confidence"]）
 };
 
-// 来源：yaml["yolo"]["yolo_name"] + yaml["yolo"] / 根 / classify_model
+// 来源：yaml["yolo"]["yolo_name"] + yaml["yolo"] / yaml["Traditional_Detector"] / yaml["Classifier"]
 // 使用：armor_auto_aim::Detector 外壳根据 yolo_name 选 yolov5 / yolo11
 struct DetectorConfig
 {
@@ -154,7 +158,7 @@ struct PnPSolverConfig
 };
 
 // 来源：同 PnPSolverConfig 三字段 + yaml["Solver"]["coord_converter"]["rotation_matrix_*"]
-//       + 顶层 yaml["t_camera_to_gimbal"]（注意：在 yaml root，不在 Solver 段下）
+//       + yaml["Solver"]["coord_converter"]["t_camera_to_gimbal"]
 // 使用：solver::CoordConverter 构造
 //
 // 注意：disto_param 在 CoordConverter 中无 IsDefined 守卫（与 PnPSolver / YawOptimizer
@@ -167,7 +171,7 @@ struct CoordConverterConfig
   std::vector<double> disto_param{};                           // 条件读（at-load 守卫）
   std::vector<double> rotation_matrix_camera_to_gimbal{};      // 条件读，缺则 identity
   std::vector<double> rotation_matrix_gimbal_to_imu{};         // 条件读，缺则 identity
-  std::vector<double> t_camera_to_gimbal{};                    // 条件读（root），缺则 zero
+  std::vector<double> t_camera_to_gimbal{};                    // 条件读（Solver.coord_converter），缺则 zero
 };
 
 // 来源：同 PnPSolverConfig 三字段

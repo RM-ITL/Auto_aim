@@ -9,7 +9,7 @@
 //   - required 字段：utils::read<T>(node, key) 无默认重载，缺崩 exit(1)
 //   - 可选字段：utils::read<T>(node, key, default) 三参数重载
 //   - 整组可缺嵌套段：IsDefined 守卫
-//   - 条件读取（CalibParam / Solver.coord_converter / t_camera_to_gimbal 等）：
+//   - 条件读取（CalibParam / Solver.coord_converter 下 rotation_matrix_* / t_camera_to_gimbal 等）：
 //     与原模块相同的 if(node[key]) 守卫
 //
 // 不在 AppConfig::load 内部打模块级启动日志（[Gimbal]/[Planner]/... 这些日志
@@ -119,24 +119,24 @@ void load_detector_yolo11(DetectorYOLO11Config & out, const YAML::Node & yolo_ya
   }
 }
 
-void load_detector_traditional(DetectorTraditionalConfig & out, const YAML::Node & root)
+void load_detector_traditional(DetectorTraditionalConfig & out, const YAML::Node & traditional_yaml)
 {
-  // Traditional_Detector 全部从 root 读（非嵌套），与 detector.cpp:13 一致。
-  out.threshold = root["threshold"].as<double>();
-  out.max_angle_error = root["max_angle_error"].as<double>();
-  out.min_lightbar_ratio = root["min_lightbar_ratio"].as<double>();
-  out.max_lightbar_ratio = root["max_lightbar_ratio"].as<double>();
-  out.min_lightbar_length = root["min_lightbar_length"].as<double>();
-  out.min_armor_ratio = root["min_armor_ratio"].as<double>();
-  out.max_armor_ratio = root["max_armor_ratio"].as<double>();
-  out.max_side_ratio = root["max_side_ratio"].as<double>();
-  out.min_confidence = root["min_confidence"].as<double>();
-  out.max_rectangular_error = root["max_rectangular_error"].as<double>();
+  // Traditional_Detector 9 个几何字段 required；缺段/缺字段保持裸读失败。
+  out.threshold = traditional_yaml["threshold"].as<double>();
+  out.max_angle_error = traditional_yaml["max_angle_error"].as<double>();
+  out.min_lightbar_ratio = traditional_yaml["min_lightbar_ratio"].as<double>();
+  out.max_lightbar_ratio = traditional_yaml["max_lightbar_ratio"].as<double>();
+  out.min_lightbar_length = traditional_yaml["min_lightbar_length"].as<double>();
+  out.min_armor_ratio = traditional_yaml["min_armor_ratio"].as<double>();
+  out.max_armor_ratio = traditional_yaml["max_armor_ratio"].as<double>();
+  out.max_side_ratio = traditional_yaml["max_side_ratio"].as<double>();
+  out.max_rectangular_error = traditional_yaml["max_rectangular_error"].as<double>();
 }
 
-void load_classifier(ClassifierConfig & out, const YAML::Node & root)
+void load_classifier(ClassifierConfig & out, const YAML::Node & classifier_yaml)
 {
-  out.classify_model = root["classify_model"].as<std::string>();
+  out.classify_model = classifier_yaml["classify_model"].as<std::string>();
+  out.min_confidence = classifier_yaml["min_confidence"].as<double>();
 }
 
 void load_detector(DetectorConfig & out, const YAML::Node & root)
@@ -150,8 +150,8 @@ void load_detector(DetectorConfig & out, const YAML::Node & root)
   if (out.yolo_name == "yolov5" && root["yolo"]) {
     load_detector_yolov5(out.yolov5, root["yolo"]);
     // YOLOv5 内部 new Traditional_Detector + Classifier，所以这两段也必须填。
-    load_detector_traditional(out.traditional, root);
-    load_classifier(out.classifier, root);
+    load_detector_traditional(out.traditional, root["Traditional_Detector"]);
+    load_classifier(out.classifier, root["Classifier"]);
   } else if (out.yolo_name == "yolo11" && root["yolo"]) {
     load_detector_yolo11(out.yolo11, root["yolo"]);
     // YOLO11 不嵌套 Traditional/Classifier，但 SubConfig 仍预留默认值。
@@ -203,8 +203,9 @@ void load_coord_converter(CoordConverterConfig & out, const YAML::Node & root)
     }
   }
 
-  // rotation_matrix_camera_to_gimbal / _gimbal_to_imu：在 Solver.coord_converter 守卫下读。
-  // 守卫内若 .data 字段缺会抛——保持与 coord_converter.cpp:326 行为：守卫存在但内部裸读。
+  // rotation_matrix_camera_to_gimbal / _gimbal_to_imu / t_camera_to_gimbal：
+  // 在 Solver.coord_converter 守卫下读。
+  // rotation_matrix_* 守卫内若 .data 字段缺会抛——保持与 coord_converter.cpp:326 行为：守卫存在但内部裸读。
   // SubConfig 加载阶段统一为 IsDefined 守卫（保护性更高），消费侧若需"裸抛"语义自行判断。
   if (root["Solver"] && root["Solver"]["coord_converter"]) {
     const auto cc = root["Solver"]["coord_converter"];
@@ -218,11 +219,9 @@ void load_coord_converter(CoordConverterConfig & out, const YAML::Node & root)
       out.rotation_matrix_gimbal_to_imu =
         cc["rotation_matrix_gimbal_to_imu"]["data"].as<std::vector<double>>();
     }
-  }
-
-  // t_camera_to_gimbal 在 yaml root（不在 Solver 下）。
-  if (root["t_camera_to_gimbal"]) {
-    out.t_camera_to_gimbal = root["t_camera_to_gimbal"].as<std::vector<double>>();
+    if (cc["t_camera_to_gimbal"]) {
+      out.t_camera_to_gimbal = cc["t_camera_to_gimbal"].as<std::vector<double>>();
+    }
   }
 }
 

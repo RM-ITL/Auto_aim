@@ -23,7 +23,7 @@ Traditional_Detector::Traditional_Detector(
   min_armor_ratio_ = config.min_armor_ratio;
   max_armor_ratio_ = config.max_armor_ratio;
   max_side_ratio_ = config.max_side_ratio;
-  min_confidence_ = config.min_confidence;
+  min_confidence_ = classifier_config.min_confidence;
   max_rectangular_error_ = config.max_rectangular_error / 57.3;  // degree to rad
 
   utils::logger()->info("[Traditional_Detector] threshold             = {:.3f}", threshold_);
@@ -43,7 +43,7 @@ Traditional_Detector::Traditional_Detector(
   utils::logger()->info(
     "[Traditional_Detector] max_side_ratio        = {:.3f}", max_side_ratio_);
   utils::logger()->info(
-    "[Traditional_Detector] min_confidence        = {:.3f}", min_confidence_);
+    "[Traditional_Detector] classifier_min_confidence = {:.3f}", min_confidence_);
   utils::logger()->info(
     "[Traditional_Detector] max_rectangular_error = {:.3f} deg ({:.6f} rad)",
     max_rectangular_error_ * 57.3, max_rectangular_error_);

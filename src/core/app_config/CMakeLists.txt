@@ -56,7 +56,38 @@ if(BUILD_TESTING)
     utils::utils
     fmt::fmt
   )
+
+  add_executable(test_phase1_coord_converter test/test_phase1_coord_converter.cpp)
+  target_link_libraries(test_phase1_coord_converter
+    ${PROJECT_NAME}
+    utils::utils
+    fmt::fmt
+  )
+
+  add_executable(test_phase2_classifier_config test/test_phase2_classifier_config.cpp)
+  target_link_libraries(test_phase2_classifier_config
+    ${PROJECT_NAME}
+    utils::utils
+    fmt::fmt
+  )
+
+  add_executable(test_phase3_traditional_detector_config test/test_phase3_traditional_detector_config.cpp)
+  target_link_libraries(test_phase3_traditional_detector_config
+    ${PROJECT_NAME}
+    utils::utils
+    fmt::fmt
+  )
+
   install(TARGETS test_load
+    RUNTIME DESTINATION lib/${PROJECT_NAME}
+  )
+  install(TARGETS test_phase1_coord_converter
+    RUNTIME DESTINATION lib/${PROJECT_NAME}
+  )
+  install(TARGETS test_phase2_classifier_config
+    RUNTIME DESTINATION lib/${PROJECT_NAME}
+  )
+  install(TARGETS test_phase3_traditional_detector_config
     RUNTIME DESTINATION lib/${PROJECT_NAME}
   )
 endif()
