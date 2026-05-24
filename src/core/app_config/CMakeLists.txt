@@ -22,6 +22,7 @@ find_package(utils REQUIRED)
 # ====================================================================================
 add_library(${PROJECT_NAME} STATIC
   src/app_config.cpp
+  src/validator.cpp
 )
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
@@ -92,6 +93,14 @@ if(BUILD_TESTING)
     fmt::fmt
   )
 
+  add_executable(test_phase1_validator test/test_phase1_validator.cpp)
+  target_link_libraries(test_phase1_validator
+    ${PROJECT_NAME}
+    utils::utils
+    fmt::fmt
+    yaml-cpp
+  )
+
   install(TARGETS test_load
     RUNTIME DESTINATION lib/${PROJECT_NAME}
   )
@@ -108,6 +117,9 @@ if(BUILD_TESTING)
     RUNTIME DESTINATION lib/${PROJECT_NAME}
   )
   install(TARGETS test_phase2_camera_intri_single_source
+    RUNTIME DESTINATION lib/${PROJECT_NAME}
+  )
+  install(TARGETS test_phase1_validator
     RUNTIME DESTINATION lib/${PROJECT_NAME}
   )
 endif()

@@ -17,6 +17,7 @@
 // AppConfig 级别的加载诊断（来源文件路径 / 大小 / mtime）。
 // ===================================================================================
 #include "app_config/app_config.hpp"
+#include "app_config/validator.hpp"
 
 #include <algorithm>
 #include <cstdlib>
@@ -483,6 +484,7 @@ AppConfig AppConfig::load(const std::string & yaml_path)
   load_light_aimer(cfg.light_aimer, root);
   load_video(cfg.video, root);
 
+  validate(cfg, root);
   utils::logger()->info("[AppConfig] loaded successfully");
   return cfg;
 }
