@@ -2,14 +2,15 @@
 
 #include "logger.hpp"
 #include "math_tools.hpp"
-#include "yaml.hpp"
 
 namespace io
 {
-Dart::Dart(const std::string & config_path)
+Dart::Dart(const app_config::DartConfig & config)
 {
-  auto yaml = utils::load(config_path);
-  auto com_port = utils::read<std::string>(yaml, "com_port");
+  const std::string & com_port = config.com_port;
+
+  utils::logger()->info("[Dart] com_port                = {}", com_port);
+  utils::logger()->info("[Dart] baud                    = 115200 (HARDCODED)");
 
   try {
     serial_.setPort(com_port);
@@ -17,7 +18,7 @@ Dart::Dart(const std::string & config_path)
     serial_.setBaudrate(115200);
   } catch (const std::exception & e) {
     utils::logger()->error("[Dart] Failed to open serial: {}", e.what());
-    exit(1);
+    throw;
   }
 
   thread_ = std::thread(&Dart::read_thread, this);

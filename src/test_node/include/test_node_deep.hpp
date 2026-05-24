@@ -16,6 +16,7 @@
 
 #include <rclcpp/rclcpp.hpp>
 
+#include "app_config/app_config.hpp"
 #include "camera.hpp"
 #include "imu_driver.h"
 #include "detect_node.hpp"
@@ -48,7 +49,7 @@ struct DebugPacket
 class PipelineApp
 {
 public:
-  explicit PipelineApp(const std::string & config_path);
+  explicit PipelineApp(const app_config::AppConfig & app_config);
   ~PipelineApp();
 
   int run();
@@ -62,7 +63,9 @@ private:
 
 
   // 组件与配置
-  std::string config_path_;
+  enum class ImuSource { Gimbal, DmImu };
+  ImuSource imu_source_{ImuSource::Gimbal};
+  std::string imu_source_name_;
   std::unique_ptr<camera::Camera> camera_;
   std::unique_ptr<io::DmImu> dm_imu_;
   std::unique_ptr<armor_auto_aim::Detector> detector_;
@@ -109,6 +112,12 @@ private:
     double pitch_offset;
   };
   std::deque<OffsetSample> offset_window_;
+
+  // 从上一帧 GimbalState 速度和时间戳差分估算云台实际加速度。
+  float last_gs_yaw_vel_{0.0f};
+  float last_gs_pitch_vel_{0.0f};
+  std::chrono::steady_clock::time_point last_gs_time_;
+  bool gs_initialized_{false};
 };
 
 }  // namespace pipeline

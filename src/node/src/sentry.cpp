@@ -3,6 +3,7 @@
 #include <csignal>
 #include <algorithm>
 #include <cmath>
+#include <exception>
 #include <filesystem>
 #include <iostream>
 #include <iomanip>
@@ -17,6 +18,7 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/core/utility.hpp>
 
+#include "app_config/app_config.hpp"
 #include "logger.hpp"
 #include "draw_tools.hpp"
 
@@ -25,7 +27,6 @@ namespace Application
 namespace
 {
 std::atomic<bool> g_stop_requested{false};
-PipelineApp* g_app_instance{nullptr};
 
 SentryRunMode parse_run_mode(const std::string & value)
 {
@@ -41,16 +42,20 @@ SentryRunMode parse_run_mode(const std::string & value)
 void handle_signal(int)
 {
   g_stop_requested.store(true);
-  if (g_app_instance) {
-    g_app_instance->request_stop();
-  }
+}
+
+void log_app_config(const std::string & prefix, const app_config::AppConfig & app_config)
+{
+  utils::logger()->info("[{}] config.absolute_path = {}", prefix, app_config.source_path);
+  utils::logger()->info("[{}] config.file_size     = {} bytes", prefix, app_config.source_file_size);
+  utils::logger()->info(
+    "[{}] config.last_write_time_raw = {}", prefix, app_config.source_last_write_raw);
 }
 
 }  // namespace
 
-PipelineApp::PipelineApp(const std::string & config_path)
-: config_path_(config_path),
-  start_time_(std::chrono::steady_clock::now()),
+PipelineApp::PipelineApp(const app_config::AppConfig & app_config)
+: start_time_(std::chrono::steady_clock::now()),
   last_delay_log_time_(std::chrono::steady_clock::now()),
   last_state_wait_log_time_(std::chrono::steady_clock::now())
 {
@@ -59,6 +64,7 @@ PipelineApp::PipelineApp(const std::string & config_path)
   run_mode_ = parse_run_mode(run_mode_name_);
   enable_visualization_ = ros_node_->declare_parameter<bool>(
     "enable_visualization", run_mode_ == SentryRunMode::Direct);
+  log_app_config("Pipeline", app_config);
 
   // Debug Topics
   debug_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Debug>(
@@ -68,16 +74,16 @@ PipelineApp::PipelineApp(const std::string & config_path)
   target_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Outpost>(
     "target", rclcpp::QoS(10));
 
-  camera_ = std::make_unique<camera::Camera>(config_path_);
-  detector_ = std::make_unique<armor_auto_aim::Detector>(config_path_);
-  solver_ = std::make_unique<solver::Solver>(config_path_);
+  camera_ = std::make_unique<camera::Camera>(app_config.camera);
+  detector_ = std::make_unique<armor_auto_aim::Detector>(app_config.detector);
+  solver_ = std::make_unique<solver::Solver>(app_config.solver);
   yaw_optimizer_ = solver_->getYawOptimizer();
-  tracker_ = std::make_unique<tracker::Tracker>(config_path_, *solver_);
-  planner_ = std::make_unique<plan::Planner>(config_path_);
-  shooter_ = std::make_unique<shooter::Shooter>(config_path_);
+  tracker_ = std::make_unique<tracker::Tracker>(app_config.tracker, *solver_);
+  planner_ = std::make_unique<plan::Planner>(app_config.planner);
+  shooter_ = std::make_unique<shooter::Shooter>(app_config.shooter);
 
   if (run_mode_ == SentryRunMode::Direct) {
-    sentry_ = std::make_unique<io::Sentry>(config_path_);
+    sentry_ = std::make_unique<io::Sentry>(app_config.sentry);
   } else {
     gimbal_cmd_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::GimbalCmd>(
       "/gimbal/cmd", rclcpp::QoS(10));
@@ -98,12 +104,10 @@ PipelineApp::PipelineApp(const std::string & config_path)
 
   utils::logger()->info(
     "[Pipeline] 模块初始化完成，运行模式: {}", run_mode_name_);
-  g_app_instance = this;
 }
 
 PipelineApp::~PipelineApp()
 {
-  g_app_instance = nullptr;
   request_stop();
   join_threads();
 }
@@ -392,6 +396,21 @@ void PipelineApp::planner_loop()
         fire_rate = static_cast<float>(fire_count) / static_cast<float>(fire_window_.size());
       }
 
+      auto now = std::chrono::steady_clock::now();
+      float yaw_acc_gimbal = 0.0f;
+      float pitch_acc_gimbal = 0.0f;
+      if (gs_initialized_) {
+        auto dt = std::chrono::duration<float>(now - last_gs_time_).count();
+        if (dt > 0.001f) {
+          yaw_acc_gimbal = (gs.yaw_vel - last_gs_yaw_vel_) / dt;
+          pitch_acc_gimbal = (gs.pitch_vel - last_gs_pitch_vel_) / dt;
+        }
+      }
+      last_gs_yaw_vel_ = gs.yaw_vel;
+      last_gs_pitch_vel_ = gs.pitch_vel;
+      last_gs_time_ = now;
+      gs_initialized_ = true;
+
       auto msg = autoaim_msgs::msg::Debug{};
       msg.enable_control = safe;
       msg.fire = fire;
@@ -404,6 +423,13 @@ void PipelineApp::planner_loop()
       msg.pitch_gimbal = gs.pitch;
       msg.bullet_speed = gs.bullet_speed;
       msg.yaw_vel = send_yaw_vel;
+      msg.pitch_vel = safe ? static_cast<float>(plan_result.pitch_vel) : 0.0f;
+      msg.yaw_acc = safe ? static_cast<float>(plan_result.yaw_acc) : 0.0f;
+      msg.pitch_acc = safe ? static_cast<float>(plan_result.pitch_acc) : 0.0f;
+      msg.yaw_vel_gimbal = gs.yaw_vel;
+      msg.pitch_vel_gimbal = gs.pitch_vel;
+      msg.yaw_acc_gimbal = yaw_acc_gimbal;
+      msg.pitch_acc_gimbal = pitch_acc_gimbal;
       debug_pub_->publish(msg);
     }
 
@@ -529,7 +555,7 @@ int main(int argc, char ** argv)
   std::signal(SIGINT, Application::handle_signal);
 
   try {
-    Application::PipelineApp app(config_path);
+    Application::PipelineApp app(app_config::AppConfig::load(config_path));
     int ret = app.run();
     rclcpp::shutdown();
     return ret;

@@ -2,23 +2,9 @@
 #define ARMOR_UTILS_HPP
 
 #include <opencv2/opencv.hpp>
-#include <yaml-cpp/yaml.h>
 #include <string>
-#include <filesystem>
 
 namespace utils {
-
-// 加载配置文件
-inline YAML::Node load_config(const std::string& config_path = "") {
-    std::string path = config_path;
-
-    
-    if (!std::filesystem::exists(path)) {
-        throw std::runtime_error("Config file not found: " + path);
-    }
-    
-    return YAML::LoadFile(path);
-}
 
 // 根据类名生成颜色
 inline cv::Scalar name_to_color(const std::string& name) {

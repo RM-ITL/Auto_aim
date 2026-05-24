@@ -10,6 +10,7 @@
 #include <opencv2/opencv.hpp>
 
 #include "MvCameraControl.h"
+#include "app_config/app_config.hpp"
 #include "performance_monitor.hpp"
 #include "thread_safe_queue.hpp"
 
@@ -25,7 +26,7 @@ struct CameraData
 class HikCamera
 {
 public:
-  explicit HikCamera(const std::string & config_path);
+  explicit HikCamera(const app_config::CameraHikConfig & config);
   ~HikCamera();
 
   HikCamera(const HikCamera &) = delete;
@@ -43,9 +44,6 @@ private:
   void set_camera_parameters();
   cv::Mat convert_bayer(const cv::Mat & raw, unsigned int type);
   void reset_usb() const;
-  bool load_config(const std::string & config_path);
-
-  std::string config_path_;
 
   void * camera_handle_ = nullptr;
   unsigned int payload_size_ = 0;

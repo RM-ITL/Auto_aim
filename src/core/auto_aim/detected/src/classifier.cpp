@@ -1,7 +1,8 @@
 #include "classifier.hpp"
 
-#include <yaml-cpp/yaml.h>
 #include <array>
+
+#include "logger.hpp"
 
 namespace armor_auto_aim
 {
@@ -21,10 +22,11 @@ const std::array<ArmorName, 9> LABEL_TO_NAME = {
 };
 
 
-Classifier::Classifier(const std::string & config_path)
+Classifier::Classifier(const app_config::ClassifierConfig & config)
 {
-  auto yaml = YAML::LoadFile(config_path);
-  auto model = yaml["classify_model"].as<std::string>();
+  const std::string & model = config.classify_model;
+  utils::logger()->info("[Classifier] classify_model = {}", model);
+  utils::logger()->info("[Classifier] openvino.device = AUTO (HARDCODED)");
   net_ = cv::dnn::readNetFromONNX(model);
   auto ovmodel = core_.read_model(model);
   compiled_model_ = core_.compile_model(

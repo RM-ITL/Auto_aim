@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 
+#include "app_config/app_config.hpp"
 #include "light_model.hpp"
 #include "openvino_infer.hpp"
 
@@ -17,7 +18,7 @@ namespace auto_base
 class LightTracker
 {
 public:
-  explicit LightTracker(const std::string & config_path);
+  explicit LightTracker(const app_config::LightTrackerConfig & config);
 
   std::list<LightTarget*> track(
     const std::vector<OpenvinoInfer::GreenLight> & detections,

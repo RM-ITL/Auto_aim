@@ -7,6 +7,7 @@
 #include <Eigen/Dense>
 #include <opencv2/core/eigen.hpp>
 #include <string>
+#include "app_config/app_config.hpp"
 #include "solver.hpp"
 #include "math_tools.hpp"
 #include "logger.hpp"
@@ -19,7 +20,8 @@ using ArmorName = armor_auto_aim::ArmorName;
 
 class CoordConverter {
 public:
-    explicit CoordConverter(const std::string& yaml_config_path);
+    CoordConverter(const app_config::CameraIntriConfig & intri,
+                   const app_config::CoordConverterConfig & config);
     
     void updateIMU(const Eigen::Quaterniond& q_absolute, double timestamp);
     void updateIMU(double yaw, double pitch, double timestamp);
@@ -48,8 +50,7 @@ public:
 
 private:
     // void initializeWorldFrame();
-    bool loadCalibrationFromYAML(const std::string& yaml_path);
-    
+
 
     Eigen::Vector3d cameraToGimbal(const Eigen::Vector3d& point_camera) const;
     Eigen::Vector3d cameraToWorld(const Eigen::Vector3d& point_camera) const;

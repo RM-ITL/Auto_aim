@@ -8,6 +8,7 @@
 
 #include <opencv2/opencv.hpp>
 
+#include "app_config/app_config.hpp"
 #include "hikcamera.hpp"
 #ifdef HAS_MINDVISION
 #include "mindvision.hpp"
@@ -19,7 +20,7 @@ namespace camera
 class Camera
 {
 public:
-  explicit Camera(const std::string & config_path);
+  explicit Camera(const app_config::CameraConfig & config);
   ~Camera() = default;
 
   Camera(const Camera &) = delete;
@@ -33,9 +34,6 @@ public:
   const std::string & camera_type() const { return camera_type_; }
 
 private:
-  bool load_config(const std::string & config_path);
-
-  std::string config_path_;
   std::string camera_type_;
 
 #ifdef HAS_MINDVISION

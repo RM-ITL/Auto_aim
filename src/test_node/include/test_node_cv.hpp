@@ -15,6 +15,7 @@
 
 #include <rclcpp/rclcpp.hpp>
 
+#include "app_config/app_config.hpp"
 #include "camera.hpp"
 #include "imu_driver.h"
 #include "detector.hpp"
@@ -43,7 +44,7 @@ struct DebugPacket
 class PipelineApp
 {
 public:
-  explicit PipelineApp(const std::string & config_path);
+  explicit PipelineApp(const app_config::AppConfig & app_config);
   ~PipelineApp();
 
   int run();
@@ -57,7 +58,9 @@ private:
 
 
   // 组件与配置
-  std::string config_path_;
+  enum class ImuSource { Gimbal, DmImu };
+  ImuSource imu_source_{ImuSource::Gimbal};
+  std::string imu_source_name_;
   std::unique_ptr<camera::Camera> camera_;
   std::unique_ptr<io::DmImu> dm_imu_;
   std::unique_ptr<armor_auto_aim::Traditional_Detector> detector_;  // 使用传统检测器
@@ -83,6 +86,11 @@ private:
 
   std::chrono::steady_clock::time_point start_time_;
   const double bullet_speed_{22.0};
+
+  float last_gs_yaw_vel_{0.0f};
+  float last_gs_pitch_vel_{0.0f};
+  std::chrono::steady_clock::time_point last_gs_time_;
+  bool gs_initialized_{false};
 };
 
 }  // namespace Application

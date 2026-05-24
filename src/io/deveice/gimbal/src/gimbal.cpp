@@ -2,29 +2,28 @@
 
 #include "logger.hpp"
 #include "math_tools.hpp"
-#include "yaml.hpp"
 
 namespace io
 {
-Gimbal::Gimbal(const std::string & config_path)
+Gimbal::Gimbal(const app_config::GimbalConfig & config)
 {
-  auto yaml = utils::load(config_path);
-  auto com_port = utils::read<std::string>(yaml, "com_port");
+  const std::string & com_port = config.com_port;
 
-  // 读取IMU外参标定四元数（注意：q_calib是顶级节点，在Gimbal同级）
-  auto q_calib_node = yaml["q_calib"];
-  if (q_calib_node) {
-    double qx = q_calib_node["x"].as<double>();
-    double qy = q_calib_node["y"].as<double>();
-    double qz = q_calib_node["z"].as<double>();
-    double qw = q_calib_node["w"].as<double>();
-    q_calib_ = Eigen::Quaterniond(qw, qx, qy, qz).normalized();
-    utils::logger()->info("[Gimbal] Loaded q_calib: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
-                          q_calib_.w(), q_calib_.x(), q_calib_.y(), q_calib_.z());
+  utils::logger()->info("[Gimbal] com_port              = {}", com_port);
+  utils::logger()->info("[Gimbal] baud                  = 115200 (HARDCODED)");
+
+  // q_calib: SubConfig 为 std::optional<Eigen::Quaterniond>；缺则保留 nullopt，
+  // 与原 if (q_calib_node) 分支等价。
+  if (config.q_calib) {
+    q_calib_ = config.q_calib->normalized();
+    utils::logger()->info("[Gimbal] q_calib.w             = {:.6f}", q_calib_.w());
+    utils::logger()->info("[Gimbal] q_calib.x             = {:.6f}", q_calib_.x());
+    utils::logger()->info("[Gimbal] q_calib.y             = {:.6f}", q_calib_.y());
+    utils::logger()->info("[Gimbal] q_calib.z             = {:.6f}", q_calib_.z());
   } else {
     // 默认单位四元数（不校正）
     q_calib_ = Eigen::Quaterniond::Identity();
-    utils::logger()->warn("[Gimbal] q_calib not found, using identity quaternion.");
+    utils::logger()->warn("[Gimbal] q_calib               = identity (missing q_calib)");
   }
 
   try {
@@ -35,7 +34,7 @@ Gimbal::Gimbal(const std::string & config_path)
     serial_.setBaudrate(115200);
   } catch (const std::exception & e) {
     utils::logger()->error("[Gimbal] Failed to open serial: {}", e.what());
-    exit(1);
+    throw;
   }
 
   thread_ = std::thread(&Gimbal::read_thread, this);

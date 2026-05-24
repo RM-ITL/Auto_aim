@@ -5,6 +5,7 @@
 #include <openvino/openvino.hpp>
 #include <string>
 
+#include "app_config/app_config.hpp"
 #include "armor.hpp"
 
 namespace armor_auto_aim
@@ -12,7 +13,7 @@ namespace armor_auto_aim
 class Classifier
 {
 public:
-  explicit Classifier(const std::string & config_path);
+  explicit Classifier(const app_config::ClassifierConfig & config);
 
   void classify(Armor & armor);
 

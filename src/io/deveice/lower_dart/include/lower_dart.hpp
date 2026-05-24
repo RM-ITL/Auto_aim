@@ -10,6 +10,7 @@
 #include <thread>
 #include <tuple>
 
+#include "app_config/app_config.hpp"
 #include "serial/serial.h"
 #include "thread_safe_queue.hpp"
 
@@ -57,7 +58,7 @@ struct DartState
 class Dart
 {
 public:
-  Dart(const std::string & config_path);
+  Dart(const app_config::DartConfig & config);
 
   ~Dart();
 

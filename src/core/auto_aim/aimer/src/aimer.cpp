@@ -1,7 +1,5 @@
 #include "aimer.hpp"
 
-#include <yaml-cpp/yaml.h>
-
 #include <cmath>
 #include <vector>
 
@@ -11,22 +9,24 @@
 
 namespace aimer
 {
-Aimer::Aimer(const std::string & config_path)
-: left_yaw_offset_(std::nullopt), right_yaw_offset_(std::nullopt)
+Aimer::Aimer(const app_config::AimerConfig & config)
 {
-  auto yaml = YAML::LoadFile(config_path);
-  yaw_offset_ = yaml["Aimer"]["yaw_offset"].as<double>() / 57.3;        // degree to rad
-  pitch_offset_ = yaml["Aimer"]["pitch_offset"].as<double>() / 57.3;    // degree to rad
-  comming_angle_ = yaml["Aimer"]["comming_angle"].as<double>() / 57.3;  // degree to rad
-  leaving_angle_ = yaml["Aimer"]["leaving_angle"].as<double>() / 57.3;  // degree to rad
-  high_speed_delay_time_ = yaml["Aimer"]["high_speed_delay_time"].as<double>();
-  low_speed_delay_time_ = yaml["Aimer"]["low_speed_delay_time"].as<double>();
-  decision_speed_ = yaml["Aimer"]["decision_speed"].as<double>();
-  if (yaml["Aimer"]["left_yaw_offset"].IsDefined() && yaml["right_yaw_offset"].IsDefined()) {
-    left_yaw_offset_ = yaml["Aimer"]["left_yaw_offset"].as<double>() / 57.3;    // degree to rad
-    right_yaw_offset_ = yaml["Aimer"]["right_yaw_offset"].as<double>() / 57.3;  // degree to rad
-    utils::logger()->info("[Aimer] successfully loading shootmode");
-  }
+  // 字段从 SubConfig 注入。yaml 字面值是 deg，模块构造时 / 57.3 转 rad。
+  yaw_offset_ = config.yaw_offset / 57.3;
+  pitch_offset_ = config.pitch_offset / 57.3;
+  comming_angle_ = config.comming_angle / 57.3;
+  leaving_angle_ = config.leaving_angle / 57.3;
+  high_speed_delay_time_ = config.high_speed_delay_time;
+  low_speed_delay_time_ = config.low_speed_delay_time;
+  decision_speed_ = config.decision_speed;
+
+  utils::logger()->info("[Aimer] yaw_offset            = {:.3f} deg ({:.6f} rad)", yaw_offset_ * 57.3, yaw_offset_);
+  utils::logger()->info("[Aimer] pitch_offset          = {:.3f} deg ({:.6f} rad)", pitch_offset_ * 57.3, pitch_offset_);
+  utils::logger()->info("[Aimer] comming_angle         = {:.3f} deg ({:.6f} rad)", comming_angle_ * 57.3, comming_angle_);
+  utils::logger()->info("[Aimer] leaving_angle         = {:.3f} deg ({:.6f} rad)", leaving_angle_ * 57.3, leaving_angle_);
+  utils::logger()->info("[Aimer] high_speed_delay_time = {:.6f}", high_speed_delay_time_);
+  utils::logger()->info("[Aimer] low_speed_delay_time  = {:.6f}", low_speed_delay_time_);
+  utils::logger()->info("[Aimer] decision_speed        = {:.3f}", decision_speed_);
 }
 
 io::GimbalCommand Aimer::aim(
@@ -121,25 +121,6 @@ io::GimbalCommand Aimer::aim(
   double pitch = -(current_traj.pitch + pitch_offset_);  //世界坐标系下pitch向上为负
   return {true, false, static_cast<float>(yaw), static_cast<float>(pitch)};
 }
-
-// io::Command Aimer::aim(
-//   std::list<predict::Target> targets, std::chrono::steady_clock::time_point timestamp, double bullet_speed,
-//   io::ShootMode shoot_mode, bool to_now)
-// {
-//   double yaw_offset;
-//   if (shoot_mode == io::left_shoot && left_yaw_offset_.has_value()) {
-//     yaw_offset = left_yaw_offset_.value();
-//   } else if (shoot_mode == io::right_shoot && right_yaw_offset_.has_value()) {
-//     yaw_offset = right_yaw_offset_.value();
-//   } else {
-//     yaw_offset = yaw_offset_;
-//   }
-
-//   auto command = aim(targets, timestamp, bullet_speed, to_now);
-//   command.yaw = command.yaw - yaw_offset_ + yaw_offset;
-
-//   return command;
-// }
 
 AimPoint Aimer::choose_aim_point(const predict::Target & target)
 {

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.10)
 project(pipeline)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -12,6 +12,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(utils REQUIRED)
+find_package(app_config REQUIRED)
 find_package(serial REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(autoaim_msgs REQUIRED)
@@ -51,6 +52,7 @@ ament_target_dependencies(sentry_node
   deveice
   auto_aim
   utils
+  app_config
   serial
   autoaim_msgs
   sensor_msgs
@@ -63,6 +65,7 @@ ament_target_dependencies(standard3_node
   deveice
   auto_aim
   utils
+  app_config
   serial
 )
 
@@ -71,6 +74,7 @@ ament_target_dependencies(hero_node
   deveice
   auto_aim
   utils
+  app_config
   serial
 )
 
@@ -78,12 +82,14 @@ target_link_libraries(sentry_node
   ${OpenCV_LIBS}
   deveice::deveice
   auto_aim::auto_aim
+  app_config::app_config
 )
 
 target_link_libraries(standard3_node
   ${OpenCV_LIBS}
   deveice::deveice
   auto_aim::auto_aim
+  app_config::app_config
 )
 
 
@@ -91,6 +97,7 @@ target_link_libraries(hero_node
   ${OpenCV_LIBS}
   deveice::deveice
   auto_aim::auto_aim
+  app_config::app_config
 )
 
 install(TARGETS

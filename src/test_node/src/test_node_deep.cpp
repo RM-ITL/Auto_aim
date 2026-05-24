@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <numeric>
 #include <sstream>
+#include <stdexcept>
 #include <utility>
 #include <vector>
 
@@ -16,6 +17,7 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/core/utility.hpp>
 
+#include "app_config/app_config.hpp"
 #include "logger.hpp"
 #include "draw_tools.hpp"
 
@@ -34,12 +36,19 @@ void handle_signal(int)
   }
 }
 
+void log_app_config(const std::string & prefix, const app_config::AppConfig & app_config)
+{
+  utils::logger()->info("[{}] config.absolute_path = {}", prefix, app_config.source_path);
+  utils::logger()->info("[{}] config.file_size     = {} bytes", prefix, app_config.source_file_size);
+  utils::logger()->info(
+    "[{}] config.last_write_time_raw = {}", prefix, app_config.source_last_write_raw);
+}
+
 
 }  // namespace
 
-PipelineApp::PipelineApp(const std::string & config_path)
-: config_path_(config_path),
-  start_time_(std::chrono::steady_clock::now()),
+PipelineApp::PipelineApp(const app_config::AppConfig & app_config)
+: start_time_(std::chrono::steady_clock::now()),
   last_delay_log_time_(std::chrono::steady_clock::now())
 {
   ros_node_ = std::make_shared<rclcpp::Node>("pipeline_debug_node");
@@ -51,15 +60,25 @@ PipelineApp::PipelineApp(const std::string & config_path)
     "target",rclcpp::QoS(10)
   );
 
-  camera_ = std::make_unique<camera::Camera>(config_path_);
-  // dm_imu_ = std::make_unique<io::DmImu>(config_path_);
-  detector_ = std::make_unique<armor_auto_aim::Detector>(config_path_);
-  solver_ = std::make_unique<solver::Solver>(config_path_);
+  imu_source_name_ = ros_node_->declare_parameter<std::string>("imu_source", "gimbal");
+  if (imu_source_name_ != "gimbal" && imu_source_name_ != "dm_imu") {
+    throw std::invalid_argument("imu_source 只能是 gimbal 或 dm_imu");
+  }
+  imu_source_ = (imu_source_name_ == "dm_imu") ? ImuSource::DmImu : ImuSource::Gimbal;
+  utils::logger()->info("[Pipeline] 姿态来源: {}", imu_source_name_);
+  log_app_config("Pipeline", app_config);
+
+  camera_ = std::make_unique<camera::Camera>(app_config.camera);
+  if (imu_source_ == ImuSource::DmImu) {
+    dm_imu_ = std::make_unique<io::DmImu>(app_config.dm_imu);
+  }
+  detector_ = std::make_unique<armor_auto_aim::Detector>(app_config.detector);
+  solver_ = std::make_unique<solver::Solver>(app_config.solver);
   yaw_optimizer_ = solver_->getYawOptimizer();
-  tracker_ = std::make_unique<tracker::Tracker>(config_path_, *solver_);
-  planner_ = std::make_unique<plan::Planner>(config_path_);
-  gimbal_ = std::make_unique<io::Gimbal>(config_path_);
-  shooter_ = std::make_unique<shooter::Shooter>(config_path_);
+  tracker_ = std::make_unique<tracker::Tracker>(app_config.tracker, *solver_);
+  planner_ = std::make_unique<plan::Planner>(app_config.planner);
+  gimbal_ = std::make_unique<io::Gimbal>(app_config.gimbal);
+  shooter_ = std::make_unique<shooter::Shooter>(app_config.shooter);
 
   // enable_visualization_ = detector_->config().enable_visualization;
   // visualization_center_point_ = detector_->config().center_point;
@@ -96,7 +115,6 @@ int PipelineApp::run()
     std::chrono::steady_clock::time_point timestamp;
     double timestamp_sec{0.0};
     Eigen::Quaterniond orientation{Eigen::Quaterniond::Identity()};
-    Eigen::Quaterniond dm_orientation{Eigen::Quaterniond::Identity()};
 
     camera_->read(img, timestamp);
 
@@ -112,14 +130,9 @@ int PipelineApp::run()
 
     cv::cvtColor(img, debug_packet.rgb_image, cv::COLOR_BGR2RGB);
 
-    // orientation = dm_imu_->imu_at(timestamp);
-    orientation = gimbal_->q(timestamp);
-    // utils::logger()->debug(
-    //   "[Pipeline] DM_IMU四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
-    //   dm_orientation.w(), dm_orientation.x(), dm_orientation.y(), dm_orientation.z());
-    // utils::logger()->debug(
-    // "[Pipeline] 下位机的四元数: w={:.6f}, x={:.6f}, y={:.6f}, z={:.6f}",
-    // orientation.w(), orientation.x(), orientation.y(), orientation.z());
+    orientation = (imu_source_ == ImuSource::DmImu)
+                  ? dm_imu_->imu_at(timestamp)
+                  : gimbal_->q(timestamp);
 
     if (orientation_pub_) {
       auto msg = autoaim_msgs::msg::Orienta{};
@@ -127,14 +140,10 @@ int PipelineApp::run()
       msg.x = orientation.x(),
       msg.y = orientation.y(),
       msg.z = orientation.z(),
-      // msg.dm_w = dm_orientation.w(),
-      // msg.dm_x = dm_orientation.x(),
-      // msg.dm_y = dm_orientation.y(),
-      // msg.dm_z = dm_orientation.z(),
       msg.dm_w = 0,
       msg.dm_x = 0,
       msg.dm_y = 0,
-      msg.dm_z = 0,        
+      msg.dm_z = 0,
       orientation_pub_->publish(msg);
     }
 
@@ -453,6 +462,21 @@ void PipelineApp::planner_loop()
         fire_rate = static_cast<float>(fire_count) / static_cast<float>(fire_window_.size());
       }
 
+      auto now = std::chrono::steady_clock::now();
+      float yaw_acc_gimbal = 0.0f;
+      float pitch_acc_gimbal = 0.0f;
+      if (gs_initialized_) {
+        auto dt = std::chrono::duration<float>(now - last_gs_time_).count();
+        if (dt > 0.001f) {
+          yaw_acc_gimbal = (gs.yaw_vel - last_gs_yaw_vel_) / dt;
+          pitch_acc_gimbal = (gs.pitch_vel - last_gs_pitch_vel_) / dt;
+        }
+      }
+      last_gs_yaw_vel_ = gs.yaw_vel;
+      last_gs_pitch_vel_ = gs.pitch_vel;
+      last_gs_time_ = now;
+      gs_initialized_ = true;
+
       auto msg = autoaim_msgs::msg::Debug{};
       msg.enable_control = plan_result.control;
       msg.fire = plan_result.fire;
@@ -465,6 +489,13 @@ void PipelineApp::planner_loop()
       msg.fire_rate = fire_rate;
       msg.bullet_speed = gs.bullet_speed;
       msg.yaw_vel = plan_result.yaw_vel;
+      msg.pitch_vel = plan_result.pitch_vel;
+      msg.yaw_acc = plan_result.yaw_acc;
+      msg.pitch_acc = plan_result.pitch_acc;
+      msg.yaw_vel_gimbal = gs.yaw_vel;
+      msg.pitch_vel_gimbal = gs.pitch_vel;
+      msg.yaw_acc_gimbal = yaw_acc_gimbal;
+      msg.pitch_acc_gimbal = pitch_acc_gimbal;
       debug_pub_->publish(msg);
     }
 
@@ -525,7 +556,7 @@ int main(int argc, char ** argv)
   std::signal(SIGINT, Application::handle_signal);
 
   try {
-    Application::PipelineApp app(config_path);
+    Application::PipelineApp app(app_config::AppConfig::load(config_path));
     int ret = app.run();
     rclcpp::shutdown();
     return ret;

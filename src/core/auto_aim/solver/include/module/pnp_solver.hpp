@@ -5,6 +5,7 @@
 #include <Eigen/Dense>
 #include <vector>
 #include <array>
+#include "app_config/app_config.hpp"
 #include "solver.hpp"
 #include "math_tools.hpp"
 #include "logger.hpp"
@@ -15,22 +16,21 @@ using ArmorType = armor_auto_aim::ArmorType;
 
 class PnPSolver {
 public:
-    explicit PnPSolver(const std::string& yaml_config_path);
+    explicit PnPSolver(const app_config::CameraIntriConfig & config);
     PnPSolver();
-    
+
     void setCameraMatrix(const cv::Mat& camera_matrix);
     void setDistortionCoeffs(const cv::Mat& dist_coeffs);
-    
-    solver::PnPResult solvePnP(const std::vector<cv::Point2f>& corners, 
+
+    solver::PnPResult solvePnP(const std::vector<cv::Point2f>& corners,
                        ArmorType armor_type,
                        double timestamp = 0.0);
-    
-    bool isInitialized() const { 
-        return !camera_matrix_.empty() && !dist_coeffs_.empty(); 
+
+    bool isInitialized() const {
+        return !camera_matrix_.empty() && !dist_coeffs_.empty();
     }
-    
+
 private:
-    bool loadCameraParamsFromYAML(const std::string& yaml_path);
     std::vector<cv::Point2f> undistortPoints(const std::vector<cv::Point2f>& distorted_points);
     bool validatePnPResult(const solver::PnPResult& result) const;
     double calculateReprojectionError(const std::vector<cv::Point3f>& world_points,

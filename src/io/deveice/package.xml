@@ -12,6 +12,7 @@
 
   <depend>rclcpp</depend>
   <depend>utils</depend>
+  <depend>app_config</depend>
   <depend>serial</depend>
   <depend>Eigen3</depend>
   <depend>OpenCV</depend>

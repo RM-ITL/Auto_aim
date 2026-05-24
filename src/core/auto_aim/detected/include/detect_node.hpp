@@ -2,13 +2,13 @@
 #define ARMOR_AUTO_AIM_ARMOR_DETECTOR_NODE_HPP_
 
 #include <opencv2/opencv.hpp>
-#include <yaml-cpp/yaml.h>
 
 #include <memory>
 #include <string>
 #include <vector>
 #include <variant>
 
+#include "app_config/app_config.hpp"
 #include "armor.hpp"
 #include "yolo11.hpp"
 #include "yolov5.hpp"
@@ -24,7 +24,7 @@ using DetectorVariant = std::variant<
 
 class Detector {
 public:
-    explicit Detector(const std::string& config_path);
+    explicit Detector(const app_config::DetectorConfig & config);
     ~Detector();
 
      Detector(const  Detector&) = delete;

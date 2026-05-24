@@ -13,6 +13,7 @@ find_package(ament_cmake REQUIRED)
 
 find_package(rclcpp REQUIRED)
 find_package(utils REQUIRED)
+find_package(app_config REQUIRED)
 find_package(serial REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(OpenCV REQUIRED)
@@ -32,8 +33,8 @@ endif()
 
 # MindVision SDK（可选）
 set(MINDVISION_SDK_PATH "/opt/MindVision" CACHE PATH "Path to MindVision SDK")
-set(MINDVISION_INCLUDE_DIR "${MINDVISION_SDK_PATH}/include")
-set(MINDVISION_LIB_DIR "${MINDVISION_SDK_PATH}/lib/x64")
+set(MINDVISION_INCLUDE_DIR "${MINDVISION_SDK_PATH}")
+set(MINDVISION_LIB_DIR "${MINDVISION_SDK_PATH}/x64")
 
 if(EXISTS "${MINDVISION_LIB_DIR}/libMVSDK.so")
   set(HAS_MINDVISION ON)
@@ -71,6 +72,7 @@ target_link_libraries(deveice_camera
     ${OpenCV_LIBS}
     yaml-cpp
     utils::utils
+    app_config::app_config
     pthread
     ${LIBUSB_LIBRARIES}
     ${MV_CAMERA_LIB_DIR}/libMvCameraControl.so
@@ -89,34 +91,7 @@ ament_target_dependencies(deveice_camera
   PUBLIC
     rclcpp
     utils
-)
-
-# ====================================================================================
-# deveice_cboard
-# ====================================================================================
-add_library(deveice_cboard STATIC
-  cboard/src/cboard.cpp
-)
-add_library(deveice::cboard ALIAS deveice_cboard)
-set_target_properties(deveice_cboard PROPERTIES EXPORT_NAME cboard)
-
-target_include_directories(deveice_cboard
-  PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/cboard/include>
-    $<INSTALL_INTERFACE:include>
-)
-
-target_link_libraries(deveice_cboard
-  PUBLIC
-    Eigen3::Eigen
-    yaml-cpp
-    utils::utils
-)
-
-ament_target_dependencies(deveice_cboard
-  PUBLIC
-    rclcpp
-    utils
+    app_config
 )
 
 # ====================================================================================
@@ -139,6 +114,7 @@ target_link_libraries(deveice_gimbal
   PUBLIC
     yaml-cpp
     utils::utils
+    app_config::app_config
     serial
     ${LIBSERIAL_LIBRARIES}
 )
@@ -147,6 +123,7 @@ ament_target_dependencies(deveice_gimbal
   PUBLIC
     rclcpp
     utils
+    app_config
     serial
 )
 
@@ -169,6 +146,7 @@ target_link_libraries(deveice_imu
   PUBLIC
     Eigen3::Eigen
     utils::utils
+    app_config::app_config
     serial
 )
 
@@ -176,6 +154,7 @@ ament_target_dependencies(deveice_imu
   PUBLIC
     Eigen3
     utils
+    app_config
     serial
 )
 
@@ -203,6 +182,7 @@ target_link_libraries(deveice_lower_dart
     Eigen3::Eigen
     yaml-cpp
     utils::utils
+    app_config::app_config
     serial
     ${LIBSERIAL_LIBRARIES}
 )
@@ -211,6 +191,7 @@ ament_target_dependencies(deveice_lower_dart
   PUBLIC
     rclcpp
     utils
+    app_config
     serial
     Eigen3
 )
@@ -238,6 +219,7 @@ target_link_libraries(deveice_lower_sentry
     Eigen3::Eigen
     yaml-cpp
     utils::utils
+    app_config::app_config
     serial
     ${LIBSERIAL_LIBRARIES}
 )
@@ -246,6 +228,7 @@ ament_target_dependencies(deveice_lower_sentry
   PUBLIC
     rclcpp
     utils
+    app_config
     serial
     Eigen3
 )
@@ -255,7 +238,6 @@ ament_target_dependencies(deveice_lower_sentry
 # ====================================================================================
 set(deveice_PUBLIC_INCLUDE_DIRS
   ${CMAKE_CURRENT_SOURCE_DIR}/camera/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/cboard/include
   ${CMAKE_CURRENT_SOURCE_DIR}/gimbal/include
   ${CMAKE_CURRENT_SOURCE_DIR}/imu/include
   ${CMAKE_CURRENT_SOURCE_DIR}/lower_dart/include
@@ -283,7 +265,6 @@ add_library(deveice::deveice ALIAS deveice)
 
 set(deveice_MODULE_LIBS
   deveice_camera
-  deveice_cboard
   deveice_gimbal
   deveice_imu
   deveice_lower_dart
@@ -322,7 +303,6 @@ install(
   TARGETS
     deveice
     deveice_camera
-    deveice_cboard
     deveice_gimbal
     deveice_imu
     deveice_lower_dart
@@ -334,7 +314,7 @@ install(
   INCLUDES DESTINATION include
 )
 
-foreach(dir IN ITEMS camera/include cboard/include gimbal/include imu/include lower_dart/include lower_sentry/include)
+foreach(dir IN ITEMS camera/include gimbal/include imu/include lower_dart/include lower_sentry/include)
   install(
     DIRECTORY ${dir}/
     DESTINATION include
@@ -370,6 +350,7 @@ ament_export_targets(deveiceTargets HAS_LIBRARY_TARGET)
 ament_export_dependencies(
   rclcpp
   utils
+  app_config
   serial
   Eigen3
   OpenCV

@@ -9,6 +9,7 @@
 #include <opencv2/opencv.hpp>
 #include <rclcpp/rclcpp.hpp>
 
+#include "app_config/app_config.hpp"
 #include "detector.hpp"
 #include "camera.hpp"
 #include "light_aimer.hpp"
@@ -25,7 +26,7 @@ namespace auto_base
 class BaseHitNode
 {
 public:
-  explicit BaseHitNode(const std::string & config_path);
+  explicit BaseHitNode(const app_config::AppConfig & app_config);
   ~BaseHitNode();
 
   int run();
@@ -35,8 +36,6 @@ private:
   void visualize(
     const cv::Mat & img,
     const std::vector<Detector::GreenLight> & detections);
-
-  std::string config_path_;
 
   std::unique_ptr<camera::Camera> camera_;
   std::unique_ptr<Detector> detector_;

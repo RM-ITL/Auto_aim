@@ -1,7 +1,6 @@
 #include "detector.hpp"
 
 #include <fmt/chrono.h>
-#include <yaml-cpp/yaml.h>
 
 #include <filesystem>
 
@@ -10,21 +9,44 @@
 
 namespace armor_auto_aim
 {
-Traditional_Detector::Traditional_Detector(const std::string & config_path, bool debug)
-: classifier_(config_path), debug_(debug)
+Traditional_Detector::Traditional_Detector(
+  const app_config::DetectorTraditionalConfig & config,
+  const app_config::ClassifierConfig & classifier_config,
+  bool debug)
+: classifier_(classifier_config), debug_(debug)
 {
-  auto yaml = YAML::LoadFile(config_path);
+  threshold_ = config.threshold;
+  max_angle_error_ = config.max_angle_error / 57.3;  // degree to rad
+  min_lightbar_ratio_ = config.min_lightbar_ratio;
+  max_lightbar_ratio_ = config.max_lightbar_ratio;
+  min_lightbar_length_ = config.min_lightbar_length;
+  min_armor_ratio_ = config.min_armor_ratio;
+  max_armor_ratio_ = config.max_armor_ratio;
+  max_side_ratio_ = config.max_side_ratio;
+  min_confidence_ = classifier_config.min_confidence;
+  max_rectangular_error_ = config.max_rectangular_error / 57.3;  // degree to rad
 
-  threshold_ = yaml["threshold"].as<double>();
-  max_angle_error_ = yaml["max_angle_error"].as<double>() / 57.3;  // degree to rad
-  min_lightbar_ratio_ = yaml["min_lightbar_ratio"].as<double>();
-  max_lightbar_ratio_ = yaml["max_lightbar_ratio"].as<double>();
-  min_lightbar_length_ = yaml["min_lightbar_length"].as<double>();
-  min_armor_ratio_ = yaml["min_armor_ratio"].as<double>();
-  max_armor_ratio_ = yaml["max_armor_ratio"].as<double>();
-  max_side_ratio_ = yaml["max_side_ratio"].as<double>();
-  min_confidence_ = yaml["min_confidence"].as<double>();
-  max_rectangular_error_ = yaml["max_rectangular_error"].as<double>() / 57.3;  // degree to rad
+  utils::logger()->info("[Traditional_Detector] threshold             = {:.3f}", threshold_);
+  utils::logger()->info(
+    "[Traditional_Detector] max_angle_error       = {:.3f} deg ({:.6f} rad)",
+    max_angle_error_ * 57.3, max_angle_error_);
+  utils::logger()->info(
+    "[Traditional_Detector] min_lightbar_ratio    = {:.3f}", min_lightbar_ratio_);
+  utils::logger()->info(
+    "[Traditional_Detector] max_lightbar_ratio    = {:.3f}", max_lightbar_ratio_);
+  utils::logger()->info(
+    "[Traditional_Detector] min_lightbar_length   = {:.3f}", min_lightbar_length_);
+  utils::logger()->info(
+    "[Traditional_Detector] min_armor_ratio       = {:.3f}", min_armor_ratio_);
+  utils::logger()->info(
+    "[Traditional_Detector] max_armor_ratio       = {:.3f}", max_armor_ratio_);
+  utils::logger()->info(
+    "[Traditional_Detector] max_side_ratio        = {:.3f}", max_side_ratio_);
+  utils::logger()->info(
+    "[Traditional_Detector] classifier_min_confidence = {:.3f}", min_confidence_);
+  utils::logger()->info(
+    "[Traditional_Detector] max_rectangular_error = {:.3f} deg ({:.6f} rad)",
+    max_rectangular_error_ * 57.3, max_rectangular_error_);
 
   save_path_ = "save/cv";
   std::filesystem::create_directories(save_path_);

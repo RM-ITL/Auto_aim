@@ -10,6 +10,7 @@
 #include <thread>
 #include <tuple>
 
+#include "app_config/app_config.hpp"
 #include "serial/serial.h"
 #include "thread_safe_queue.hpp"
 #include "gimbal.hpp"
@@ -57,7 +58,7 @@ static_assert(sizeof(SentryTolower) <= 64);
 class Sentry
 {
 public:
-  Sentry(const std::string & config_path);
+  Sentry(const app_config::SentryConfig & config);
 
   ~Sentry();
 

@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+#include "app_config/app_config.hpp"
 #include "armor.hpp"
 
 namespace armor_auto_aim
@@ -14,7 +15,7 @@ namespace armor_auto_aim
 class YOLO11Detector
 {
 public:
-    YOLO11Detector(const std::string& config_path, bool debug = false);
+    YOLO11Detector(const app_config::DetectorYOLO11Config & config, bool debug = false);
     std::vector<Armor> detect(const cv::Mat& image, int frame_count = -1);
     void setDebug(bool debug) { debug_ = debug; }
 

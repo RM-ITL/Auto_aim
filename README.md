@@ -105,7 +105,6 @@ src
 │   │   ├── aimer/                 # 传统瞄准器
 │   │   ├── detected/              # 检测模块
 │   │   ├── planner/               # 规划器
-│   │   ├── pointer/               # 灯条端点定位（不常用）
 │   │   ├── shooter/               # 传统火控决策器
 │   │   ├── solver/                # 解算模块
 │   │   ├── target/                # EKF 整车状态估计器
@@ -124,7 +123,6 @@ src
 ├── io/                    # 硬件封装层
 │   ├── device/                # 驱动包
 │   │   ├── camera/                # 相机封装
-│   │   ├── cboard/                # C 板封装（已废弃）
 │   │   ├── gimbal/                # 云台
 │   │   ├── imu/                   # IMU 封装（DM_IMU）
 │   │   ├── lower_dart/            # 飞镖下位机封装

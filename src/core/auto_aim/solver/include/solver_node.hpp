@@ -1,6 +1,7 @@
 #ifndef SOLVER_NODE_HPP
 #define SOLVER_NODE_HPP
 
+#include "app_config/app_config.hpp"
 #include "module/pnp_solver.hpp"
 #include "module/coord_converter.hpp"
 #include "module/optimize_yaw.hpp"
@@ -18,7 +19,7 @@ using Armors = armor_auto_aim::Armor;
 
 class Solver {
 public:
-    explicit Solver(const std::string& yaml_config_path);
+    explicit Solver(const app_config::SolverConfig & config);
     
     void updateIMU(const Eigen::Quaterniond& q_absolute, double timestamp);
     void updateIMU(double yaw, double pitch, double timestamp);

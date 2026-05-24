@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+#include "app_config/app_config.hpp"
 #include "armor.hpp"
 #include "classifier.hpp"
 
@@ -15,7 +16,10 @@ namespace armor_auto_aim
 class Traditional_Detector
 {
 public:
-  Traditional_Detector(const std::string & config_path, bool debug = true);
+  Traditional_Detector(
+    const app_config::DetectorTraditionalConfig & config,
+    const app_config::ClassifierConfig & classifier_config,
+    bool debug = true);
 
   std::list<Armor> detect(const cv::Mat & bgr_img, int frame_count = -1);
 

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>app_config</name>
+  <version>0.1.0</version>
+  <description>
+    集中加载与分发参数：从单一 yaml 解析一次，按 SubConfig 注入各模块。
+    Sprint 1.C 引入，字段与 yaml 字面 1:1，无语义合并；语义清理留给 1.C.1。
+  </description>
+  <maintainer email="your_email@example.com">Your Name</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>yaml-cpp</depend>
+  <depend>fmt</depend>
+  <depend>eigen</depend>
+  <depend>utils</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

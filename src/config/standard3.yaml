@@ -11,48 +11,53 @@ CalibParam:
             data:
               img_width: 1280
               img_height: 1024
-              # focal_length:                     # 8mm相机
-              #   - 1740.1391026563904
-              #   - 1743.466162735272
-              # principal_point:
-              #   - 600.0573645949644
-              #   - 415.5957223704912
-              # disto_param:
-              #   - -0.11407724406859104
-              #   - 0.9907393620859306
-              #   - -0.012350441691573684
-              #   - -0.0022510643311303606
-              #   - -2.920015848738005
-              focal_length:                     # 6mm相机
-                - 1330.649408921195
-                - 1332.3006999890033
-              principal_point:
-                - 627.2791611048931
-                - 533.2806702069377
-              disto_param:
-                - -0.14828277112729327
-                - 0.7868245788660153
-                - 0.0023478362007317123
-                - 0.002535817596959765
-                - -1.5222934363748177
-              # focal_length:                   # 4mm相机
-              #   - 893.4306170676092
-              #   - 888.878979439582
-              # principal_point:
-              #   - 618.4622245880115
-              #   - 511.73226091888046
-              # disto_param:
-              #   - -0.09613598816721357
-              #   - 0.3686128765511766
-              #   - -0.0035685183642176046
-              #   - 0.002876545526120485
-              #   - -0.594006385480322
+              profiles:
+                8mm:
+                  focal_length:
+                    - 1740.1391026563904
+                    - 1743.466162735272
+                  principal_point:
+                    - 600.0573645949644
+                    - 415.5957223704912
+                  disto_param:
+                    - -0.11407724406859104
+                    - 0.9907393620859306
+                    - -0.012350441691573684
+                    - -0.0022510643311303606
+                    - -2.920015848738005
+                6mm:
+                  focal_length:
+                    - 1330.649408921195
+                    - 1332.3006999890033
+                  principal_point:
+                    - 627.2791611048931
+                    - 533.2806702069377
+                  disto_param:
+                    - -0.14828277112729327
+                    - 0.7868245788660153
+                    - 0.0023478362007317123
+                    - 0.002535817596959765
+                    - -1.5222934363748177
+                4mm:
+                  focal_length:
+                    - 893.4306170676092
+                    - 888.878979439582
+                  principal_point:
+                    - 618.4622245880115
+                    - 511.73226091888046
+                  disto_param:
+                    - -0.09613598816721357
+                    - 0.3686128765511766
+                    - -0.0035685183642176046
+                    - 0.002876545526120485
+                    - -0.594006385480322
   
 
 ## 老步兵——摆臂
 
 # 相机参数
 camera:
+  lens: "6mm"
   type: "hik"  # 可选: "hik", "mindvision"
   parameters:
     exposure_ms: 3.0
@@ -63,7 +68,6 @@ camera:
     target_height: 1024
     image_topic: "image_topic"
     vid_pid: "2bdf:0283"  # MindVision相机的VID:PID
-    debug: false
 
 # 神经网络识别参数
 yolo:
@@ -82,27 +86,30 @@ yolo:
 
 # 传统方法识别参数：
 # 参数解析
-classify_model: "src/model/tiny_resnet.onnx"
-threshold: 150  # 固定阈值二值化的阈值
-max_angle_error: 45 # degree，灯条最大角度误差
-min_lightbar_ratio: 1.5 # 灯条最小宽高比
-max_lightbar_ratio: 20  # 灯条最大宽高比
-min_lightbar_length: 8  # 灯条的最小长度像素
-min_armor_ratio: 1      # 装甲板最小宽高比
-max_armor_ratio: 5      # 装甲板的最大宽高比
-max_side_ratio: 1.5     # 左右灯条的长度比上限
-max_rectangular_error: 20 # degree，最大灯条的长度比上限
-min_confidence: 0.8     # 分类器的最小置信度
+Traditional_Detector:
+  threshold: 150  # 固定阈值二值化的阈值
+  max_angle_error: 45 # degree，灯条最大角度误差
+  min_lightbar_ratio: 1.5 # 灯条最小宽高比
+  max_lightbar_ratio: 20  # 灯条最大宽高比
+  min_lightbar_length: 8  # 灯条的最小长度像素
+  min_armor_ratio: 1      # 装甲板最小宽高比
+  max_armor_ratio: 5      # 装甲板的最大宽高比
+  max_side_ratio: 1.5     # 左右灯条的长度比上限
+  max_rectangular_error: 20 # degree，最大灯条的长度比上限
+
+Classifier:
+  classify_model: "src/model/tiny_resnet.onnx"
+  min_confidence: 0.8     # 分类器的最小置信度
 
 
 # DM_IMU相关配置
 DM_IMU:
-# 串口配置
-imu_com_port: "/dev/ttyACM1"
-baud: 115200
+  # 串口配置
+  imu_com_port: "/dev/ttyACM1"
+  baud: 921600
 
-# 发布频率相关
-publish_rate: 1000  # Hz
+  # 发布频率相关
+  publish_rate: 333  # Hz
   
 
 # 坐标系配置
@@ -119,28 +126,21 @@ publish_rate: 1000  # Hz
 Solver:
   coord_converter:  # 坐标变换所需参数
     rotation_matrix_camera_to_gimbal:
-      rows: 3
-      cols: 3
-      dt: float
       data: [0, 0, 1,
             -1, 0, 0,
             0, -1, 0]
-
+            
     rotation_matrix_gimbal_to_imu:
-      rows: 3
-      cols: 3
-      dt: float
-      data: [0, -1, 0,
-            1, 0, 0,
+      data: [0, 1, 0,
+            -1, 0, 0,
             0, 0, 1]
-# 陀螺仪与相机放置在同一位置
-# - x: 相机相对云台在前后方向的偏移
-# - y: 相机相对云台在左右方向的偏移
-# - z: 相机相对云台在上下方向的偏移
-
-t_camera_to_gimbal:
-[0.0, 0.00, 0.00]
-# [0.115, -0.065, 0.015]cm
+    # 陀螺仪与相机放置在同一位置
+    # - x: 相机相对云台在前后方向的偏移
+    # - y: 相机相对云台在左右方向的偏移
+    # - z: 相机相对云台在上下方向的偏移
+    t_camera_to_gimbal:
+      [0.1519, 0.0756, 0.0222]
+    # [0.115, -0.065, 0.015]cm
 
 
 # Tracker参数
@@ -154,8 +154,8 @@ Tracker:
   outpost_min_detect_count: 3      # 前哨站的最小检测次数（更快进入tracking）
   outpost_detect_fail_tolerance: 8  # 前哨站在detecting状态允许的连续失败帧数
   # 单板观测模式参数
-  single_plate_threshold: 50       # 连续无板切换帧数超过此值进入单板模式
-  omega_threshold: 0.5             # rad/s，角速度低于此值时才允许进入单板模式
+  single_plate_threshold: 20       # 连续无板切换帧数超过此值进入单板模式
+  omega_threshold: 0.4             # rad/s，角速度低于此值时才允许进入单板模式
 
 
 # 瞄准器Aimer参数
@@ -165,8 +165,6 @@ Aimer:
   pitch_offset: 0  # degree 2
   comming_angle: 60 # degree
   leaving_angle: 20 # degree
-  left_yaw_offset: -1
-  right_yaw_offset: -0.6
   decision_speed: 10 # rad/s
   high_speed_delay_time: 0.026 # s
   low_speed_delay_time: 0.035 # s
@@ -196,10 +194,10 @@ Planner:
   Q_yaw: [9e6, 0] # 状态权重矩阵Q的对角线元素：[位置权重, 速度权重]。
   # 9e6的高位置权重意味着强调精确跟踪目标角度，速度权重为0表示不惩罚速度偏差 
   R_yaw: [1]
-  max_pitch_acc: 50  # 最大pitch加速度上限
+  max_pitch_acc: 20  # 最大pitch加速度上限
   Q_pitch: [9e6, 0]
   R_pitch: [1]
-  yaw_offset: 1.7 # degree，相机光心与枪管中心的yaw偏差
+  yaw_offset: 2.2 # degree，相机光心与枪管中心的yaw偏差
   pitch_offset: 1.9 # degree，pitch相对枪管的中心补偿参数
   decision_speed: 7 # rad/s， 高低速的判断阈值，大于此值的为高速目标
   high_speed_delay_time: 0.1 # s，高速目标的额外时间补偿
@@ -208,28 +206,26 @@ Planner:
 
 # Gimbal通讯参数
 Gimbal:
-enable_serial: true
-# com_port: "/dev/ttyUSB0"
-com_port: "/dev/gimbal"
-com_port_1: "/dev/ttyACM2"
-# 校正下位机的四元数 [x, y, z, w], q_corrected = q_calib * q_lower
-# q_calib:
-#   x: 0.01168210
-#   y: 0.06258915
-#   z: -0.02122380
-#   w: 0.99774530
+  # com_port: "/dev/ttyUSB0"
+  com_port: "/dev/gimbal"
+  # 校正下位机的四元数 [x, y, z, w], q_corrected = q_calib * q_lower
+  # q_calib:
+  #   x: 0.01168210
+  #   y: 0.06258915
+  #   z: -0.02122380
+  #   w: 0.99774530
 
-# q_calib:
-#   x: 1.0000
-#   y: 1.0000
-#   z: 1.0000
-#   w: 1.0000
+  # q_calib:
+  #   x: 1.0000
+  #   y: 1.0000
+  #   z: 1.0000
+  #   w: 1.0000
 
 
 
 # video视频测试参数
 Video:
-video_path: "test/demo.mp4"
+  video_path: "test/demo.mp4"
 
 #####-----buff_detector参数-----#####
 buff_model: "src/model/yolo11_buff_int8.xml"
@@ -241,8 +237,6 @@ predict_time: 0.120     # s
 # 基地Base识别参数
 Base_Hit:
   Openvino_XML: src/model/Katrin.xml
-  Openvino_Deveice: "CPU"
-  input_width: 640
-  input_height: 384
+  device: "CPU"
   score_threshold: 0.6
   nms_threshold: 0.3

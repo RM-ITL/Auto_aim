@@ -12,6 +12,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(utils REQUIRED)
+find_package(app_config REQUIRED)
 find_package(serial REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(yaml-cpp REQUIRED)
@@ -91,6 +92,7 @@ ament_target_dependencies(deep_node
   deveice
   auto_aim
   utils
+  app_config
   serial
   autoaim_msgs
 )
@@ -98,6 +100,7 @@ ament_target_dependencies(deep_node
 ament_target_dependencies(video_node
   Eigen3
   utils
+  app_config
   deveice
   auto_aim
   auto_buff
@@ -107,6 +110,7 @@ ament_target_dependencies(base_hit_node
   rclcpp
   autoaim_msgs
   utils
+  app_config
   deveice
   auto_base
 )
@@ -117,6 +121,7 @@ ament_target_dependencies(cv_node
   deveice
   auto_aim
   utils
+  app_config
   serial
   autoaim_msgs
 )
@@ -126,6 +131,7 @@ ament_target_dependencies(capture_node
   Eigen3
   deveice
   utils
+  app_config
   serial
 )
 
@@ -135,6 +141,7 @@ ament_target_dependencies(camera_calib_node
 
 ament_target_dependencies(handeye_calib_node
   utils
+  app_config
 )
 
 ament_target_dependencies(aimer_node
@@ -143,6 +150,7 @@ ament_target_dependencies(aimer_node
   deveice
   auto_aim
   utils
+  app_config
   serial
   autoaim_msgs
 )

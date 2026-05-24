@@ -5,6 +5,7 @@
 #include <optional>
 #include <variant>
 
+#include "app_config/app_config.hpp"
 #include "planner.hpp"  // 复用 Plan, DT, HORIZON 等定义
 
 namespace plan
@@ -14,7 +15,7 @@ class AimPlanner
 {
 public:
   Eigen::Vector4d debug_xyza;
-  AimPlanner(const std::string & config_path);
+  AimPlanner(const app_config::AimPlannerConfig & config);
 
   // 子弹飞行时间补偿
   Plan plan(predict::Target target, double bullet_speed);
@@ -41,8 +42,8 @@ private:
   // 工作模式枚举
   enum class ArmorMode { LOW_SPEED, HIGH_SPEED };
 
-  void setup_yaw_solver(const std::string & config_path);
-  void setup_pitch_solver(const std::string & config_path);
+  void setup_yaw_solver(const app_config::AimPlannerConfig & config);
+  void setup_pitch_solver(const app_config::AimPlannerConfig & config);
 
   // 低速模式方法（原有逻辑）
   Eigen::Matrix<double, 2, 1> aim(const predict::Target & target, double bullet_speed);

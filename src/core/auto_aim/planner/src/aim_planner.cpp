@@ -4,31 +4,40 @@
 #include <vector>
 
 #include "math_tools.hpp"
+#include "logger.hpp"
 #include "trajectory.hpp"
-#include "yaml.hpp"
 
 using namespace std::chrono_literals;
 
 namespace plan
 {
-AimPlanner::AimPlanner(const std::string & config_path)
+AimPlanner::AimPlanner(const app_config::AimPlannerConfig & config)
 {
-  auto yaml = utils::load(config_path);
-  auto planner_yaml = yaml["Planner"];
-  yaw_offset_ = utils::read<double>(planner_yaml, "yaw_offset") / 57.3;
-  pitch_offset_ = utils::read<double>(planner_yaml, "pitch_offset") / 57.3;
-  fire_thresh_ = utils::read<double>(planner_yaml, "fire_thresh");
-  decision_speed_ = utils::read<double>(planner_yaml, "decision_speed");
-  high_speed_delay_time_ = utils::read<double>(planner_yaml, "high_speed_delay_time");
-  low_speed_delay_time_ = utils::read<double>(planner_yaml, "low_speed_delay_time");
-  armor_hysteresis_ = utils::read<double>(planner_yaml, "armor_hysteresis");
+  // 字段从 SubConfig 注入（消除原 ctor + setup_yaw_solver + setup_pitch_solver 三次 utils::load）。
+  yaw_offset_ = config.yaw_offset / 57.3;
+  pitch_offset_ = config.pitch_offset / 57.3;
+  fire_thresh_ = config.fire_thresh;
+  decision_speed_ = config.decision_speed;
+  high_speed_delay_time_ = config.high_speed_delay_time;
+  low_speed_delay_time_ = config.low_speed_delay_time;
+  armor_hysteresis_ = config.armor_hysteresis;
 
   // 高速模式参数
-  omega_threshold_ = utils::read<double>(planner_yaml, "omega_threshold");
-  window_angle_ = utils::read<double>(planner_yaml, "window_angle") / 57.3;  // 转换为弧度
+  omega_threshold_ = config.omega_threshold;
+  window_angle_ = config.window_angle / 57.3;  // 转换为弧度
 
-  setup_yaw_solver(config_path);
-  setup_pitch_solver(config_path);
+  utils::logger()->info("[AimPlanner] yaw_offset            = {:.3f} deg ({:.6f} rad)", yaw_offset_ * 57.3, yaw_offset_);
+  utils::logger()->info("[AimPlanner] pitch_offset          = {:.3f} deg ({:.6f} rad)", pitch_offset_ * 57.3, pitch_offset_);
+  utils::logger()->info("[AimPlanner] fire_thresh           = {:.6f}", fire_thresh_);
+  utils::logger()->info("[AimPlanner] decision_speed        = {:.3f}", decision_speed_);
+  utils::logger()->info("[AimPlanner] high_speed_delay_time = {:.6f}", high_speed_delay_time_);
+  utils::logger()->info("[AimPlanner] low_speed_delay_time  = {:.6f}", low_speed_delay_time_);
+  utils::logger()->info("[AimPlanner] armor_hysteresis      = {:.3f}", armor_hysteresis_);
+  utils::logger()->info("[AimPlanner] omega_threshold       = {:.3f}", omega_threshold_);
+  utils::logger()->info("[AimPlanner] window_angle          = {:.3f} deg ({:.6f} rad)", window_angle_ * 57.3, window_angle_);
+
+  setup_yaw_solver(config);
+  setup_pitch_solver(config);
 }
 
 // 子弹飞行时间补偿
@@ -181,13 +190,21 @@ Plan AimPlanner::plan(std::optional<std::variant<predict::Target, predict::Outpo
   return plan(std::optional<predict::Target>(*p), bullet_speed);
 }
 
-void AimPlanner::setup_yaw_solver(const std::string & config_path)
+void AimPlanner::setup_yaw_solver(const app_config::AimPlannerConfig & config)
 {
-  auto yaml = utils::load(config_path);
-  auto planner_yaml = yaml["Planner"];
-  auto max_yaw_acc = utils::read<double>(planner_yaml, "max_yaw_acc");
-  auto Q_yaw = utils::read<std::vector<double>>(planner_yaml, "Q_yaw");
-  auto R_yaw = utils::read<std::vector<double>>(planner_yaml, "R_yaw");
+  const auto max_yaw_acc = config.max_yaw_acc;
+  const auto & Q_yaw = config.Q_yaw;
+  const auto & R_yaw = config.R_yaw;
+
+  utils::logger()->info("[AimPlanner] max_yaw_acc = {:.6f}", max_yaw_acc);
+  utils::logger()->info("[AimPlanner] Q_yaw.size  = {}", Q_yaw.size());
+  for (std::size_t i = 0; i < Q_yaw.size(); ++i) {
+    utils::logger()->info("[AimPlanner] Q_yaw[{}]   = {:.8f}", i, Q_yaw[i]);
+  }
+  utils::logger()->info("[AimPlanner] R_yaw.size  = {}", R_yaw.size());
+  for (std::size_t i = 0; i < R_yaw.size(); ++i) {
+    utils::logger()->info("[AimPlanner] R_yaw[{}]   = {:.8f}", i, R_yaw[i]);
+  }
 
   Eigen::MatrixXd A{{1, DT}, {0, 1}};
   Eigen::MatrixXd B{{0}, {DT}};
@@ -205,13 +222,21 @@ void AimPlanner::setup_yaw_solver(const std::string & config_path)
   yaw_solver_->settings->max_iter = 10;
 }
 
-void AimPlanner::setup_pitch_solver(const std::string & config_path)
+void AimPlanner::setup_pitch_solver(const app_config::AimPlannerConfig & config)
 {
-  auto yaml = utils::load(config_path);
-  auto planner_yaml = yaml["Planner"];
-  auto max_pitch_acc = utils::read<double>(planner_yaml, "max_pitch_acc");
-  auto Q_pitch = utils::read<std::vector<double>>(planner_yaml, "Q_pitch");
-  auto R_pitch = utils::read<std::vector<double>>(planner_yaml, "R_pitch");
+  const auto max_pitch_acc = config.max_pitch_acc;
+  const auto & Q_pitch = config.Q_pitch;
+  const auto & R_pitch = config.R_pitch;
+
+  utils::logger()->info("[AimPlanner] max_pitch_acc = {:.6f}", max_pitch_acc);
+  utils::logger()->info("[AimPlanner] Q_pitch.size  = {}", Q_pitch.size());
+  for (std::size_t i = 0; i < Q_pitch.size(); ++i) {
+    utils::logger()->info("[AimPlanner] Q_pitch[{}]   = {:.8f}", i, Q_pitch[i]);
+  }
+  utils::logger()->info("[AimPlanner] R_pitch.size  = {}", R_pitch.size());
+  for (std::size_t i = 0; i < R_pitch.size(); ++i) {
+    utils::logger()->info("[AimPlanner] R_pitch[{}]   = {:.8f}", i, R_pitch[i]);
+  }
 
   Eigen::MatrixXd A{{1, DT}, {0, 1}};
   Eigen::MatrixXd B{{0}, {DT}};
