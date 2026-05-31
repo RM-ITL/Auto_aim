@@ -415,13 +415,11 @@ void PipelineApp::planner_loop()
     if (
       plan_result.control && now - last_log_time >
       std::chrono::milliseconds(200)) {
-      auto  yaw_offest = plan_result.target_yaw - gs.yaw;
       // utils::logger()->debug(
       //   "[Pipeline] 规划输出: yaw={:.3f} pitch={:.3f} fire={} "
-      //   "上下位机yaw偏差={:.3f} target_pitch={:.3f} "
+      //   "target_pitch={:.3f} "
       //   "Gimbal_yaw={:.3f} Gimbal_pitch={:.3f}",
       //   plan_result.yaw, plan_result.pitch, plan_result.fire,
-      //   yaw_offest,
       //   plan_result.target_pitch, gs.yaw, gs.pitch);
       last_log_time = now;
     }

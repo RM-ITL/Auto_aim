@@ -469,7 +469,6 @@ void PipelineApp::process_loop()
     if (
       Command.control && now - last_log_time >
       std::chrono::milliseconds(200)) {
-      auto  yaw_offest = Command.yaw - gs.yaw;
       // utils::logger()->debug(
       //   "[Pipeline] 规划输出: yaw={:.3f} pitch={:.3f} shoot={}"
       //   "下位机Gimbal_yaw={:.3f} 下位机Gimbal_pitch={:.3f}",

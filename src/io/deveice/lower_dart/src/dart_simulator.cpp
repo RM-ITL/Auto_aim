@@ -15,7 +15,7 @@ DartSimulator::DartSimulator()
     static_cast<int>(dune_status_));
 }
 
-DartToVision DartSimulator::get_nearest_state(std::chrono::steady_clock::time_point t)
+DartToVision DartSimulator::get_nearest_state(std::chrono::steady_clock::time_point)
 {
   // 构造模拟的下位机数据
   DartToVision data;
