@@ -162,7 +162,6 @@ void Gimbal::send(
 
 int Gimbal::read_serial(uint8_t * buffer, size_t size)
 {
-  std::lock_guard<std::mutex> lock(serial_mutex_);
   try {
     return serial_.read(buffer, size) == size ? 1 : 0;  // 1=成功, 0=超时无数据
   } catch (const std::exception & e) {
@@ -213,14 +212,11 @@ void Gimbal::read_thread()
     // 验证帧尾为 'G'
     if (rx_data_.tail != 'G') {
       error_count++;  // 帧尾校验失败，累加错误
-      // 由于 packed 结构体，需要先复制到临时变量
-      float yaw_tmp = rx_data_.yaw;
-      float pitch_tmp = rx_data_.pitch;
       // utils::logger()->debug(
       //   "[Gimbal] Frame tail check failed. Expected 'G'(0x47), got 0x{:02X}. "
-      //   "Received data size: {} bytes. Data: mode={}, yaw={:.3f}, pitch={:.3f}",
+      //   "Received data size: {} bytes. Data: mode={}",
       //   static_cast<unsigned char>(rx_data_.tail), sizeof(rx_data_),
-      //   rx_data_.mode, yaw_tmp, pitch_tmp);
+      //   rx_data_.mode);
       continue;
     }
 
