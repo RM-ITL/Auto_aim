@@ -46,6 +46,10 @@ add_executable(capture_node
   src/capture_node.cpp
 )
 
+add_executable(gimbal_comm_test
+  src/gimbal_comm_test.cpp
+)
+
 add_executable(camera_calib_node
   src/camera_calib_node.cpp
 )
@@ -135,6 +139,11 @@ ament_target_dependencies(capture_node
   serial
 )
 
+ament_target_dependencies(gimbal_comm_test
+  utils
+  serial
+)
+
 ament_target_dependencies(camera_calib_node
   utils
 )
@@ -210,6 +219,7 @@ install(TARGETS
   camera_calib_node
   handeye_calib_node
   aimer_node
+  gimbal_comm_test
   DESTINATION lib/${PROJECT_NAME}
 )
 

@@ -198,23 +198,6 @@ int PipelineApp::run()
       const auto target_name = std::visit(
         [](const auto & t) { return t.name; }, target);
 
-      // 【前哨站估计诊断】输出三个装甲板的估计位置
-      if (target_name == armor_auto_aim::ArmorName::outpost && armor_xyza_list.size() == 3) {
-        const auto & ekf_x = std::visit([](const auto & t) { return t.ekf_x(); }, target);
-        double h1 = ekf_x[9];
-        double h2 = ekf_x[10];
-        double omega = ekf_x[7];
-
-        // utils::logger()->info(
-        //   "[前哨站估计] h1={:.3f}, h2={:.3f}, ω={:.3f} | "
-        //   "A0:[{:.2f},{:.2f},{:.2f}] A1:[{:.2f},{:.2f},{:.2f}] A2:[{:.2f},{:.2f},{:.2f}]",
-        //   h1, h2, omega,
-        //   armor_xyza_list[0][0], armor_xyza_list[0][1], armor_xyza_list[0][2],
-        //   armor_xyza_list[1][0], armor_xyza_list[1][1], armor_xyza_list[1][2],
-        //   armor_xyza_list[2][0], armor_xyza_list[2][1], armor_xyza_list[2][2]
-        // );
-      }
-
       for (const Eigen::Vector4d & xyza : armor_xyza_list) {
         Eigen::Vector3d world_point(xyza.x(), xyza.y(), xyza.z());
         auto image_points =
@@ -362,8 +345,38 @@ void PipelineApp::planner_loop()
   utils::logger()->info("[Pipeline] 规划线程启动");
 
   auto last_log_time = std::chrono::steady_clock::now();
+  auto profile_window_start = std::chrono::steady_clock::now();
+  int profile_loop_count = 0;
+  int profile_empty_count = 0;
+  double profile_front_sum_ms = 0.0;
+  double profile_state_sum_ms = 0.0;
+  double profile_plan_sum_ms = 0.0;
+  double profile_checkfire_sum_ms = 0.0;
+  double profile_send_sum_ms = 0.0;
+  double profile_debug_sum_ms = 0.0;
+  double profile_target_pub_sum_ms = 0.0;
+  double profile_loop_sum_ms = 0.0;
+  double profile_front_max_ms = 0.0;
+  double profile_state_max_ms = 0.0;
+  double profile_plan_max_ms = 0.0;
+  double profile_checkfire_max_ms = 0.0;
+  double profile_send_max_ms = 0.0;
+  double profile_debug_max_ms = 0.0;
+  double profile_target_pub_max_ms = 0.0;
+  double profile_loop_max_ms = 0.0;
+
+  auto update_profile = [](double value, double & sum, double & max) {
+    sum += value;
+    if (value > max) max = value;
+  };
+
+  auto elapsed_ms = [](const auto & begin, const auto & end) {
+    return std::chrono::duration<double, std::milli>(end - begin).count();
+  };
 
   while (!quit_.load()) {
+    const auto loop_start_time = std::chrono::steady_clock::now();
+
     if (g_stop_requested.load()) {
       break;
     }
@@ -374,22 +387,34 @@ void PipelineApp::planner_loop()
     }
 
     if (target_queue.empty()) {
+      profile_empty_count++;
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
       continue;
     }
 
+    const auto front_start_time = std::chrono::steady_clock::now();
     auto target = target_queue.front();
+    const auto front_end_time = std::chrono::steady_clock::now();
 
 
+    const auto state_start_time = std::chrono::steady_clock::now();
     auto gs = gimbal_->state();
+    const auto state_end_time = std::chrono::steady_clock::now();
+
+    const auto plan_start_time = std::chrono::steady_clock::now();
     auto plan_result = planner_->plan(target, gs.bullet_speed);
+    const auto plan_end_time = std::chrono::steady_clock::now();
 
 
+    const auto checkfire_start_time = std::chrono::steady_clock::now();
     if (target.has_value()) {
       bool enable_shoot = shooter_->checkfire(
         plan_result.yaw, plan_result.pitch, gs, target.value());
       plan_result.fire = plan_result.fire && enable_shoot;
     }
+    const auto checkfire_end_time = std::chrono::steady_clock::now();
+
+    const auto send_start_time = std::chrono::steady_clock::now();
     if (plan_result.control) {
       gimbal_->send(
         plan_result.control, plan_result.fire, plan_result.yaw, plan_result.yaw_vel,
@@ -399,40 +424,43 @@ void PipelineApp::planner_loop()
       gimbal_->send(false, false, gs.yaw, 0, 0, gs.pitch, 0, 0);
       // if (servo_compensator_) servo_compensator_->reset();
     }
+    const auto send_end_time = std::chrono::steady_clock::now();
 
-    // 验证通讯帧率
+    //验证通讯帧率
 
-    // {
-    //   static bool timers_initialized = false;
-    //   static std::chrono::steady_clock::time_point last_send_time;
-    //   static std::chrono::steady_clock::time_point window_start_time;
-    //   static int send_count = 0;
+    {
+      static bool timers_initialized = false;
+      static std::chrono::steady_clock::time_point last_send_time;
+      static std::chrono::steady_clock::time_point window_start_time;
+      static int send_count = 0;
 
-    //   const auto send_time = std::chrono::steady_clock::now();
+      const auto send_time = std::chrono::steady_clock::now();
 
-    //   if (!timers_initialized) {
-    //     timers_initialized = true;
-    //     last_send_time = send_time;
-    //     window_start_time = send_time;
-    //     send_count = 1;
-    //   } else {
-    //     auto dt_us =
-    //       std::chrono::duration_cast<std::chrono::microseconds>(send_time - last_send_time);
-    //     utils::logger()->debug(
-    //       "[Pipeline] gimbal send dt = {:.3f} ms", dt_us.count() / 1000.0);
-    //     last_send_time = send_time;
-    //     send_count++;
-    //   }
+      if (!timers_initialized) {
+        timers_initialized = true;
+        last_send_time = send_time;
+        window_start_time = send_time;
+        send_count = 1;
+      } else {
+        auto dt_us =
+          std::chrono::duration_cast<std::chrono::microseconds>(send_time - last_send_time);
+        const double dt_ms = dt_us.count() / 1000.0;
+        if (dt_ms > 20.0) {
+          utils::logger()->debug("[Pipeline] gimbal send dt = {:.3f} ms", dt_ms);
+        }
+        last_send_time = send_time;
+        send_count++;
+      }
 
-    //   auto window_elapsed = send_time - window_start_time;
-    //   if (window_elapsed >= std::chrono::seconds(1)) {
-    //     const double elapsed_sec = std::chrono::duration<double>(window_elapsed).count();
-    //     const double freq_hz = elapsed_sec > 0.0 ? send_count / elapsed_sec : 0.0;
-    //     utils::logger()->debug("[Pipeline] gimbal send freq = {:.1f} Hz", freq_hz);
-    //     window_start_time = send_time;
-    //     send_count = 0;
-    //   }
-    // }
+      auto window_elapsed = send_time - window_start_time;
+      if (window_elapsed >= std::chrono::seconds(1)) {
+        const double elapsed_sec = std::chrono::duration<double>(window_elapsed).count();
+        const double freq_hz = elapsed_sec > 0.0 ? send_count / elapsed_sec : 0.0;
+        utils::logger()->debug("[Pipeline] gimbal send freq = {:.1f} Hz", freq_hz);
+        window_start_time = send_time;
+        send_count = 0;
+      }
+    }
       
     // 统计滑动窗口内fire占比 和 offset
     {
@@ -451,6 +479,7 @@ void PipelineApp::planner_loop()
       }
     }
 
+    const auto debug_start_time = std::chrono::steady_clock::now();
     if (debug_pub_) {
       // 计算fire_rate
       float fire_rate = 0.0f;
@@ -498,8 +527,10 @@ void PipelineApp::planner_loop()
       msg.pitch_acc_gimbal = pitch_acc_gimbal;
       debug_pub_->publish(msg);
     }
+    const auto debug_end_time = std::chrono::steady_clock::now();
 
-   // 发布Target状态消息
+    // 发布Target状态消息
+    const auto target_pub_start_time = std::chrono::steady_clock::now();
     if (target_pub_ && target.has_value()) {
       auto target_msg = autoaim_msgs::msg::Target{};
       std::visit([&target_msg](const auto & t) {
@@ -513,18 +544,78 @@ void PipelineApp::planner_loop()
       }, target.value());
       target_pub_->publish(target_msg);
     }
+    const auto target_pub_end_time = std::chrono::steady_clock::now();
 
     auto now = std::chrono::steady_clock::now();
     if (
       plan_result.control && now - last_log_time >
       std::chrono::milliseconds(200)) {
-      auto  yaw_offest = plan_result.target_yaw - gs.yaw;
       // utils::logger()->debug(
       //   "[Pipeline] 规划输出: yaw={:.3f} pitch={:.3f} fire={}"
       //   "下位机Gimbal_yaw={:.3f} 下位机Gimbal_pitch={:.3f}",
       //   plan_result.yaw, plan_result.pitch, plan_result.fire,
       //   gs.yaw, gs.pitch);
       last_log_time = now;
+    }
+
+    const auto loop_profile_end_time = std::chrono::steady_clock::now();
+    const double front_ms = elapsed_ms(front_start_time, front_end_time);
+    const double state_ms = elapsed_ms(state_start_time, state_end_time);
+    const double plan_ms = elapsed_ms(plan_start_time, plan_end_time);
+    const double checkfire_ms = elapsed_ms(checkfire_start_time, checkfire_end_time);
+    const double send_ms = elapsed_ms(send_start_time, send_end_time);
+    const double debug_ms = elapsed_ms(debug_start_time, debug_end_time);
+    const double target_pub_ms = elapsed_ms(target_pub_start_time, target_pub_end_time);
+    const double loop_ms = elapsed_ms(loop_start_time, loop_profile_end_time);
+
+    profile_loop_count++;
+    update_profile(front_ms, profile_front_sum_ms, profile_front_max_ms);
+    update_profile(state_ms, profile_state_sum_ms, profile_state_max_ms);
+    update_profile(plan_ms, profile_plan_sum_ms, profile_plan_max_ms);
+    update_profile(checkfire_ms, profile_checkfire_sum_ms, profile_checkfire_max_ms);
+    update_profile(send_ms, profile_send_sum_ms, profile_send_max_ms);
+    update_profile(debug_ms, profile_debug_sum_ms, profile_debug_max_ms);
+    update_profile(target_pub_ms, profile_target_pub_sum_ms, profile_target_pub_max_ms);
+    update_profile(loop_ms, profile_loop_sum_ms, profile_loop_max_ms);
+
+    const auto profile_now = std::chrono::steady_clock::now();
+    if (profile_now - profile_window_start >= std::chrono::seconds(1) && profile_loop_count > 0) {
+      const double count = static_cast<double>(profile_loop_count);
+      utils::logger()->info(
+        "[PlannerProfile] loops={} empty={} "
+        "front={:.3f}/{:.3f}ms state={:.3f}/{:.3f}ms plan={:.3f}/{:.3f}ms "
+        "checkfire={:.3f}/{:.3f}ms send={:.3f}/{:.3f}ms "
+        "debug={:.3f}/{:.3f}ms target_pub={:.3f}/{:.3f}ms loop={:.3f}/{:.3f}ms",
+        profile_loop_count,
+        profile_empty_count,
+        profile_front_sum_ms / count, profile_front_max_ms,
+        profile_state_sum_ms / count, profile_state_max_ms,
+        profile_plan_sum_ms / count, profile_plan_max_ms,
+        profile_checkfire_sum_ms / count, profile_checkfire_max_ms,
+        profile_send_sum_ms / count, profile_send_max_ms,
+        profile_debug_sum_ms / count, profile_debug_max_ms,
+        profile_target_pub_sum_ms / count, profile_target_pub_max_ms,
+        profile_loop_sum_ms / count, profile_loop_max_ms);
+
+      profile_window_start = profile_now;
+      profile_loop_count = 0;
+      profile_empty_count = 0;
+      profile_front_sum_ms = 0.0;
+      profile_state_sum_ms = 0.0;
+      profile_plan_sum_ms = 0.0;
+      profile_checkfire_sum_ms = 0.0;
+      profile_send_sum_ms = 0.0;
+      profile_debug_sum_ms = 0.0;
+      profile_target_pub_sum_ms = 0.0;
+      profile_loop_sum_ms = 0.0;
+      profile_front_max_ms = 0.0;
+      profile_state_max_ms = 0.0;
+      profile_plan_max_ms = 0.0;
+      profile_checkfire_max_ms = 0.0;
+      profile_send_max_ms = 0.0;
+      profile_debug_max_ms = 0.0;
+      profile_target_pub_max_ms = 0.0;
+      profile_loop_max_ms = 0.0;
     }
 
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
