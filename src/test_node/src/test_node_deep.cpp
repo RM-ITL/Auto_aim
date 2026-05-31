@@ -283,6 +283,9 @@ void PipelineApp::start_threads()
   if (planner_) {
     planner_thread_ = std::thread(&PipelineApp::planner_loop, this);
   }
+  if (gimbal_) {
+    sender_thread_ = std::thread(&PipelineApp::sender_loop, this);
+  }
   if (enable_visualization_) {
     visualization_thread_ = std::thread(&PipelineApp::visualization_loop, this);
   }
@@ -292,6 +295,9 @@ void PipelineApp::join_threads()
 {
   if (planner_thread_.joinable()) {
     planner_thread_.join();
+  }
+  if (sender_thread_.joinable()) {
+    sender_thread_.join();
   }
   if (visualization_thread_.joinable()) {
     visualization_thread_.join();
@@ -340,6 +346,115 @@ void PipelineApp::visualization_loop()
   utils::logger()->info("[Pipeline] 可视化线程退出");
 }
 
+void PipelineApp::update_latest_plan(const plan::Plan & plan)
+{
+  std::lock_guard<std::mutex> lock(latest_plan_mutex_);
+  latest_plan_ = plan;
+  latest_plan_valid_ = true;
+  latest_plan_time_ = std::chrono::steady_clock::now();
+}
+
+PipelineApp::LatestPlanSnapshot PipelineApp::latest_plan_snapshot()
+{
+  std::lock_guard<std::mutex> lock(latest_plan_mutex_);
+  return {latest_plan_, latest_plan_valid_, latest_plan_time_};
+}
+
+void PipelineApp::sender_loop()
+{
+  utils::logger()->info("[Pipeline] 云台发送线程启动");
+
+  constexpr auto send_period = std::chrono::milliseconds(10);
+  constexpr auto latest_plan_timeout = std::chrono::milliseconds(100);
+  auto window_start_time = std::chrono::steady_clock::now();
+  auto last_send_time = window_start_time;
+  int send_count = 0;
+  double send_sum_ms = 0.0;
+  double send_max_ms = 0.0;
+  bool latest_valid = false;
+  bool plan_expired = true;
+  double latest_age_ms = -1.0;
+  bool latest_control = false;
+
+  while (!quit_.load()) {
+    const auto cycle_start_time = std::chrono::steady_clock::now();
+
+    if (g_stop_requested.load()) {
+      break;
+    }
+
+    if (!gimbal_) {
+      std::this_thread::sleep_for(send_period);
+      continue;
+    }
+
+    const auto snapshot = latest_plan_snapshot();
+    const auto now = std::chrono::steady_clock::now();
+    latest_valid = snapshot.valid;
+    latest_control = snapshot.valid && snapshot.plan.control;
+    latest_age_ms = snapshot.valid ?
+      std::chrono::duration<double, std::milli>(now - snapshot.time).count() : -1.0;
+    plan_expired = !snapshot.valid || now - snapshot.time > latest_plan_timeout;
+
+    const auto send_start_time = std::chrono::steady_clock::now();
+    if (!plan_expired && snapshot.plan.control) {
+      gimbal_->send(
+        snapshot.plan.control, snapshot.plan.fire, snapshot.plan.yaw, snapshot.plan.yaw_vel,
+        snapshot.plan.yaw_acc, snapshot.plan.pitch, snapshot.plan.pitch_vel, snapshot.plan.pitch_acc);
+    } else if (!plan_expired) {
+      const auto gs = gimbal_->state();
+      gimbal_->send(false, false, gs.yaw, 0, 0, gs.pitch, 0, 0);
+    } else {
+      gimbal_->send(false, false, 0, 0, 0, 0, 0, 0);
+    }
+    const auto send_end_time = std::chrono::steady_clock::now();
+
+    const double send_ms =
+      std::chrono::duration<double, std::milli>(send_end_time - send_start_time).count();
+    send_sum_ms += send_ms;
+    if (send_ms > send_max_ms) send_max_ms = send_ms;
+
+    send_count++;
+
+    const auto send_time = std::chrono::steady_clock::now();
+    const auto dt_us =
+      std::chrono::duration_cast<std::chrono::microseconds>(send_time - last_send_time);
+    const double dt_ms = dt_us.count() / 1000.0;
+    if (send_count > 1 && dt_ms > 20.0) {
+      utils::logger()->debug("[Pipeline] gimbal send dt = {:.3f} ms", dt_ms);
+    }
+    last_send_time = send_time;
+
+    const auto window_elapsed = send_time - window_start_time;
+    if (window_elapsed >= std::chrono::seconds(1)) {
+      const double elapsed_sec = std::chrono::duration<double>(window_elapsed).count();
+      const double freq_hz = elapsed_sec > 0.0 ? send_count / elapsed_sec : 0.0;
+      const double avg_send_ms = send_count > 0 ? send_sum_ms / send_count : 0.0;
+      utils::logger()->info(
+        "[SenderProfile] sends={} freq={:.1f}Hz send={:.3f}/{:.3f}ms "
+        "latest_valid={} latest_age={:.1f}ms latest_control={} expired={}",
+        send_count, freq_hz, avg_send_ms, send_max_ms,
+        latest_valid, latest_age_ms, latest_control, plan_expired);
+      window_start_time = send_time;
+      send_count = 0;
+      send_sum_ms = 0.0;
+      send_max_ms = 0.0;
+    }
+
+    const auto cycle_end_time = std::chrono::steady_clock::now();
+    const auto elapsed = cycle_end_time - cycle_start_time;
+    if (elapsed < send_period) {
+      std::this_thread::sleep_for(send_period - elapsed);
+    } else {
+      utils::logger()->debug(
+        "[Pipeline] sender overrun = {:.3f} ms",
+        std::chrono::duration<double, std::milli>(elapsed - send_period).count());
+    }
+  }
+
+  utils::logger()->info("[Pipeline] 云台发送线程退出");
+}
+
 void PipelineApp::planner_loop()
 {
   utils::logger()->info("[Pipeline] 规划线程启动");
@@ -352,7 +467,7 @@ void PipelineApp::planner_loop()
   double profile_state_sum_ms = 0.0;
   double profile_plan_sum_ms = 0.0;
   double profile_checkfire_sum_ms = 0.0;
-  double profile_send_sum_ms = 0.0;
+  double profile_cache_sum_ms = 0.0;
   double profile_debug_sum_ms = 0.0;
   double profile_target_pub_sum_ms = 0.0;
   double profile_loop_sum_ms = 0.0;
@@ -360,7 +475,7 @@ void PipelineApp::planner_loop()
   double profile_state_max_ms = 0.0;
   double profile_plan_max_ms = 0.0;
   double profile_checkfire_max_ms = 0.0;
-  double profile_send_max_ms = 0.0;
+  double profile_cache_max_ms = 0.0;
   double profile_debug_max_ms = 0.0;
   double profile_target_pub_max_ms = 0.0;
   double profile_loop_max_ms = 0.0;
@@ -414,53 +529,9 @@ void PipelineApp::planner_loop()
     }
     const auto checkfire_end_time = std::chrono::steady_clock::now();
 
-    const auto send_start_time = std::chrono::steady_clock::now();
-    if (plan_result.control) {
-      gimbal_->send(
-        plan_result.control, plan_result.fire, plan_result.yaw, plan_result.yaw_vel,
-        plan_result.yaw_acc, plan_result.pitch, plan_result.pitch_vel, plan_result.pitch_acc);
-        // gimbal_->send_simple(plan_result.control, plan_result.fire, plan_result.yaw, plan_result.pitch);
-    } else {
-      gimbal_->send(false, false, gs.yaw, 0, 0, gs.pitch, 0, 0);
-      // if (servo_compensator_) servo_compensator_->reset();
-    }
-    const auto send_end_time = std::chrono::steady_clock::now();
-
-    //验证通讯帧率
-
-    {
-      static bool timers_initialized = false;
-      static std::chrono::steady_clock::time_point last_send_time;
-      static std::chrono::steady_clock::time_point window_start_time;
-      static int send_count = 0;
-
-      const auto send_time = std::chrono::steady_clock::now();
-
-      if (!timers_initialized) {
-        timers_initialized = true;
-        last_send_time = send_time;
-        window_start_time = send_time;
-        send_count = 1;
-      } else {
-        auto dt_us =
-          std::chrono::duration_cast<std::chrono::microseconds>(send_time - last_send_time);
-        const double dt_ms = dt_us.count() / 1000.0;
-        if (dt_ms > 20.0) {
-          utils::logger()->debug("[Pipeline] gimbal send dt = {:.3f} ms", dt_ms);
-        }
-        last_send_time = send_time;
-        send_count++;
-      }
-
-      auto window_elapsed = send_time - window_start_time;
-      if (window_elapsed >= std::chrono::seconds(1)) {
-        const double elapsed_sec = std::chrono::duration<double>(window_elapsed).count();
-        const double freq_hz = elapsed_sec > 0.0 ? send_count / elapsed_sec : 0.0;
-        utils::logger()->debug("[Pipeline] gimbal send freq = {:.1f} Hz", freq_hz);
-        window_start_time = send_time;
-        send_count = 0;
-      }
-    }
+    const auto cache_start_time = std::chrono::steady_clock::now();
+    update_latest_plan(plan_result);
+    const auto cache_end_time = std::chrono::steady_clock::now();
       
     // 统计滑动窗口内fire占比 和 offset
     {
@@ -563,7 +634,7 @@ void PipelineApp::planner_loop()
     const double state_ms = elapsed_ms(state_start_time, state_end_time);
     const double plan_ms = elapsed_ms(plan_start_time, plan_end_time);
     const double checkfire_ms = elapsed_ms(checkfire_start_time, checkfire_end_time);
-    const double send_ms = elapsed_ms(send_start_time, send_end_time);
+    const double cache_ms = elapsed_ms(cache_start_time, cache_end_time);
     const double debug_ms = elapsed_ms(debug_start_time, debug_end_time);
     const double target_pub_ms = elapsed_ms(target_pub_start_time, target_pub_end_time);
     const double loop_ms = elapsed_ms(loop_start_time, loop_profile_end_time);
@@ -573,7 +644,7 @@ void PipelineApp::planner_loop()
     update_profile(state_ms, profile_state_sum_ms, profile_state_max_ms);
     update_profile(plan_ms, profile_plan_sum_ms, profile_plan_max_ms);
     update_profile(checkfire_ms, profile_checkfire_sum_ms, profile_checkfire_max_ms);
-    update_profile(send_ms, profile_send_sum_ms, profile_send_max_ms);
+    update_profile(cache_ms, profile_cache_sum_ms, profile_cache_max_ms);
     update_profile(debug_ms, profile_debug_sum_ms, profile_debug_max_ms);
     update_profile(target_pub_ms, profile_target_pub_sum_ms, profile_target_pub_max_ms);
     update_profile(loop_ms, profile_loop_sum_ms, profile_loop_max_ms);
@@ -584,7 +655,7 @@ void PipelineApp::planner_loop()
       utils::logger()->info(
         "[PlannerProfile] loops={} empty={} "
         "front={:.3f}/{:.3f}ms state={:.3f}/{:.3f}ms plan={:.3f}/{:.3f}ms "
-        "checkfire={:.3f}/{:.3f}ms send={:.3f}/{:.3f}ms "
+        "checkfire={:.3f}/{:.3f}ms cache={:.3f}/{:.3f}ms "
         "debug={:.3f}/{:.3f}ms target_pub={:.3f}/{:.3f}ms loop={:.3f}/{:.3f}ms",
         profile_loop_count,
         profile_empty_count,
@@ -592,7 +663,7 @@ void PipelineApp::planner_loop()
         profile_state_sum_ms / count, profile_state_max_ms,
         profile_plan_sum_ms / count, profile_plan_max_ms,
         profile_checkfire_sum_ms / count, profile_checkfire_max_ms,
-        profile_send_sum_ms / count, profile_send_max_ms,
+        profile_cache_sum_ms / count, profile_cache_max_ms,
         profile_debug_sum_ms / count, profile_debug_max_ms,
         profile_target_pub_sum_ms / count, profile_target_pub_max_ms,
         profile_loop_sum_ms / count, profile_loop_max_ms);
@@ -604,7 +675,7 @@ void PipelineApp::planner_loop()
       profile_state_sum_ms = 0.0;
       profile_plan_sum_ms = 0.0;
       profile_checkfire_sum_ms = 0.0;
-      profile_send_sum_ms = 0.0;
+      profile_cache_sum_ms = 0.0;
       profile_debug_sum_ms = 0.0;
       profile_target_pub_sum_ms = 0.0;
       profile_loop_sum_ms = 0.0;
@@ -612,7 +683,7 @@ void PipelineApp::planner_loop()
       profile_state_max_ms = 0.0;
       profile_plan_max_ms = 0.0;
       profile_checkfire_max_ms = 0.0;
-      profile_send_max_ms = 0.0;
+      profile_cache_max_ms = 0.0;
       profile_debug_max_ms = 0.0;
       profile_target_pub_max_ms = 0.0;
       profile_loop_max_ms = 0.0;

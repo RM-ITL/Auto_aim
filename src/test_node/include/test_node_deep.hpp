@@ -7,6 +7,7 @@
 #include <deque>
 #include <list>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <thread>
 #include <vector>
@@ -60,6 +61,16 @@ private:
   void join_threads();
   void visualization_loop();
   void planner_loop();
+  void sender_loop();
+  void update_latest_plan(const plan::Plan & plan);
+
+  struct LatestPlanSnapshot
+  {
+    plan::Plan plan;
+    bool valid{false};
+    std::chrono::steady_clock::time_point time{};
+  };
+  LatestPlanSnapshot latest_plan_snapshot();
 
 
   // 组件与配置
@@ -83,10 +94,15 @@ private:
   rclcpp::Publisher<autoaim_msgs::msg::Target>::SharedPtr target_pub_;
   tools::ThreadSafeQueue<DebugPacket, true> visualization_queue{2};
   tools::ThreadSafeQueue<std::optional<tracker::TargetVariant>, true> target_queue{1};
+  std::mutex latest_plan_mutex_;
+  plan::Plan latest_plan_;
+  bool latest_plan_valid_{false};
+  std::chrono::steady_clock::time_point latest_plan_time_;
 
   std::atomic<bool> quit_{false};
   std::thread visualization_thread_;
   std::thread planner_thread_;
+  std::thread sender_thread_;
 
   bool enable_visualization_{true};
   std::string visualization_window_name_{"armor_detection"};

@@ -114,8 +114,8 @@ private:
   GimbalToVision rx_data_;
   VisionToGimbal tx_data_;
 
-  GimbalMode mode_ ;
-  GimbalState state_;
+  GimbalMode mode_{GimbalMode::IDLE};
+  GimbalState state_{};
   tools::ThreadSafeQueue<std::tuple<Eigen::Quaterniond, std::chrono::steady_clock::time_point>>
     queue_{1000};
 
