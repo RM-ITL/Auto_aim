@@ -145,7 +145,7 @@ Solver:
 
 # Tracker参数
 Tracker:
-  enemy_color: "red"  # 或 "blue"
+  enemy_color: "blue"  # 或 "blue"
   # 跟踪状态机参数
   min_detect_count: 3              # 最小检测次数
   max_temp_lost_count: 15          # 普通目标的最大临时丢失容忍度
@@ -198,7 +198,7 @@ Planner:
   Q_pitch: [9e6, 0]
   R_pitch: [1]
   yaw_offset: 2.2 # degree，相机光心与枪管中心的yaw偏差
-  pitch_offset: 1.9 # degree，pitch相对枪管的中心补偿参数
+  pitch_offset: -3.9 #1.9 degree，pitch相对枪管的中心补偿参数   
   decision_speed: 7 # rad/s， 高低速的判断阈值，大于此值的为高速目标
   high_speed_delay_time: 0.1 # s，高速目标的额外时间补偿
   low_speed_delay_time: 0.3 # s，低速目标的额外时间补偿
