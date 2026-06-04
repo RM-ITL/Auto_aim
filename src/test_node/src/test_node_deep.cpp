@@ -596,6 +596,27 @@ void PipelineApp::planner_loop()
       msg.pitch_vel_gimbal = gs.pitch_vel;
       msg.yaw_acc_gimbal = yaw_acc_gimbal;
       msg.pitch_acc_gimbal = pitch_acc_gimbal;
+      msg.target_valid = target.has_value();
+      msg.aim_plate_index = plan_result.aim_plate_index;
+      msg.target_yaw = plan_result.target_yaw;
+      msg.theta = 0.0f;
+      msg.omega = 0.0f;
+      msg.center_yaw = 0.0f;
+      msg.radius = 0.0f;
+      msg.single_plate = false;
+      if (target.has_value()) {
+        std::visit([&msg](const auto & t) {
+          auto x = t.ekf_x();
+          msg.theta = static_cast<float>(x[6]);
+          msg.omega = static_cast<float>(x[7]);
+          msg.center_yaw = static_cast<float>(std::atan2(x[2], x[0]));
+          msg.radius = static_cast<float>(x[8]);
+        }, target.value());
+
+        if (const auto * tracked_target = std::get_if<predict::Target>(&target.value())) {
+          msg.single_plate = tracked_target->single_plate_mode;
+        }
+      }
       debug_pub_->publish(msg);
     }
     const auto debug_end_time = std::chrono::steady_clock::now();
