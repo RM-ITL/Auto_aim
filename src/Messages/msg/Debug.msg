@@ -16,3 +16,13 @@ float32 yaw_vel_gimbal
 float32 pitch_vel_gimbal
 float32 yaw_acc_gimbal
 float32 pitch_acc_gimbal
+
+# Small-spin yaw observability fields. Currently filled by test_pipeline/deep_node.
+bool target_valid
+int32 aim_plate_index
+float32 target_yaw
+float32 theta
+float32 omega
+float32 center_yaw
+float32 radius
+bool single_plate

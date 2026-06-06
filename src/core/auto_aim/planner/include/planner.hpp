@@ -32,6 +32,7 @@ struct Plan
   float pitch = 0.F;
   float pitch_vel = 0.F;
   float pitch_acc = 0.F;
+  int aim_plate_index = -1;
 };
 
 class Planner
@@ -53,6 +54,7 @@ public:
   Plan plan(std::optional<TargetVariant> target, double bullet_speed);
 
 private:
+  int aim_sel_id_ = -1;
   double yaw_offset_;
   double pitch_offset_;
   double fire_thresh_;

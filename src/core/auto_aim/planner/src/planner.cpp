@@ -61,9 +61,11 @@ Plan Planner::plan(predict::Target target, double bullet_speed)
 
   // 2. Get trajectory
   double yaw0;
+  int plan_aim_id = -1;
   Trajectory traj;
   try {
     yaw0 = aim(target, bullet_speed)(0);
+    plan_aim_id = aim_sel_id_;
     // utils::logger()->debug(
     //   "yaw0为:{:.3f}",
     //   yaw0
@@ -91,6 +93,7 @@ Plan Planner::plan(predict::Target target, double bullet_speed)
 
   Plan plan;
   plan.control = true;
+  plan.aim_plate_index = plan_aim_id;
 
   plan.target_yaw = utils::limit_rad(traj(0, HALF_HORIZON) + yaw0);
   plan.target_pitch = traj(2, HALF_HORIZON);
@@ -201,14 +204,18 @@ Eigen::Matrix<double, 2, 1> Planner::aim(const predict::Target & target, double 
     auto xyza = target.armor_xyza_list()[target.last_id];
     xyz = xyza.head<3>();
     yaw = xyza[3];
+    aim_sel_id_ = target.last_id;
   } else {
     auto min_dist = 1e10;
-    for (auto & xyza : target.armor_xyza_list()) {
+    const auto armor_xyza_list = target.armor_xyza_list();
+    for (int i = 0; i < static_cast<int>(armor_xyza_list.size()); ++i) {
+      const auto & xyza = armor_xyza_list[i];
       auto dist = xyza.head<2>().norm();
       if (dist < min_dist) {
         min_dist = dist;
         xyz = xyza.head<3>();
         yaw = xyza[3];
+        aim_sel_id_ = i;
       }
     }
   }
@@ -272,9 +279,11 @@ Plan Planner::plan(predict::OutpostTarget target, double bullet_speed)
 
   // 2. Get trajectory
   double yaw0;
+  int plan_aim_id = -1;
   Trajectory traj;
   try {
     yaw0 = aim(target, bullet_speed)(0);
+    plan_aim_id = aim_sel_id_;
     traj = get_trajectory(target, yaw0, bullet_speed);
   } catch (const std::exception & e) {
     utils::logger()->warn("Unsolvable outpost target {:.2f}", bullet_speed);
@@ -298,6 +307,7 @@ Plan Planner::plan(predict::OutpostTarget target, double bullet_speed)
 
   Plan plan;
   plan.control = true;
+  plan.aim_plate_index = plan_aim_id;
 
   plan.target_yaw = utils::limit_rad(traj(0, HALF_HORIZON) + yaw0);
   
@@ -327,12 +337,15 @@ Eigen::Matrix<double, 2, 1> Planner::aim(const predict::OutpostTarget & target, 
   double yaw;
   auto min_dist = 1e10;
 
-  for (auto & xyza : target.armor_xyza_list()) {
+  const auto armor_xyza_list = target.armor_xyza_list();
+  for (int i = 0; i < static_cast<int>(armor_xyza_list.size()); ++i) {
+    const auto & xyza = armor_xyza_list[i];
     auto dist = xyza.head<2>().norm();
     if (dist < min_dist) {
       min_dist = dist;
       xyz = xyza.head<3>();
       yaw = xyza[3];
+      aim_sel_id_ = i;
     }
   }
   debug_xyza = Eigen::Vector4d(xyz.x(), xyz.y(), xyz.z(), yaw);
