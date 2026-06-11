@@ -156,6 +156,41 @@ inline double compute_reprojection_error(
   return total_error / static_cast<double>(image_points.size());
 }
 
+// 逐帧重投影误差（每帧角点欧氏距离均值，单位 px），复用 compute_reprojection_error。
+// 用于离群帧剔除与误差分布统计。
+inline std::vector<double> compute_per_view_errors(
+  const std::vector<std::vector<cv::Point3f>> & object_points_list,
+  const std::vector<std::vector<cv::Point2f>> & image_points_list,
+  const std::vector<cv::Mat> & rvecs,
+  const std::vector<cv::Mat> & tvecs,
+  const cv::Mat & camera_matrix,
+  const cv::Mat & dist_coeffs)
+{
+  std::vector<double> errors;
+  errors.reserve(object_points_list.size());
+  for (size_t i = 0; i < object_points_list.size(); ++i) {
+    errors.push_back(
+      compute_reprojection_error(
+        object_points_list[i], image_points_list[i], rvecs[i], tvecs[i], camera_matrix,
+        dist_coeffs));
+  }
+  return errors;
+}
+
+// 内参标定误差报告。rms_px 取 cv::calibrateCamera 的返回值（通用 RMS 口径）；
+// 其余统计量来自逐帧均值误差。holdout_mean_px < 0 表示未启用留出验证。
+struct CalibrationReport
+{
+  double rms_px{0.0};
+  double mean_px{0.0};
+  double max_view_px{0.0};
+  double std_view_px{0.0};
+  int used_samples{0};
+  int dropped_samples{0};
+  double holdout_mean_px{-1.0};
+  int holdout_samples{0};
+};
+
 inline std::string format_vector(const std::vector<double> & values, int precision = 10)
 {
   std::ostringstream oss;
@@ -204,7 +239,7 @@ inline std::vector<double> eigen_vector_to_std(const Eigen::Vector3d & vector)
 inline std::string make_camera_yaml(
   const cv::Mat & camera_matrix,
   const cv::Mat & dist_coeffs,
-  double reprojection_error,
+  const CalibrationReport & report,
   const cv::Size & image_size)
 {
   const auto camera_matrix_data = mat_to_row_major_vector(camera_matrix);
@@ -229,7 +264,16 @@ inline std::string make_camera_yaml(
   oss << "              principal_point: "
       << format_vector({camera_matrix_data[2], camera_matrix_data[5]}) << "\n";
   oss << "              disto_param: " << format_vector(dist_coeffs_data) << "\n";
-  oss << "# mean_reprojection_error_px: " << reprojection_error << "\n";
+  oss << "# rms_reprojection_error_px:  " << report.rms_px << "\n";
+  oss << "# mean_reprojection_error_px: " << report.mean_px << "\n";
+  oss << "# max_view_error_px:          " << report.max_view_px << "\n";
+  oss << "# std_view_error_px:          " << report.std_view_px << "\n";
+  oss << "# samples_used: " << report.used_samples << "  (dropped " << report.dropped_samples
+      << " outliers)\n";
+  if (report.holdout_mean_px >= 0.0) {
+    oss << "# holdout_mean_error_px: " << report.holdout_mean_px << "  (over "
+        << report.holdout_samples << " held-out samples)\n";
+  }
   return oss.str();
 }
 
