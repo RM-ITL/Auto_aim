@@ -1,4 +1,6 @@
+#include <algorithm>
 #include <iostream>
+#include <limits>
 #include <optional>
 #include <string>
 #include <utility>
@@ -16,22 +18,29 @@
 namespace Application
 {
 
+struct Options
+{
+  std::string input_folder;
+  std::string mode{"handeye"};
+  bool show_detection{false};
+  int min_samples{15};
+  double max_reproj_error{1.5};  // PnP 重投影误差闸门(px)，超过丢弃该帧
+  double ambiguity_ratio{1.5};   // IPPE 次优/最优重投影误差比，低于此视为高二义性丢弃
+};
+
 class HandeyeCalibApp
 {
 public:
-  HandeyeCalibApp(std::string input_folder, app_config::AppConfig app_config, std::string mode, bool show_detection)
-  : input_folder_(std::move(input_folder)),
-    app_config_(std::move(app_config)),
-    mode_(std::move(mode)),
-    show_detection_(show_detection)
+  HandeyeCalibApp(app_config::AppConfig app_config, Options options)
+  : app_config_(std::move(app_config)), opt_(std::move(options))
   {
   }
 
   int run()
   {
-    const auto sample_paths = calibration::enumerate_samples(input_folder_);
+    const auto sample_paths = calibration::enumerate_samples(opt_.input_folder);
     if (sample_paths.empty()) {
-      utils::logger()->error("[HandeyeCalib] 未在 {} 中找到采集图像", input_folder_);
+      utils::logger()->error("[HandeyeCalib] 未在 {} 中找到采集图像", opt_.input_folder);
       return 1;
     }
 
@@ -70,6 +79,9 @@ public:
     std::vector<cv::Mat> t_world_to_gimbal_list;
 
     int success_count = 0;
+    int pnp_fail_count = 0;
+    int ambiguous_count = 0;
+    int gated_count = 0;
     for (const auto & paths : sample_paths) {
       const auto sample = calibration::load_sample(paths);
       std::vector<cv::Point2f> centers;
@@ -79,23 +91,72 @@ public:
         continue;
       }
 
-      cv::Mat rvec;
-      cv::Mat tvec;
-      const bool pnp_success = cv::solvePnP(
-        object_points, centers, camera_matrix, dist_coeffs, rvec, tvec, false, cv::SOLVEPNP_IPPE);
-      if (!pnp_success) {
-        utils::logger()->warn("[HandeyeCalib] sample {:03d}: solvePnP 失败", sample.index);
+      // P1: solvePnPGeneric 返回平面靶标的两个候选位姿，按重投影误差消歧，
+      // 而非 IPPE 单解硬选——避免一帧翻转污染整个闭式解。
+      std::vector<cv::Mat> pnp_rvecs;
+      std::vector<cv::Mat> pnp_tvecs;
+      cv::Mat pnp_errors;
+      int n_solutions = 0;
+      try {
+        n_solutions = cv::solvePnPGeneric(
+          object_points, centers, camera_matrix, dist_coeffs, pnp_rvecs, pnp_tvecs, false,
+          cv::SOLVEPNP_IPPE, cv::noArray(), cv::noArray(), pnp_errors);
+      } catch (const cv::Exception & e) {
+        utils::logger()->warn("[HandeyeCalib] sample {:03d}: solvePnPGeneric 异常: {}", sample.index, e.what());
+        ++pnp_fail_count;
+        continue;
+      }
+      if (n_solutions < 1 || pnp_rvecs.empty()) {
+        utils::logger()->warn("[HandeyeCalib] sample {:03d}: solvePnP 无解", sample.index);
+        ++pnp_fail_count;
         continue;
       }
 
+      int best = 0;
+      for (int s = 1; s < n_solutions; ++s) {
+        if (pnp_errors.at<double>(s) < pnp_errors.at<double>(best)) {
+          best = s;
+        }
+      }
+      cv::Mat rvec = pnp_rvecs[best].clone();
+      cv::Mat tvec = pnp_tvecs[best].clone();
+
+      // P1: 最优/次优重投影误差比过小 → 二义性强（多见于接近正对），整帧丢弃。
+      if (n_solutions >= 2) {
+        const double best_err = pnp_errors.at<double>(best);
+        double second_err = std::numeric_limits<double>::infinity();
+        for (int s = 0; s < n_solutions; ++s) {
+          if (s != best) {
+            second_err = std::min(second_err, pnp_errors.at<double>(s));
+          }
+        }
+        const double ratio =
+          best_err > 1e-9 ? second_err / best_err : std::numeric_limits<double>::infinity();
+        if (ratio < opt_.ambiguity_ratio) {
+          utils::logger()->warn(
+            "[HandeyeCalib] sample {:03d}: 高二义性帧 (次优/最优={:.2f} < {:.2f})，丢弃",
+            sample.index, ratio, opt_.ambiguity_ratio);
+          ++ambiguous_count;
+          continue;
+        }
+      }
+
+      // P2: 重投影误差闸门——超阈值的坏帧不进 AX=XB。
       const double reprojection_error = calibration::compute_reprojection_error(
         object_points, centers, rvec, tvec, camera_matrix, dist_coeffs);
+      if (reprojection_error > opt_.max_reproj_error) {
+        utils::logger()->warn(
+          "[HandeyeCalib] sample {:03d}: 重投影误差 {:.4f} px > 闸门 {:.4f} px，丢弃",
+          sample.index, reprojection_error, opt_.max_reproj_error);
+        ++gated_count;
+        continue;
+      }
       utils::logger()->info(
-        "[HandeyeCalib] sample {:03d}: reprojection_error = {:.4f} px",
-        sample.index, reprojection_error);
+        "[HandeyeCalib] sample {:03d}: reprojection_error = {:.4f} px (解 {}/{})",
+        sample.index, reprojection_error, best + 1, n_solutions);
 
       cv::Mat drawing;
-      if (show_detection_) {
+      if (opt_.show_detection) {
         drawing = sample.image.clone();
         cv::drawChessboardCorners(drawing, pattern_config_.pattern_size, centers, true);
         cv::imshow(window_name_, drawing);
@@ -122,12 +183,18 @@ public:
       ++success_count;
     }
 
-    if (show_detection_) {
+    if (opt_.show_detection) {
       cv::destroyWindow(window_name_);
     }
 
-    if (success_count < 5) {
-      utils::logger()->error("[HandeyeCalib] 有效样本过少: {}", success_count);
+    utils::logger()->info(
+      "[HandeyeCalib] 采样统计: 保留 {} 帧 | PnP失败 {} | 高二义性丢弃 {} | 重投影超阈值丢弃 {}",
+      success_count, pnp_fail_count, ambiguous_count, gated_count);
+
+    if (success_count < opt_.min_samples) {
+      utils::logger()->error(
+        "[HandeyeCalib] 有效样本过少: {}，需要 >= {} 张（建议 15-30，且 yaw 与 pitch 都要散开成二维网格，勿只动单轴）",
+        success_count, opt_.min_samples);
       return 1;
     }
 
@@ -136,7 +203,7 @@ public:
     std::optional<Eigen::Matrix3d> r_board_to_world;
     std::optional<Eigen::Vector3d> t_board_to_world_m;
 
-    if (mode_ == "robotworld") {
+    if (opt_.mode == "robotworld") {
       cv::Mat r_gimbal_to_camera_cv;
       cv::Mat t_gimbal_to_camera_cv;
       cv::Mat r_world_to_board_cv;
@@ -174,7 +241,7 @@ public:
     const Eigen::Vector3d t_camera_to_gimbal_m = t_camera_to_gimbal_mm / 1e3;
 
     utils::logger()->info(
-      "[HandeyeCalib] 模式: {}, 有效样本: {}", mode_, success_count);
+      "[HandeyeCalib] 模式: {}, 有效样本: {}", opt_.mode, success_count);
     std::cout << calibration::make_handeye_yaml(
                    r_camera_to_gimbal, r_gimbal_to_imu, t_camera_to_gimbal_m,
                    r_board_to_world, t_board_to_world_m)
@@ -184,10 +251,8 @@ public:
 
 private:
   calibration::PatternConfig pattern_config_;
-  std::string input_folder_;
   app_config::AppConfig app_config_;
-  std::string mode_;
-  bool show_detection_{false};
+  Options opt_;
   const std::string window_name_{"handeye_calib_node"};
 };
 
@@ -200,7 +265,10 @@ int main(int argc, char ** argv)
     "{@input-folder   | assets/img_with_q | 输入数据文件夹}"
     "{config-path c   | src/config/config.yaml | 配置文件路径}"
     "{mode m          | handeye | 标定模式: handeye 或 robotworld}"
-    "{show s          | false | 是否显示圆点检测结果}";
+    "{show s          | false | 是否显示圆点检测结果}"
+    "{min-samples     | 15    | 最少有效样本数（建议 15-30，yaw/pitch 二维散开）}"
+    "{max-reproj-error| 1.5   | PnP 重投影误差闸门(px)，超过丢弃该帧}"
+    "{ambiguity-ratio | 1.5   | IPPE 次优/最优重投影误差比，低于此视为高二义性丢弃}";
 
   cv::CommandLineParser cli(argc, argv, keys);
   if (cli.has("help")) {
@@ -208,13 +276,18 @@ int main(int argc, char ** argv)
     return 0;
   }
 
-  const std::string input_folder = cli.get<std::string>(0);
   const std::string config_path = cli.get<std::string>("config-path");
-  const std::string mode = cli.get<std::string>("mode");
-  const bool show_detection = cli.get<bool>("show");
+
+  Application::Options options;
+  options.input_folder = cli.get<std::string>(0);
+  options.mode = cli.get<std::string>("mode");
+  options.show_detection = cli.get<bool>("show");
+  options.min_samples = cli.get<int>("min-samples");
+  options.max_reproj_error = cli.get<double>("max-reproj-error");
+  options.ambiguity_ratio = cli.get<double>("ambiguity-ratio");
 
   try {
-    Application::HandeyeCalibApp app(input_folder, app_config::AppConfig::load(config_path), mode, show_detection);
+    Application::HandeyeCalibApp app(app_config::AppConfig::load(config_path), std::move(options));
     return app.run();
   } catch (const std::exception & e) {
     utils::logger()->error("[HandeyeCalib] 程序异常终止: {}", e.what());
