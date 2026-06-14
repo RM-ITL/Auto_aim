@@ -263,12 +263,16 @@ inline std::string make_handeye_yaml(
   const Eigen::Matrix3d & r_gimbal_to_imu,
   const Eigen::Vector3d & t_camera_to_gimbal_m,
   const std::optional<Eigen::Matrix3d> & r_board_to_world = std::nullopt,
-  const std::optional<Eigen::Vector3d> & t_board_to_world_m = std::nullopt)
+  const std::optional<Eigen::Vector3d> & t_board_to_world_m = std::nullopt,
+  const std::string & provenance = "")
 {
   std::ostringstream oss;
   oss << std::fixed << std::setprecision(10);
   oss << "Solver:\n";
   oss << "  coord_converter:\n";
+  if (!provenance.empty()) {
+    oss << "    # " << provenance << "\n";
+  }
   oss << "    rotation_matrix_camera_to_gimbal:\n";
   oss << "      rows: 3\n";
   oss << "      cols: 3\n";

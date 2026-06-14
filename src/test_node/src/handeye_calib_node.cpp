@@ -1,11 +1,20 @@
 #include <algorithm>
 #include <cmath>
+#include <iomanip>
 #include <iostream>
 #include <limits>
 #include <optional>
+#include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
+
+#ifdef HANDEYE_WITH_CERES
+#include <ceres/ceres.h>
+#include <ceres/rotation.h>
+#include <ceres/types.h>
+#include <ceres/version.h>
+#endif
 
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
@@ -22,6 +31,30 @@ namespace Application
 
 namespace
 {
+struct ReprojectionStats
+{
+  double mean_px{std::numeric_limits<double>::infinity()};
+  double max_px{std::numeric_limits<double>::infinity()};
+  int residual_count{0};
+};
+
+struct BaResult
+{
+  bool attempted{false};
+  bool applied{false};
+  std::string status{"not requested"};
+  std::string ceres_version;
+  int iterations{0};
+  double initial_cost{-1.0};
+  double final_cost{-1.0};
+  ReprojectionStats before_reproj;
+  ReprojectionStats after_reproj;
+  Eigen::Matrix3d r_camera_to_gimbal{Eigen::Matrix3d::Identity()};
+  Eigen::Vector3d t_camera_to_gimbal_mm{Eigen::Vector3d::Zero()};
+  Eigen::Matrix3d r_board_to_world{Eigen::Matrix3d::Identity()};
+  Eigen::Vector3d t_board_to_world_mm{Eigen::Vector3d::Zero()};
+};
+
 // 两个 3x3 旋转矩阵之间的夹角（度）。
 double rotation_angle_deg(const cv::Mat & r_a, const cv::Mat & r_b)
 {
@@ -143,6 +176,299 @@ void report_method_agreement(
       t_c2g.at<double>(0) / 1e3, t_c2g.at<double>(1) / 1e3, t_c2g.at<double>(2) / 1e3);
   }
 }
+
+double project_point(
+  const Eigen::Vector3d & p_camera, const cv::Mat & camera_matrix, const cv::Mat & dist_coeffs,
+  cv::Point2d & pixel)
+{
+  if (p_camera.z() <= 1e-9) {
+    pixel = cv::Point2d(
+      std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN());
+    return std::numeric_limits<double>::infinity();
+  }
+
+  const double fx = camera_matrix.at<double>(0, 0);
+  const double fy = camera_matrix.at<double>(1, 1);
+  const double cx = camera_matrix.at<double>(0, 2);
+  const double cy = camera_matrix.at<double>(1, 2);
+
+  const double k1 = dist_coeffs.cols > 0 ? dist_coeffs.at<double>(0, 0) : 0.0;
+  const double k2 = dist_coeffs.cols > 1 ? dist_coeffs.at<double>(0, 1) : 0.0;
+  const double p1 = dist_coeffs.cols > 2 ? dist_coeffs.at<double>(0, 2) : 0.0;
+  const double p2 = dist_coeffs.cols > 3 ? dist_coeffs.at<double>(0, 3) : 0.0;
+  const double k3 = dist_coeffs.cols > 4 ? dist_coeffs.at<double>(0, 4) : 0.0;
+
+  const double x = p_camera.x() / p_camera.z();
+  const double y = p_camera.y() / p_camera.z();
+  const double r2 = x * x + y * y;
+  const double radial = 1.0 + k1 * r2 + k2 * r2 * r2 + k3 * r2 * r2 * r2;
+  const double x_dist = x * radial + 2.0 * p1 * x * y + p2 * (r2 + 2.0 * x * x);
+  const double y_dist = y * radial + p1 * (r2 + 2.0 * y * y) + 2.0 * p2 * x * y;
+
+  pixel.x = fx * x_dist + cx;
+  pixel.y = fy * y_dist + cy;
+  return 0.0;
+}
+
+ReprojectionStats compute_global_reprojection_stats(
+  const std::vector<cv::Mat> & r_gimbal_to_world_list,
+  const std::vector<std::vector<cv::Point2f>> & image_points_list,
+  const std::vector<cv::Point3f> & object_points,
+  const Eigen::Matrix3d & r_camera_to_gimbal,
+  const Eigen::Vector3d & t_camera_to_gimbal_mm,
+  const Eigen::Matrix3d & r_board_to_world,
+  const Eigen::Vector3d & t_board_to_world_mm,
+  const cv::Mat & camera_matrix,
+  const cv::Mat & dist_coeffs)
+{
+  ReprojectionStats stats;
+  double sum_px = 0.0;
+  double max_px = 0.0;
+  int count = 0;
+
+  for (size_t frame = 0; frame < r_gimbal_to_world_list.size(); ++frame) {
+    Eigen::Matrix3d r_gimbal_to_world;
+    cv::cv2eigen(r_gimbal_to_world_list[frame], r_gimbal_to_world);
+    const Eigen::Matrix3d r_world_to_gimbal = r_gimbal_to_world.transpose();
+
+    for (size_t i = 0; i < object_points.size(); ++i) {
+      const auto & p = object_points[i];
+      const Eigen::Vector3d p_board(p.x, p.y, p.z);
+      const Eigen::Vector3d p_world = r_board_to_world * p_board + t_board_to_world_mm;
+      const Eigen::Vector3d p_gimbal = r_world_to_gimbal * p_world;
+      const Eigen::Vector3d p_camera =
+        r_camera_to_gimbal.transpose() * (p_gimbal - t_camera_to_gimbal_mm);
+
+      cv::Point2d projected;
+      if (!std::isfinite(project_point(p_camera, camera_matrix, dist_coeffs, projected))) {
+        continue;
+      }
+      const cv::Point2d observed(image_points_list[frame][i].x, image_points_list[frame][i].y);
+      const double error = cv::norm(projected - observed);
+      sum_px += error;
+      max_px = std::max(max_px, error);
+      ++count;
+    }
+  }
+
+  if (count > 0) {
+    stats.mean_px = sum_px / static_cast<double>(count);
+    stats.max_px = max_px;
+    stats.residual_count = count;
+  }
+  return stats;
+}
+
+void mat_to_angle_axis_translation(
+  const Eigen::Matrix3d & rotation, const Eigen::Vector3d & translation, double * angle_axis,
+  double * t)
+{
+  cv::Mat r_cv;
+  cv::eigen2cv(rotation, r_cv);
+  cv::Mat rvec_cv;
+  cv::Rodrigues(r_cv, rvec_cv);
+  angle_axis[0] = rvec_cv.at<double>(0);
+  angle_axis[1] = rvec_cv.at<double>(1);
+  angle_axis[2] = rvec_cv.at<double>(2);
+  t[0] = translation.x();
+  t[1] = translation.y();
+  t[2] = translation.z();
+}
+
+void angle_axis_translation_to_mat(
+  const double * angle_axis, const double * t, Eigen::Matrix3d & rotation,
+  Eigen::Vector3d & translation)
+{
+  cv::Mat rvec_cv = (cv::Mat_<double>(3, 1) << angle_axis[0], angle_axis[1], angle_axis[2]);
+  cv::Mat r_cv;
+  cv::Rodrigues(rvec_cv, r_cv);
+  cv::cv2eigen(r_cv, rotation);
+  translation = Eigen::Vector3d(t[0], t[1], t[2]);
+}
+
+#ifdef HANDEYE_WITH_CERES
+struct HandeyeReprojectionCost
+{
+  HandeyeReprojectionCost(
+    Eigen::Matrix3d r_world_to_gimbal, Eigen::Vector3d p_board, cv::Point2d observed,
+    double fx, double fy, double cx, double cy, double k1, double k2, double p1, double p2,
+    double k3)
+  : r_world_to_gimbal_(std::move(r_world_to_gimbal)),
+    p_board_(std::move(p_board)),
+    observed_(observed),
+    fx_(fx),
+    fy_(fy),
+    cx_(cx),
+    cy_(cy),
+    k1_(k1),
+    k2_(k2),
+    p1_(p1),
+    p2_(p2),
+    k3_(k3)
+  {
+  }
+
+  template<typename T>
+  bool operator()(
+    const T * const c2g_aa, const T * const c2g_t, const T * const b2w_aa,
+    const T * const b2w_t, T * residuals) const
+  {
+    const T p_board[3] = {T(p_board_.x()), T(p_board_.y()), T(p_board_.z())};
+    T p_world_rot[3];
+    ceres::AngleAxisRotatePoint(b2w_aa, p_board, p_world_rot);
+    const T p_world[3] = {
+      p_world_rot[0] + b2w_t[0],
+      p_world_rot[1] + b2w_t[1],
+      p_world_rot[2] + b2w_t[2],
+    };
+
+    T p_gimbal[3];
+    for (int row = 0; row < 3; ++row) {
+      p_gimbal[row] =
+        T(r_world_to_gimbal_(row, 0)) * p_world[0] +
+        T(r_world_to_gimbal_(row, 1)) * p_world[1] +
+        T(r_world_to_gimbal_(row, 2)) * p_world[2];
+    }
+    const T p_gimbal_minus_t[3] = {
+      p_gimbal[0] - c2g_t[0],
+      p_gimbal[1] - c2g_t[1],
+      p_gimbal[2] - c2g_t[2],
+    };
+
+    T g2c_aa[3] = {-c2g_aa[0], -c2g_aa[1], -c2g_aa[2]};
+    T p_camera[3];
+    ceres::AngleAxisRotatePoint(g2c_aa, p_gimbal_minus_t, p_camera);
+
+    const T xp = p_camera[0] / p_camera[2];
+    const T yp = p_camera[1] / p_camera[2];
+    const T r2 = xp * xp + yp * yp;
+    const T radial = T(1.0) + T(k1_) * r2 + T(k2_) * r2 * r2 + T(k3_) * r2 * r2 * r2;
+    const T x_dist = xp * radial + T(2.0 * p1_) * xp * yp + T(p2_) * (r2 + T(2.0) * xp * xp);
+    const T y_dist = yp * radial + T(p1_) * (r2 + T(2.0) * yp * yp) + T(2.0 * p2_) * xp * yp;
+    const T u = T(fx_) * x_dist + T(cx_);
+    const T v = T(fy_) * y_dist + T(cy_);
+
+    residuals[0] = u - T(observed_.x);
+    residuals[1] = v - T(observed_.y);
+    return true;
+  }
+
+  Eigen::Matrix3d r_world_to_gimbal_;
+  Eigen::Vector3d p_board_;
+  cv::Point2d observed_;
+  double fx_;
+  double fy_;
+  double cx_;
+  double cy_;
+  double k1_;
+  double k2_;
+  double p1_;
+  double p2_;
+  double k3_;
+};
+
+BaResult run_minimal_ba(
+  const std::vector<cv::Mat> & r_gimbal_to_world_list,
+  const std::vector<std::vector<cv::Point2f>> & image_points_list,
+  const std::vector<cv::Point3f> & object_points,
+  const Eigen::Matrix3d & initial_r_camera_to_gimbal,
+  const Eigen::Vector3d & initial_t_camera_to_gimbal_mm,
+  const Eigen::Matrix3d & initial_r_board_to_world,
+  const Eigen::Vector3d & initial_t_board_to_world_mm,
+  const cv::Mat & camera_matrix,
+  const cv::Mat & dist_coeffs,
+  int max_iterations,
+  double huber_delta)
+{
+  BaResult result;
+  result.attempted = true;
+  result.ceres_version = CERES_VERSION_STRING;
+  result.r_camera_to_gimbal = initial_r_camera_to_gimbal;
+  result.t_camera_to_gimbal_mm = initial_t_camera_to_gimbal_mm;
+  result.r_board_to_world = initial_r_board_to_world;
+  result.t_board_to_world_mm = initial_t_board_to_world_mm;
+  result.before_reproj = compute_global_reprojection_stats(
+    r_gimbal_to_world_list, image_points_list, object_points, initial_r_camera_to_gimbal,
+    initial_t_camera_to_gimbal_mm, initial_r_board_to_world, initial_t_board_to_world_mm,
+    camera_matrix, dist_coeffs);
+
+  double c2g_aa[3];
+  double c2g_t[3];
+  double b2w_aa[3];
+  double b2w_t[3];
+  mat_to_angle_axis_translation(
+    initial_r_camera_to_gimbal, initial_t_camera_to_gimbal_mm, c2g_aa, c2g_t);
+  mat_to_angle_axis_translation(
+    initial_r_board_to_world, initial_t_board_to_world_mm, b2w_aa, b2w_t);
+
+  const double fx = camera_matrix.at<double>(0, 0);
+  const double fy = camera_matrix.at<double>(1, 1);
+  const double cx = camera_matrix.at<double>(0, 2);
+  const double cy = camera_matrix.at<double>(1, 2);
+  const double k1 = dist_coeffs.cols > 0 ? dist_coeffs.at<double>(0, 0) : 0.0;
+  const double k2 = dist_coeffs.cols > 1 ? dist_coeffs.at<double>(0, 1) : 0.0;
+  const double p1 = dist_coeffs.cols > 2 ? dist_coeffs.at<double>(0, 2) : 0.0;
+  const double p2 = dist_coeffs.cols > 3 ? dist_coeffs.at<double>(0, 3) : 0.0;
+  const double k3 = dist_coeffs.cols > 4 ? dist_coeffs.at<double>(0, 4) : 0.0;
+
+  ceres::Problem problem;
+  for (size_t frame = 0; frame < r_gimbal_to_world_list.size(); ++frame) {
+    Eigen::Matrix3d r_gimbal_to_world;
+    cv::cv2eigen(r_gimbal_to_world_list[frame], r_gimbal_to_world);
+    const Eigen::Matrix3d r_world_to_gimbal = r_gimbal_to_world.transpose();
+    for (size_t i = 0; i < object_points.size(); ++i) {
+      const auto & p = object_points[i];
+      auto * cost = new ceres::AutoDiffCostFunction<HandeyeReprojectionCost, 2, 3, 3, 3, 3>(
+        new HandeyeReprojectionCost(
+          r_world_to_gimbal, Eigen::Vector3d(p.x, p.y, p.z),
+          cv::Point2d(image_points_list[frame][i].x, image_points_list[frame][i].y),
+          fx, fy, cx, cy, k1, k2, p1, p2, k3));
+      ceres::LossFunction * loss = huber_delta > 0.0
+        ? static_cast<ceres::LossFunction *>(new ceres::HuberLoss(huber_delta))
+        : nullptr;
+      problem.AddResidualBlock(cost, loss, c2g_aa, c2g_t, b2w_aa, b2w_t);
+    }
+  }
+
+  ceres::Solver::Options options;
+  options.max_num_iterations = max_iterations;
+  options.linear_solver_type = ceres::DENSE_QR;
+  options.minimizer_progress_to_stdout = false;
+  options.num_threads = 1;
+
+  ceres::Solver::Summary summary;
+  ceres::Solve(options, &problem, &summary);
+  result.iterations = static_cast<int>(summary.iterations.size());
+  result.initial_cost = summary.initial_cost;
+  result.final_cost = summary.final_cost;
+  result.status = summary.BriefReport();
+
+  Eigen::Matrix3d refined_r_camera_to_gimbal;
+  Eigen::Vector3d refined_t_camera_to_gimbal_mm;
+  Eigen::Matrix3d refined_r_board_to_world;
+  Eigen::Vector3d refined_t_board_to_world_mm;
+  angle_axis_translation_to_mat(
+    c2g_aa, c2g_t, refined_r_camera_to_gimbal, refined_t_camera_to_gimbal_mm);
+  angle_axis_translation_to_mat(
+    b2w_aa, b2w_t, refined_r_board_to_world, refined_t_board_to_world_mm);
+
+  result.after_reproj = compute_global_reprojection_stats(
+    r_gimbal_to_world_list, image_points_list, object_points, refined_r_camera_to_gimbal,
+    refined_t_camera_to_gimbal_mm, refined_r_board_to_world, refined_t_board_to_world_mm,
+    camera_matrix, dist_coeffs);
+
+  const bool reproj_not_worse =
+    result.after_reproj.mean_px <= result.before_reproj.mean_px + 1e-9;
+  if (summary.IsSolutionUsable() && reproj_not_worse && std::isfinite(result.after_reproj.mean_px)) {
+    result.applied = true;
+    result.r_camera_to_gimbal = refined_r_camera_to_gimbal;
+    result.t_camera_to_gimbal_mm = refined_t_camera_to_gimbal_mm;
+    result.r_board_to_world = refined_r_board_to_world;
+    result.t_board_to_world_mm = refined_t_board_to_world_mm;
+  }
+  return result;
+}
+#endif
 }  // namespace
 
 struct Options
@@ -150,9 +476,12 @@ struct Options
   std::string input_folder;
   std::string mode{"handeye"};
   bool show_detection{false};
+  bool use_ba{false};
   int min_samples{15};
+  int ba_max_iterations{80};
   double max_reproj_error{1.5};  // PnP 重投影误差闸门(px)，超过丢弃该帧
   double ambiguity_ratio{1.5};   // IPPE 次优/最优重投影误差比，低于此视为高二义性丢弃
+  double ba_huber_delta{1.0};     // BA 像素残差 Huber 阈值(px)，<=0 时不用鲁棒核
 };
 
 class HandeyeCalibApp
@@ -165,6 +494,12 @@ public:
 
   int run()
   {
+#ifdef HANDEYE_WITH_CERES
+    utils::logger()->info("[HandeyeCalib] build: BA support = ON (Ceres {})", CERES_VERSION_STRING);
+#else
+    utils::logger()->info("[HandeyeCalib] build: BA support = OFF (构建时未找到 Ceres)");
+#endif
+
     const auto sample_paths = calibration::enumerate_samples(opt_.input_folder);
     if (sample_paths.empty()) {
       utils::logger()->error("[HandeyeCalib] 未在 {} 中找到采集图像", opt_.input_folder);
@@ -201,6 +536,7 @@ public:
     std::vector<cv::Mat> t_gripper_to_base_list;
     std::vector<cv::Mat> r_target_to_cam_list;
     std::vector<cv::Mat> t_target_to_cam_list;
+    std::vector<std::vector<cv::Point2f>> image_points_list;
 
     std::vector<cv::Mat> r_world_to_gimbal_list;
     std::vector<cv::Mat> t_world_to_gimbal_list;
@@ -305,6 +641,7 @@ public:
       t_gripper_to_base_list.push_back(t_zero);
       r_target_to_cam_list.push_back(rvec.clone());
       t_target_to_cam_list.push_back(tvec.clone());
+      image_points_list.push_back(centers);
       r_world_to_gimbal_list.push_back(r_world_to_gimbal_cv);
       t_world_to_gimbal_list.push_back(t_zero.clone());
       ++success_count;
@@ -365,6 +702,63 @@ public:
     cv::cv2eigen(r_camera_to_gimbal_cv, r_camera_to_gimbal);
     Eigen::Vector3d t_camera_to_gimbal_mm;
     cv::cv2eigen(t_camera_to_gimbal_cv, t_camera_to_gimbal_mm);
+
+    BaResult ba_result;
+    if (opt_.use_ba) {
+      if (opt_.mode != "robotworld") {
+        ba_result.attempted = true;
+        ba_result.status = "requested but skipped: BA 需要 -m=robotworld 提供 board_to_world 初值";
+        utils::logger()->warn(
+          "[HandeyeCalib] BA: 你传了 --ba=true，但当前 mode={}，BA 需要 -m=robotworld 初值，已退回闭式解",
+          opt_.mode);
+      } else if (!r_board_to_world.has_value() || !t_board_to_world_m.has_value()) {
+        ba_result.attempted = true;
+        ba_result.status = "requested but skipped: missing robotworld initial board_to_world";
+        utils::logger()->warn(
+          "[HandeyeCalib] BA: robotworld 未产生 board_to_world 初值，已退回闭式解");
+      } else {
+#ifdef HANDEYE_WITH_CERES
+        utils::logger()->info(
+          "[HandeyeCalib] BA: 启用 (ceres {}, max_iter={}, huber_delta={:.3f}px)",
+          CERES_VERSION_STRING, opt_.ba_max_iterations, opt_.ba_huber_delta);
+        ba_result = run_minimal_ba(
+          r_gripper_to_base_list, image_points_list, object_points, r_camera_to_gimbal,
+          t_camera_to_gimbal_mm, *r_board_to_world, *t_board_to_world_m * 1e3, camera_matrix,
+          dist_coeffs, opt_.ba_max_iterations, opt_.ba_huber_delta);
+        utils::logger()->info(
+          "[HandeyeCalib] BA: 迭代 {} 次, cost {:.6g} -> {:.6g}, {}",
+          ba_result.iterations, ba_result.initial_cost, ba_result.final_cost, ba_result.status);
+        utils::logger()->info(
+          "[HandeyeCalib] BA: 全局重投影 mean {:.4f}->{:.4f}px | max {:.4f}->{:.4f}px | residuals {}",
+          ba_result.before_reproj.mean_px, ba_result.after_reproj.mean_px,
+          ba_result.before_reproj.max_px, ba_result.after_reproj.max_px,
+          ba_result.after_reproj.residual_count);
+        if (ba_result.applied) {
+          r_camera_to_gimbal = ba_result.r_camera_to_gimbal;
+          t_camera_to_gimbal_mm = ba_result.t_camera_to_gimbal_mm;
+          r_board_to_world = ba_result.r_board_to_world;
+          t_board_to_world_m = ba_result.t_board_to_world_mm / 1e3;
+          cv::eigen2cv(r_camera_to_gimbal, r_camera_to_gimbal_cv);
+          cv::eigen2cv(t_camera_to_gimbal_mm, t_camera_to_gimbal_cv);
+          utils::logger()->info("[HandeyeCalib] BA: 已采用 BA 优化结果");
+        } else {
+          utils::logger()->warn("[HandeyeCalib] BA: 未采用 BA 结果，保留 robotworld 闭式解");
+        }
+#else
+        ba_result.attempted = true;
+        ba_result.status = "requested but unavailable: not compiled with Ceres";
+        utils::logger()->warn(
+          "[HandeyeCalib] BA: 你传了 --ba=true，但此二进制未编译 Ceres 支持，已退回闭式解");
+#endif
+      }
+    } else {
+#ifdef HANDEYE_WITH_CERES
+      utils::logger()->info("[HandeyeCalib] BA: 已编译但未启用 (--ba=false)，仅输出闭式解");
+#else
+      utils::logger()->info("[HandeyeCalib] BA: 未编译且未请求，仅输出闭式解");
+#endif
+    }
+
     const Eigen::Vector3d t_camera_to_gimbal_m = t_camera_to_gimbal_mm / 1e3;
 
     // P4: 残差/一致性报告。
@@ -378,9 +772,21 @@ public:
 
     utils::logger()->info(
       "[HandeyeCalib] 模式: {}, 有效样本: {}", opt_.mode, success_count);
+    std::ostringstream provenance;
+    provenance << "handeye solver: " << opt_.mode;
+    if (ba_result.applied) {
+      provenance << " + BA(ceres " << ba_result.ceres_version << "), reproj "
+                 << std::fixed << std::setprecision(4)
+                 << ba_result.before_reproj.mean_px << "->" << ba_result.after_reproj.mean_px
+                 << "px";
+    } else if (ba_result.attempted) {
+      provenance << " closed-form (BA not applied: " << ba_result.status << ")";
+    } else {
+      provenance << " closed-form (BA disabled)";
+    }
     std::cout << calibration::make_handeye_yaml(
                    r_camera_to_gimbal, r_gimbal_to_imu, t_camera_to_gimbal_m,
-                   r_board_to_world, t_board_to_world_m)
+                   r_board_to_world, t_board_to_world_m, provenance.str())
               << std::endl;
     return 0;
   }
@@ -402,9 +808,12 @@ int main(int argc, char ** argv)
     "{config-path c   | src/config/config.yaml | 配置文件路径}"
     "{mode m          | handeye | 标定模式: handeye 或 robotworld}"
     "{show s          | false | 是否显示圆点检测结果}"
+    "{ba              | false | 是否启用最小 BA（需 -m=robotworld 且编译期找到 Ceres）}"
     "{min-samples     | 15    | 最少有效样本数（建议 15-30，yaw/pitch 二维散开）}"
     "{max-reproj-error| 1.5   | PnP 重投影误差闸门(px)，超过丢弃该帧}"
-    "{ambiguity-ratio | 1.5   | IPPE 次优/最优重投影误差比，低于此视为高二义性丢弃}";
+    "{ambiguity-ratio | 1.5   | IPPE 次优/最优重投影误差比，低于此视为高二义性丢弃}"
+    "{ba-max-iter     | 80    | BA 最大迭代次数}"
+    "{ba-huber-delta  | 1.0   | BA 像素残差 Huber 阈值(px)，<=0 表示不用鲁棒核}";
 
   cv::CommandLineParser cli(argc, argv, keys);
   if (cli.has("help")) {
@@ -418,9 +827,12 @@ int main(int argc, char ** argv)
   options.input_folder = cli.get<std::string>(0);
   options.mode = cli.get<std::string>("mode");
   options.show_detection = cli.get<bool>("show");
+  options.use_ba = cli.get<bool>("ba");
   options.min_samples = cli.get<int>("min-samples");
   options.max_reproj_error = cli.get<double>("max-reproj-error");
   options.ambiguity_ratio = cli.get<double>("ambiguity-ratio");
+  options.ba_max_iterations = cli.get<int>("ba-max-iter");
+  options.ba_huber_delta = cli.get<double>("ba-huber-delta");
 
   try {
     Application::HandeyeCalibApp app(app_config::AppConfig::load(config_path), std::move(options));

@@ -21,6 +21,7 @@ find_package(deveice REQUIRED)
 find_package(auto_aim REQUIRED)
 find_package(auto_buff REQUIRED)
 find_package(auto_base REQUIRED)
+find_package(Ceres 2.0 QUIET)
 
 add_executable(deep_node
   src/test_node_deep.cpp
@@ -203,6 +204,14 @@ target_link_libraries(handeye_calib_node
   ${OpenCV_LIBS}
   yaml-cpp
 )
+
+if(Ceres_FOUND)
+  target_compile_definitions(handeye_calib_node PRIVATE HANDEYE_WITH_CERES)
+  target_link_libraries(handeye_calib_node Ceres::ceres)
+  message(STATUS "handeye_calib_node: Ceres ${Ceres_VERSION} found, BA enabled")
+else()
+  message(STATUS "handeye_calib_node: Ceres not found, BA disabled (closed-form solver still builds)")
+endif()
 
 target_link_libraries(aimer_node
   ${OpenCV_LIBS}
