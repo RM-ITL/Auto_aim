@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 #include <limits>
 #include <optional>
@@ -7,6 +8,7 @@
 #include <vector>
 
 #include <Eigen/Dense>
+#include <Eigen/Geometry>
 #include <opencv2/core/eigen.hpp>
 #include <opencv2/opencv.hpp>
 
@@ -17,6 +19,131 @@
 
 namespace Application
 {
+
+namespace
+{
+// 两个 3x3 旋转矩阵之间的夹角（度）。
+double rotation_angle_deg(const cv::Mat & r_a, const cv::Mat & r_b)
+{
+  const cv::Mat r = r_a.t() * r_b;
+  const double trace = r.at<double>(0, 0) + r.at<double>(1, 1) + r.at<double>(2, 2);
+  const double cos_theta = std::max(-1.0, std::min(1.0, (trace - 1.0) / 2.0));
+  return std::acos(cos_theta) * 180.0 / CV_PI;
+}
+
+// P4-残差报告：board 与 world 都固定，故 board→world 在各帧应当一致，
+// 其离散度直接反映手眼外参 X 的质量（不依赖真值，是自洽性指标）。
+void report_board_to_world_consistency(
+  const std::vector<cv::Mat> & r_gimbal_to_world_list,
+  const std::vector<cv::Mat> & rvec_target_to_cam_list,
+  const std::vector<cv::Mat> & tvec_target_to_cam_list,
+  const cv::Mat & r_camera_to_gimbal, const cv::Mat & t_camera_to_gimbal_mm)
+{
+  const size_t n = r_gimbal_to_world_list.size();
+  if (n == 0) {
+    return;
+  }
+
+  std::vector<Eigen::Quaterniond> q_board_to_world;
+  std::vector<cv::Vec3d> t_board_to_world_mm;
+  q_board_to_world.reserve(n);
+  t_board_to_world_mm.reserve(n);
+  for (size_t i = 0; i < n; ++i) {
+    cv::Mat r_t2c;
+    cv::Rodrigues(rvec_target_to_cam_list[i], r_t2c);
+    const cv::Mat r_t2w = r_gimbal_to_world_list[i] * r_camera_to_gimbal * r_t2c;
+    const cv::Mat t_t2w = r_gimbal_to_world_list[i] *
+      (r_camera_to_gimbal * tvec_target_to_cam_list[i] + t_camera_to_gimbal_mm);
+    Eigen::Matrix3d r_eigen;
+    cv::cv2eigen(r_t2w, r_eigen);
+    q_board_to_world.emplace_back(Eigen::Quaterniond(r_eigen).normalized());
+    t_board_to_world_mm.emplace_back(
+      t_t2w.at<double>(0), t_t2w.at<double>(1), t_t2w.at<double>(2));
+  }
+
+  // 平移均值与各帧偏差（mm）。
+  cv::Vec3d t_mean(0.0, 0.0, 0.0);
+  for (const auto & t : t_board_to_world_mm) {
+    t_mean += t;
+  }
+  t_mean *= 1.0 / static_cast<double>(n);
+  double t_dev_sum = 0.0;
+  double t_dev_max = 0.0;
+  for (const auto & t : t_board_to_world_mm) {
+    const double d = cv::norm(t - t_mean);
+    t_dev_sum += d;
+    t_dev_max = std::max(t_dev_max, d);
+  }
+
+  // 旋转：四元数平均作参考，报告各帧角度偏差（度）。
+  const Eigen::Quaterniond & q_ref = q_board_to_world.front();
+  Eigen::Vector4d acc = Eigen::Vector4d::Zero();
+  for (const auto & q : q_board_to_world) {
+    Eigen::Vector4d v(q.w(), q.x(), q.y(), q.z());
+    if (v.dot(Eigen::Vector4d(q_ref.w(), q_ref.x(), q_ref.y(), q_ref.z())) < 0.0) {
+      v = -v;
+    }
+    acc += v;
+  }
+  acc.normalize();
+  const Eigen::Quaterniond q_mean(acc[0], acc[1], acc[2], acc[3]);
+  double r_dev_sum = 0.0;
+  double r_dev_max = 0.0;
+  for (const auto & q : q_board_to_world) {
+    const double a = q_mean.angularDistance(q) * 180.0 / CV_PI;
+    r_dev_sum += a;
+    r_dev_max = std::max(r_dev_max, a);
+  }
+
+  utils::logger()->info(
+    "[HandeyeCalib] board→world 自洽性: 旋转偏差 mean={:.3f}° max={:.3f}° | 平移偏差 mean={:.2f}mm max={:.2f}mm",
+    r_dev_sum / static_cast<double>(n), r_dev_max, t_dev_sum / static_cast<double>(n), t_dev_max);
+  utils::logger()->info(
+    "[HandeyeCalib]   board 原点世界系均值 = [{:.1f}, {:.1f}, {:.1f}] mm（仅作量级参考）",
+    t_mean[0], t_mean[1], t_mean[2]);
+}
+
+// P4-多方法对比：用五种 calibrateHandEye 方法各解一次，报告旋转与首个方法(TSAI)的夹角。
+// 旋转高度一致说明结果可信；某方法平移明显跑偏多半是样本姿态覆盖不足。
+void report_method_agreement(
+  const std::vector<cv::Mat> & r_gripper_to_base, const std::vector<cv::Mat> & t_gripper_to_base,
+  const std::vector<cv::Mat> & r_target_to_cam, const std::vector<cv::Mat> & t_target_to_cam)
+{
+  struct Entry
+  {
+    const char * name;
+    cv::HandEyeCalibrationMethod method;
+  };
+  const std::vector<Entry> methods = {
+    {"TSAI", cv::CALIB_HAND_EYE_TSAI},
+    {"PARK", cv::CALIB_HAND_EYE_PARK},
+    {"HORAUD", cv::CALIB_HAND_EYE_HORAUD},
+    {"ANDREFF", cv::CALIB_HAND_EYE_ANDREFF},
+    {"DANIILIDIS", cv::CALIB_HAND_EYE_DANIILIDIS},
+  };
+
+  cv::Mat r_ref;
+  for (const auto & entry : methods) {
+    cv::Mat r_c2g;
+    cv::Mat t_c2g;
+    try {
+      cv::calibrateHandEye(
+        r_gripper_to_base, t_gripper_to_base, r_target_to_cam, t_target_to_cam, r_c2g, t_c2g,
+        entry.method);
+    } catch (const cv::Exception & e) {
+      utils::logger()->warn("[HandeyeCalib] 方法 {} 求解失败: {}", entry.name, e.what());
+      continue;
+    }
+    if (r_ref.empty()) {
+      r_ref = r_c2g.clone();
+    }
+    utils::logger()->info(
+      "[HandeyeCalib] 方法对比 {:<11}: R 与TSAI差 {:.3f}° | t=[{:.4f}, {:.4f}, {:.4f}] m",
+      entry.name, rotation_angle_deg(r_ref, r_c2g),
+      t_c2g.at<double>(0) / 1e3, t_c2g.at<double>(1) / 1e3, t_c2g.at<double>(2) / 1e3);
+  }
+}
+}  // namespace
 
 struct Options
 {
@@ -239,6 +366,15 @@ public:
     Eigen::Vector3d t_camera_to_gimbal_mm;
     cv::cv2eigen(t_camera_to_gimbal_cv, t_camera_to_gimbal_mm);
     const Eigen::Vector3d t_camera_to_gimbal_m = t_camera_to_gimbal_mm / 1e3;
+
+    // P4: 残差/一致性报告。
+    report_board_to_world_consistency(
+      r_gripper_to_base_list, r_target_to_cam_list, t_target_to_cam_list, r_camera_to_gimbal_cv,
+      t_camera_to_gimbal_cv);
+    if (opt_.mode != "robotworld") {
+      report_method_agreement(
+        r_gripper_to_base_list, t_gripper_to_base_list, r_target_to_cam_list, t_target_to_cam_list);
+    }
 
     utils::logger()->info(
       "[HandeyeCalib] 模式: {}, 有效样本: {}", opt_.mode, success_count);

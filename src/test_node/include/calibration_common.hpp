@@ -34,7 +34,6 @@ struct SamplePaths
   int index{0};
   std::string image_path;
   std::string quaternion_path;
-  std::string timestamp_path;
 };
 
 struct CalibrationSample
@@ -42,7 +41,6 @@ struct CalibrationSample
   int index{0};
   cv::Mat image;
   Eigen::Quaterniond q{Eigen::Quaterniond::Identity()};
-  std::optional<long long> timestamp_ns;
 };
 
 inline std::vector<cv::Point3f> circle_centers_3d(const PatternConfig & config)
@@ -70,7 +68,6 @@ inline std::vector<SamplePaths> enumerate_samples(const std::string & input_fold
     sample.index = index;
     sample.image_path = input_folder + "/" + std::to_string(index) + ".jpg";
     sample.quaternion_path = input_folder + "/" + std::to_string(index) + ".txt";
-    sample.timestamp_path = input_folder + "/" + std::to_string(index) + "_timestamp.txt";
 
     cv::Mat image = cv::imread(sample.image_path);
     if (image.empty()) {
@@ -79,21 +76,6 @@ inline std::vector<SamplePaths> enumerate_samples(const std::string & input_fold
     samples.push_back(sample);
   }
   return samples;
-}
-
-inline std::optional<long long> read_timestamp_ns(const std::string & timestamp_path)
-{
-  std::ifstream timestamp_file(timestamp_path);
-  if (!timestamp_file.is_open()) {
-    return std::nullopt;
-  }
-
-  long long timestamp_ns = 0;
-  timestamp_file >> timestamp_ns;
-  if (!timestamp_file.fail()) {
-    return timestamp_ns;
-  }
-  return std::nullopt;
 }
 
 inline Eigen::Quaterniond read_quaternion_wxyz(const std::string & quaternion_path)
@@ -122,7 +104,6 @@ inline CalibrationSample load_sample(const SamplePaths & paths)
     throw std::runtime_error("无法读取图像: " + paths.image_path);
   }
   sample.q = read_quaternion_wxyz(paths.quaternion_path);
-  sample.timestamp_ns = read_timestamp_ns(paths.timestamp_path);
   return sample;
 }
 
@@ -298,7 +279,7 @@ inline std::string make_handeye_yaml(
   oss << "      cols: 3\n";
   oss << "      dt: float\n";
   oss << "      data: " << format_vector(eigen_matrix_to_row_major_vector(r_gimbal_to_imu)) << "\n";
-  oss << "t_camera_to_gimbal: " << format_vector(eigen_vector_to_std(t_camera_to_gimbal_m)) << "\n";
+  oss << "    t_camera_to_gimbal: " << format_vector(eigen_vector_to_std(t_camera_to_gimbal_m)) << "\n";
 
   if (r_board_to_world.has_value() && t_board_to_world_m.has_value()) {
     oss << "# board_to_world_rotation: "
