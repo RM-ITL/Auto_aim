@@ -107,6 +107,24 @@ inline CalibrationSample load_sample(const SamplePaths & paths)
   return sample;
 }
 
+// 只枚举四元数（N.txt），不要求同名图像存在——用于纯姿态分析（如 gimbal/imu 外参自检与求解）。
+// 从 index=1 起按序读取，遇到缺失的 N.txt 即停止。
+inline std::vector<std::pair<int, Eigen::Quaterniond>> enumerate_quaternions(
+  const std::string & input_folder)
+{
+  std::vector<std::pair<int, Eigen::Quaterniond>> samples;
+  for (int index = 1;; ++index) {
+    const std::string quaternion_path = input_folder + "/" + std::to_string(index) + ".txt";
+    std::ifstream probe(quaternion_path);
+    if (!probe.is_open()) {
+      break;
+    }
+    probe.close();
+    samples.emplace_back(index, read_quaternion_wxyz(quaternion_path));
+  }
+  return samples;
+}
+
 inline bool find_circle_centers(
   const cv::Mat & image, const PatternConfig & config, std::vector<cv::Point2f> & centers)
 {

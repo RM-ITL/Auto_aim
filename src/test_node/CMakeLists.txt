@@ -59,6 +59,10 @@ add_executable(handeye_calib_node
   src/handeye_calib_node.cpp
 )
 
+add_executable(gimbal_imu_calib_node
+  src/gimbal_imu_calib_node.cpp
+)
+
 target_include_directories(deep_node PRIVATE
   include
 )
@@ -84,6 +88,10 @@ target_include_directories(camera_calib_node PRIVATE
 )
 
 target_include_directories(handeye_calib_node PRIVATE
+  include
+)
+
+target_include_directories(gimbal_imu_calib_node PRIVATE
   include
 )
 
@@ -154,6 +162,11 @@ ament_target_dependencies(handeye_calib_node
   app_config
 )
 
+ament_target_dependencies(gimbal_imu_calib_node
+  utils
+  app_config
+)
+
 ament_target_dependencies(aimer_node
   rclcpp
   Eigen3
@@ -205,6 +218,11 @@ target_link_libraries(handeye_calib_node
   yaml-cpp
 )
 
+target_link_libraries(gimbal_imu_calib_node
+  ${OpenCV_LIBS}
+  yaml-cpp
+)
+
 if(Ceres_FOUND)
   target_compile_definitions(handeye_calib_node PRIVATE HANDEYE_WITH_CERES)
   target_link_libraries(handeye_calib_node Ceres::ceres)
@@ -227,6 +245,7 @@ install(TARGETS
   capture_node
   camera_calib_node
   handeye_calib_node
+  gimbal_imu_calib_node
   aimer_node
   gimbal_comm_test
   DESTINATION lib/${PROJECT_NAME}

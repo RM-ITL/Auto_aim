@@ -55,6 +55,24 @@ struct BaResult
   Eigen::Vector3d t_board_to_world_mm{Eigen::Vector3d::Zero()};
 };
 
+// solvePnPGeneric 的 reprojectionError 输出是 CV_32F（N×1），
+// 直接用 pnp_errors.at<double>(s) 读取会把 float 字节当 double 解读（且会越界），
+// 选解逻辑因此失效。这里先 reshape 成 1×N 再 convertTo CV_64F，做真正的类型转换。
+std::vector<double> pnp_error_values(const cv::Mat & pnp_errors, int n_solutions)
+{
+  std::vector<double> values;
+  if (pnp_errors.empty() || n_solutions <= 0) {
+    return values;
+  }
+  cv::Mat errors64;
+  pnp_errors.reshape(1, 1).convertTo(errors64, CV_64F);
+  values.reserve(static_cast<size_t>(n_solutions));
+  for (int i = 0; i < n_solutions && i < errors64.cols; ++i) {
+    values.push_back(errors64.at<double>(0, i));
+  }
+  return values;
+}
+
 // 两个 3x3 旋转矩阵之间的夹角（度）。
 double rotation_angle_deg(const cv::Mat & r_a, const cv::Mat & r_b)
 {
@@ -575,9 +593,17 @@ public:
         continue;
       }
 
+      const auto pnp_errors_vec = pnp_error_values(pnp_errors, n_solutions);
+      if (pnp_errors_vec.size() != static_cast<size_t>(n_solutions)) {
+        utils::logger()->warn(
+          "[HandeyeCalib] sample {:03d}: 无法读取 PnP 重投影误差，丢弃", sample.index);
+        ++pnp_fail_count;
+        continue;
+      }
+
       int best = 0;
       for (int s = 1; s < n_solutions; ++s) {
-        if (pnp_errors.at<double>(s) < pnp_errors.at<double>(best)) {
+        if (pnp_errors_vec[s] < pnp_errors_vec[best]) {
           best = s;
         }
       }
@@ -586,11 +612,11 @@ public:
 
       // P1: 最优/次优重投影误差比过小 → 二义性强（多见于接近正对），整帧丢弃。
       if (n_solutions >= 2) {
-        const double best_err = pnp_errors.at<double>(best);
+        const double best_err = pnp_errors_vec[best];
         double second_err = std::numeric_limits<double>::infinity();
         for (int s = 0; s < n_solutions; ++s) {
           if (s != best) {
-            second_err = std::min(second_err, pnp_errors.at<double>(s));
+            second_err = std::min(second_err, pnp_errors_vec[s]);
           }
         }
         const double ratio =
