@@ -70,7 +70,7 @@ public:
       return 1;
     }
 
-    const auto object_points_template = calibration::circle_centers_3d(pattern_config_);
+    const auto object_points_template = calibration::chessboard_corners_3d(pattern_config_);
     std::vector<std::vector<cv::Point3f>> all_object_points;
     std::vector<std::vector<cv::Point2f>> all_image_points;
     std::vector<int> all_indices;
@@ -87,7 +87,7 @@ public:
       }
 
       std::vector<cv::Point2f> centers;
-      const bool success = calibration::find_circle_centers(image, pattern_config_, centers);
+      const bool success = calibration::find_chessboard_corners(image, pattern_config_, centers);
       utils::logger()->info(
         "[CameraCalib] sample {:03d}: {}", paths.index, success ? "detected" : "missed");
 
@@ -273,7 +273,7 @@ public:
 
     if (report.rms_px > opt_.max_rms) {
       utils::logger()->warn(
-        "[CameraCalib] RMS {:.4f} px 超过阈值 {:.4f} px，建议检查模糊/曝光/圆点完整度/样本覆盖/是否混入错误分辨率图片",
+        "[CameraCalib] RMS {:.4f} px 超过阈值 {:.4f} px，建议检查模糊/曝光/角点清晰度/样本覆盖/是否混入错误分辨率图片",
         report.rms_px, opt_.max_rms);
     }
 
@@ -295,7 +295,7 @@ int main(int argc, char ** argv)
   const std::string keys =
     "{help h usage ? | | 输出命令行参数说明}"
     "{@input-folder   | assets/img_with_q | 输入数据文件夹}"
-    "{show s          | false | 是否显示圆点检测结果}"
+    "{show s          | false | 是否显示棋盘格角点检测结果}"
     "{min-samples     | 15    | 最少有效样本数（建议 15-30）}"
     "{max-rms         | 1.0   | RMS 重投影误差告警阈值(px)，超过仅告警不失败}"
     "{free-k3         | false | 放开 k3（默认锁 k3=0，CALIB_FIX_K3）}"

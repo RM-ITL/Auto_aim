@@ -548,7 +548,7 @@ public:
       dist_coeffs.at<double>(0, static_cast<int>(i)) = disto_param[i];
     }
 
-    const auto object_points = calibration::circle_centers_3d(pattern_config_);
+    const auto object_points = calibration::chessboard_corners_3d(pattern_config_);
 
     std::vector<cv::Mat> r_gripper_to_base_list;
     std::vector<cv::Mat> t_gripper_to_base_list;
@@ -566,9 +566,9 @@ public:
     for (const auto & paths : sample_paths) {
       const auto sample = calibration::load_sample(paths);
       std::vector<cv::Point2f> centers;
-      const bool detected = calibration::find_circle_centers(sample.image, pattern_config_, centers);
+      const bool detected = calibration::find_chessboard_corners(sample.image, pattern_config_, centers);
       if (!detected) {
-        utils::logger()->warn("[HandeyeCalib] sample {:03d}: 圆点板检测失败", sample.index);
+        utils::logger()->warn("[HandeyeCalib] sample {:03d}: 棋盘格角点检测失败", sample.index);
         continue;
       }
 
@@ -833,7 +833,7 @@ int main(int argc, char ** argv)
     "{@input-folder   | assets/img_with_q | 输入数据文件夹}"
     "{config-path c   | src/config/config.yaml | 配置文件路径}"
     "{mode m          | handeye | 标定模式: handeye 或 robotworld}"
-    "{show s          | false | 是否显示圆点检测结果}"
+    "{show s          | false | 是否显示棋盘格角点检测结果}"
     "{ba              | false | 是否启用最小 BA（需 -m=robotworld 且编译期找到 Ceres）}"
     "{min-samples     | 15    | 最少有效样本数（建议 15-30，yaw/pitch 二维散开）}"
     "{max-reproj-error| 1.5   | PnP 重投影误差闸门(px)，超过丢弃该帧}"

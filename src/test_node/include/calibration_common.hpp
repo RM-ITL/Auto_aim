@@ -25,8 +25,10 @@ namespace calibration
 
 struct PatternConfig
 {
-  cv::Size pattern_size{11, 8};
-  double center_distance_mm{20.0};
+  // 棋盘格“内角点”数 (列, 行) 与单格边长(mm)。
+  // 注意是内角点而非方格：9x12 个方格 → 8x11 个内角点。约定 "列 x 行" = cv::Size(width, height)。
+  cv::Size pattern_size{8, 11};
+  double square_size_mm{15.0};
 };
 
 struct SamplePaths
@@ -43,21 +45,22 @@ struct CalibrationSample
   Eigen::Quaterniond q{Eigen::Quaterniond::Identity()};
 };
 
-inline std::vector<cv::Point3f> circle_centers_3d(const PatternConfig & config)
+inline std::vector<cv::Point3f> chessboard_corners_3d(const PatternConfig & config)
 {
-  std::vector<cv::Point3f> centers;
-  centers.reserve(static_cast<size_t>(config.pattern_size.width * config.pattern_size.height));
+  std::vector<cv::Point3f> corners;
+  corners.reserve(static_cast<size_t>(config.pattern_size.width * config.pattern_size.height));
 
+  // 与 findChessboardCorners 的返回顺序一致：行优先（外层 row、内层 col）。
   for (int row = 0; row < config.pattern_size.height; ++row) {
     for (int col = 0; col < config.pattern_size.width; ++col) {
-      centers.emplace_back(
-        static_cast<float>(col * config.center_distance_mm),
-        static_cast<float>(row * config.center_distance_mm),
+      corners.emplace_back(
+        static_cast<float>(col * config.square_size_mm),
+        static_cast<float>(row * config.square_size_mm),
         0.0f);
     }
   }
 
-  return centers;
+  return corners;
 }
 
 inline std::vector<SamplePaths> enumerate_samples(const std::string & input_folder)
@@ -125,12 +128,34 @@ inline std::vector<std::pair<int, Eigen::Quaterniond>> enumerate_quaternions(
   return samples;
 }
 
-inline bool find_circle_centers(
-  const cv::Mat & image, const PatternConfig & config, std::vector<cv::Point2f> & centers)
+// 棋盘格内角点检测：转灰度 → findChessboardCorners 找角点 → cornerSubPix 亚像素精化。
+// 角点是黑白格的鞍点，定位与透视无关，无圆点质心的透视偏差。
+// refine=false 时跳过亚像素精化——仅需“检到/没检到”布尔结果的场景（采集节点的存帧闸门
+// 与实时预览）用它省时；离线标定（内参/手眼）必须 refine=true 以拿到亚像素角点。
+inline bool find_chessboard_corners(
+  const cv::Mat & image, const PatternConfig & config, std::vector<cv::Point2f> & corners,
+  bool refine = true)
 {
-  return cv::findCirclesGrid(
-    image, config.pattern_size, centers,
-    cv::CALIB_CB_SYMMETRIC_GRID | cv::CALIB_CB_CLUSTERING);
+  cv::Mat gray;
+  if (image.channels() == 1) {
+    gray = image;
+  } else {
+    cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
+  }
+
+  const bool found = cv::findChessboardCorners(
+    gray, config.pattern_size, corners,
+    cv::CALIB_CB_ADAPTIVE_THRESH | cv::CALIB_CB_NORMALIZE_IMAGE);
+  if (!found) {
+    return false;
+  }
+
+  if (refine) {
+    cv::cornerSubPix(
+      gray, corners, cv::Size(11, 11), cv::Size(-1, -1),
+      cv::TermCriteria(cv::TermCriteria::EPS + cv::TermCriteria::COUNT, 30, 1e-3));
+  }
+  return true;
 }
 
 inline double compute_reprojection_error(
