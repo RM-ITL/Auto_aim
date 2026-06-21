@@ -61,8 +61,8 @@ camera:
   lens: "6mm"
   type: "hik"  # 可选: "hik", "mindvision"
   parameters:
-    exposure_ms: 80.0
-    gain: 60.0
+    exposure_ms: 3.0
+    gain: 12.0
     gamma: 100.0
     fps: 120.0
     target_width: 1280
@@ -127,9 +127,9 @@ DM_IMU:
 Solver:
   coord_converter:  # 坐标变换所需参数
     rotation_matrix_camera_to_gimbal:
-      data: [0, 0, 1,
-            -1, 0, 0,
-            0, -1, 0]
+      data: [-0.0877324975, -0.0560516870, 0.9945658436,
+             -0.9960073224, 0.0214787803, -0.0866491531,
+             -0.0165052300, -0.9981968094, -0.0577122778]
             
     rotation_matrix_gimbal_to_imu:
       data: [0, 1, 0,
@@ -140,7 +140,7 @@ Solver:
     # - y: 相机相对云台在左右方向的偏移
     # - z: 相机相对云台在上下方向的偏移
     t_camera_to_gimbal:
-      [0.1519, 0.0756, 0.0222]
+      [0.1617589006, -0.0117720912, 0.0180514132]
     # [0.115, -0.065, 0.015]cm
 
 
