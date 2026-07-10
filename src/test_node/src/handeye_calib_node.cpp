@@ -38,6 +38,16 @@ struct ReprojectionStats
   int residual_count{0};
 };
 
+struct BoardWorldConsistencyStats
+{
+  double rotation_mean_deg{std::numeric_limits<double>::infinity()};
+  double rotation_max_deg{std::numeric_limits<double>::infinity()};
+  double translation_mean_mm{std::numeric_limits<double>::infinity()};
+  double translation_max_mm{std::numeric_limits<double>::infinity()};
+  cv::Vec3d translation_center_mm{0.0, 0.0, 0.0};
+  int sample_count{0};
+};
+
 struct BaResult
 {
   bool attempted{false};
@@ -84,15 +94,16 @@ double rotation_angle_deg(const cv::Mat & r_a, const cv::Mat & r_b)
 
 // P4-残差报告：board 与 world 都固定，故 board→world 在各帧应当一致，
 // 其离散度直接反映手眼外参 X 的质量（不依赖真值，是自洽性指标）。
-void report_board_to_world_consistency(
+BoardWorldConsistencyStats report_board_to_world_consistency(
   const std::vector<cv::Mat> & r_gimbal_to_world_list,
   const std::vector<cv::Mat> & rvec_target_to_cam_list,
   const std::vector<cv::Mat> & tvec_target_to_cam_list,
   const cv::Mat & r_camera_to_gimbal, const cv::Mat & t_camera_to_gimbal_mm)
 {
+  BoardWorldConsistencyStats stats;
   const size_t n = r_gimbal_to_world_list.size();
   if (n == 0) {
-    return;
+    return stats;
   }
 
   std::vector<Eigen::Quaterniond> q_board_to_world;
@@ -146,12 +157,21 @@ void report_board_to_world_consistency(
     r_dev_max = std::max(r_dev_max, a);
   }
 
+  stats.rotation_mean_deg = r_dev_sum / static_cast<double>(n);
+  stats.rotation_max_deg = r_dev_max;
+  stats.translation_mean_mm = t_dev_sum / static_cast<double>(n);
+  stats.translation_max_mm = t_dev_max;
+  stats.translation_center_mm = t_mean;
+  stats.sample_count = static_cast<int>(n);
+
   utils::logger()->info(
     "[HandeyeCalib] board→world 自洽性: 旋转偏差 mean={:.3f}° max={:.3f}° | 平移偏差 mean={:.2f}mm max={:.2f}mm",
-    r_dev_sum / static_cast<double>(n), r_dev_max, t_dev_sum / static_cast<double>(n), t_dev_max);
+    stats.rotation_mean_deg, stats.rotation_max_deg, stats.translation_mean_mm,
+    stats.translation_max_mm);
   utils::logger()->info(
     "[HandeyeCalib]   board 原点世界系均值 = [{:.1f}, {:.1f}, {:.1f}] mm（仅作量级参考）",
     t_mean[0], t_mean[1], t_mean[2]);
+  return stats;
 }
 
 // P4-多方法对比：用五种 calibrateHandEye 方法各解一次，报告旋转与首个方法(TSAI)的夹角。
@@ -495,6 +515,7 @@ struct Options
   std::string mode{"handeye"};
   bool show_detection{false};
   bool use_ba{false};
+  bool verify_only{false};
   int min_samples{15};
   int ba_max_iterations{80};
   double max_reproj_error{1.5};  // PnP 重投影误差闸门(px)，超过丢弃该帧
@@ -524,15 +545,17 @@ public:
       return 1;
     }
 
-    const auto unflatten_3x3 = [](const std::vector<double> & data) -> Eigen::Matrix3d {
+    const auto unflatten_3x3 = [](
+      const std::vector<double> & data, const std::string & field_name) -> Eigen::Matrix3d {
       if (data.size() != 9) {
-        throw std::runtime_error("rotation_matrix_gimbal_to_imu 数据长度不是 9");
+        throw std::runtime_error(field_name + " 数据长度不是 9");
       }
       return Eigen::Matrix<double, 3, 3, Eigen::RowMajor>(data.data());
     };
 
-    const Eigen::Matrix3d r_gimbal_to_imu =
-      unflatten_3x3(app_config_.solver.coord_converter.rotation_matrix_gimbal_to_imu);
+    const Eigen::Matrix3d r_gimbal_to_imu = unflatten_3x3(
+      app_config_.solver.coord_converter.rotation_matrix_gimbal_to_imu,
+      "rotation_matrix_gimbal_to_imu");
     const auto & focal_length = app_config_.solver.camera_intri.focal_length;
     const auto & principal_point = app_config_.solver.camera_intri.principal_point;
     const auto & disto_param = app_config_.solver.camera_intri.disto_param;
@@ -688,6 +711,59 @@ public:
       return 1;
     }
 
+    if (opt_.verify_only) {
+      const auto & coord_converter = app_config_.solver.coord_converter;
+      const Eigen::Matrix3d r_camera_to_gimbal = unflatten_3x3(
+        coord_converter.rotation_matrix_camera_to_gimbal,
+        "rotation_matrix_camera_to_gimbal");
+      if (coord_converter.t_camera_to_gimbal.size() != 3) {
+        throw std::runtime_error("t_camera_to_gimbal 数据长度不是 3");
+      }
+      const Eigen::Vector3d t_camera_to_gimbal_m(
+        coord_converter.t_camera_to_gimbal[0], coord_converter.t_camera_to_gimbal[1],
+        coord_converter.t_camera_to_gimbal[2]);
+      const Eigen::Vector3d t_camera_to_gimbal_mm = t_camera_to_gimbal_m * 1e3;
+
+      cv::Mat r_camera_to_gimbal_cv;
+      cv::Mat t_camera_to_gimbal_cv;
+      cv::eigen2cv(r_camera_to_gimbal, r_camera_to_gimbal_cv);
+      cv::eigen2cv(t_camera_to_gimbal_mm, t_camera_to_gimbal_cv);
+
+      const double orthogonality_error =
+        (r_camera_to_gimbal.transpose() * r_camera_to_gimbal - Eigen::Matrix3d::Identity()).norm();
+      const double determinant = r_camera_to_gimbal.determinant();
+      const bool finite = r_camera_to_gimbal.allFinite() && t_camera_to_gimbal_m.allFinite() &&
+        std::isfinite(orthogonality_error) && std::isfinite(determinant);
+      utils::logger()->info(
+        "[HandeyeCalib] verify-only: 使用配置中的固定 Camera→Gimbal 外参，不执行闭式求解或 BA");
+      utils::logger()->info(
+        "[HandeyeCalib] verify-only: lens={}, R={}, t=[{:.6f}, {:.6f}, {:.6f}] m",
+        app_config_.camera.lens,
+        calibration::format_vector(
+          calibration::eigen_matrix_to_row_major_vector(r_camera_to_gimbal)),
+        t_camera_to_gimbal_m.x(), t_camera_to_gimbal_m.y(), t_camera_to_gimbal_m.z());
+      utils::logger()->info(
+        "[HandeyeCalib] verify-only: R 正交误差={:.3e}, det={:.9f}",
+        orthogonality_error, determinant);
+      if (!finite || orthogonality_error > 1e-3 || std::abs(determinant - 1.0) > 1e-3) {
+        throw std::runtime_error(
+          "verify-only: 配置外参包含非有限值，或旋转矩阵不是有效的 SO(3) 旋转");
+      }
+      if (opt_.use_ba) {
+        utils::logger()->warn("[HandeyeCalib] verify-only: 已忽略 --ba=true");
+      }
+
+      const auto stats = report_board_to_world_consistency(
+        r_gripper_to_base_list, r_target_to_cam_list, t_target_to_cam_list,
+        r_camera_to_gimbal_cv, t_camera_to_gimbal_cv);
+      utils::logger()->info(
+        "[HandeyeCalib] VERIFY_RESULT input={} samples={} rotation_mean_deg={:.6f} "
+        "rotation_max_deg={:.6f} translation_mean_mm={:.6f} translation_max_mm={:.6f}",
+        opt_.input_folder, stats.sample_count, stats.rotation_mean_deg, stats.rotation_max_deg,
+        stats.translation_mean_mm, stats.translation_max_mm);
+      return 0;
+    }
+
     cv::Mat r_camera_to_gimbal_cv;
     cv::Mat t_camera_to_gimbal_cv;
     std::optional<Eigen::Matrix3d> r_board_to_world;
@@ -835,6 +911,7 @@ int main(int argc, char ** argv)
     "{mode m          | handeye | 标定模式: handeye 或 robotworld}"
     "{show s          | false | 是否显示棋盘格角点检测结果}"
     "{ba              | false | 是否启用最小 BA（需 -m=robotworld 且编译期找到 Ceres）}"
+    "{verify-only     | false | 固定使用配置外参，仅回代检查 board→world 自洽性，不重新求解}"
     "{min-samples     | 15    | 最少有效样本数（建议 15-30，yaw/pitch 二维散开）}"
     "{max-reproj-error| 1.5   | PnP 重投影误差闸门(px)，超过丢弃该帧}"
     "{ambiguity-ratio | 1.5   | IPPE 次优/最优重投影误差比，低于此视为高二义性丢弃}"
@@ -854,6 +931,7 @@ int main(int argc, char ** argv)
   options.mode = cli.get<std::string>("mode");
   options.show_detection = cli.get<bool>("show");
   options.use_ba = cli.get<bool>("ba");
+  options.verify_only = cli.get<bool>("verify-only");
   options.min_samples = cli.get<int>("min-samples");
   options.max_reproj_error = cli.get<double>("max-reproj-error");
   options.ambiguity_ratio = cli.get<double>("ambiguity-ratio");
