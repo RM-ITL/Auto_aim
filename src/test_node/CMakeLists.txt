@@ -21,6 +21,8 @@ find_package(deveice REQUIRED)
 find_package(auto_aim REQUIRED)
 find_package(auto_buff REQUIRED)
 find_package(auto_base REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(cv_bridge REQUIRED)
 find_package(Ceres 2.0 QUIET)
 
 add_executable(deep_node
@@ -63,6 +65,10 @@ add_executable(gimbal_imu_calib_node
   src/gimbal_imu_calib_node.cpp
 )
 
+add_executable(record_node
+  src/record_node.cpp
+)
+
 target_include_directories(deep_node PRIVATE
   include
 )
@@ -96,6 +102,10 @@ target_include_directories(gimbal_imu_calib_node PRIVATE
 )
 
 target_include_directories(aimer_node  PRIVATE
+  include
+)
+
+target_include_directories(record_node PRIVATE
   include
 )
 
@@ -178,6 +188,18 @@ ament_target_dependencies(aimer_node
   autoaim_msgs
 )
 
+ament_target_dependencies(record_node
+  rclcpp
+  Eigen3
+  deveice
+  utils
+  app_config
+  serial
+  autoaim_msgs
+  sensor_msgs
+  cv_bridge
+)
+
 target_link_libraries(deep_node
   ${OpenCV_LIBS}
   deveice::deveice
@@ -237,6 +259,11 @@ target_link_libraries(aimer_node
   auto_aim::auto_aim
 )
 
+target_link_libraries(record_node
+  ${OpenCV_LIBS}
+  deveice::deveice
+)
+
 install(TARGETS
   deep_node
   video_node
@@ -248,6 +275,7 @@ install(TARGETS
   gimbal_imu_calib_node
   aimer_node
   gimbal_comm_test
+  record_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

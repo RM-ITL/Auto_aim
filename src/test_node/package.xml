@@ -21,6 +21,8 @@
   <depend>auto_aim</depend>
   <depend>auto_buff</depend>
   <depend>auto_base</depend>
+  <depend>sensor_msgs</depend>
+  <depend>cv_bridge</depend>
 
   <build_depend>OpenCV</build_depend>
   <exec_depend>OpenCV</exec_depend>
