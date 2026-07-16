@@ -41,6 +41,7 @@ RecordApp::RecordApp(const app_config::AppConfig & app_config)
   image_topic_ = ros_node_->declare_parameter<std::string>("image_topic", image_topic_);
   imu_topic_ = ros_node_->declare_parameter<std::string>("imu_topic", imu_topic_);
   frame_id_ = ros_node_->declare_parameter<std::string>("frame_id", frame_id_);
+  publish_fps_ = ros_node_->declare_parameter<double>("publish_fps", publish_fps_);
 
   // 录制用可靠 QoS + 深队列，避免 bag record 偶发丢帧。
   auto qos = rclcpp::QoS(rclcpp::KeepLast(50)).reliable();
@@ -57,6 +58,10 @@ RecordApp::RecordApp(const app_config::AppConfig & app_config)
   utils::logger()->info("[Record] 姿态来源: {}", imu_source_name_);
   utils::logger()->info("[Record] 图像话题: {}", image_topic_);
   utils::logger()->info("[Record] 四元数话题: {}", imu_topic_);
+  utils::logger()->info(
+    "[Record] 发布帧率: {}",
+    publish_fps_ > 0.0 ? std::to_string(static_cast<int>(publish_fps_)) + " fps (抽帧)"
+                       : std::string("全发 (不抽帧)"));
   utils::logger()->info(
     "[Record] 相机类型: {} (BGR8 直发，不做色彩转换)", camera_->camera_type());
   g_app_instance = this;
@@ -104,6 +109,17 @@ int RecordApp::run()
       break;
     }
 
+    // 按 publish_fps 均匀抽帧：距上次发布不足 1/publish_fps 则跳过（图像+IMU 一起跳，
+    // 保持严格 1:1 与均匀间隔）。publish_fps<=0 表示不抽帧全发。
+    if (publish_fps_ > 0.0 && has_published_) {
+      const double min_interval_s = 1.0 / publish_fps_;
+      const double since_last =
+        std::chrono::duration<double>(timestamp - last_pub_stamp_).count();
+      if (since_last < min_interval_s) {
+        continue;
+      }
+    }
+
     // 与 test_node_deep 保持一致：四元数取采集时刻前 1ms，规避采集与 IMU 到达的相位差。
     const Eigen::Quaterniond q = pose_at(timestamp - std::chrono::milliseconds(1));
 
@@ -134,6 +150,9 @@ int RecordApp::run()
     imu_msg.dm_y = 0.0f;
     imu_msg.dm_z = 0.0f;
     imu_pub_->publish(imu_msg);
+
+    has_published_ = true;
+    last_pub_stamp_ = timestamp;
 
     frame_count_++;
     frame_count_window_++;

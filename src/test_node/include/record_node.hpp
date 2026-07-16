@@ -29,6 +29,9 @@ namespace Application
 //   - /image_raw       sensor_msgs/msg/Image        (bgr8, 1280x1024)
 //   - /imu/quaternion  autoaim_msgs/msg/Orienta     (w/x/y/z; dm_* 恒为 0)
 //
+// 发布帧率可用参数 publish_fps 控制（默认 60，0=不抽帧全发），按 stamp 均匀抽帧，
+// 图像与四元数一起抽，保持严格 1:1。相机仍按配置 fps 采集，分辨率/内参不变。
+//
 // 时间戳约定：header.stamp = 相机采集时刻的 steady_clock 值（纳秒）。
 // 图像和四元数在同一帧内使用同一个 stamp，回放侧按 stamp 对齐即可。
 class RecordApp
@@ -60,6 +63,12 @@ private:
   std::string image_topic_{"/image_raw"};
   std::string imu_topic_{"/imu/quaternion"};
   std::string frame_id_{"camera_optical_frame"};
+
+  // 发布帧率控制：相机仍按配置 fps 采集，发布侧按 stamp 均匀抽帧到 publish_fps。
+  // publish_fps<=0 表示不抽帧（全发）。降帧率是为了减小 bag 体积（不动分辨率/内参）。
+  double publish_fps_{60.0};
+  bool has_published_{false};
+  std::chrono::steady_clock::time_point last_pub_stamp_{};
 
   std::atomic<bool> quit_{false};
 
