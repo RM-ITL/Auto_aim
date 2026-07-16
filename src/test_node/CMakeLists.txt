@@ -21,6 +21,9 @@ find_package(deveice REQUIRED)
 find_package(auto_aim REQUIRED)
 find_package(auto_buff REQUIRED)
 find_package(auto_base REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(cv_bridge REQUIRED)
+find_package(Ceres 2.0 QUIET)
 
 add_executable(deep_node
   src/test_node_deep.cpp
@@ -58,6 +61,14 @@ add_executable(handeye_calib_node
   src/handeye_calib_node.cpp
 )
 
+add_executable(gimbal_imu_calib_node
+  src/gimbal_imu_calib_node.cpp
+)
+
+add_executable(record_node
+  src/record_node.cpp
+)
+
 target_include_directories(deep_node PRIVATE
   include
 )
@@ -86,7 +97,15 @@ target_include_directories(handeye_calib_node PRIVATE
   include
 )
 
+target_include_directories(gimbal_imu_calib_node PRIVATE
+  include
+)
+
 target_include_directories(aimer_node  PRIVATE
+  include
+)
+
+target_include_directories(record_node PRIVATE
   include
 )
 
@@ -153,6 +172,11 @@ ament_target_dependencies(handeye_calib_node
   app_config
 )
 
+ament_target_dependencies(gimbal_imu_calib_node
+  utils
+  app_config
+)
+
 ament_target_dependencies(aimer_node
   rclcpp
   Eigen3
@@ -162,6 +186,18 @@ ament_target_dependencies(aimer_node
   app_config
   serial
   autoaim_msgs
+)
+
+ament_target_dependencies(record_node
+  rclcpp
+  Eigen3
+  deveice
+  utils
+  app_config
+  serial
+  autoaim_msgs
+  sensor_msgs
+  cv_bridge
 )
 
 target_link_libraries(deep_node
@@ -204,10 +240,28 @@ target_link_libraries(handeye_calib_node
   yaml-cpp
 )
 
+target_link_libraries(gimbal_imu_calib_node
+  ${OpenCV_LIBS}
+  yaml-cpp
+)
+
+if(Ceres_FOUND)
+  target_compile_definitions(handeye_calib_node PRIVATE HANDEYE_WITH_CERES)
+  target_link_libraries(handeye_calib_node Ceres::ceres)
+  message(STATUS "handeye_calib_node: Ceres ${Ceres_VERSION} found, BA enabled")
+else()
+  message(STATUS "handeye_calib_node: Ceres not found, BA disabled (closed-form solver still builds)")
+endif()
+
 target_link_libraries(aimer_node
   ${OpenCV_LIBS}
   deveice::deveice
   auto_aim::auto_aim
+)
+
+target_link_libraries(record_node
+  ${OpenCV_LIBS}
+  deveice::deveice
 )
 
 install(TARGETS
@@ -218,8 +272,10 @@ install(TARGETS
   capture_node
   camera_calib_node
   handeye_calib_node
+  gimbal_imu_calib_node
   aimer_node
   gimbal_comm_test
+  record_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

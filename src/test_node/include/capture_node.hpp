@@ -57,11 +57,10 @@ private:
   bool diag_mode_{false};
   Eigen::Matrix3d r_gimbal_to_imu_{Eigen::Matrix3d::Identity()};
 
-  // 对称圆点板尺寸 (列数, 行数)
-  const cv::Size pattern_size_{11, 8};
-  const double circle_spacing_mm_{20.0};
-  const double circle_diameter_mm_{15.0};
-  const cv::Size board_size_mm_{210, 297};
+  // 棋盘格内角点 (列, 行) 与单格边长(mm)：9x12 个方格 → 8x11 个内角点。
+  const cv::Size pattern_size_{8, 11};
+  const double square_size_mm_{15.0};
+  const cv::Size board_size_mm_{135, 180};  // 9x12 格 × 15mm（仅日志参考）
   const double preview_scale_{0.5};
   const std::string window_name_{"Press s to save, q to quit"};
 };

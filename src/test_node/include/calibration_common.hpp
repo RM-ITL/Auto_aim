@@ -25,8 +25,10 @@ namespace calibration
 
 struct PatternConfig
 {
-  cv::Size pattern_size{11, 8};
-  double center_distance_mm{20.0};
+  // 棋盘格“内角点”数 (列, 行) 与单格边长(mm)。
+  // 注意是内角点而非方格：9x12 个方格 → 8x11 个内角点。约定 "列 x 行" = cv::Size(width, height)。
+  cv::Size pattern_size{8, 11};
+  double square_size_mm{15.0};
 };
 
 struct SamplePaths
@@ -34,7 +36,6 @@ struct SamplePaths
   int index{0};
   std::string image_path;
   std::string quaternion_path;
-  std::string timestamp_path;
 };
 
 struct CalibrationSample
@@ -42,24 +43,24 @@ struct CalibrationSample
   int index{0};
   cv::Mat image;
   Eigen::Quaterniond q{Eigen::Quaterniond::Identity()};
-  std::optional<long long> timestamp_ns;
 };
 
-inline std::vector<cv::Point3f> circle_centers_3d(const PatternConfig & config)
+inline std::vector<cv::Point3f> chessboard_corners_3d(const PatternConfig & config)
 {
-  std::vector<cv::Point3f> centers;
-  centers.reserve(static_cast<size_t>(config.pattern_size.width * config.pattern_size.height));
+  std::vector<cv::Point3f> corners;
+  corners.reserve(static_cast<size_t>(config.pattern_size.width * config.pattern_size.height));
 
+  // 与 findChessboardCorners 的返回顺序一致：行优先（外层 row、内层 col）。
   for (int row = 0; row < config.pattern_size.height; ++row) {
     for (int col = 0; col < config.pattern_size.width; ++col) {
-      centers.emplace_back(
-        static_cast<float>(col * config.center_distance_mm),
-        static_cast<float>(row * config.center_distance_mm),
+      corners.emplace_back(
+        static_cast<float>(col * config.square_size_mm),
+        static_cast<float>(row * config.square_size_mm),
         0.0f);
     }
   }
 
-  return centers;
+  return corners;
 }
 
 inline std::vector<SamplePaths> enumerate_samples(const std::string & input_folder)
@@ -70,7 +71,6 @@ inline std::vector<SamplePaths> enumerate_samples(const std::string & input_fold
     sample.index = index;
     sample.image_path = input_folder + "/" + std::to_string(index) + ".jpg";
     sample.quaternion_path = input_folder + "/" + std::to_string(index) + ".txt";
-    sample.timestamp_path = input_folder + "/" + std::to_string(index) + "_timestamp.txt";
 
     cv::Mat image = cv::imread(sample.image_path);
     if (image.empty()) {
@@ -79,21 +79,6 @@ inline std::vector<SamplePaths> enumerate_samples(const std::string & input_fold
     samples.push_back(sample);
   }
   return samples;
-}
-
-inline std::optional<long long> read_timestamp_ns(const std::string & timestamp_path)
-{
-  std::ifstream timestamp_file(timestamp_path);
-  if (!timestamp_file.is_open()) {
-    return std::nullopt;
-  }
-
-  long long timestamp_ns = 0;
-  timestamp_file >> timestamp_ns;
-  if (!timestamp_file.fail()) {
-    return timestamp_ns;
-  }
-  return std::nullopt;
 }
 
 inline Eigen::Quaterniond read_quaternion_wxyz(const std::string & quaternion_path)
@@ -122,16 +107,55 @@ inline CalibrationSample load_sample(const SamplePaths & paths)
     throw std::runtime_error("无法读取图像: " + paths.image_path);
   }
   sample.q = read_quaternion_wxyz(paths.quaternion_path);
-  sample.timestamp_ns = read_timestamp_ns(paths.timestamp_path);
   return sample;
 }
 
-inline bool find_circle_centers(
-  const cv::Mat & image, const PatternConfig & config, std::vector<cv::Point2f> & centers)
+// 只枚举四元数（N.txt），不要求同名图像存在——用于纯姿态分析（如 gimbal/imu 外参自检与求解）。
+// 从 index=1 起按序读取，遇到缺失的 N.txt 即停止。
+inline std::vector<std::pair<int, Eigen::Quaterniond>> enumerate_quaternions(
+  const std::string & input_folder)
 {
-  return cv::findCirclesGrid(
-    image, config.pattern_size, centers,
-    cv::CALIB_CB_SYMMETRIC_GRID | cv::CALIB_CB_CLUSTERING);
+  std::vector<std::pair<int, Eigen::Quaterniond>> samples;
+  for (int index = 1;; ++index) {
+    const std::string quaternion_path = input_folder + "/" + std::to_string(index) + ".txt";
+    std::ifstream probe(quaternion_path);
+    if (!probe.is_open()) {
+      break;
+    }
+    probe.close();
+    samples.emplace_back(index, read_quaternion_wxyz(quaternion_path));
+  }
+  return samples;
+}
+
+// 棋盘格内角点检测：转灰度 → findChessboardCorners 找角点 → cornerSubPix 亚像素精化。
+// 角点是黑白格的鞍点，定位与透视无关，无圆点质心的透视偏差。
+// refine=false 时跳过亚像素精化——仅需“检到/没检到”布尔结果的场景（采集节点的存帧闸门
+// 与实时预览）用它省时；离线标定（内参/手眼）必须 refine=true 以拿到亚像素角点。
+inline bool find_chessboard_corners(
+  const cv::Mat & image, const PatternConfig & config, std::vector<cv::Point2f> & corners,
+  bool refine = true)
+{
+  cv::Mat gray;
+  if (image.channels() == 1) {
+    gray = image;
+  } else {
+    cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
+  }
+
+  const bool found = cv::findChessboardCorners(
+    gray, config.pattern_size, corners,
+    cv::CALIB_CB_ADAPTIVE_THRESH | cv::CALIB_CB_NORMALIZE_IMAGE);
+  if (!found) {
+    return false;
+  }
+
+  if (refine) {
+    cv::cornerSubPix(
+      gray, corners, cv::Size(11, 11), cv::Size(-1, -1),
+      cv::TermCriteria(cv::TermCriteria::EPS + cv::TermCriteria::COUNT, 30, 1e-3));
+  }
+  return true;
 }
 
 inline double compute_reprojection_error(
@@ -155,6 +179,41 @@ inline double compute_reprojection_error(
   }
   return total_error / static_cast<double>(image_points.size());
 }
+
+// 逐帧重投影误差（每帧角点欧氏距离均值，单位 px），复用 compute_reprojection_error。
+// 用于离群帧剔除与误差分布统计。
+inline std::vector<double> compute_per_view_errors(
+  const std::vector<std::vector<cv::Point3f>> & object_points_list,
+  const std::vector<std::vector<cv::Point2f>> & image_points_list,
+  const std::vector<cv::Mat> & rvecs,
+  const std::vector<cv::Mat> & tvecs,
+  const cv::Mat & camera_matrix,
+  const cv::Mat & dist_coeffs)
+{
+  std::vector<double> errors;
+  errors.reserve(object_points_list.size());
+  for (size_t i = 0; i < object_points_list.size(); ++i) {
+    errors.push_back(
+      compute_reprojection_error(
+        object_points_list[i], image_points_list[i], rvecs[i], tvecs[i], camera_matrix,
+        dist_coeffs));
+  }
+  return errors;
+}
+
+// 内参标定误差报告。rms_px 取 cv::calibrateCamera 的返回值（通用 RMS 口径）；
+// 其余统计量来自逐帧均值误差。holdout_mean_px < 0 表示未启用留出验证。
+struct CalibrationReport
+{
+  double rms_px{0.0};
+  double mean_px{0.0};
+  double max_view_px{0.0};
+  double std_view_px{0.0};
+  int used_samples{0};
+  int dropped_samples{0};
+  double holdout_mean_px{-1.0};
+  int holdout_samples{0};
+};
 
 inline std::string format_vector(const std::vector<double> & values, int precision = 10)
 {
@@ -204,7 +263,7 @@ inline std::vector<double> eigen_vector_to_std(const Eigen::Vector3d & vector)
 inline std::string make_camera_yaml(
   const cv::Mat & camera_matrix,
   const cv::Mat & dist_coeffs,
-  double reprojection_error,
+  const CalibrationReport & report,
   const cv::Size & image_size)
 {
   const auto camera_matrix_data = mat_to_row_major_vector(camera_matrix);
@@ -229,7 +288,16 @@ inline std::string make_camera_yaml(
   oss << "              principal_point: "
       << format_vector({camera_matrix_data[2], camera_matrix_data[5]}) << "\n";
   oss << "              disto_param: " << format_vector(dist_coeffs_data) << "\n";
-  oss << "# mean_reprojection_error_px: " << reprojection_error << "\n";
+  oss << "# rms_reprojection_error_px:  " << report.rms_px << "\n";
+  oss << "# mean_reprojection_error_px: " << report.mean_px << "\n";
+  oss << "# max_view_error_px:          " << report.max_view_px << "\n";
+  oss << "# std_view_error_px:          " << report.std_view_px << "\n";
+  oss << "# samples_used: " << report.used_samples << "  (dropped " << report.dropped_samples
+      << " outliers)\n";
+  if (report.holdout_mean_px >= 0.0) {
+    oss << "# holdout_mean_error_px: " << report.holdout_mean_px << "  (over "
+        << report.holdout_samples << " held-out samples)\n";
+  }
   return oss.str();
 }
 
@@ -238,12 +306,16 @@ inline std::string make_handeye_yaml(
   const Eigen::Matrix3d & r_gimbal_to_imu,
   const Eigen::Vector3d & t_camera_to_gimbal_m,
   const std::optional<Eigen::Matrix3d> & r_board_to_world = std::nullopt,
-  const std::optional<Eigen::Vector3d> & t_board_to_world_m = std::nullopt)
+  const std::optional<Eigen::Vector3d> & t_board_to_world_m = std::nullopt,
+  const std::string & provenance = "")
 {
   std::ostringstream oss;
   oss << std::fixed << std::setprecision(10);
   oss << "Solver:\n";
   oss << "  coord_converter:\n";
+  if (!provenance.empty()) {
+    oss << "    # " << provenance << "\n";
+  }
   oss << "    rotation_matrix_camera_to_gimbal:\n";
   oss << "      rows: 3\n";
   oss << "      cols: 3\n";
@@ -254,7 +326,7 @@ inline std::string make_handeye_yaml(
   oss << "      cols: 3\n";
   oss << "      dt: float\n";
   oss << "      data: " << format_vector(eigen_matrix_to_row_major_vector(r_gimbal_to_imu)) << "\n";
-  oss << "t_camera_to_gimbal: " << format_vector(eigen_vector_to_std(t_camera_to_gimbal_m)) << "\n";
+  oss << "    t_camera_to_gimbal: " << format_vector(eigen_vector_to_std(t_camera_to_gimbal_m)) << "\n";
 
   if (r_board_to_world.has_value() && t_board_to_world_m.has_value()) {
     oss << "# board_to_world_rotation: "

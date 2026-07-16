@@ -68,10 +68,11 @@ CaptureApp::CaptureApp(const app_config::AppConfig & app_config, const std::stri
   std::filesystem::create_directories(output_folder_);
 
   utils::logger()->info("[Capture] 模块初始化完成");
-  utils::logger()->info("[Capture] 圆点板尺寸: {}x{}", pattern_size_.width, pattern_size_.height);
   utils::logger()->info(
-    "[Capture] 圆点直径: {:.1f} mm, 圆心距: {:.1f} mm, 板尺寸: {}x{} mm",
-    circle_diameter_mm_, circle_spacing_mm_, board_size_mm_.width, board_size_mm_.height);
+    "[Capture] 棋盘格内角点: {}x{} (列x行)", pattern_size_.width, pattern_size_.height);
+  utils::logger()->info(
+    "[Capture] 单格边长: {:.1f} mm, 板尺寸约: {}x{} mm",
+    square_size_mm_, board_size_mm_.width, board_size_mm_.height);
   utils::logger()->info("[Capture] 姿态来源: {}", pose_source_);
   utils::logger()->info("[Capture] 输出文件夹: {}", output_folder_);
 }
@@ -115,6 +116,7 @@ int CaptureApp::run()
   cv::namedWindow(window_name_, cv::WINDOW_NORMAL);
 
   int count = 0;
+  const calibration::PatternConfig pattern{pattern_size_, square_size_mm_};
 
   while (!quit_.load()) {
     if (g_stop_requested.load()) {
@@ -144,9 +146,8 @@ int CaptureApp::run()
     utils::draw_text(img_with_ypr, fmt::format("X {:.2f}", zyx[2]), {20, 80}, {0, 0, 255});
 
     std::vector<cv::Point2f> preview_centers;
-    auto preview_success = cv::findCirclesGrid(
-      preview_img, pattern_size_, preview_centers, 
-      cv::CALIB_CB_SYMMETRIC_GRID | cv::CALIB_CB_CLUSTERING);
+    const bool preview_success =
+      calibration::find_chessboard_corners(preview_img, pattern, preview_centers, false);
 
     cv::drawChessboardCorners(img_with_ypr, pattern_size_, preview_centers, preview_success);
 
@@ -159,14 +160,12 @@ int CaptureApp::run()
       continue;
     }
 
-    // 保存前做一次全分辨率圆点板检测
+    // 保存前做一次全分辨率棋盘格检测（仅作存帧闸门，无需亚像素精化）
     std::vector<cv::Point2f> centers;
-    auto success = cv::findCirclesGrid(
-      img_bgr, pattern_size_, centers,
-      cv::CALIB_CB_SYMMETRIC_GRID | cv::CALIB_CB_CLUSTERING);
+    const bool success = calibration::find_chessboard_corners(img_bgr, pattern, centers, false);
 
     if (!success) {
-      utils::logger()->warn("[Capture] 当前帧未检测到圆点板，未保存");
+      utils::logger()->warn("[Capture] 当前帧未检测到完整棋盘格，未保存");
       continue;
     }
 
