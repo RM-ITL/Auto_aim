@@ -69,6 +69,10 @@ add_executable(record_node
   src/record_node.cpp
 )
 
+add_executable(usb_detect_node
+  src/usb_detect_node.cpp
+)
+
 target_include_directories(deep_node PRIVATE
   include
 )
@@ -106,6 +110,10 @@ target_include_directories(aimer_node  PRIVATE
 )
 
 target_include_directories(record_node PRIVATE
+  include
+)
+
+target_include_directories(usb_detect_node PRIVATE
   include
 )
 
@@ -200,10 +208,22 @@ ament_target_dependencies(record_node
   cv_bridge
 )
 
+ament_target_dependencies(usb_detect_node
+  utils
+  app_config
+  auto_aim
+)
+
 target_link_libraries(deep_node
   ${OpenCV_LIBS}
   deveice::deveice
   auto_aim::auto_aim
+)
+
+target_link_libraries(usb_detect_node
+  ${OpenCV_LIBS}
+  auto_aim::auto_aim
+  yaml-cpp
 )
 
 target_link_libraries(video_node
@@ -276,6 +296,7 @@ install(TARGETS
   aimer_node
   gimbal_comm_test
   record_node
+  usb_detect_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

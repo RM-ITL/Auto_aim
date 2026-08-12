@@ -1,0 +1,31 @@
+# USB 相机识别测试配置 (usb_detect_node 专用)
+#
+# 检测器（模型 + 检测参数）复用哨兵配置，只在这里配相机相关参数。
+# 用法: ros2 run test_pipeline usb_detect_node src/config/usb_camera.yaml
+
+# 检测器配置来源：复用哨兵完全相同的模型与检测参数
+detector_config: "src/config/sentry.yaml"
+
+usb_camera:
+  device: 2            # /dev/videoN 的 N，外接 USB 相机通常是 2（内置摄像头是 0）
+  width: 1280          # 采集分辨率宽
+  height: 720          # 采集分辨率高
+  fps: 30              # 帧率
+  fourcc: "MJPG"       # 像素格式: MJPG(高分辨率必需) 或 YUYV
+
+  # ===== V4L2 控制项 =====
+  # 每一项都可用 `apply: false` 或直接删掉该项来"不修改、用相机默认值"。
+  # 支持的取值范围可用以下命令查询:
+  #   v4l2-ctl -d /dev/video2 --list-ctrls
+
+  # 曝光: 要手动曝光必须先把 auto_exposure 设为 1(手动)，exposure 才生效
+  auto_exposure: 1              # 1=手动, 3=光圈优先(自动)
+  exposure: 100                 # 手动曝光时间 (范围约 1~10000, 越小画面越暗)
+
+  gain: 30                      # 增益 (0~240)
+  gamma: 100                    # (64~300)
+  brightness: 0                 # (-64~64)
+
+  # 白平衡: 识别时通常固定白平衡，避免颜色漂移影响红/蓝判定
+  auto_white_balance: 0         # 0=关, 1=开
+  white_balance_temperature: 4600  # (2800~6500, auto_white_balance=0 时生效)
