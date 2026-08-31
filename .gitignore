@@ -33,3 +33,5 @@ scripts/handeye_pnp_diag.py
 bags/
 
 /home/hou/Auto_aim/AGENTS.md
+
+tools/model_compare
