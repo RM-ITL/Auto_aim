@@ -121,28 +121,64 @@ Eigen::Matrix3d YawOptimizer::optimize_yaw(
         best_yaw = prior_yaw;
     }
     
+    // 网格搜索：逐个记录采样点重投影误差，供后续三点抛物线插值使用。
+    std::vector<double> sample_errors;
+    int best_index = -1;
+
     for (double yaw = prior_yaw - search_range_rad;
          yaw <= prior_yaw + search_range_rad;
          yaw += search_step_rad) {
-        
+
         Eigen::Matrix3d test_rotation = utils::rotation_matrix_zyx(yaw, pitch_to_use, roll_to_use);
-        
+
         double error = ReprojectionError(
             world_position,
             test_rotation,
             armor_type,
             detected_corners
         );
-        
+
+        sample_errors.push_back(error);
+
         if (error < min_error) {
             min_error = error;
             best_yaw = yaw;
+            best_index = static_cast<int>(sample_errors.size()) - 1;
         }
     }
-    
+
+    // 三点抛物线插值：把网格最优点细化到亚度级，消除 1° 步长的量化吸附抖动。
+    // 重投影误差在极小值附近近似抛物线 e(k)=a·k²+b·k+c，取相邻三点拟合，顶点即亚格点最优。
+    // 仅当最优点落在网格内部（左右都有邻居）时插值；边界点无从拟合，保持原值。
+    if (best_index > 0 && best_index + 1 < static_cast<int>(sample_errors.size())) {
+        double e_prev = sample_errors[best_index - 1];  // 低 yaw 侧邻居
+        double e_curr = sample_errors[best_index];
+        double e_next = sample_errors[best_index + 1];  // 高 yaw 侧邻居
+
+        double denom = e_prev - 2.0 * e_curr + e_next;
+        // denom > 0 才是开口向上的抛物线（真极小）；接近 0 说明局部平坦，跳过避免除零放大误差。
+        if (denom > 1e-12) {
+            double delta = 0.5 * (e_prev - e_next) / denom;  // 单位：格，理论落在 (-0.5, 0.5)
+            if (delta > -0.5 && delta < 0.5) {               // 数值兜底：不外推超过半格
+                double refined_yaw = best_yaw + delta * search_step_rad;
+                double refined_error = ReprojectionError(
+                    world_position,
+                    utils::rotation_matrix_zyx(refined_yaw, pitch_to_use, roll_to_use),
+                    armor_type,
+                    detected_corners
+                );
+                // 只有插值点确实不劣于网格最优才采纳，保证结果不劣于原网格解。
+                if (refined_error <= min_error) {
+                    best_yaw = refined_yaw;
+                    min_error = refined_error;
+                }
+            }
+        }
+    }
+
     last_optimization_error_ = min_error;
-    last_optimized_yaw_ = best_yaw;     // 最优yaw
-    
+    last_optimized_yaw_ = best_yaw;     // 最优yaw（含亚度级插值修正）
+
     return utils::rotation_matrix_zyx(best_yaw, pitch_to_use, roll_to_use);
 }
 
