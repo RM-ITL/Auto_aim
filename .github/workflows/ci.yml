@@ -1,0 +1,56 @@
+name: CI
+
+# 参考 Alliance rmcs_auto_aim_v2 的 gtest.yml，适配本仓库：
+#   - ROS 2 humble + colcon/ament
+#   - 只构建到 app_config（--packages-up-to），避免拉起 OpenVINO/相机/串口重依赖
+#   - 用 ctest 跑已向 CMake 注册的 7 个配置回归测试
+on:
+  pull_request:
+    paths:
+      - "src/**"
+      - ".github/workflows/ci.yml"
+  push:
+    branches: [hou]
+    paths:
+      - "src/**"
+      - ".github/workflows/ci.yml"
+  workflow_dispatch:
+
+# 同一 PR/分支的新提交自动取消上一次未跑完的 CI，省资源
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  app-config-tests:
+    runs-on: ubuntu-latest
+    container:
+      image: ros:humble-ros-base
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          apt-get update
+          apt-get install -y --no-install-recommends \
+            build-essential cmake \
+            python3-colcon-common-extensions \
+            libyaml-cpp-dev libfmt-dev libopencv-dev libeigen3-dev
+
+      - name: Build (app_config + deps)
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +u; source /opt/ros/humble/setup.bash; set -u
+          colcon build --packages-up-to app_config \
+            --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
+
+      - name: Run ctest
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +u; source /opt/ros/humble/setup.bash; source install/setup.bash; set -u
+          ctest --test-dir build/app_config --output-on-failure

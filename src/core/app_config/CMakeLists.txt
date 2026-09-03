@@ -122,6 +122,32 @@ if(BUILD_TESTING)
   install(TARGETS test_phase1_validator
     RUNTIME DESTINATION lib/${PROJECT_NAME}
   )
+
+  # ==================================================================================
+  # 向 ctest 注册测试，使 `colcon test` / CI 能自动发现并执行。
+  # 6 个 phase_* 测试自行向上查找仓库根 (定位 src/config/*.yaml)，
+  # 故 WORKING_DIRECTORY 指向包源码目录即可（其父链包含仓库根）。
+  # test_load 需要一个 yaml 路径参数。
+  # ==================================================================================
+  enable_testing()
+
+  add_test(
+    NAME test_load
+    COMMAND test_load ${CMAKE_CURRENT_SOURCE_DIR}/../../config/standard3.yaml
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  )
+  add_test(NAME test_phase1_coord_converter COMMAND test_phase1_coord_converter
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+  add_test(NAME test_phase2_classifier_config COMMAND test_phase2_classifier_config
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+  add_test(NAME test_phase3_traditional_detector_config COMMAND test_phase3_traditional_detector_config
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+  add_test(NAME test_phase1_camera_intri_profiles COMMAND test_phase1_camera_intri_profiles
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+  add_test(NAME test_phase2_camera_intri_single_source COMMAND test_phase2_camera_intri_single_source
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+  add_test(NAME test_phase1_validator COMMAND test_phase1_validator
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 endif()
 
 # ====================================================================================
