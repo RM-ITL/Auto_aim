@@ -134,6 +134,12 @@ private:
   float last_gs_pitch_vel_{0.0f};
   std::chrono::steady_clock::time_point last_gs_time_;
   bool gs_initialized_{false};
+
+  // 图像<->IMU 偏移标定：检测线程写、planner 线程读的同帧样本对。
+  std::mutex raw_calib_mutex_;
+  float raw_calib_armor_yaw_{0.0f};   // 原始视觉世界方位角(未经 EKF)
+  float raw_calib_gimbal_yaw_{0.0f};  // 同帧曝光时刻云台 yaw
+  bool raw_calib_valid_{false};
 };
 
 }  // namespace pipeline

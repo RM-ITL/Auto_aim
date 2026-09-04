@@ -132,7 +132,7 @@ int PipelineApp::run()
 
     orientation = (imu_source_ == ImuSource::DmImu)
                   ? dm_imu_->imu_at(timestamp)
-                  : gimbal_->q(timestamp);
+                  : gimbal_->q_for_image(timestamp);
 
     if (orientation_pub_) {
       auto msg = autoaim_msgs::msg::Orienta{};
@@ -155,6 +155,15 @@ int PipelineApp::run()
     std::list<armor_auto_aim::Armor> armor_list(
       armor.begin(), armor.end());
     auto targets = tracker_->track(armor_list, timestamp);
+
+    // 图像<->IMU 偏移标定：在检测线程存下同帧的 (原始视觉世界方位角, 曝光时刻云台 yaw)。
+    // solver 在本帧刚处理过装甲板，getLastpose/getCurrentAngles 与本帧曝光对齐。
+    {
+      std::lock_guard<std::mutex> lk(raw_calib_mutex_);
+      raw_calib_valid_ = solver_->getLastPnPResult().success;
+      raw_calib_armor_yaw_ = static_cast<float>(solver_->getLastpose().world_spherical.yaw);
+      raw_calib_gimbal_yaw_ = static_cast<float>(solver_->getCurrentAngles().yaw);
+    }
 
     auto t5 = std::chrono::steady_clock::now();  // 送入队列前的时间
 
@@ -604,6 +613,15 @@ void PipelineApp::planner_loop()
       msg.center_yaw = 0.0f;
       msg.radius = 0.0f;
       msg.single_plate = false;
+
+      // 图像<->IMU 偏移标定：取检测线程存下的同帧 (原始视觉世界方位角, 曝光时刻云台 yaw)。
+      // 两者必须同帧，才能让 Δt 不被管线延迟污染（详见 measure_image_imu_offset.py）。
+      {
+        std::lock_guard<std::mutex> lk(raw_calib_mutex_);
+        msg.raw_armor_yaw = raw_calib_armor_yaw_;
+        msg.raw_gimbal_yaw = raw_calib_gimbal_yaw_;
+        msg.raw_armor_valid = raw_calib_valid_;
+      }
       if (target.has_value()) {
         std::visit([&msg](const auto & t) {
           auto x = t.ekf_x();
