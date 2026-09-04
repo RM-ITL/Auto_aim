@@ -206,6 +206,9 @@ Planner:
 Gimbal:
   # com_port: "/dev/ttyUSB0"
   com_port: "/dev/gimbal"
+  # 图像<->IMU 相对时间偏移 Δt (秒)，q(image_t - Δt) 校正曝光时刻姿态。
+  # 由 tools/latency/measure_image_imu_offset.py 标定。默认 0=不校正。
+  image_imu_offset: 0.0
   # 校正下位机的四元数 [x, y, z, w], q_corrected = q_calib * q_lower
   # q_calib:
   #   x: 0.01168210

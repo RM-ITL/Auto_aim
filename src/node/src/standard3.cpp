@@ -98,7 +98,7 @@ int Standard3App::run()
     cv::Mat rgb_image;
     cv::cvtColor(img, rgb_image, cv::COLOR_BGR2RGB);
 
-    orientation = gimbal_->q(timestamp);
+    orientation = gimbal_->q_for_image(timestamp);
     solver_->updateIMU(orientation, timestamp_sec);
 
     auto armor = detector_->detect(rgb_image);

@@ -486,7 +486,7 @@ io::GimbalState PipelineApp::runtime_state() const
 Eigen::Quaterniond PipelineApp::runtime_orientation(std::chrono::steady_clock::time_point timestamp) const
 {
   if (run_mode_ == SentryRunMode::Direct) {
-    return sentry_->q(timestamp);
+    return sentry_->q_for_image(timestamp);
   }
   std::lock_guard<std::mutex> lock(bridge_state_mutex_);
   return bridge_orientation_;

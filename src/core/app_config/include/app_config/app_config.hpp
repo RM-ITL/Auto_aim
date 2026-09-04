@@ -315,6 +315,9 @@ struct GimbalConfig
 {
   std::string com_port{};                              // required
   std::optional<Eigen::Quaterniond> q_calib;           // 整组可缺；存在则 w/x/y/z 四子键 required
+  // 图像<->IMU 相对时间偏移 Δt（秒），可缺，默认 0。查询曝光时刻姿态时用
+  // q_for_image(t) = q(t - image_imu_offset)。由 measure_image_imu_offset.py 标定。
+  double image_imu_offset{0.0};
 };
 
 // 来源：yaml["DM_IMU"]（1.D 已真嵌套）
@@ -337,6 +340,7 @@ struct SentryConfig
 {
   std::string com_port{};                              // required
   std::optional<Eigen::Quaterniond> q_calib;           // 整组可缺
+  double image_imu_offset{0.0};                        // 同 GimbalConfig，图像<->IMU 偏移 Δt(秒)
 };
 
 // 来源：yaml["lower_Dart"]（1.D 已真嵌套）

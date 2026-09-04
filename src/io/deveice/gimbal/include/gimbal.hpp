@@ -92,6 +92,10 @@ public:
   std::string str(GimbalMode mode) const;
   Eigen::Quaterniond q(std::chrono::steady_clock::time_point t);
 
+  /// 用图像时间戳查询曝光时刻姿态：内部按 q(t - image_imu_offset_) 校正图像<->IMU 偏移。
+  /// 非图像用途（如查询 now 姿态）仍应直接用 q()。
+  Eigen::Quaterniond q_for_image(std::chrono::steady_clock::time_point image_t);
+
   void send(
     bool control, bool fire, float yaw, float yaw_vel, float yaw_acc, float pitch, float pitch_vel,
     float pitch_acc);
@@ -121,6 +125,9 @@ private:
 
   // IMU外参标定四元数：q_corrected = q_calib_ * q_lower
   Eigen::Quaterniond q_calib_;
+
+  // 图像<->IMU 相对时间偏移 Δt，q_for_image 查询时从图像戳里减去。
+  std::chrono::steady_clock::duration image_imu_offset_{std::chrono::steady_clock::duration::zero()};
 
   // 返回值: 1=成功, 0=超时无数据, -1=设备异常
   int read_serial(uint8_t * buffer, size_t size);

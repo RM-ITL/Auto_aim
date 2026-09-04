@@ -36,6 +36,10 @@ Sentry::Sentry(const app_config::SentryConfig & config)
     throw;
   }
 
+  image_imu_offset_ = std::chrono::duration_cast<std::chrono::steady_clock::duration>(
+    std::chrono::duration<double>(config.image_imu_offset));
+  utils::logger()->info("[Sentry] image_imu_offset      = {:.6f} s", config.image_imu_offset);
+
   thread_ = std::thread(&Sentry::read_thread, this);
   utils::logger()->info("[Sentry] Sentry initialized.");
 }
@@ -84,6 +88,12 @@ Eigen::Quaterniond Sentry::q(std::chrono::steady_clock::time_point t)
     return q_c;
   }
   return Eigen::Quaterniond::Identity();
+}
+
+Eigen::Quaterniond Sentry::q_for_image(std::chrono::steady_clock::time_point image_t)
+{
+  // 把图像戳回退 Δt，查询真实曝光时刻的 IMU 姿态。Δt=0 时等价于 q()。
+  return q(image_t - image_imu_offset_);
 }
 
 

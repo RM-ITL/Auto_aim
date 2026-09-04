@@ -336,9 +336,14 @@ void load_shooter(ShooterConfig & out, const YAML::Node & root)
 void load_gimbal_like(
   std::string & com_port_out,
   std::optional<Eigen::Quaterniond> & q_calib_out,
+  double & image_imu_offset_out,
   const YAML::Node & gimbal_yaml)
 {
   com_port_out = utils::read<std::string>(gimbal_yaml, "com_port");
+
+  // 图像<->IMU 偏移 Δt(秒)：可缺，默认保留结构体初值 0.0。
+  image_imu_offset_out =
+    utils::read<double>(gimbal_yaml, "image_imu_offset", image_imu_offset_out);
 
   // 与 gimbal.cpp:19 一致：if (q_calib_node) 即 IsDefined。
   // 存在则 w/x/y/z 子键 required（.as<double>() 缺则抛），与原行为一致。
@@ -356,7 +361,7 @@ void load_gimbal_like(
 void load_gimbal(GimbalConfig & out, const YAML::Node & root)
 {
   if (!root["Gimbal"]) return;
-  load_gimbal_like(out.com_port, out.q_calib, root["Gimbal"]);
+  load_gimbal_like(out.com_port, out.q_calib, out.image_imu_offset, root["Gimbal"]);
 }
 
 void load_dm_imu(DmImuConfig & out, const YAML::Node & root)
@@ -372,7 +377,7 @@ void load_sentry(SentryConfig & out, const YAML::Node & root)
 {
   // Sentry 复用 yaml["Gimbal"] 段（DECISIONS 2026-05-12）。
   if (!root["Gimbal"]) return;
-  load_gimbal_like(out.com_port, out.q_calib, root["Gimbal"]);
+  load_gimbal_like(out.com_port, out.q_calib, out.image_imu_offset, root["Gimbal"]);
 }
 
 void load_dart(DartConfig & out, const YAML::Node & root)

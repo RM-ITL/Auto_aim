@@ -37,6 +37,11 @@ Gimbal::Gimbal(const app_config::GimbalConfig & config)
     throw;
   }
 
+  // 图像<->IMU 偏移 Δt(秒) → duration。默认 0，标定后写入 config。
+  image_imu_offset_ = std::chrono::duration_cast<std::chrono::steady_clock::duration>(
+    std::chrono::duration<double>(config.image_imu_offset));
+  utils::logger()->info("[Gimbal] image_imu_offset      = {:.6f} s", config.image_imu_offset);
+
   thread_ = std::thread(&Gimbal::read_thread, this);
   utils::logger()->info("[Gimbal] Gimbal initialized.");
 }
@@ -105,6 +110,12 @@ Eigen::Quaterniond Gimbal::q(std::chrono::steady_clock::time_point t)
     return q_c;
   }
   return Eigen::Quaterniond::Identity();
+}
+
+Eigen::Quaterniond Gimbal::q_for_image(std::chrono::steady_clock::time_point image_t)
+{
+  // 把图像戳回退 Δt，查询真实曝光时刻的 IMU 姿态。Δt=0 时等价于 q()。
+  return q(image_t - image_imu_offset_);
 }
 
 
