@@ -342,35 +342,51 @@ bool Tracker::update_target(std::list<Armors> & armors,
   auto target_name = std::visit([](auto & target) { return target.name; }, target_);
   auto target_type = std::visit([](auto & target) { return target.armor_type; }, target_);
 
-  // 查找匹配当前目标的装甲板
-  int found_count = 0;
-  Armors* best_armor = nullptr;
-  double min_center_x = 1e10;
-
+  // 收集所有匹配当前目标 name+type 的装甲板
+  std::vector<Armors *> matched;
   for (auto & armor : armors) {
     if (armor.name != static_cast<int>(target_name)) continue;
     if (armor.type != target_type) continue;
-
-    found_count++;
-
-    if (!best_armor || armor.center.x < min_center_x) {
-      best_armor = &armor;
-      min_center_x = armor.center.x;
-    }
+    matched.push_back(&armor);
   }
 
-  if (found_count == 0 || !best_armor) {
+  if (matched.empty()) {
     return false;
   }
 
   double timestamp = std::chrono::duration<double>(t.time_since_epoch()).count();
-  solver::Armor_pose armor_pose = solver_.processArmor(*best_armor, timestamp);
 
+  // 普通 Target：每帧用上全部可见装甲板序贯更新（对每块 PnP，成功的收集后一次性喂进 EKF）。
+  // OutpostTarget：保持单块（其自带马氏距离匹配路径，不在本次改动范围）。
+  if (auto * normal = std::get_if<predict::Target>(&target_)) {
+    std::vector<solver::Armor_pose> poses;
+    poses.reserve(matched.size());
+    for (auto * armor : matched) {
+      solver::Armor_pose pose = solver_.processArmor(*armor, timestamp);
+      if (solver_.getLastPnPResult().success) {
+        poses.push_back(pose);
+      }
+    }
+    if (poses.empty()) return false;
+    normal->update(poses);
+    return true;
+  }
+
+  // OutpostTarget：沿用原「最左一块」单板路径。
+  Armors * best_armor = nullptr;
+  double min_center_x = 1e10;
+  for (auto * armor : matched) {
+    if (!best_armor || armor->center.x < min_center_x) {
+      best_armor = armor;
+      min_center_x = armor->center.x;
+    }
+  }
+
+  solver::Armor_pose armor_pose = solver_.processArmor(*best_armor, timestamp);
   if (!solver_.getLastPnPResult().success) {
     return false;
   }
 
-  // 更新目标状态
   std::visit([&armor_pose](auto & target) { target.update(armor_pose); }, target_);
 
   return true;

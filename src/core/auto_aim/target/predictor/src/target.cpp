@@ -128,10 +128,10 @@ void Target::predict(double dt)
   ekf_.predict(F, Q, f);
 }
 
-void Target::update(const solver::Armor_pose & armor_pose)
+int Target::match_armor_id(const solver::Armor_pose & armor_pose) const
 {
-  // 装甲板匹配
-  int id;
+  // 纯关联：把观测匹配到某个装甲板槽位（按距离取最近 3 个，选 angle_error 最小者）。无副作用。
+  int id = 0;
   auto min_error = 1e10;
   const std::vector<Eigen::Vector4d> & xyza_list = armor_xyza_list();
 
@@ -148,21 +148,12 @@ void Target::update(const solver::Armor_pose & armor_pose)
       return ypd1[2] < ypd2[2];
     });
 
-  // // 取前3个distance最小的装甲板
-  // double P_h = ekf_.P(10, 10);  // h的协方差
-  // double R_z = 0.01;            // z观测噪声方差
-
   for (int i = 0; i < 3 && i < static_cast<int>(xyza_i_list.size()); i++) {
     const auto & xyza = xyza_i_list[i].first;
     Eigen::Vector3d ypd = utils::xyz2ypd(xyza.head(3));
 
-    // 计算角度误差
     double angle_error = std::abs(utils::limit_rad(armor_pose.world_orientation.yaw - xyza[3])) +
                          std::abs(utils::limit_rad(armor_pose.world_spherical.yaw - ypd[0]));
-
-    // // 计算z坐标误差（简化马氏距离：P_h大时权重小，P_h小时权重大）
-    // double z_error = std::abs(armor_pose.world_position[2] - xyza[2]);
-    // double z_error_normalized = z_error / std::sqrt(P_h + R_z);
 
     double total_error = angle_error;
 
@@ -172,17 +163,19 @@ void Target::update(const solver::Armor_pose & armor_pose)
     }
   }
 
-  if (id != 0) jumped = true;
+  return id;
+}
 
-  if (id != last_id) {
-    is_switch_ = true;
-  } else {
-    is_switch_ = false;
-  }
+void Target::update_frame_bookkeeping(int primary_id)
+{
+  // 每帧调一次：以 primary_id 判断是否板切换，维护单板模式与各计数。
+  if (primary_id != 0) jumped = true;
+
+  is_switch_ = (primary_id != last_id);
 
   if (is_switch_) switch_count_++;
 
-  last_id = id;
+  last_id = primary_id;
   update_count_++;
 
   // 维护单板观测模式
@@ -197,8 +190,76 @@ void Target::update(const solver::Armor_pose & armor_pose)
       std::abs(ekf_.x[7]) < omega_threshold) {
     single_plate_mode = true;
   }
+}
 
-  update_ypda(armor_pose, id);
+void Target::update(const solver::Armor_pose & armor_pose)
+{
+  // 单观测委托到多观测路径，保证单块场景与多块场景逐位一致。
+  update(std::vector<solver::Armor_pose>{armor_pose});
+}
+
+void Target::update(const std::vector<solver::Armor_pose> & armor_poses)
+{
+  if (armor_poses.empty()) return;
+
+  // 1. 每个观测算候选槽位；按匹配误差升序做无冲突贪心分配（两观测不占同一槽位）。
+  struct Assoc {
+    const solver::Armor_pose * pose;
+    int id;
+    double error;
+  };
+  std::vector<Assoc> assocs;
+  assocs.reserve(armor_poses.size());
+  const std::vector<Eigen::Vector4d> & xyza_list = armor_xyza_list();
+
+  for (const auto & pose : armor_poses) {
+    int id = match_armor_id(pose);
+    // 记录该观测对其候选槽位的匹配误差（用于冲突时优先级排序 / primary 选择）。
+    const auto & xyza = xyza_list[id];
+    Eigen::Vector3d ypd = utils::xyz2ypd(xyza.head(3));
+    double error = std::abs(utils::limit_rad(pose.world_orientation.yaw - xyza[3])) +
+                   std::abs(utils::limit_rad(pose.world_spherical.yaw - ypd[0]));
+    assocs.push_back({&pose, id, error});
+  }
+
+  std::sort(assocs.begin(), assocs.end(),
+            [](const Assoc & a, const Assoc & b) { return a.error < b.error; });
+
+  std::vector<bool> slot_taken(std::max(1, armor_num_), false);
+  std::vector<Assoc> final_assocs;
+  for (auto & a : assocs) {
+    int id = a.id;
+    if (id >= 0 && id < armor_num_ && slot_taken[id]) {
+      // 槽位已被更优观测占用：退到相邻未占用槽位（mod armor_num_），仍冲突则丢弃该观测。
+      int alt = -1;
+      for (int d = 1; d < armor_num_; d++) {
+        int cand = ((id + d) % armor_num_ + armor_num_) % armor_num_;
+        if (!slot_taken[cand]) { alt = cand; break; }
+      }
+      if (alt < 0) continue;
+      id = alt;
+    }
+    if (id < 0 || id >= armor_num_) continue;
+    slot_taken[id] = true;
+    a.id = id;
+    final_assocs.push_back(a);
+  }
+
+  if (final_assocs.empty()) return;
+
+  // 2. primary id：优先选槽位 == last_id 的观测（视为未切换）；否则选误差最小者。
+  int primary_id = final_assocs.front().id;  // 已按 error 升序，front 即最小误差
+  for (const auto & a : final_assocs) {
+    if (a.id == last_id) { primary_id = a.id; break; }
+  }
+
+  // 3. 每帧记账一次。
+  update_frame_bookkeeping(primary_id);
+
+  // 4. 序贯 EKF：逐块更新，中间不 predict（predict 已在 tracker 中每帧调过一次）。
+  for (const auto & a : final_assocs) {
+    update_ypda(*a.pose, a.id);
+  }
 
   // utils::logger()->info(
   //   "[Target收敛] 更新:{} | l={:.4f} P_l={:.4f} | h={:.4f} P_h={:.4f} | ω={:.2f}rad/s | r={:.3f}",

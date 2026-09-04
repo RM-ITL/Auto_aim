@@ -44,6 +44,8 @@ public:
   void predict(std::chrono::steady_clock::time_point t);
   void predict(double dt);
   void update(const solver::Armor_pose & armor_pose);
+  // 每帧序贯更新：一帧内把所有可见装甲板逐块喂进同一个 EKF（predict 已在外部调过一次）。
+  void update(const std::vector<solver::Armor_pose> & armor_poses);
 
   Eigen::VectorXd ekf_x() const;
   const motion_model::ExtendedKalmanFilter & ekf() const;
@@ -73,6 +75,11 @@ private:
   bool is_parameter_reliable(int param_idx, double threshold) const;  // 置信度检查，来进行l和h状态变量的可用性判断
 
   void update_ypda(const solver::Armor_pose & armor_pose, int id);  // yaw pitch distance angle
+
+  // 纯关联：把一个观测匹配到模型的某个装甲板槽位 id（无副作用）。
+  int match_armor_id(const solver::Armor_pose & armor_pose) const;
+  // 每帧记账：切换/单板模式/计数等，一帧只调一次（primary_id 决定 is_switch_ 语义）。
+  void update_frame_bookkeeping(int primary_id);
 
   Eigen::Vector3d h_armor_xyz(const Eigen::VectorXd & x, int id) const;
   Eigen::MatrixXd h_jacobian(const Eigen::VectorXd & x, int id) const;
