@@ -210,6 +210,9 @@ Planner:
 Gimbal:
   # com_port: "/dev/ttyUSB0"
   com_port: "/dev/gimbal"
+  # 串口波特率(与下位机握手,两端必须一致)。可缺默认 115200。
+  # 提到 460800/921600 可砍 IMU 帧线时延、抬帧率上限,但须电控固件同步改。
+  baud: 921600
   # 校正下位机的四元数 [x, y, z, w], q_corrected = q_calib * q_lower
   # q_calib:
   #   x: 0.01168210

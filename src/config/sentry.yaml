@@ -206,6 +206,8 @@ Planner:
 Gimbal:
   # com_port: "/dev/ttyUSB0"
   com_port: "/dev/gimbal"
+  # 串口波特率(与下位机握手,两端须一致)。可缺默认 115200,提速须电控同步改。
+  baud: 921600
   # 图像<->IMU 相对时间偏移 Δt (秒)，q(image_t - Δt) 校正曝光时刻姿态。
   # 由 tools/latency/measure_image_imu_offset.py 标定。默认 0=不校正。
   image_imu_offset: 0.0

@@ -314,6 +314,7 @@ struct ShooterConfig
 struct GimbalConfig
 {
   std::string com_port{};                              // required
+  int baud = 115200;                                   // 串口波特率，可缺默认 115200(与下位机握手，两端须一致)
   std::optional<Eigen::Quaterniond> q_calib;           // 整组可缺；存在则 w/x/y/z 四子键 required
   // 图像<->IMU 相对时间偏移 Δt（秒），可缺，默认 0。查询曝光时刻姿态时用
   // q_for_image(t) = q(t - image_imu_offset)。由 measure_image_imu_offset.py 标定。
@@ -339,6 +340,7 @@ struct DmImuConfig
 struct SentryConfig
 {
   std::string com_port{};                              // required
+  int baud = 115200;                                   // 同 GimbalConfig，串口波特率，默认 115200
   std::optional<Eigen::Quaterniond> q_calib;           // 整组可缺
   double image_imu_offset{0.0};                        // 同 GimbalConfig，图像<->IMU 偏移 Δt(秒)
 };

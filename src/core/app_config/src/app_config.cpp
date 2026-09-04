@@ -335,11 +335,15 @@ void load_shooter(ShooterConfig & out, const YAML::Node & root)
 // 通用：从 yaml["Gimbal"] 段读 com_port + 可选 q_calib（Gimbal / Sentry 复用）。
 void load_gimbal_like(
   std::string & com_port_out,
+  int & baud_out,
   std::optional<Eigen::Quaterniond> & q_calib_out,
   double & image_imu_offset_out,
   const YAML::Node & gimbal_yaml)
 {
   com_port_out = utils::read<std::string>(gimbal_yaml, "com_port");
+
+  // 串口波特率：可缺，默认保留结构体初值 115200（与下位机握手，两端须一致）。
+  baud_out = utils::read<int>(gimbal_yaml, "baud", baud_out);
 
   // 图像<->IMU 偏移 Δt(秒)：可缺，默认保留结构体初值 0.0。
   image_imu_offset_out =
@@ -361,7 +365,7 @@ void load_gimbal_like(
 void load_gimbal(GimbalConfig & out, const YAML::Node & root)
 {
   if (!root["Gimbal"]) return;
-  load_gimbal_like(out.com_port, out.q_calib, out.image_imu_offset, root["Gimbal"]);
+  load_gimbal_like(out.com_port, out.baud, out.q_calib, out.image_imu_offset, root["Gimbal"]);
 }
 
 void load_dm_imu(DmImuConfig & out, const YAML::Node & root)
@@ -377,7 +381,7 @@ void load_sentry(SentryConfig & out, const YAML::Node & root)
 {
   // Sentry 复用 yaml["Gimbal"] 段（DECISIONS 2026-05-12）。
   if (!root["Gimbal"]) return;
-  load_gimbal_like(out.com_port, out.q_calib, out.image_imu_offset, root["Gimbal"]);
+  load_gimbal_like(out.com_port, out.baud, out.q_calib, out.image_imu_offset, root["Gimbal"]);
 }
 
 void load_dart(DartConfig & out, const YAML::Node & root)

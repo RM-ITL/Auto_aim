@@ -10,7 +10,7 @@ Sentry::Sentry(const app_config::SentryConfig & config)
   const std::string & com_port = config.com_port;
 
   utils::logger()->info("[Sentry] com_port              = {}", com_port);
-  utils::logger()->info("[Sentry] baud                  = 115200 (HARDCODED)");
+  utils::logger()->info("[Sentry] baud                  = {} (from yaml)", config.baud);
 
   // q_calib: 与 Gimbal 完全等价（SentryConfig 复用 yaml["Gimbal"] 段）。
   if (config.q_calib) {
@@ -30,7 +30,7 @@ Sentry::Sentry(const app_config::SentryConfig & config)
     auto timeout = serial::Timeout::simpleTimeout(50);
     serial_.setTimeout(timeout);
     serial_.open();
-    serial_.setBaudrate(115200);
+    serial_.setBaudrate(config.baud);
   } catch (const std::exception & e) {
     utils::logger()->error("[Sentry] Failed to open serial: {}", e.what());
     throw;

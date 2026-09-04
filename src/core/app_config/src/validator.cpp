@@ -173,6 +173,7 @@ void validate_dm_imu(ConfigValidator & v, const DmImuConfig & d)
 void validate_gimbal(ConfigValidator & v, const GimbalConfig & g)
 {
   v.check_non_empty("gimbal.com_port", g.com_port);
+  v.check_positive("gimbal.baud", g.baud);
   // 图像<->IMU 偏移是物理时延差，量级 ms；±100ms 之外几乎必是误配。
   v.check_range("gimbal.image_imu_offset", g.image_imu_offset, -0.1, 0.1);
 }

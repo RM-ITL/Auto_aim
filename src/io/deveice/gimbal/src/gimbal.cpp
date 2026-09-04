@@ -10,7 +10,7 @@ Gimbal::Gimbal(const app_config::GimbalConfig & config)
   const std::string & com_port = config.com_port;
 
   utils::logger()->info("[Gimbal] com_port              = {}", com_port);
-  utils::logger()->info("[Gimbal] baud                  = 115200 (HARDCODED)");
+  utils::logger()->info("[Gimbal] baud                  = {} (from yaml)", config.baud);
 
   // q_calib: SubConfig 为 std::optional<Eigen::Quaterniond>；缺则保留 nullopt，
   // 与原 if (q_calib_node) 分支等价。
@@ -31,7 +31,7 @@ Gimbal::Gimbal(const app_config::GimbalConfig & config)
     auto timeout = serial::Timeout::simpleTimeout(50);
     serial_.setTimeout(timeout);
     serial_.open();
-    serial_.setBaudrate(115200);
+    serial_.setBaudrate(config.baud);
   } catch (const std::exception & e) {
     utils::logger()->error("[Gimbal] Failed to open serial: {}", e.what());
     throw;
