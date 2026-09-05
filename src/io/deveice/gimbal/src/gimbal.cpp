@@ -55,8 +55,7 @@ Gimbal::~Gimbal()
 
 void Gimbal::stop()
 {
-  quit_ = true;
-  queue_.shutdown();  // 唤醒可能卡在 q() 中的线程
+  quit_ = true;  // read_thread 在 read_serial 超时(≤50ms)后退出；q() 不再阻塞，无需唤醒队列。
 }
 
 GimbalMode Gimbal::mode() const
@@ -89,39 +88,33 @@ std::string Gimbal::str(GimbalMode mode) const
 
 Eigen::Quaterniond Gimbal::q(std::chrono::steady_clock::time_point t)
 {
-  int attempts = 0;
-  while (!quit_) {
-    if (++attempts > 200) {
-      // 超过200次仍无法插值，返回默认姿态避免卡死
-      utils::logger()->warn("[Gimbal] q() 插值超时，返回默认姿态");
-      return Eigen::Quaterniond::Identity();
-    }
-    auto [q_a, t_a] = queue_.pop();
-    if (quit_) return Eigen::Quaterniond::Identity();
-    auto [q_b, t_b] = queue_.front();
-    if (quit_) return Eigen::Quaterniond::Identity();
-    auto t_ab = utils::delta_time(t_a, t_b);
-    auto t_ac = utils::delta_time(t_a, t);
-    auto k = t_ac / t_ab;
-    Eigen::Quaterniond q_c = q_a.slerp(k, q_b).normalized();
-    if (t < t_a) return q_c;
-    if (!(t_a < t && t <= t_b)) continue;
-
-    return q_c;
-  }
-  return Eigen::Quaterniond::Identity();
+  // 遗留接口(供 now 查询等非 EKF 路径)：二分插值，失败退到最近样本(而非 identity)。
+  auto o = imu_buffer_.interpolate(t);
+  return o ? *o : imu_buffer_.newest_or_identity();
 }
 
-Eigen::Quaterniond Gimbal::q_for_image(std::chrono::steady_clock::time_point image_t)
+std::optional<Eigen::Quaterniond> Gimbal::q_for_image(std::chrono::steady_clock::time_point image_t)
 {
-  // 把图像戳回退 Δt，查询真实曝光时刻的 IMU 姿态。Δt=0 时等价于 q()。
-  return q(image_t - image_imu_offset_);
+  // 把图像戳回退 Δt(图像<->IMU 偏移校正)，再二分插值到该曝光时刻。
+  // 无有效样本 → 返回 nullopt(不注入 identity)，并计数 + 限频告警，让上层丢帧。
+  auto o = imu_buffer_.interpolate(image_t - image_imu_offset_);
+  if (!o) {
+    interp_fail_count_++;
+    auto now = std::chrono::steady_clock::now();
+    if (now - last_interp_warn_ > std::chrono::seconds(1)) {
+      utils::logger()->warn(
+        "[Gimbal] q_for_image 无有效 IMU 样本，丢帧(累计 {} 次)——检查 IMU 是否迟到/断流或时钟偏移",
+        interp_fail_count_);
+      last_interp_warn_ = now;
+    }
+  }
+  return o;
 }
 
 
 void Gimbal::push_quaternion(const Eigen::Quaterniond& q, std::chrono::steady_clock::time_point t)
 {
-  queue_.push({q, t});
+  imu_buffer_.push(q, t);
 }
 
 // size_t Gimbal::queue_size() const
@@ -260,8 +253,8 @@ void Gimbal::read_thread()
     // 使用标定四元数校正下位机IMU四元数: q_corrected = q_lower * q_calib^(-1)
     Eigen::Quaterniond q_corrected = (q_calib_ * q_converted).normalized();
 
-    // 推入校正后的四元数供 q() 方法使用
-    queue_.push({q_corrected, std::chrono::steady_clock::now()});
+    // 推入校正后的四元数供 q()/q_for_image() 插值使用
+    imu_buffer_.push(q_corrected, std::chrono::steady_clock::now());
 
     // utils::logger()->debug(
     //     "[Gimbal] 原始: w:{:.3f}, x:{:.3f}, y:{:.3f}, z:{:.3f} -> 校正后: w:{:.3f}, x:{:.3f}, y:{:.3f}, z:{:.3f}",

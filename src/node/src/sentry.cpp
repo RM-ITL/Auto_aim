@@ -149,7 +149,12 @@ int PipelineApp::run()
 
     cv::cvtColor(img, debug_packet.rgb_image, cv::COLOR_BGR2RGB);
 
-    orientation = runtime_orientation(timestamp);
+    auto orientation_opt = runtime_orientation(timestamp);
+    if (!orientation_opt) {
+      // Direct 模式无有效 IMU 样本：丢弃该帧，不用错误姿态污染 EKF。
+      continue;
+    }
+    orientation = *orientation_opt;
 
     if (orientation_pub_) {
       auto msg = autoaim_msgs::msg::Orienta{};
@@ -483,13 +488,13 @@ io::GimbalState PipelineApp::runtime_state() const
   return bridge_state_;
 }
 
-Eigen::Quaterniond PipelineApp::runtime_orientation(std::chrono::steady_clock::time_point timestamp) const
+std::optional<Eigen::Quaterniond> PipelineApp::runtime_orientation(std::chrono::steady_clock::time_point timestamp) const
 {
   if (run_mode_ == SentryRunMode::Direct) {
-    return sentry_->q_for_image(timestamp);
+    return sentry_->q_for_image(timestamp);  // optional：无有效样本则 nullopt
   }
   std::lock_guard<std::mutex> lock(bridge_state_mutex_);
-  return bridge_orientation_;
+  return bridge_orientation_;  // 桥接模式姿态来自 ROS 话题，始终有值
 }
 
 void PipelineApp::output_control(const plan::Plan & plan_result, const io::GimbalState & gs)

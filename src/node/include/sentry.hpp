@@ -13,6 +13,7 @@
 
 #include <Eigen/Geometry>
 #include <opencv2/core.hpp>
+#include <optional>
 
 #include <rclcpp/rclcpp.hpp>
 
@@ -69,7 +70,8 @@ private:
   void gimbal_state_callback(const autoaim_msgs::msg::GimbalState::SharedPtr msg);
   bool has_runtime_state() const;
   io::GimbalState runtime_state() const;
-  Eigen::Quaterniond runtime_orientation(std::chrono::steady_clock::time_point timestamp) const;
+  // Direct 模式下姿态来自 sentry_->q_for_image，无有效样本时返回 nullopt（上层丢帧）。
+  std::optional<Eigen::Quaterniond> runtime_orientation(std::chrono::steady_clock::time_point timestamp) const;
   void output_control(const plan::Plan & plan_result, const io::GimbalState & gs);
 
   // 组件与配置

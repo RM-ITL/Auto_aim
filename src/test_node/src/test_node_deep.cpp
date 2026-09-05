@@ -130,9 +130,16 @@ int PipelineApp::run()
 
     cv::cvtColor(img, debug_packet.rgb_image, cv::COLOR_BGR2RGB);
 
-    orientation = (imu_source_ == ImuSource::DmImu)
-                  ? dm_imu_->imu_at(timestamp)
-                  : gimbal_->q_for_image(timestamp);
+    if (imu_source_ == ImuSource::DmImu) {
+      orientation = dm_imu_->imu_at(timestamp);
+    } else {
+      auto orientation_opt = gimbal_->q_for_image(timestamp);
+      if (!orientation_opt) {
+        // 无有效 IMU 样本：丢弃该帧，不用错误姿态污染 EKF（Gimbal 内部已限频告警）。
+        continue;
+      }
+      orientation = *orientation_opt;
+    }
 
     if (orientation_pub_) {
       auto msg = autoaim_msgs::msg::Orienta{};

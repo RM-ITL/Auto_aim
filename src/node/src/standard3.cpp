@@ -98,7 +98,12 @@ int Standard3App::run()
     cv::Mat rgb_image;
     cv::cvtColor(img, rgb_image, cv::COLOR_BGR2RGB);
 
-    orientation = gimbal_->q_for_image(timestamp);
+    auto orientation_opt = gimbal_->q_for_image(timestamp);
+    if (!orientation_opt) {
+      // 无有效 IMU 样本：丢弃该帧，不用错误姿态污染 EKF（Gimbal 内部已限频告警）。
+      continue;
+    }
+    orientation = *orientation_opt;
     solver_->updateIMU(orientation, timestamp_sec);
 
     auto armor = detector_->detect(rgb_image);

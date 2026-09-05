@@ -5,11 +5,13 @@
 #include <atomic>
 #include <chrono>
 #include <mutex>
+#include <optional>
 #include <string>
 #include <thread>
 #include <tuple>
 
 #include "app_config/app_config.hpp"
+#include "imu_snapshot_buffer.hpp"
 #include "serial/serial.h"
 #include "thread_safe_queue.hpp"
 
@@ -92,9 +94,9 @@ public:
   std::string str(GimbalMode mode) const;
   Eigen::Quaterniond q(std::chrono::steady_clock::time_point t);
 
-  /// 用图像时间戳查询曝光时刻姿态：内部按 q(t - image_imu_offset_) 校正图像<->IMU 偏移。
-  /// 非图像用途（如查询 now 姿态）仍应直接用 q()。
-  Eigen::Quaterniond q_for_image(std::chrono::steady_clock::time_point image_t);
+  /// 用图像时间戳查询曝光时刻姿态：内部按 (t - image_imu_offset_) 二分插值。
+  /// 无有效包围/clamp 样本时返回 std::nullopt —— 调用方应丢弃该帧，不要用错误姿态更新 EKF。
+  std::optional<Eigen::Quaterniond> q_for_image(std::chrono::steady_clock::time_point image_t);
 
   void send(
     bool control, bool fire, float yaw, float yaw_vel, float yaw_acc, float pitch, float pitch_vel,
@@ -120,14 +122,18 @@ private:
 
   GimbalMode mode_{GimbalMode::IDLE};
   GimbalState state_{};
-  tools::ThreadSafeQueue<std::tuple<Eigen::Quaterniond, std::chrono::steady_clock::time_point>>
-    queue_{1000};
+  // 姿态插值缓冲：非破坏性二分查找 + 小间隙 clamp，取代旧的破坏性队列 + identity 兜底。
+  tools::ImuSnapshotBuffer imu_buffer_{1000, 0.010};
 
   // IMU外参标定四元数：q_corrected = q_calib_ * q_lower
   Eigen::Quaterniond q_calib_;
 
   // 图像<->IMU 相对时间偏移 Δt，q_for_image 查询时从图像戳里减去。
   std::chrono::steady_clock::duration image_imu_offset_{std::chrono::steady_clock::duration::zero()};
+
+  // q_for_image 插值失败(丢帧)统计与限频告警（仅检测线程访问，无需加锁）。
+  uint64_t interp_fail_count_{0};
+  std::chrono::steady_clock::time_point last_interp_warn_{};
 
   // 返回值: 1=成功, 0=超时无数据, -1=设备异常
   int read_serial(uint8_t * buffer, size_t size);
