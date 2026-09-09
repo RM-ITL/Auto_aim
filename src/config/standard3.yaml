@@ -228,7 +228,7 @@ Gimbal:
 
   # 图像<->IMU 相对时间偏移 Δt (秒)。查询曝光时刻姿态时用 q(image_t - Δt) 校正。
   # 由 tools/latency/measure_image_imu_offset.py 标定 (定靶转云台)。默认 0=不校正。
-  image_imu_offset: +0.00177
+  image_imu_offset: 0.0
 
 
 

@@ -93,6 +93,9 @@ void MindVision::open()
 
   CameraPlay(handle_);
 
+  // 相机(重)连后 dev_tick 从新基准开始，清空映射器避免跨会话 dev_ref 错位。
+  clock_mapper_.reset();
+
   // 取图线程
   capture_thread_ = std::thread{[this] {
     tSdkFrameHead head;
@@ -105,12 +108,31 @@ void MindVision::open()
       auto img = cv::Mat(height_, width_, CV_8UC3);
 
       auto status = CameraGetImageBuffer(handle_, &head, &raw, 100);
-      auto timestamp = std::chrono::steady_clock::now();
+      auto host_recv = std::chrono::steady_clock::now();
 
       if (status != CAMERA_STATUS_SUCCESS) {
         utils::logger()->warn("Camera dropped!");
         ok_ = false;
         break;
+      }
+
+      // 硬件戳映射→曝光中点。head.uiTimeStamp=该帧采集时刻(UINT,0.1ms/tick,硬件锁存)，
+      // 32 位 @0.1ms ≈ 4.9 天才溢出，采集期不绕回，可作单调 dev_tick(mapper 自拟合频率无需换算单位)。
+      // head.uiExpTime=该帧真实曝光(μs)，逐帧真值，对自动曝光/量化都鲁棒，优于配置成员。
+      uint64_t dev_tick = static_cast<uint64_t>(head.uiTimeStamp);
+      auto mapped = clock_mapper_.update(dev_tick, host_recv);
+      std::chrono::steady_clock::time_point timestamp;
+      if (dev_tick != 0 && mapped) {
+        // uiExpTime 正常有真值；<1μs 视为无效，退回配置曝光(exposure_ms_→μs)，与 Hik 兜底一致。
+        double exp_us = head.uiExpTime > 1.0 ? head.uiExpTime : exposure_ms_ * 1e3;
+        timestamp = *mapped - std::chrono::microseconds(static_cast<int>(exp_us / 2.0));
+        if (++diag_frame_count_ % 200 == 0) {
+          utils::logger()->debug(
+            "[MindVision] host-mapped={:.2f}ms exposure={:.2f}ms",
+            std::chrono::duration<double, std::milli>(host_recv - *mapped).count(), exp_us / 1000.0);
+        }
+      } else {
+        timestamp = host_recv;
       }
 
       CameraImageProcess(handle_, raw, img.data, &head);

@@ -11,6 +11,7 @@
 
 #include "MvCameraControl.h"
 #include "app_config/app_config.hpp"
+#include "device_clock_mapper.hpp"
 #include "performance_monitor.hpp"
 #include "thread_safe_queue.hpp"
 
@@ -59,6 +60,8 @@ private:
 
   tools::ThreadSafeQueue<CameraData> queue_;
   utils::PerformanceMonitor perf_monitor_;
+  tools::DeviceClockMapper clock_mapper_;  // 设备硬件戳→主机 steady_clock 映射(采集线程内单线程用)
+  unsigned long diag_frame_count_ = 0;     // 诊断 log 限频计数
 
   double exposure_us_ = 0.0;
   double gain_ = 0.0;

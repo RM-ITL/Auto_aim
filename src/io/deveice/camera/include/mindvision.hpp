@@ -7,6 +7,7 @@
 
 #include "CameraApi.h"
 // #include "io/camera.hpp"
+#include "device_clock_mapper.hpp"
 #include "thread_safe_queue.hpp"
 
 namespace camera
@@ -34,6 +35,8 @@ private:
   std::thread daemon_thread_;
   tools::ThreadSafeQueue<CameraData> queue_;
   int vid_, pid_;
+  tools::DeviceClockMapper clock_mapper_;  // 设备硬件戳→主机 steady_clock 映射(采集线程内单线程用)
+  unsigned long diag_frame_count_ = 0;
 
   void open();
   void try_open();

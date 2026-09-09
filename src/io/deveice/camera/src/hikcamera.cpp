@@ -141,7 +141,31 @@ void HikCamera::capture_loop()
       camera_handle_, raw_buffer_.get(), payload_size_, &frame_info, 1000);
 
     if (ret == MV_OK) {
-      auto timestamp = std::chrono::steady_clock::now();
+      // 时间戳取在 bayer/resize 之前：CPU 处理耗时不进戳，由下游 (now - timestamp) 吸收。
+      auto host_recv = std::chrono::steady_clock::now();
+      uint64_t dev_tick =
+        (static_cast<uint64_t>(frame_info.nDevTimeStampHigh) << 32) | frame_info.nDevTimeStampLow;
+      auto mapped = clock_mapper_.update(dev_tick, host_recv);
+
+      // 曝光中点 = 映射时刻(≈曝光结束附近) - 半个曝光。
+      // 曝光优先用帧自带 fExposureTime(μs)——对自动曝光/量化裁剪鲁棒；但海康 USB 相机在
+      // GetOneFrameTimeout 里默认不填该字段(需开 ChunkData)，实测恒为 0，故 <1μs 视为无效，
+      // 退回配置曝光 exposure_us_(本代码自动曝光已关，配置值即真实固定曝光)。
+      // dev_tick==0(不支持) 或映射未收敛 → 回退旧行为 host_recv。
+      std::chrono::steady_clock::time_point timestamp;
+      if (dev_tick != 0 && mapped) {
+        double exp_us = frame_info.fExposureTime > 1.0 ? frame_info.fExposureTime : exposure_us_;
+        timestamp = *mapped - std::chrono::microseconds(static_cast<int>(exp_us / 2.0));
+        // 诊断(验证期)：host-mapped 应 ≥0 且地板贴近0，说明抖动被剥离；exposure 应≈配置值。
+        if (++diag_frame_count_ % 200 == 0) {
+          utils::logger()->debug(
+            "[HikCamera] host-mapped={:.2f}ms exposure={:.2f}ms",
+            std::chrono::duration<double, std::milli>(host_recv - *mapped).count(), exp_us / 1000.0);
+        }
+      } else {
+        timestamp = host_recv;
+      }
+
       cv::Mat raw_image(frame_info.nHeight, frame_info.nWidth, CV_8UC1, raw_buffer_.get());
       cv::Mat rgb_image = convert_bayer(raw_image, frame_info.enPixelType);
       cv::Mat resized;
@@ -207,6 +231,8 @@ bool HikCamera::start_capture()
   if (capture_thread_.joinable()) {
     capture_thread_.join();
   }
+  // 相机(重)连后 dev_tick 从新基准开始，清空映射器避免跨会话 dev_ref 错位。
+  clock_mapper_.reset();
   capture_thread_ = std::thread(&HikCamera::capture_loop, this);
   utils::logger()->info("[HikCamera] 相机开始采集");
   return true;
