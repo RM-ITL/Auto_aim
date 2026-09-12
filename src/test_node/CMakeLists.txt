@@ -73,6 +73,10 @@ add_executable(usb_detect_node
   src/usb_detect_node.cpp
 )
 
+add_executable(replay_node
+  src/replay_node.cpp
+)
+
 target_include_directories(deep_node PRIVATE
   include
 )
@@ -114,6 +118,10 @@ target_include_directories(record_node PRIVATE
 )
 
 target_include_directories(usb_detect_node PRIVATE
+  include
+)
+
+target_include_directories(replay_node PRIVATE
   include
 )
 
@@ -214,6 +222,17 @@ ament_target_dependencies(usb_detect_node
   auto_aim
 )
 
+ament_target_dependencies(replay_node
+  rclcpp
+  Eigen3
+  auto_aim
+  utils
+  app_config
+  autoaim_msgs
+  sensor_msgs
+  cv_bridge
+)
+
 target_link_libraries(deep_node
   ${OpenCV_LIBS}
   deveice::deveice
@@ -284,6 +303,11 @@ target_link_libraries(record_node
   deveice::deveice
 )
 
+target_link_libraries(replay_node
+  ${OpenCV_LIBS}
+  auto_aim::auto_aim
+)
+
 install(TARGETS
   deep_node
   video_node
@@ -297,6 +321,7 @@ install(TARGETS
   gimbal_comm_test
   record_node
   usb_detect_node
+  replay_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
