@@ -299,10 +299,13 @@ void Target::update_ypda(const solver::Armor_pose & armor_pose, int id)
   auto center_yaw = std::atan2(armor_pose.world_position[1], armor_pose.world_position[0]);
   auto delta_angle = utils::limit_rad(armor_pose.world_orientation.yaw - center_yaw);
   
-  // 观测噪声，对应的是四个观测向量ypda，这里调节之后
+  // 观测噪声，对应四个观测向量 ypda = [方位yaw, 俯仰pitch, 距离distance, 装甲板朝向angle]。
+  // 修复：原先第3项(距离)误用了 delta_angle 公式、第4项(朝向)误用了 distance 公式，二者对调。
+  // 正确语义：距离噪声随距离增大；朝向噪声随装甲板偏角(delta_angle)增大。
   Eigen::VectorXd R_dig(4);
-  R_dig << 4e-3, 4e-3, log(std::abs(delta_angle) + 1) + 1,
-           log(std::abs(armor_pose.world_spherical.distance) + 1) / 200 + 9e-2;
+  R_dig << 4e-3, 4e-3,
+           log(std::abs(armor_pose.world_spherical.distance) + 1) / 200 + 9e-2,  // distance
+           log(std::abs(delta_angle) + 1) + 1;                                    // angle(装甲板朝向)
 
   // 测量过程噪声协方差的方差
   Eigen::MatrixXd R = R_dig.asDiagonal();
