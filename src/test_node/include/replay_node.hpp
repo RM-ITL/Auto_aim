@@ -13,6 +13,7 @@
 #include "app_config/app_config.hpp"
 #include "detect_node.hpp"
 #include "solver_node.hpp"
+#include "tracker.hpp"
 
 #include "autoaim_msgs/msg/orienta.hpp"
 #include "sensor_msgs/msg/image.hpp"
@@ -47,6 +48,7 @@ private:
   std::unique_ptr<armor_auto_aim::Detector> detector_;
   std::unique_ptr<solver::Solver> solver_;
   solver::YawOptimizer * yaw_optimizer_{nullptr};
+  std::unique_ptr<tracker::Tracker> tracker_;
 
   rclcpp::Node::SharedPtr ros_node_;
   rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr image_sub_;
@@ -75,6 +77,13 @@ private:
   std::uint64_t frame_count_window_{0};
   std::uint64_t armor_count_window_{0};
   std::uint64_t pnp_success_window_{0};
+
+  // NIS 一致性统计（每秒聚合一次，用于修改前后对比）
+  std::uint64_t nis_frames_window_{0};      // 本窗口内有 target 输出的帧数
+  double nis_sum_window_{0.0};              // NIS 求和 -> 均值
+  double nis_max_window_{0.0};              // 本窗口 NIS 峰值
+  std::uint64_t nis_over_window_{0};        // NIS > 9.488（χ²(4) 95% 上分位）的帧数
+  double nres_sq_sum_[4]{0, 0, 0, 0};       // 各维归一化残差平方和 -> RMS
 
   std::atomic<bool> quit_{false};
 };

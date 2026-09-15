@@ -1,8 +1,13 @@
 #include "replay_node.hpp"
 
+#include <algorithm>
+#include <cmath>
 #include <csignal>
 #include <filesystem>
+#include <list>
+#include <map>
 #include <stdexcept>
+#include <variant>
 #include <vector>
 
 #include <cv_bridge/cv_bridge.h>
@@ -43,6 +48,8 @@ ReplayApp::ReplayApp(const app_config::AppConfig & app_config)
   detector_ = std::make_unique<armor_auto_aim::Detector>(app_config.detector);
   solver_ = std::make_unique<solver::Solver>(app_config.solver);
   yaw_optimizer_ = solver_->getYawOptimizer();
+  // 接上 tracker，使解算结果流入 EKF，从而产出 NIS/归一化残差用于一致性对比。
+  tracker_ = std::make_unique<tracker::Tracker>(app_config.tracker, *solver_);
 
   orientation_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Orienta>(
     "orientation", rclcpp::QoS(10));
@@ -65,7 +72,7 @@ ReplayApp::ReplayApp(const app_config::AppConfig & app_config)
   utils::logger()->info("[Replay] 模块初始化完成");
   utils::logger()->info("[Replay] 图像话题: {}", image_topic_);
   utils::logger()->info("[Replay] 四元数话题: {}", imu_topic_);
-  utils::logger()->info("[Replay] 仅检测+解算，无 tracker/planner");
+  utils::logger()->info("[Replay] 检测+解算+tracker(EKF)，输出 [NIS-STAT] 一致性统计");
   g_app_instance = this;
 }
 
@@ -149,6 +156,31 @@ void ReplayApp::imu_callback(const autoaim_msgs::msg::Orienta::ConstSharedPtr & 
     utils::logger()->warn("[Replay] 可视化失败: {}", e.what());
   }
 
+  // tracker/EKF：用包内相对时间戳（单调递增），保证 dt 与录制时一致、回放确定。
+  const auto track_t = std::chrono::steady_clock::time_point(
+    std::chrono::nanoseconds(static_cast<std::int64_t>(last_ts_sec_ * 1e9)));
+  std::list<armor_auto_aim::Armor> armor_list(armors.begin(), armors.end());
+  auto targets = tracker_->track(armor_list, track_t);
+
+  if (!targets.empty()) {
+    // 取当前锁定目标的 EKF 诊断数据（Target/OutpostTarget 均暴露 ekf()）。
+    const auto & data = std::visit(
+      [](auto & tgt) -> const std::map<std::string, double> & { return tgt.ekf().data; },
+      targets.front());
+
+    const double nis = data.at("nis");
+    ++nis_frames_window_;
+    nis_sum_window_ += nis;
+    nis_max_window_ = std::max(nis_max_window_, nis);
+    if (nis > 9.488) ++nis_over_window_;  // χ²(4) 95% 上分位
+
+    const char * nres_keys[4] = {"nres_yaw", "nres_pitch", "nres_distance", "nres_angle"};
+    for (int i = 0; i < 4; ++i) {
+      const double v = data.at(nres_keys[i]);
+      nres_sq_sum_[i] += v * v;
+    }
+  }
+
   // 统计
   ++frame_count_window_;
   armor_count_window_ += armors.size();
@@ -164,10 +196,29 @@ void ReplayApp::imu_callback(const autoaim_msgs::msg::Orienta::ConstSharedPtr & 
     utils::logger()->info(
       "[Replay] {:.1f} fps | 本窗口装甲板 {} 个，PnP 成功 {} ({:.0f}%)",
       fps, armor_count_window_, pnp_success_window_, pnp_rate);
+
+    // NIS 一致性聚合：一致时 nis_mean≈4、over9.488≈5%、各维 nres_rms≈1。
+    // 若 R 距离/yaw 对调，nres_distance 与 nres_angle 会明显偏离 1（一大一小）。
+    if (nis_frames_window_ > 0) {
+      const double n = static_cast<double>(nis_frames_window_);
+      utils::logger()->info(
+        "[NIS-STAT] frames={} nis_mean={:.2f} nis_max={:.2f} over9.488={:.1f}% "
+        "nres_rms yaw={:.2f} pitch={:.2f} dist={:.2f} angle={:.2f}",
+        nis_frames_window_, nis_sum_window_ / n, nis_max_window_,
+        100.0 * static_cast<double>(nis_over_window_) / n,
+        std::sqrt(nres_sq_sum_[0] / n), std::sqrt(nres_sq_sum_[1] / n),
+        std::sqrt(nres_sq_sum_[2] / n), std::sqrt(nres_sq_sum_[3] / n));
+    }
+
     last_log_time_ = now;
     frame_count_window_ = 0;
     armor_count_window_ = 0;
     pnp_success_window_ = 0;
+    nis_frames_window_ = 0;
+    nis_sum_window_ = 0.0;
+    nis_max_window_ = 0.0;
+    nis_over_window_ = 0;
+    nres_sq_sum_[0] = nres_sq_sum_[1] = nres_sq_sum_[2] = nres_sq_sum_[3] = 0.0;
   }
 }
 
