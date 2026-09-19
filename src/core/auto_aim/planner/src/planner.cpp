@@ -122,15 +122,26 @@ Plan Planner::plan(std::optional<predict::Target> target, double bullet_speed)
 {
   if (!target.has_value()) return {false};
 
+  auto t_entry = std::chrono::steady_clock::now();  // 掐表起点(=预测参考时刻)，用于自测本帧MPC求解耗时
+
   double delay_time =
     std::abs(target->ekf_x()[7]) > decision_speed_ ? high_speed_delay_time_ : low_speed_delay_time_;
-  double lead_time = delay_time + shoot_delay_;  // 显式计入拨盘发弹延迟
+  // compute_lead_：用上一帧实测的求解耗时，补偿 now→下发 的 MPC compute 空档
+  double lead_time = delay_time + shoot_delay_ + compute_lead_;
 
-  auto future = std::chrono::steady_clock::now() + std::chrono::microseconds(int(lead_time * 1e6));
+  auto future = t_entry + std::chrono::microseconds(int(lead_time * 1e6));
 
   target->predict(future);
 
-  return plan(*target, bullet_speed);
+  auto result = plan(*target, bullet_speed);
+
+  // 本帧求解耗时 → EMA 更新(留给下一帧) + 交给 PerformanceMonitor 定期打印
+  double this_compute =
+    std::chrono::duration<double>(std::chrono::steady_clock::now() - t_entry).count();
+  compute_lead_ = 0.9 * compute_lead_ + 0.1 * this_compute;
+  perf_.record("mpc_compute", static_cast<uint64_t>(this_compute * 1e6));
+
+  return result;
 }
 
 void Planner::setup_yaw_solver(const app_config::PlannerConfig & config)
@@ -399,17 +410,28 @@ Plan Planner::plan(std::optional<TargetVariant> target, double bullet_speed)
 {
   if (!target.has_value()) return {false};
 
+  auto t_entry = std::chrono::steady_clock::now();  // 掐表起点(=预测参考时刻)，用于自测本帧MPC求解耗时
+
   // 使用 std::visit 获取 ekf_x
   double omega = std::visit([](auto & t) { return std::abs(t.ekf_x()[7]); }, *target);
   double delay_time = omega > decision_speed_ ? high_speed_delay_time_ : low_speed_delay_time_;
-  double lead_time = delay_time + shoot_delay_;  // 显式计入拨盘发弹延迟
+  // compute_lead_：用上一帧实测的求解耗时，补偿 now→下发 的 MPC compute 空档
+  double lead_time = delay_time + shoot_delay_ + compute_lead_;
 
-  auto future = std::chrono::steady_clock::now() + std::chrono::microseconds(int(lead_time * 1e6));
+  auto future = t_entry + std::chrono::microseconds(int(lead_time * 1e6));
 
   // 使用 std::visit 调用 predict
   std::visit([&future](auto & t) { t.predict(future); }, *target);
 
-  return plan(*target, bullet_speed);
+  auto result = plan(*target, bullet_speed);
+
+  // 本帧求解耗时 → EMA 更新(留给下一帧) + 交给 PerformanceMonitor 定期打印
+  double this_compute =
+    std::chrono::duration<double>(std::chrono::steady_clock::now() - t_entry).count();
+  compute_lead_ = 0.9 * compute_lead_ + 0.1 * this_compute;
+  perf_.record("mpc_compute", static_cast<uint64_t>(this_compute * 1e6));
+
+  return result;
 }
 
 }  // namespace plan

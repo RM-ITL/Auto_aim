@@ -7,6 +7,7 @@
 #include <variant>
 
 #include "app_config/app_config.hpp"
+#include "performance_monitor.hpp"
 #include "target.hpp"
 #include "outpost_target.hpp"
 #include "tinympc/tiny_api.hpp"
@@ -60,6 +61,8 @@ private:
   double fire_thresh_;
   double low_speed_delay_time_, high_speed_delay_time_, decision_speed_;  // 系统延迟时间的补偿
   double shoot_delay_;  // 拨盘发弹延迟(通信+拨弹+摩擦轮出膛)，与ω无关的物理常量
+  double compute_lead_ = 0.0;  // MPC求解耗时的EMA估计(s)，用上一帧补这一帧(now→下发的compute空档)
+  utils::PerformanceMonitor perf_;  // 统计 mpc_compute 耗时，定期打印
 
   TinySolver * yaw_solver_;
   TinySolver * pitch_solver_;
