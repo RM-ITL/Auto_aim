@@ -19,6 +19,7 @@ Planner::Planner(const app_config::PlannerConfig & config)
   decision_speed_ = config.decision_speed;
   high_speed_delay_time_ = config.high_speed_delay_time;
   low_speed_delay_time_ = config.low_speed_delay_time;
+  shoot_delay_ = config.shoot_delay;
 
   utils::logger()->info("[Planner] yaw_offset            = {:.3f} deg ({:.6f} rad)", yaw_offset_ * 57.3, yaw_offset_);
   utils::logger()->info("[Planner] pitch_offset          = {:.3f} deg ({:.6f} rad)", pitch_offset_ * 57.3, pitch_offset_);
@@ -26,6 +27,7 @@ Planner::Planner(const app_config::PlannerConfig & config)
   utils::logger()->info("[Planner] decision_speed        = {:.3f}", decision_speed_);
   utils::logger()->info("[Planner] high_speed_delay_time = {:.6f}", high_speed_delay_time_);
   utils::logger()->info("[Planner] low_speed_delay_time  = {:.6f}", low_speed_delay_time_);
+  utils::logger()->info("[Planner] shoot_delay           = {:.6f} s", shoot_delay_);
 
   setup_yaw_solver(config);
   setup_pitch_solver(config);
@@ -122,8 +124,9 @@ Plan Planner::plan(std::optional<predict::Target> target, double bullet_speed)
 
   double delay_time =
     std::abs(target->ekf_x()[7]) > decision_speed_ ? high_speed_delay_time_ : low_speed_delay_time_;
+  double lead_time = delay_time + shoot_delay_;  // 显式计入拨盘发弹延迟
 
-  auto future = std::chrono::steady_clock::now() + std::chrono::microseconds(int(delay_time * 1e6));
+  auto future = std::chrono::steady_clock::now() + std::chrono::microseconds(int(lead_time * 1e6));
 
   target->predict(future);
 
@@ -399,8 +402,9 @@ Plan Planner::plan(std::optional<TargetVariant> target, double bullet_speed)
   // 使用 std::visit 获取 ekf_x
   double omega = std::visit([](auto & t) { return std::abs(t.ekf_x()[7]); }, *target);
   double delay_time = omega > decision_speed_ ? high_speed_delay_time_ : low_speed_delay_time_;
+  double lead_time = delay_time + shoot_delay_;  // 显式计入拨盘发弹延迟
 
-  auto future = std::chrono::steady_clock::now() + std::chrono::microseconds(int(delay_time * 1e6));
+  auto future = std::chrono::steady_clock::now() + std::chrono::microseconds(int(lead_time * 1e6));
 
   // 使用 std::visit 调用 predict
   std::visit([&future](auto & t) { t.predict(future); }, *target);

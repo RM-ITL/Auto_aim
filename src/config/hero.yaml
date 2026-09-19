@@ -195,6 +195,9 @@ Planner:
   decision_speed: 7 # rad/s， 高低速的判断阈值，大于此值的为高速目标
   high_speed_delay_time: 0.0 # s，高速目标的额外时间补偿
   low_speed_delay_time: 0.0 # s，低速目标的额外时间补偿
+  # 拨盘发弹延迟：下发fire→弹丸出膛(通信+拨弹+摩擦轮)。高速摄影标定：弹着偏前调小、偏后调大。
+  # 默认0=行为不变；启用时应从上面 delay_time 里扣除等量，避免重复计入。
+  shoot_delay: 0.0 # s
   armor_hysteresis: 0.9 # 装甲板选择滞后系数，新板距离必须好10%才切换（0.9）
 
   # ===== 高速旋转模式参数 =====

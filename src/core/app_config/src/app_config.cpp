@@ -266,6 +266,7 @@ void load_planner(PlannerConfig & out, const YAML::Node & root)
   out.decision_speed = utils::read<double>(pl, "decision_speed");
   out.high_speed_delay_time = utils::read<double>(pl, "high_speed_delay_time");
   out.low_speed_delay_time = utils::read<double>(pl, "low_speed_delay_time");
+  out.shoot_delay = utils::read<double>(pl, "shoot_delay", 0.0);
   out.max_yaw_acc = utils::read<double>(pl, "max_yaw_acc");
   out.Q_yaw = utils::read<std::vector<double>>(pl, "Q_yaw");
   out.R_yaw = utils::read<std::vector<double>>(pl, "R_yaw");

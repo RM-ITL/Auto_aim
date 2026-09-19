@@ -238,6 +238,7 @@ struct PlannerConfig
   double decision_speed{};              // required
   double high_speed_delay_time{};       // required
   double low_speed_delay_time{};        // required
+  double shoot_delay{};                 // 拨盘发弹延迟(s)，缺省 0（缺 key 不报错）
   // setup_yaw_solver 段
   double max_yaw_acc{};                 // required
   std::vector<double> Q_yaw{};          // required

@@ -59,6 +59,7 @@ private:
   double pitch_offset_;
   double fire_thresh_;
   double low_speed_delay_time_, high_speed_delay_time_, decision_speed_;  // 系统延迟时间的补偿
+  double shoot_delay_;  // 拨盘发弹延迟(通信+拨弹+摩擦轮出膛)，与ω无关的物理常量
 
   TinySolver * yaw_solver_;
   TinySolver * pitch_solver_;
