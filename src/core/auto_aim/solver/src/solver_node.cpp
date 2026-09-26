@@ -33,8 +33,8 @@ Armor_pose Solver::processArmor(Armors armor,
     armor_pose.type = armor.type;
     
     std::vector<cv::Point2f> corners = extractCorners(armor);
-    
-    
+    armor_pose.detected_corners = corners;  // uv 观测：透传检测角点（PW_SMALL 序）
+
     last_pnp_result_ = pnp_solver_->solvePnP(corners, armor_pose.type, timestamp);
 
     

@@ -59,6 +59,16 @@ private:
   double omega_threshold_;
   bool single_plate_debug_;
 
+  // uv 像素观测参数（注入给 Target；默认关闭）
+  bool use_uv_observation_ = false;
+  double uv_pixel_std_ = 6.0;
+  double radius_min_ = 0.10;
+  double radius_max_ = 0.40;
+  bool uv_jacobian_analytic_ = true;
+
+  // 每帧把 uv 观测上下文注入普通 Target（重投影能力 + 开关/噪声/clamp 参数）。
+  void inject_uv_context();
+
   // 状态管理
   std::string state_;
   std::string pre_state_;

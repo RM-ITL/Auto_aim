@@ -264,6 +264,29 @@ std::vector<cv::Point2f> YawOptimizer::reproject_armor(
 }
 
 
+Eigen::Matrix<double, 2, 3> YawOptimizer::pixel_jacobian(const Eigen::Vector3d & world_point) const
+{
+  const double fx = camera_matrix_.at<double>(0, 0);
+  const double fy = camera_matrix_.at<double>(1, 1);
+
+  // 世界点 -> 相机系（OpenCV 轴：X 右 Y 下 Z 前，与 reproject_armor 的 projectPoints 同源）。
+  const Eigen::Vector3d p_cam = CoordConverter_->transform(
+    world_point, CoordinateFrame::WORLD, CoordinateFrame::CAMERA);
+  const double z = p_cam.z();
+  if (z < 1e-3) return Eigen::Matrix<double, 2, 3>::Zero();  // 深度过小：交由调用方跳过
+
+  // 针孔投影雅可比 ∂像素/∂相机点 (2×3)
+  Eigen::Matrix<double, 2, 3> jac_pixel_cam;
+  jac_pixel_cam << fx / z, 0.0, -fx * p_cam.x() / (z * z),
+                   0.0, fy / z, -fy * p_cam.y() / (z * z);
+
+  // world→camera 旋转 (3×3)：transformRotation(I, WORLD, CAMERA) = R_world_to_camera
+  const Eigen::Matrix3d R_world_to_cam = CoordConverter_->transformRotation(
+    Eigen::Matrix3d::Identity(), CoordinateFrame::WORLD, CoordinateFrame::CAMERA);
+
+  return jac_pixel_cam * R_world_to_cam;
+}
+
 double YawOptimizer::ReprojectionError(
     const Eigen::Vector3d& world_position,
     const Eigen::Matrix3d& R_armor_to_world,

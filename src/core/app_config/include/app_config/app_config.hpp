@@ -217,6 +217,13 @@ struct TrackerConfig
   int single_plate_threshold = 50;
   double omega_threshold = 0.5;
   bool single_plate_debug = false;
+
+  // uv 像素观测（默认关闭；关闭时行为与原 YPDA 路径完全一致）
+  bool use_uv_observation = false;  // 打开后 EKF 观测改为灯条端点像素 uv（单灯条 4 维）
+  double uv_pixel_std = 6.0;        // uv 观测噪声标准差(px)，R = uv_pixel_std²·I₄（A 库≈6.3px）
+  double radius_min = 0.10;         // 状态 clamp：半径下界(m)，防 r 穿负
+  double radius_max = 0.40;         // 状态 clamp：半径上界(m)
+  bool uv_jacobian_analytic = true; // uv 雅可比：true=混合解析(§9-C)，false=数值中心差分(对拍用)
 };
 
 // ===================================================================================

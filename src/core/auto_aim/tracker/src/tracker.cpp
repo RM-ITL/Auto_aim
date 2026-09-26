@@ -33,6 +33,12 @@ Tracker::Tracker(const app_config::TrackerConfig & config, solver::Solver & solv
   omega_threshold_ = config.omega_threshold;
   single_plate_debug_ = config.single_plate_debug;
 
+  use_uv_observation_ = config.use_uv_observation;
+  uv_pixel_std_ = config.uv_pixel_std;
+  radius_min_ = config.radius_min;
+  radius_max_ = config.radius_max;
+  uv_jacobian_analytic_ = config.uv_jacobian_analytic;
+
   utils::logger()->info("[Tracker] enemy_color                 = {}", enemy_color_str);
   utils::logger()->info("[Tracker] min_detect_count            = {}", min_detect_count_);
   utils::logger()->info("[Tracker] max_temp_lost_count         = {}", max_temp_lost_count_);
@@ -42,6 +48,9 @@ Tracker::Tracker(const app_config::TrackerConfig & config, solver::Solver & solv
   utils::logger()->info("[Tracker] single_plate_threshold      = {}", single_plate_threshold_);
   utils::logger()->info("[Tracker] omega_threshold             = {:.3f}", omega_threshold_);
   utils::logger()->info("[Tracker] single_plate_debug          = {}", single_plate_debug_);
+  utils::logger()->info("[Tracker] use_uv_observation          = {}", use_uv_observation_);
+  utils::logger()->info("[Tracker] uv_pixel_std                = {:.3f}", uv_pixel_std_);
+  utils::logger()->info("[Tracker] radius_min / radius_max     = {:.3f} / {:.3f}", radius_min_, radius_max_);
 
   RCLCPP_INFO(rclcpp::get_logger("Tracker"),
               "跟踪器初始化完成 - 敌方颜色: %s",
@@ -54,6 +63,16 @@ Tracker::Tracker(const app_config::TrackerConfig & config, solver::Solver & solv
 }
 
 std::string Tracker::state() const { return state_; }
+
+void Tracker::inject_uv_context()
+{
+  // 只对普通 Target 注入（OutpostTarget 保持原 YPDA 单板路径）。solver_ 生命周期覆盖 target_。
+  if (auto * normal = std::get_if<predict::Target>(&target_)) {
+    normal->set_uv_context(
+      &solver_, use_uv_observation_, uv_pixel_std_, radius_min_, radius_max_,
+      uv_jacobian_analytic_);
+  }
+}
 
 std::list<TargetVariant> Tracker::track(
   std::list<Armors> & armors,
@@ -328,6 +347,13 @@ bool Tracker::set_target(std::list<Armors> & armors,
     t->single_plate_threshold = single_plate_threshold_;
     t->omega_threshold = omega_threshold_;
   }
+  inject_uv_context();  // 构造后即注入，供后续 update 与（Phase 4）π 消歧使用
+  // §9-E 初始化 π 歧义消解：仅 uv 模式，用可见板数最大化选朝向，减少初始 yaw 选反。
+  if (use_uv_observation_) {
+    if (auto * normal = std::get_if<predict::Target>(&target_)) {
+      normal->disambiguate_pi();
+    }
+  }
 
   return true;
 }
@@ -368,6 +394,7 @@ bool Tracker::update_target(std::list<Armors> & armors,
       }
     }
     if (poses.empty()) return false;
+    inject_uv_context();  // 每帧注入 uv 观测上下文（重投影能力 + 参数）
     normal->update(poses);
     return true;
   }

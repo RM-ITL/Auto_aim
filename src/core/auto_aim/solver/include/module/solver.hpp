@@ -2,6 +2,7 @@
 #pragma once
 #include <opencv2/core.hpp>
 #include <array>
+#include <vector>
 #include <Eigen/Dense>
 #include "armor.hpp"  // 使用实际的armor.hpp
 #include "math_tools.hpp"
@@ -96,7 +97,10 @@ struct Armor_pose {
     Orientation gimbal_orientation;       // 云台坐标系下的姿态
     Orientation world_orientation;       // 世界坐标系下的姿态
     double timestamp;
-    
+    // uv 观测用：检测到的 4 个角点像素（PW_SMALL 序：左上/右上/右下/左下）。
+    // 由 Solver::processArmor 从 extractCorners 透传（§10 角点透传）。
+    std::vector<cv::Point2f> detected_corners;
+
     Armor_pose();
     Armor_pose(armor_auto_aim::ArmorName id, 
            armor_auto_aim::ArmorType type,

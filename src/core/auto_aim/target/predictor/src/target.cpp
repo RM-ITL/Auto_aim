@@ -1,5 +1,6 @@
 #include "target.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <numeric>
 
@@ -192,6 +193,18 @@ void Target::update_frame_bookkeeping(int primary_id)
   }
 }
 
+void Target::set_uv_context(
+  solver::Solver * solver, bool use_uv, double pixel_std, double radius_min, double radius_max,
+  bool jacobian_analytic)
+{
+  solver_ = solver;
+  use_uv_ = use_uv;
+  uv_pixel_std_ = pixel_std;
+  radius_min_ = radius_min;
+  radius_max_ = radius_max;
+  uv_jacobian_analytic_ = jacobian_analytic;
+}
+
 void Target::update(const solver::Armor_pose & armor_pose)
 {
   // 单观测委托到多观测路径，保证单块场景与多块场景逐位一致。
@@ -201,6 +214,21 @@ void Target::update(const solver::Armor_pose & armor_pose)
 void Target::update(const std::vector<solver::Armor_pose> & armor_poses)
 {
   if (armor_poses.empty()) return;
+
+  // uv 路径：§9-D 索引递推关联 + 逐块 update_uv（YPDA 路径完全不变，仅在 use_uv 且有重投影能力时进入）。
+  if (use_uv_ && solver_ != nullptr) {
+    int primary_id = 0;
+    const std::vector<int> slots = uv_associate(armor_poses, primary_id);
+    update_frame_bookkeeping(primary_id);
+    for (std::size_t i = 0; i < armor_poses.size(); ++i) {
+      if (armor_poses[i].detected_corners.size() >= 4) {
+        update_uv(armor_poses[i], slots[i]);
+      } else {
+        update_ypda(armor_poses[i], slots[i]);
+      }
+    }
+    return;
+  }
 
   // 1. 每个观测算候选槽位；按匹配误差升序做无冲突贪心分配（两观测不占同一槽位）。
   struct Assoc {
@@ -257,6 +285,7 @@ void Target::update(const std::vector<solver::Armor_pose> & armor_poses)
   update_frame_bookkeeping(primary_id);
 
   // 4. 序贯 EKF：逐块更新，中间不 predict（predict 已在 tracker 中每帧调过一次）。
+  //    （到此处必为非 uv 路径；uv 路径已在函数开头 §9-D 关联后 return。）
   for (const auto & a : final_assocs) {
     update_ypda(*a.pose, a.id);
   }
@@ -289,6 +318,222 @@ void Target::update(const std::vector<solver::Armor_pose> & armor_poses)
   //       w, obs * 100, rate * 100, h, P_h);
   //   }
   // }
+}
+
+void Target::update_uv(const solver::Armor_pose & armor_pose, int id)
+{
+  // uv 像素观测：单灯条 4 维、逐根序贯（左杆角点{0,3}、右杆角点{1,2}），复用 YawOptimizer 重投影作 h(x)。
+  solver::YawOptimizer * yopt = solver_->getYawOptimizer();
+  if (yopt == nullptr) { update_ypda(armor_pose, id); return; }
+
+  const auto & corners = armor_pose.detected_corners;  // PW_SMALL 序：左上/右上/右下/左下
+  const auto type = armor_pose.type;
+  const auto name = armor_pose.id;
+
+  // §9-B 可见性门控：若该槽位装甲板背向相机（多为快转时关联错到远侧槽位/极端斜视），
+  //   其重投影与检测角点严重不符，用像素紧 R 会喷出巨大 innovation → 跳过该观测，防污染 EKF。
+  if (!uv_slot_faces_camera(id)) return;
+
+  // h(x)：状态 -> 槽位 id 装甲板世界中心 + 世界 yaw -> 重投影 4 角点像素（内部钉死 ±15° pitch）。
+  auto reproject = [&](const Eigen::VectorXd & x) -> std::vector<cv::Point2f> {
+    Eigen::Vector3d c = h_armor_xyz(x, id);
+    double yaw = utils::limit_rad(x[6] + id * 2.0 * CV_PI / armor_num_);
+    return yopt->reproject_armor_out(c, yaw, type, name);
+  };
+
+  // 观测只依赖 7 个几何维；速度维(1,3,5,7)对像素导数为 0（H 列留 0）。
+  static const int kGeoDims[] = {0, 2, 4, 6, 8, 9, 10};
+  constexpr double kEps = 1e-4;
+
+  // 对一根灯条（上/下端点两个角点）做一次 4 维 EKF update。
+  auto update_bar = [&](int top_idx, int bot_idx) {
+    Eigen::VectorXd z(4);
+    z << corners[top_idx].x, corners[top_idx].y, corners[bot_idx].x, corners[bot_idx].y;
+
+    auto h = [&](const Eigen::VectorXd & x) -> Eigen::VectorXd {
+      const auto pts = reproject(x);
+      Eigen::VectorXd zp(4);
+      zp << pts[top_idx].x, pts[top_idx].y, pts[bot_idx].x, pts[bot_idx].y;
+      return zp;
+    };
+
+    // 雅可比 H(4×11)：uv_jacobian_analytic_ ? §9-C 混合解析 : 数值中心差分（对拍/回退）。
+    Eigen::MatrixXd H = Eigen::MatrixXd::Zero(4, 11);
+    if (uv_jacobian_analytic_) {
+      // 投影解析 × world→camera 旋转 × (θ 数值 + xyz/r/l/h 解析)；逐角点 2×11。
+      const int idx[2] = {top_idx, bot_idx};
+      for (int e = 0; e < 2; ++e) {
+        const Eigen::Vector3d cw = uv_armor_corner_world(ekf_.x, id, idx[e]);
+        const Eigen::Matrix<double, 2, 3> Jpix = yopt->pixel_jacobian(cw);
+        const Eigen::Matrix<double, 3, 11> Jcw = uv_corner_state_jacobian(id, idx[e]);
+        H.block<2, 11>(e * 2, 0) = Jpix * Jcw;
+      }
+    } else {
+      const Eigen::VectorXd x0 = ekf_.x;
+      for (int d : kGeoDims) {
+        Eigen::VectorXd xp = x0, xm = x0;
+        xp[d] += kEps;
+        xm[d] -= kEps;
+        if (d == 6) { xp[6] = utils::limit_rad(xp[6]); xm[6] = utils::limit_rad(xm[6]); }
+        H.col(d) = (h(xp) - h(xm)) / (2.0 * kEps);
+      }
+    }
+
+    Eigen::MatrixXd R = (uv_pixel_std_ * uv_pixel_std_) * Eigen::MatrixXd::Identity(4, 4);
+
+    // 观测级卡方门（robust）：mis-association / 坏帧会喷出巨大 innovation。若该次 NIS 超阈值，
+    //   丢弃此灯条 update，避免污染滤波并触发整目标重置（补足 §9-D 关联未上线前的鲁棒性）。
+    {
+      const Eigen::VectorXd innov = z - h(ekf_.x);
+      const Eigen::MatrixXd S = H * ekf_.P * H.transpose() + R;
+      const double nis = innov.transpose() * S.inverse() * innov;
+      if (!std::isfinite(nis) || nis > uv_nis_reject_) return;
+    }
+
+    ekf_.update(z, H, R, h);  // 默认 z_subtract 直减（像素无需角度环绕）
+    clamp_state();            // 每根 update 后 clamp，并刷新下一根的线性化点
+  };
+
+  update_bar(0, 3);  // 左灯条（y=+67.5）：上=左上(0)、下=左下(3)
+  update_bar(1, 2);  // 右灯条（y=-67.5）：上=右上(1)、下=右下(2)
+}
+
+void Target::clamp_state()
+{
+  // §9-F 状态 clamp：防半径穿负 / 速度爆炸。仅在 uv 路径调用，不影响 YPDA 行为。
+  ekf_.x[8] = std::clamp(ekf_.x[8], radius_min_, radius_max_);                          // r 前板半径
+  ekf_.x[9] = std::clamp(ekf_.x[9], radius_min_ - ekf_.x[8], radius_max_ - ekf_.x[8]);  // l：保证 r+l∈[min,max]
+  ekf_.x[10] = std::clamp(ekf_.x[10], -0.2, 0.2);                                       // h 高度差
+  ekf_.x[1] = std::clamp(ekf_.x[1], -10.0, 10.0);                                       // vx
+  ekf_.x[3] = std::clamp(ekf_.x[3], -10.0, 10.0);                                       // vy
+}
+
+bool Target::uv_slot_faces_camera(int id) const
+{
+  // §9-B：槽位 id 的装甲板外法向与「装甲板→相机」视线夹角 < 门限则朝相机（喂），否则背向（跳）。
+  if (solver_ == nullptr) return true;
+  solver::CoordConverter * cc = solver_->getCoordConverter();
+  const Eigen::Vector3d p = h_armor_xyz(ekf_.x, id);
+  const double yaw = utils::limit_rad(ekf_.x[6] + id * 2.0 * CV_PI / armor_num_);
+  const double pitch =
+    (name == armor_auto_aim::ArmorName::outpost) ? -15.0 * CV_PI / 180.0 : 15.0 * CV_PI / 180.0;
+  const Eigen::Matrix3d R = utils::rotation_matrix_zyx(yaw, pitch, 0.0);
+  const Eigen::Vector3d normal_world = -R.col(0);  // 外法向（面朝外，指向相机侧为正）
+  const Eigen::Vector3d cam_world = cc->transform(
+    Eigen::Vector3d::Zero(), solver::CoordinateFrame::CAMERA, solver::CoordinateFrame::WORLD);
+  const Eigen::Vector3d view_dir = (cam_world - p).normalized();
+  return normal_world.dot(view_dir) >= uv_gate_cos_;
+}
+
+Eigen::Vector3d Target::uv_armor_corner_world(const Eigen::VectorXd & x, int id, int k) const
+{
+  // 世界角点 = 装甲板世界中心 + R_armor_world(yaw,±15°) · (PW[k]/1000)，与 reproject_armor_out 同源。
+  const Eigen::Vector3d center = h_armor_xyz(x, id);
+  const double yaw = utils::limit_rad(x[6] + id * 2.0 * CV_PI / armor_num_);
+  const double pitch =
+    (name == armor_auto_aim::ArmorName::outpost) ? -15.0 * CV_PI / 180.0 : 15.0 * CV_PI / 180.0;
+  const Eigen::Matrix3d R = utils::rotation_matrix_zyx(yaw, pitch, 0.0);
+  const auto & PW = (armor_type == armor_auto_aim::ArmorType::big) ? solver::PW_BIG : solver::PW_SMALL;
+  const Eigen::Vector3d off(PW[k].x / 1000.0, PW[k].y / 1000.0, PW[k].z / 1000.0);
+  return center + R * off;
+}
+
+Eigen::Matrix<double, 3, 11> Target::uv_corner_state_jacobian(int id, int k) const
+{
+  // ∂世界角点/∂状态 (3×11)：θ 数值中心差分；xyz/r/l/h 解析（复用 h_jacobian 的几何导数）。
+  Eigen::Matrix<double, 3, 11> J = Eigen::Matrix<double, 3, 11>::Zero();
+  const double angle = utils::limit_rad(ekf_.x[6] + id * 2.0 * CV_PI / armor_num_);
+  const bool use_l_h = (armor_num_ == 4) && (id == 1 || id == 3);
+  J(0, 0) = 1.0;  J(1, 2) = 1.0;  J(2, 4) = 1.0;                     // 中心平移
+  J(0, 8) = -std::cos(angle);  J(1, 8) = -std::sin(angle);          // r
+  if (use_l_h) { J(0, 9) = -std::cos(angle);  J(1, 9) = -std::sin(angle);  J(2, 10) = 1.0; }  // l,h
+  constexpr double eps = 1e-4;                                       // θ 数值差分（含中心+板旋转）
+  Eigen::VectorXd xp = ekf_.x, xm = ekf_.x;
+  xp[6] = utils::limit_rad(xp[6] + eps);
+  xm[6] = utils::limit_rad(xm[6] - eps);
+  J.col(6) = (uv_armor_corner_world(xp, id, k) - uv_armor_corner_world(xm, id, k)) / (2.0 * eps);
+  return J;
+}
+
+double Target::uv_reproj_error(const solver::Armor_pose & pose, int id) const
+{
+  // 槽位 id 预测四角点 vs 观测检测角点的平均像素误差（§9-D 锚点/兜底度量）。
+  solver::YawOptimizer * yopt = solver_ ? solver_->getYawOptimizer() : nullptr;
+  if (yopt == nullptr || pose.detected_corners.size() < 4) return 1e18;
+  const Eigen::Vector3d c = h_armor_xyz(ekf_.x, id);
+  const double yaw = utils::limit_rad(ekf_.x[6] + id * 2.0 * CV_PI / armor_num_);
+  const auto pts = yopt->reproject_armor_out(c, yaw, pose.type, pose.id);
+  if (pts.size() < 4) return 1e18;
+  double e = 0.0;
+  for (int i = 0; i < 4; ++i) {
+    const double dx = pts[i].x - pose.detected_corners[i].x;
+    const double dy = pts[i].y - pose.detected_corners[i].y;
+    e += std::sqrt(dx * dx + dy * dy);
+  }
+  return e / 4.0;
+}
+
+void Target::disambiguate_pi()
+{
+  // §9-E：初始观测板(slot0)应朝相机。若模型判其背向，说明初始 yaw 选反 π —— 翻转 yaw 并镜像中心。
+  if (solver_ == nullptr) return;
+  if (uv_slot_faces_camera(0)) return;
+  const double yaw = ekf_.x[6];
+  const double r = ekf_.x[8];
+  ekf_.x[0] -= 2.0 * r * std::cos(yaw);  // slot0 armor 位置不变，中心镜像到另一侧
+  ekf_.x[2] -= 2.0 * r * std::sin(yaw);
+  ekf_.x[6] = utils::limit_rad(yaw + CV_PI);
+}
+
+std::vector<int> Target::uv_associate(
+  const std::vector<solver::Armor_pose> & poses, int & primary_id) const
+{
+  // §9-D 索引递推关联：锚点(最小重投影误差) + 按检测中心像素横坐标排序 + ±1 mod armor_num_ 递推。
+  const int n = static_cast<int>(poses.size());
+  std::vector<int> slot(std::max(1, n), 0);
+  if (n == 0) { primary_id = 0; return slot; }
+
+  // 1. 每个观测的最优槽位与误差；全局最小者为锚点。
+  std::vector<int> best_slot(n, 0);
+  std::vector<double> best_err(n, 1e18);
+  int anchor = 0;
+  double anchor_err = 1e18;
+  for (int i = 0; i < n; ++i) {
+    for (int s = 0; s < armor_num_; ++s) {
+      const double e = uv_reproj_error(poses[i], s);
+      if (e < best_err[i]) { best_err[i] = e; best_slot[i] = s; }
+    }
+    if (best_err[i] < anchor_err) { anchor_err = best_err[i]; anchor = i; }
+  }
+
+  // 2. 按检测角点中心像素横坐标升序排序观测索引。
+  auto cx = [&](int i) {
+    if (poses[i].detected_corners.empty()) return 0.0;
+    double s = 0.0;
+    for (const auto & p : poses[i].detected_corners) s += p.x;
+    return s / static_cast<double>(poses[i].detected_corners.size());
+  };
+  std::vector<int> order(n);
+  for (int i = 0; i < n; ++i) order[i] = i;
+  std::sort(order.begin(), order.end(), [&](int a, int b) { return cx(a) < cx(b); });
+
+  // 3. 从锚点在排序序列中的位置向两侧 ±1 mod armor_num_ 递推分配槽位。
+  int anchor_pos = 0;
+  for (int k = 0; k < n; ++k) if (order[k] == anchor) { anchor_pos = k; break; }
+  slot[anchor] = best_slot[anchor];
+  for (int k = anchor_pos + 1; k < n; ++k)
+    slot[order[k]] = ((slot[order[k - 1]] + 1) % armor_num_ + armor_num_) % armor_num_;
+  for (int k = anchor_pos; k > 0; --k)
+    slot[order[k - 1]] = ((slot[order[k]] - 1) % armor_num_ + armor_num_) % armor_num_;
+
+  // 4. 兜底：递推槽位若明显劣于该观测自身最优（递推方向/锚点误判），退回最优槽位。
+  for (int i = 0; i < n; ++i)
+    if (uv_reproj_error(poses[i], slot[i]) > best_err[i] + 5.0) slot[i] = best_slot[i];
+
+  // primary：优先命中 last_id（视为未切换），否则锚点槽位。
+  primary_id = slot[anchor];
+  for (int i = 0; i < n; ++i) if (slot[i] == last_id) { primary_id = last_id; break; }
+  return slot;
 }
 
 void Target::update_ypda(const solver::Armor_pose & armor_pose, int id)

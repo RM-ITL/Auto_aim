@@ -250,6 +250,11 @@ void load_tracker(TrackerConfig & out, const YAML::Node & root)
   out.single_plate_threshold = tr["single_plate_threshold"].as<int>(out.single_plate_threshold);
   out.omega_threshold = tr["omega_threshold"].as<double>(out.omega_threshold);
   out.single_plate_debug = tr["single_plate_debug"].as<bool>(out.single_plate_debug);
+  out.use_uv_observation = tr["use_uv_observation"].as<bool>(out.use_uv_observation);
+  out.uv_pixel_std = tr["uv_pixel_std"].as<double>(out.uv_pixel_std);
+  out.radius_min = tr["radius_min"].as<double>(out.radius_min);
+  out.radius_max = tr["radius_max"].as<double>(out.radius_max);
+  out.uv_jacobian_analytic = tr["uv_jacobian_analytic"].as<bool>(out.uv_jacobian_analytic);
 }
 
 // ---------------------------------------------------------------------------------

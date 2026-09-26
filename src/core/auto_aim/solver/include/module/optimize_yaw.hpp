@@ -46,8 +46,13 @@ public:
     std::vector<cv::Point2f> reproject_armor(const Eigen::Vector3d & xyz_in_world, 
                                         const Eigen::Matrix3d& R, ArmorType type) const;
     
-    std::vector<cv::Point2f> reproject_armor_out(const Eigen::Vector3d & xyz_in_world, 
+    std::vector<cv::Point2f> reproject_armor_out(const Eigen::Vector3d & xyz_in_world,
                                         double yaw, ArmorType type, ArmorName name) const;
+
+    // uv 观测解析雅可比用：∂像素/∂世界点 (2×3) = 针孔投影(2×3) × world→camera 旋转(3×3)。
+    // 忽略畸变导数（一阶线性化近似，与 A 库 robot.cpp:252-266 同款）。world_point 单位 m。
+    // 若深度过小返回全 0（该行由调用方跳过）。
+    Eigen::Matrix<double, 2, 3> pixel_jacobian(const Eigen::Vector3d & world_point) const;
      
 private:
     void extractWorldEulerAngles(const Eigen::Matrix3d& R_armor_to_camera,
