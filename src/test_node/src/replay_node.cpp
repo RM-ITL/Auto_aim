@@ -50,6 +50,7 @@ ReplayApp::ReplayApp(const app_config::AppConfig & app_config)
   yaw_optimizer_ = solver_->getYawOptimizer();
   // 接上 tracker，使解算结果流入 EKF，从而产出 NIS/归一化残差用于一致性对比。
   tracker_ = std::make_unique<tracker::Tracker>(app_config.tracker, *solver_);
+  uv_mode_ = app_config.tracker.use_uv_observation;  // 决定 [NIS-STAT] 逐维残差标签语义
 
   orientation_pub_ = ros_node_->create_publisher<autoaim_msgs::msg::Orienta>(
     "orientation", rclcpp::QoS(10));
@@ -198,16 +199,20 @@ void ReplayApp::imu_callback(const autoaim_msgs::msg::Orienta::ConstSharedPtr & 
       fps, armor_count_window_, pnp_success_window_, pnp_rate);
 
     // NIS 一致性聚合：一致时 nis_mean≈4、over9.488≈5%、各维 nres_rms≈1。
-    // 若 R 距离/yaw 对调，nres_distance 与 nres_angle 会明显偏离 1（一大一小）。
+    // 逐维标签随观测模式切换：YPDA=[yaw,pitch,dist,angle]；uv=[u_up,v_up,u_lo,v_lo]（灯条上/下端点像素）。
     if (nis_frames_window_ > 0) {
       const double n = static_cast<double>(nis_frames_window_);
+      const char * l0 = uv_mode_ ? "u_up" : "yaw";
+      const char * l1 = uv_mode_ ? "v_up" : "pitch";
+      const char * l2 = uv_mode_ ? "u_lo" : "dist";
+      const char * l3 = uv_mode_ ? "v_lo" : "angle";
       utils::logger()->info(
         "[NIS-STAT] frames={} nis_mean={:.2f} nis_max={:.2f} over9.488={:.1f}% "
-        "nres_rms yaw={:.2f} pitch={:.2f} dist={:.2f} angle={:.2f}",
+        "nres_rms {}={:.2f} {}={:.2f} {}={:.2f} {}={:.2f}",
         nis_frames_window_, nis_sum_window_ / n, nis_max_window_,
         100.0 * static_cast<double>(nis_over_window_) / n,
-        std::sqrt(nres_sq_sum_[0] / n), std::sqrt(nres_sq_sum_[1] / n),
-        std::sqrt(nres_sq_sum_[2] / n), std::sqrt(nres_sq_sum_[3] / n));
+        l0, std::sqrt(nres_sq_sum_[0] / n), l1, std::sqrt(nres_sq_sum_[1] / n),
+        l2, std::sqrt(nres_sq_sum_[2] / n), l3, std::sqrt(nres_sq_sum_[3] / n));
     }
 
     last_log_time_ = now;

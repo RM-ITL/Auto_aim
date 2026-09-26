@@ -84,6 +84,7 @@ private:
   double nis_max_window_{0.0};              // 本窗口 NIS 峰值
   std::uint64_t nis_over_window_{0};        // NIS > 9.488（χ²(4) 95% 上分位）的帧数
   double nres_sq_sum_[4]{0, 0, 0, 0};       // 各维归一化残差平方和 -> RMS
+  bool uv_mode_{false};                     // uv 观测模式：决定 [NIS-STAT] 逐维残差标签语义
 
   std::atomic<bool> quit_{false};
 };
