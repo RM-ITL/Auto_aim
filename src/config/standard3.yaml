@@ -162,7 +162,7 @@ Tracker:
   single_plate_threshold: 20       # 连续无板切换帧数超过此值进入单板模式
   omega_threshold: 0.4             # rad/s，角速度低于此值时才允许进入单板模式
   # uv 像素观测（默认关闭；true 时 EKF 观测改为灯条端点像素 uv）
-  use_uv_observation: false        # 打开切到 uv 观测（单灯条 4 维）
+  use_uv_observation: true        # 打开切到 uv 观测（单灯条 4 维）
   uv_pixel_std: 6.0                # uv 观测噪声标准差(px)，R = uv_pixel_std²·I₄
   radius_min: 0.10                 # 状态 clamp：半径下界(m)
   radius_max: 0.40                 # 状态 clamp：半径上界(m)
