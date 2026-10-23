@@ -162,7 +162,7 @@ Tracker:
   single_plate_threshold: 20       # 连续无板切换帧数超过此值进入单板模式
   omega_threshold: 0.4             # rad/s，角速度低于此值时才允许进入单板模式
   # uv 像素观测（默认关闭；true 时 EKF 观测改为灯条端点像素 uv）
-  use_uv_observation: true        # 打开切到 uv 观测（单灯条 4 维）
+  use_uv_observation: false        # 打开切到 uv 观测（单灯条 4 维）
   uv_pixel_std: 6.0                # uv 观测噪声标准差(px)，R = uv_pixel_std²·I₄
   radius_min: 0.10                 # 状态 clamp：半径下界(m)
   radius_max: 0.40                 # 状态 clamp：半径上界(m)
@@ -183,8 +183,8 @@ Aimer:
 
 #####-----shooter参数-----#####
 Shooter:
-  first_tolerance: 1.8 # 近距离射击容差，degree
-  second_tolerance: 1.3 # 远距离射击容差，degree
+  first_tolerance: 0.1 # 近距离射击容差，degree
+  second_tolerance: 0.1 # 远距离射击容差，degree
   judge_distance: 2 #距离判断阈值
   auto_fire: true # 是否由自瞄控制射击
 
@@ -208,8 +208,8 @@ Planner:
   max_pitch_acc: 20  # 最大pitch加速度上限
   Q_pitch: [9e6, 0]
   R_pitch: [1]
-  yaw_offset: -4.8 # 2.2 degree，相机光心与枪管中心的yaw偏差
-  pitch_offset: -3.9 #1.9 degree，pitch相对枪管的中心补偿参数   
+  yaw_offset: 1.0 # 2.2 degree，相机光心与枪管中心的yaw偏差
+  pitch_offset: 1.0 #1.9 degree，pitch相对枪管的中心补偿参数   
   decision_speed: 7 # rad/s， 高低速的判断阈值，大于此值的为高速目标
   # high_speed_delay_time: 0.1 # s，高速目标的额外时间补偿
   # low_speed_delay_time: 0.3 # s，低速目标的额外时间补偿
@@ -217,7 +217,7 @@ Planner:
   low_speed_delay_time: 0.0
   # 拨盘发弹延迟：下发fire→弹丸出膛(通信+拨弹+摩擦轮)。高速摄影标定：弹着偏前调小、偏后调大。
   # 默认0=行为不变；启用时应从上面 delay_time 里扣除等量，避免重复计入。
-  shoot_delay: 0.12 # s
+  shoot_delay: 0.0 # s
 
 
 # Gimbal通讯参数
