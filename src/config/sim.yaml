@@ -1,0 +1,126 @@
+# sim.yaml — rm_aim_sim 仿真接入专用配置（sim_bridge/sim_node）。
+#
+# 与实车 yaml 的区别只在相机内外参、分辨率、enemy_color：全部对齐仿真默认值。
+# 省略 Gimbal / DM_IMU 段：仿真闭环不走串口，sim_node 不构造 io::Gimbal / camera::Camera。
+#
+# 坐标/符号约定（与 rm_aim_sim 协议一致，无需换算）：
+#   RM 世界系 x 前 / y 左 / z 上；yaw 左为正，pitch 下为正。
+#   camera optical x 右 / y 下 / z 前。四元数 wxyz = R_gimbal2world。
+
+CalibParam:
+  INTRI:
+    Camera:
+      - key: /image_topic
+        value:
+          polymorphic_id: 2147483649
+          polymorphic_name: pinhole
+          ptr_wrapper:
+            id: 2147483650
+            data:
+              img_width: 1440
+              img_height: 1080
+              profiles:
+                # 虚拟针孔相机：1440x1080, 垂直 FOV 45°, 零畸变。
+                # fx=fy=1080/(2*tan(22.5°))=1303.6753236814714, 主点 (720,540)。
+                sim:
+                  focal_length:
+                    - 1303.6753236814714
+                    - 1303.6753236814714
+                  principal_point:
+                    - 720.0
+                    - 540.0
+                  disto_param:
+                    - 0.0
+                    - 0.0
+                    - 0.0
+                    - 0.0
+                    - 0.0
+
+# 相机：type=sim 使 AppConfig 不读海康/迈德威视参数；sim_node 不构造 camera::Camera。
+camera:
+  lens: "sim"
+  type: "sim"
+
+# 神经网络识别参数（仅 image 模式构造 Detector 时加载模型文件）。
+yolo:
+  yolo_name: "yolov5"
+  yolo11_model_path: "src/model/yolo11.xml"
+  yolov5_model_path: "src/model/yolov5.xml"
+  device: "CPU"
+  enemy_color: "blue"   # 必须与仿真靶车 appearance.team 一致（仿真默认 blue）
+  min_confidence: 0.6
+  score_threshold: 0.7
+  nms_threshold: 0.3
+  use_traditional: true
+
+Traditional_Detector:
+  threshold: 150
+  max_angle_error: 45
+  min_lightbar_ratio: 1.5
+  max_lightbar_ratio: 20
+  min_lightbar_length: 8
+  min_armor_ratio: 1
+  max_armor_ratio: 5
+  max_side_ratio: 1.5
+  max_rectangular_error: 20
+
+Classifier:
+  classify_model: "src/model/tiny_resnet.onnx"
+  min_confidence: 0.8
+
+# 解算：内外参全部取仿真理想值。
+Solver:
+  coord_converter:
+    # R_camera_to_gimbal = [0,0,1; -1,0,0; 0,-1,0]（仿真 optical→gimbal 理想旋转）。
+    rotation_matrix_camera_to_gimbal:
+      data: [0, 0, 1,
+             -1, 0, 0,
+             0, -1, 0]
+    # 仿真不模拟 IMU 安装偏角：gimbal 与 IMU 对齐，取单位阵。
+    rotation_matrix_gimbal_to_imu:
+      data: [1, 0, 0,
+             0, 1, 0,
+             0, 0, 1]
+    # 光心在云台系偏移 (x 前, y 左, z 上) = (0.08, 0, 0.04) m。
+    t_camera_to_gimbal:
+      [0.08, 0.0, 0.04]
+
+# Tracker：参数沿用 standard3。ideal 模式不按颜色过滤；image 模式按 enemy_color 过滤。
+Tracker:
+  enemy_color: "blue"   # 与仿真靶车阵营一致
+  min_detect_count: 3
+  max_temp_lost_count: 15
+  outpost_max_temp_lost_count: 30
+  outpost_min_detect_count: 3
+  outpost_detect_fail_tolerance: 8
+  single_plate_threshold: 20
+  omega_threshold: 0.4
+  use_uv_observation: false
+  uv_pixel_std: 6.0
+  radius_min: 0.10
+  radius_max: 0.40
+  uv_jacobian_analytic: true
+
+Shooter:
+  first_tolerance: 1.8
+  second_tolerance: 1.3
+  judge_distance: 2
+  auto_fire: true
+
+# Planner：仿真枪口从云台原点沿实际姿态出膛，相机与枪管无安装偏差 → offset 置 0。
+# 仿真重力 9.7833 与 utils/trajectory.cpp 一致；弹速取 state.weapon.speed（默认 23 m/s）。
+Planner:
+  fire_thresh: 0.003
+  max_yaw_acc: 5
+  Q_yaw: [9e6, 0]
+  R_yaw: [1]
+  max_pitch_acc: 20
+  Q_pitch: [9e6, 0]
+  R_pitch: [1]
+  yaw_offset: 0.0
+  pitch_offset: 0.0
+  decision_speed: 7
+  high_speed_delay_time: 0.0
+  low_speed_delay_time: 0.0
+  # 仿真发射延迟 weapon.delay 默认 0.015 s（fire 许可 → 出膛）。
+  shoot_delay: 0.015

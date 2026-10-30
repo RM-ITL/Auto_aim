@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>sim_bridge</name>
+  <version>0.0.1</version>
+  <description>rm_aim_sim 仿真闭环接入节点：共享内存客户端复用 Auto_aim 自瞄内核，不依赖相机/串口硬件。</description>
+
+  <maintainer email="chenx_dust@outlook.com">Chenx Dust</maintainer>
+  <license>The MIT License</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>Eigen3</depend>
+  <depend>utils</depend>
+  <depend>app_config</depend>
+  <depend>deveice</depend>
+  <depend>auto_aim</depend>
+  <depend>nlohmann_json</depend>
+
+  <build_depend>OpenCV</build_depend>
+  <exec_depend>OpenCV</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
