@@ -137,12 +137,13 @@ ament_target_dependencies(deep_node
 )
 
 ament_target_dependencies(video_node
+  rclcpp
   Eigen3
   utils
   app_config
   deveice
   auto_aim
-  auto_buff
+  autoaim_msgs
 )
 
 ament_target_dependencies(base_hit_node
@@ -217,9 +218,14 @@ ament_target_dependencies(record_node
 )
 
 ament_target_dependencies(usb_detect_node
+  rclcpp
+  Eigen3
+  deveice
+  auto_aim
   utils
   app_config
-  auto_aim
+  serial
+  autoaim_msgs
 )
 
 ament_target_dependencies(replay_node
@@ -241,15 +247,20 @@ target_link_libraries(deep_node
 
 target_link_libraries(usb_detect_node
   ${OpenCV_LIBS}
+  deveice::deveice
   auto_aim::auto_aim
   yaml-cpp
 )
+
+# libutils.a 同时静态链进了本可执行文件、libauto_aim.so、libdeveice.so，三份 utils::logger_ 等全局量。
+# 不隐藏静态库导出符号时，本节点进程退出析构阶段稳定报 "corrupted double-linked list" 崩溃
+# (2026-10-29 实测；加上本选项后 glibc malloc 检查无报错)。
+target_link_options(usb_detect_node PRIVATE "LINKER:--exclude-libs,ALL")
 
 target_link_libraries(video_node
   ${OpenCV_LIBS}
   deveice::deveice
   auto_aim::auto_aim
-  auto_buff::auto_buff
 )
 
 target_link_libraries(base_hit_node

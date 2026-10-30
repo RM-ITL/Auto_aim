@@ -1,20 +1,42 @@
-# USB 相机识别测试配置 (usb_detect_node 专用)
+# USB 副相机引导测试配置 (usb_detect_node 专用)
 #
-# 检测器（模型 + 检测参数）复用哨兵配置，只在这里配相机相关参数。
-# 用法: ros2 run test_pipeline usb_detect_node src/config/usb_camera.yaml
+# 用法:
+#   完整引导测试(主相机 + 下位机 + USB): ros2 run test_pipeline usb_detect_node src/config/usb_camera.yaml
+#   只测 USB 识别(不连主相机/下位机):    ros2 run test_pipeline usb_detect_node src/config/usb_camera.yaml --detect-only
+#
+# 窗口按键: g=USB引导开关  c=记录标定样本  r=清空标定  q/ESC=退出
 
-# 检测器配置来源：复用哨兵完全相同的模型与检测参数
-detector_config: "src/config/sentry.yaml"
+# 主链路配置：主相机/解算/跟踪/规划/下位机串口，与 deep_node 用法一致
+pipeline_config: "src/config/standard3.yaml"
+
+# USB 检测器参数来源。删掉此项 = 与 pipeline_config 相同（敌方颜色也取自它的 Tracker.enemy_color）
+# detector_config: "src/config/sentry.yaml"
 
 usb_camera:
-  device: 2            # /dev/videoN 的 N，外接 USB 相机通常是 2（内置摄像头是 0）
+  # 整数 N = /dev/videoN；也可写字符串路径:
+  #   - 固定物理口: "/dev/v4l/by-path/pci-0000:00:14.0-usb-0:2:1.0-video-index0" (ls -l /dev/v4l/by-path 查看)
+  #   - 视频文件(离线验证): "test/usb_demo.mp4"
+  device: 2            # 本机内置摄像头占 video0/1，外接 USB 相机通常是 2
   width: 1280          # 采集分辨率宽
   height: 720          # 采集分辨率高
   fps: 30              # 帧率
-  fourcc: "MJPG"       # 像素格式: MJPG(高分辨率必需) 或 YUYV
+  fourcc: "MJPG"       # 像素格式: USB2.0 相机 720p 以上必须 MJPG
+
+  # 粗引导内参：只用水平方向。fx 未标定时按 hfov_deg 估算 fx = (width/2)/tan(hfov/2)
+  hfov_deg: 90.0       # 水平视场角(度)，看相机规格书的水平 FOV（不是对角 FOV）
+  # fx: 640.0          # 标定过就填，优先于 hfov_deg
+  # cx: 640.0          # 光心 u，默认取图像宽度一半
+
+  # detector_device: "CPU"   # USB 检测器推理设备，默认与主链路相同；CPU 吃紧时可试 GPU
+  # 送检测器前是否 BGR->RGB。检测器要求 BGR 输入，V4L2 帧已是 BGR，所以保持 false。
+  # (主相机不同：海康 Bayer 解码后实际是 RGB，主链路的 BGR2RGB 恰好转回 BGR)
+  swap_rb: false
+  # 敌方颜色(决定哪种装甲板被选为引导目标/画绿框)。删掉此项则用 pipeline_config 里 Tracker.enemy_color。
+  # 注意：改 sentry.yaml 对本节点无效，本节点只读 pipeline_config/detector_config 和这里的覆盖项。
+  enemy_color: "red"
 
   # ===== V4L2 控制项 =====
-  # 每一项都可用 `apply: false` 或直接删掉该项来"不修改、用相机默认值"。
+  # 每一项都可以直接删掉，表示"不修改、用相机默认值"。
   # 支持的取值范围可用以下命令查询:
   #   v4l2-ctl -d /dev/video2 --list-ctrls
 
@@ -29,3 +51,30 @@ usb_camera:
   # 白平衡: 识别时通常固定白平衡，避免颜色漂移影响红/蓝判定
   auto_white_balance: 0         # 0=关, 1=开
   white_balance_temperature: 4600  # (2800~6500, auto_white_balance=0 时生效)
+
+# ===== USB 引导参数 =====
+# 引导 yaw = yaw_mount + yaw_gain * alpha
+#   alpha = atan((u - cx) / fx)，目标在 USB 画面右侧为正
+guide:
+  enable: false              # 启动时是否允许 USB 引导；建议 false，确认画面和角度正常后按 g 开启
+
+  # USB 光轴方向对应的云台 yaw(度)。
+  # yaw_mount_relative=true 时，它是相对"程序启动时云台 yaw"的偏移：
+  #   启动前把主相机朝正前方，后相机正对主相机安装 => 填 180
+  yaw_mount_deg: 180.0
+  yaw_mount_relative: true
+
+  # 正对主相机的后相机：目标在 USB 画面右侧 => 目标在云台左后方。
+  # 若云台 yaw 逆时针(向左)为正，则 yaw_gain=-1；实际方向不对就改成 +1，或按 c 标定自动拟合
+  yaw_gain: -1.0
+
+  # pitch_deg: 0.0           # 引导时固定的 pitch(度)；注释掉 = 保持接管瞬间的 pitch
+  max_yaw_error_deg: 0       # 引导时单次下发 yaw 与当前 yaw 的最大差(度)，用来限制转速；0 = 不限
+  timeout_s: 0.2             # USB 样本超过这么久没更新就不再引导
+  main_hold_s: 0.3           # 主链路丢目标后等这么久才让 USB 接管，避免短暂丢帧时云台被拉走
+  min_detect_frames: 3       # USB 连续检测到目标这么多帧才开始引导，过滤误检
+
+  # 以下两项作用于整条下发链路（主链路 + USB 引导）
+  yaw_continuous: true       # true: 下发 gs.yaw + 最短角差，适配下位机多圈累加 yaw；
+                             # false: 限幅到 [-180, 180]，与 deep_node 原输出一致
+  allow_fire: false          # 第一轮测试保持 false：主链路接管后也不开火
